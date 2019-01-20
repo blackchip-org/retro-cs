@@ -64,11 +64,12 @@ func New(mem *rcs.Memory) *CPU {
 }
 
 func (c *CPU) Next() {
+	here := c.PC() + 1
 	c.pageCross = false
 	opcode := c.fetch()
 	execute, ok := c.ops[opcode]
 	if !ok {
-		log.Printf("illegal instruction: 0x%02x", opcode)
+		log.Printf("%04x: illegal instruction: 0x%02x", here, opcode)
 		return
 	}
 	execute(c)

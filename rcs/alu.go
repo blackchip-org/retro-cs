@@ -73,6 +73,14 @@ func (a *ALU) And(flags *uint8, out *uint8, in0 uint8, in1 uint8) {
 	*out = r
 }
 
+// Pass performs a pass-through of the value in and adjusts the P, Z, and
+// S flags.
+func (a *ALU) Pass(flags *uint8, in uint8) {
+	a.parity(flags, in)
+	a.zero(flags, in)
+	a.sign(flags, in)
+}
+
 // ShiftLeft performs a left bit-shift of in and places the result in out.
 // Bit 0 becomes the value of the carry. Bit 7, that is shifted out, becomes
 // the new value of carry. Flags C, P, Z, and S are updated.

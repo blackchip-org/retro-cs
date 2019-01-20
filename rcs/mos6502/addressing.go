@@ -23,8 +23,16 @@ func (c *CPU) loadAbsoluteY() uint8 {
 	return c.mem.Read(c.addrLoad)
 }
 
-func (c *CPU) loadAccumulator() uint8 {
+func (c *CPU) loadA() uint8 {
 	return c.A
+}
+
+func (c *CPU) loadX() uint8 {
+	return c.X
+}
+
+func (c *CPU) loadY() uint8 {
+	return c.Y
 }
 
 func (c *CPU) loadImmediate() uint8 {
@@ -95,8 +103,16 @@ func (c *CPU) storeZeroPageY(v uint8) {
 	c.mem.Write(int(c.fetch()+c.Y), v)
 }
 
-func (c *CPU) storeAccumulator(v uint8) {
+func (c *CPU) storeA(v uint8) {
 	c.A = v
+}
+
+func (c *CPU) storeX(v uint8) {
+	c.X = v
+}
+
+func (c *CPU) storeY(v uint8) {
+	c.Y = v
 }
 
 func (c *CPU) storeBack(v uint8) {
