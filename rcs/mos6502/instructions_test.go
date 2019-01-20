@@ -616,6 +616,925 @@ func TestBranchBackwards(t *testing.T) {
 }
 
 // ----------------------------------------------------------------------------
+// cmp
+// ----------------------------------------------------------------------------
+func TestCmpImmediateEqual(t *testing.T) {
+	c := newTestCPU()
+	c.A = 0x12
+	c.mem.WriteN(0x0200, 0xc9, 0x12) // cmp #$12
+	testRunCPU(t, c)
+	want := FlagZ | FlagC | FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestCmpImmediateLessThan(t *testing.T) {
+	c := newTestCPU()
+	c.A = 0x02
+	c.mem.WriteN(0x0200, 0xc9, 0x12) // cmp #$12
+	testRunCPU(t, c)
+	want := FlagN | FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestCmpImmediateGreaterThan(t *testing.T) {
+	c := newTestCPU()
+	c.A = 0x22
+	c.mem.WriteN(0x0200, 0xc9, 0x12) // cmp #$12
+	testRunCPU(t, c)
+	want := FlagC | FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestCmpZeroPage(t *testing.T) {
+	c := newTestCPU()
+	c.A = 0x12
+	c.mem.Write(0x0034, 0x12)        // .byte $12
+	c.mem.WriteN(0x0200, 0xc5, 0x34) // cmp $34
+	testRunCPU(t, c)
+	want := FlagZ | FlagC | FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestCmpZeroPageX(t *testing.T) {
+	c := newTestCPU()
+	c.A = 0x12
+	c.mem.Write(0x0034, 0x12)        // .byte $12
+	c.mem.WriteN(0x0200, 0xd5, 0x30) // cmp $30,X
+	c.X = 0x04
+	testRunCPU(t, c)
+	want := FlagZ | FlagC | FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestCmpAbsolute(t *testing.T) {
+	c := newTestCPU()
+	c.A = 0x12
+	c.mem.Write(0x02ab, 0x12)              // .byte $12
+	c.mem.WriteN(0x0200, 0xcd, 0xab, 0x02) // cmp $02ab
+	testRunCPU(t, c)
+	want := FlagZ | FlagC | FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestCmpAbsoluteX(t *testing.T) {
+	c := newTestCPU()
+	c.A = 0x12
+	c.mem.Write(0x02ab, 0x12)              // .byte $12
+	c.mem.WriteN(0x0200, 0xdd, 0xa0, 0x02) // cmp $02a0,X
+	c.X = 0x0b
+	testRunCPU(t, c)
+	want := FlagZ | FlagC | FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestCmpAbsoluteY(t *testing.T) {
+	c := newTestCPU()
+	c.A = 0x12
+	c.mem.Write(0x02ab, 0x12)              // .byte $12
+	c.mem.WriteN(0x0200, 0xd9, 0xa0, 0x02) // cmp $02a0,Y
+	c.Y = 0x0b
+	testRunCPU(t, c)
+	want := FlagZ | FlagC | FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestCmpIndirectX(t *testing.T) {
+	c := newTestCPU()
+	c.A = 0x12
+	c.mem.WriteLE(0x4a, 0x02ab)      // .word $02ab
+	c.mem.Write(0x02ab, 0x12)        // .byte $12
+	c.mem.WriteN(0x0200, 0xc1, 0x40) // cmp ($40,X)
+	c.X = 0x0a
+	testRunCPU(t, c)
+	want := FlagZ | FlagC | FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestCmpIndirectY(t *testing.T) {
+	c := newTestCPU()
+	c.A = 0x12
+	c.mem.WriteLE(0x4a, 0x02a0)      // .word $02a0
+	c.mem.Write(0x02ab, 0x12)        // .byte $12
+	c.mem.WriteN(0x0200, 0xd1, 0x4a) // cmp ($4a),Y
+	c.Y = 0x0b
+	testRunCPU(t, c)
+	want := FlagZ | FlagC | FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+// ----------------------------------------------------------------------------
+// cpx
+// ----------------------------------------------------------------------------
+func TestCpxImmediateEqual(t *testing.T) {
+	c := newTestCPU()
+	c.X = 0x12
+	c.mem.WriteN(0x0200, 0xe0, 0x12) // cpx #$12
+	testRunCPU(t, c)
+	want := FlagZ | FlagC | FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestCpxImmediateLessThan(t *testing.T) {
+	c := newTestCPU()
+	c.X = 0x02
+	c.mem.WriteN(0x0200, 0xe0, 0x12) // cpx #$12
+	testRunCPU(t, c)
+	want := FlagN | FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestCpxImmediateGreaterThan(t *testing.T) {
+	c := newTestCPU()
+	c.X = 0x22
+	c.mem.WriteN(0x0200, 0xe0, 0x12) // cpx #$12
+	testRunCPU(t, c)
+	want := FlagC | FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestCpxZeroPage(t *testing.T) {
+	c := newTestCPU()
+	c.X = 0x12
+	c.mem.Write(0x0034, 0x12)        // .byte $12
+	c.mem.WriteN(0x0200, 0xe4, 0x34) // cpx $34
+	testRunCPU(t, c)
+	want := FlagZ | FlagC | FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestCpxAbsolute(t *testing.T) {
+	c := newTestCPU()
+	c.X = 0x12
+	c.mem.Write(0x02ab, 0x12)              // .byte $12
+	c.mem.WriteN(0x0200, 0xec, 0xab, 0x02) // cpx $02ab
+	testRunCPU(t, c)
+	want := FlagZ | FlagC | FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+// ----------------------------------------------------------------------------
+// cpy
+// ----------------------------------------------------------------------------
+func TestCpyImmediateEqual(t *testing.T) {
+	c := newTestCPU()
+	c.Y = 0x12
+	c.mem.WriteN(0x0200, 0xc0, 0x12) // cpy #$12
+	testRunCPU(t, c)
+	want := FlagZ | FlagC | FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestCpyImmediateLessThan(t *testing.T) {
+	c := newTestCPU()
+	c.Y = 0x02
+	c.mem.WriteN(0x0200, 0xc0, 0x12) // cpy #$12
+	testRunCPU(t, c)
+	want := FlagN | FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestCpyImmediateGreaterThan(t *testing.T) {
+	c := newTestCPU()
+	c.Y = 0x22
+	c.mem.WriteN(0x0200, 0xc0, 0x12) // cpy #$12
+	testRunCPU(t, c)
+	want := FlagC | FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestCpyZeroPage(t *testing.T) {
+	c := newTestCPU()
+	c.Y = 0x12
+	c.mem.Write(0x0034, 0x12)        // .byte $12
+	c.mem.WriteN(0x0200, 0xc4, 0x34) // cpy $34
+	testRunCPU(t, c)
+	want := FlagZ | FlagC | FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestCpyAbsolute(t *testing.T) {
+	c := newTestCPU()
+	c.Y = 0x12
+	c.mem.Write(0x02ab, 0x12)              // .byte $12
+	c.mem.WriteN(0x0200, 0xcc, 0xab, 0x02) // cpy $02ab
+	testRunCPU(t, c)
+	want := FlagZ | FlagC | FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+// ----------------------------------------------------------------------------
+// dec
+// ----------------------------------------------------------------------------
+func TestDecZeroPage(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0xab, 0x12)          // .byte $12
+	c.mem.WriteN(0x0200, 0xc6, 0xab) // dec $ab
+	testRunCPU(t, c)
+	want := uint8(0x11)
+	have := c.mem.Read(0xab)
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+	want = FlagB
+	have = c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestDecZeroPageZero(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0xab, 0x01)          // .byte $01
+	c.mem.WriteN(0x0200, 0xc6, 0xab) // dec $ab
+	testRunCPU(t, c)
+	want := uint8(0x00)
+	have := c.mem.Read(0xab)
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+	want = FlagZ | FlagB
+	have = c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestDecZeroPageSigned(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0xab, 0x00)          // .byte $00
+	c.mem.WriteN(0x0200, 0xc6, 0xab) // dec $ab
+	testRunCPU(t, c)
+	want := uint8(0xff)
+	have := c.mem.Read(0xab)
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+	want = FlagN | FlagB
+	have = c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestDecZeroPageX(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0xab, 0x12)          // .byte $12
+	c.mem.WriteN(0x0200, 0xd6, 0xa0) // dec $a0,X
+	c.X = 0x0b
+	testRunCPU(t, c)
+	want := uint8(0x11)
+	have := c.mem.Read(0xab)
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+	want = FlagB
+	have = c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestDecAbsolute(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x02ab, 0x12)              // .byte $12
+	c.mem.WriteN(0x0200, 0xce, 0xab, 0x02) // dec $02ab
+	testRunCPU(t, c)
+	want := uint8(0x11)
+	have := c.mem.Read(0x02ab)
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+	want = FlagB
+	have = c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestDecAbsoluteX(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x02ab, 0x12)              // .byte $12
+	c.mem.WriteN(0x0200, 0xde, 0xa0, 0x02) // dec $02a0,X
+	c.X = 0x0b
+	testRunCPU(t, c)
+	want := uint8(0x11)
+	have := c.mem.Read(0x02ab)
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+	want = FlagB
+	have = c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+// ----------------------------------------------------------------------------
+// dex
+// ----------------------------------------------------------------------------
+func TestDex(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0xca)
+	c.X = 0x12
+	testRunCPU(t, c)
+	want := uint8(0x11)
+	have := c.X
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestDexZero(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0xca)
+	c.X = 0x01
+	testRunCPU(t, c)
+	want := FlagZ | FlagB
+	have := c.SR
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestDexSigned(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0xca)
+	c.X = 0x00
+	testRunCPU(t, c)
+	want := FlagN | FlagB
+	have := c.SR
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+// ----------------------------------------------------------------------------
+// dey
+// ----------------------------------------------------------------------------
+func TestDey(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0x88)
+	c.Y = 0x12
+	testRunCPU(t, c)
+	want := uint8(0x11)
+	have := c.Y
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestDeyZero(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0x88)
+	c.Y = 0x01
+	testRunCPU(t, c)
+	want := FlagZ | FlagB
+	have := c.SR
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestDeySigned(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0x88)
+	c.Y = 0x00
+	testRunCPU(t, c)
+	want := FlagN | FlagB
+	have := c.SR
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+// ----------------------------------------------------------------------------
+// eor
+// ----------------------------------------------------------------------------
+func TestEorImmdediate(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x200, 0x49, 0x01) // eor #$01
+	c.A = 0x02
+	testRunCPU(t, c)
+	want := uint8(0x03)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+	want = FlagB
+	have = c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestEorImmediateZero(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x200, 0x49, 0x01) // eor #$01
+	c.A = 0x01
+	testRunCPU(t, c)
+	want := uint8(0x00)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+	want = FlagZ | FlagB
+	have = c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestEorImmediateSigned(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x200, 0x49, 0x0f) // eor #$0f
+	c.A = 0xf0
+	testRunCPU(t, c)
+	want := uint8(0xff)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+	want = FlagN | FlagB
+	have = c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestEorZeroPage(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x0034, 0x01)        // .byte $01
+	c.mem.WriteN(0x0200, 0x45, 0x34) // eor $34
+	c.A = 0x02
+	testRunCPU(t, c)
+	want := uint8(0x03)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestEorZeroPageX(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x0034, 0x01)        // .byte $01
+	c.mem.WriteN(0x0200, 0x55, 0x30) // eor $30,X
+	c.A = 0x02
+	c.X = 0x04
+	testRunCPU(t, c)
+	want := uint8(0x03)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestEorAbsolute(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x02ab, 0x01)              // .byte $01
+	c.mem.WriteN(0x0200, 0x4d, 0xab, 0x02) // eor $02ab
+	c.A = 0x02
+	testRunCPU(t, c)
+	want := uint8(0x03)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestEorAbsoluteX(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x02ab, 0x01)              // .byte $01
+	c.mem.WriteN(0x0200, 0x5d, 0xa0, 0x02) // eor $02a0,X
+	c.A = 0x02
+	c.X = 0x0b
+	testRunCPU(t, c)
+	want := uint8(0x03)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestEorAbsoluteY(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x02ab, 0x01)              // .byte $01
+	c.mem.WriteN(0x0200, 0x59, 0xa0, 0x02) // eor $02a0,Y
+	c.A = 0x02
+	c.Y = 0x0b
+	testRunCPU(t, c)
+	want := uint8(0x03)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestEorIndirectX(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteLE(0x4a, 0x02ab)      // .word $02ab
+	c.mem.Write(0x02ab, 0x01)        // .byte $01
+	c.mem.WriteN(0x0200, 0x41, 0x40) // eor ($40,X)
+	c.A = 0x02
+	c.X = 0x0a
+	testRunCPU(t, c)
+	want := uint8(0x03)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestEorIndirectY(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteLE(0x4a, 0x02a0)      // .word $02a0
+	c.mem.Write(0x02ab, 0x01)        // .byte $01
+	c.mem.WriteN(0x0200, 0x51, 0x4a) // lda ($4a),Y
+	c.A = 0x02
+	c.Y = 0x0b
+	testRunCPU(t, c)
+	want := uint8(0x03)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+// ----------------------------------------------------------------------------
+// flags
+// ----------------------------------------------------------------------------
+func TestClc(t *testing.T) {
+	c := newTestCPU()
+	c.SP |= FlagC
+	c.mem.WriteN(0x0200, 0x18) // clc
+	testRunCPU(t, c)
+	want := FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestSec(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0x38) // sec
+	testRunCPU(t, c)
+	want := FlagC | FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestCli(t *testing.T) {
+	c := newTestCPU()
+	c.SR |= FlagI
+	c.mem.WriteN(0x0200, 0x58) // cli
+	testRunCPU(t, c)
+	want := FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestSei(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0x78) // sei
+	testRunCPU(t, c)
+	want := FlagI | FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestClv(t *testing.T) {
+	c := newTestCPU()
+	c.SR |= FlagV
+	c.mem.WriteN(0x0200, 0xb8) // clv
+	testRunCPU(t, c)
+	want := FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestCld(t *testing.T) {
+	c := newTestCPU()
+	c.SR |= FlagD
+	c.mem.WriteN(0x0200, 0xd8) // cld
+	testRunCPU(t, c)
+	want := FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestSed(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0xf8) // sed
+	testRunCPU(t, c)
+	want := FlagD | FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+// ----------------------------------------------------------------------------
+// inc
+// ----------------------------------------------------------------------------
+func TestIncZeroPage(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0xab, 0x12)          // .byte $12
+	c.mem.WriteN(0x0200, 0xe6, 0xab) // inc $ab
+	testRunCPU(t, c)
+	want := uint8(0x13)
+	have := c.mem.Read(0xab)
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+	want = FlagB
+	have = c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestIncZeroPageZero(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0xab, 0xff)          // .byte $ff
+	c.mem.WriteN(0x0200, 0xe6, 0xab) // inc $ab
+	testRunCPU(t, c)
+	want := uint8(0x00)
+	have := c.mem.Read(0xab)
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+	want = FlagZ | FlagB
+	have = c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestIncZeroPageSigned(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0xab, 0x7f)          // .byte $7f
+	c.mem.WriteN(0x0200, 0xe6, 0xab) // inc $ab
+	testRunCPU(t, c)
+	want := uint8(0x80)
+	have := c.mem.Read(0xab)
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+	want = FlagN | FlagB
+	have = c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestIncZeroPageX(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0xab, 0x12)          // .byte $12
+	c.mem.WriteN(0x0200, 0xf6, 0xa0) // inc $a0,X
+	c.X = 0x0b
+	testRunCPU(t, c)
+	want := uint8(0x13)
+	have := c.mem.Read(0xab)
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+	want = FlagB
+	have = c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestIncAbsolute(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x02ab, 0x12)              // .byte $12
+	c.mem.WriteN(0x0200, 0xee, 0xab, 0x02) // inc $02ab
+	testRunCPU(t, c)
+	want := uint8(0x13)
+	have := c.mem.Read(0x02ab)
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+	want = FlagB
+	have = c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestIncAbsoluteX(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x02ab, 0x12)              // .byte $12
+	c.mem.WriteN(0x0200, 0xfe, 0xa0, 0x02) // inc $02a0,X
+	c.X = 0x0b
+	testRunCPU(t, c)
+	want := uint8(0x13)
+	have := c.mem.Read(0x02ab)
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+	want = FlagB
+	have = c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+// ----------------------------------------------------------------------------
+// inx
+// ----------------------------------------------------------------------------
+func TestInx(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0xe8)
+	c.X = 0x12
+	testRunCPU(t, c)
+	want := uint8(0x13)
+	have := c.X
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestInxZero(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0xe8)
+	c.X = 0xff
+	testRunCPU(t, c)
+	want := FlagZ | FlagB
+	have := c.SR
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestInxSigned(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0xe8)
+	c.X = 0x7f
+	testRunCPU(t, c)
+	want := FlagN | FlagB
+	have := c.SR
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+// ----------------------------------------------------------------------------
+// iny
+// ----------------------------------------------------------------------------
+func TestIny(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0xc8)
+	c.Y = 0x12
+	testRunCPU(t, c)
+	want := uint8(0x13)
+	have := c.Y
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestInyZero(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0xc8)
+	c.Y = 0xff
+	testRunCPU(t, c)
+	want := FlagZ | FlagB
+	have := c.SR
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestInySigned(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0xc8)
+	c.Y = 0x7f
+	testRunCPU(t, c)
+	want := FlagN | FlagB
+	have := c.SR
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+// ----------------------------------------------------------------------------
+// jmp
+// ----------------------------------------------------------------------------
+func TestJmpAbsolute(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0x4c, 0x30, 0x02) // jmp $0230
+	c.Next()
+	want := uint16(0x022f)
+	have := c.pc
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestJmpIndirect(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteLE(0x0230, 0x0240)
+	c.mem.WriteN(0x0200, 0x6c, 0x30, 0x02) // jmp ($0230)
+	c.Next()
+	want := uint16(0x023f)
+	have := c.pc
+	if want != have {
+		t.Errorf("\n want: %04x \n have: %04x \n", want, have)
+	}
+}
+
+// ----------------------------------------------------------------------------
+// jsr
+// ----------------------------------------------------------------------------
+func TestJsr(t *testing.T) {
+	c := newTestCPU()
+	c.pc = 0x02ff
+	c.mem.WriteN(0x0300, 0x20, 0x30, 0x04) // jsr $0430
+	c.Next()
+	want0 := uint16(0x042f)
+	have0 := c.pc
+	if want0 != have0 {
+		t.Errorf("\n want: %04x \n have: %04x \n", want0, have0)
+	}
+	want1 := 0x0302
+	have1 := c.mem.ReadLE(addrStack + 0x100 - 2)
+	if want1 != have1 {
+		t.Errorf("\n want: %04x \n have: %04x \n", want1, have1)
+	}
+}
+
+// ----------------------------------------------------------------------------
 // lda
 // ----------------------------------------------------------------------------
 func TestLdaImmediate(t *testing.T) {
@@ -627,7 +1546,7 @@ func TestLdaImmediate(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagB 
+	want = FlagB
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -638,7 +1557,7 @@ func TestLdaZero(t *testing.T) {
 	c := newTestCPU()
 	c.mem.WriteN(0x0200, 0xa9, 0x00) // lda #$00
 	testRunCPU(t, c)
-	want := FlagZ | FlagB 
+	want := FlagZ | FlagB
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -649,7 +1568,7 @@ func TestLdaSigned(t *testing.T) {
 	c := newTestCPU()
 	c.mem.WriteN(0x0200, 0xa9, 0xff) // lda #$ff
 	testRunCPU(t, c)
-	want := FlagN | FlagB 
+	want := FlagN | FlagB
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -759,7 +1678,7 @@ func TestLdxImmediate(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagB 
+	want = FlagB
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -770,7 +1689,7 @@ func TestLdxZero(t *testing.T) {
 	c := newTestCPU()
 	c.mem.WriteN(0x0200, 0xa2, 0x00) // ldx #$00
 	testRunCPU(t, c)
-	want := FlagZ | FlagB 
+	want := FlagZ | FlagB
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -781,7 +1700,7 @@ func TestLdxSigned(t *testing.T) {
 	c := newTestCPU()
 	c.mem.WriteN(0x0200, 0xa2, 0xff) // ldx #$ff
 	testRunCPU(t, c)
-	want := FlagN | FlagB 
+	want := FlagN | FlagB
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -850,7 +1769,7 @@ func TestLdyImmediate(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagB 
+	want = FlagB
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -861,7 +1780,7 @@ func TestLdyZero(t *testing.T) {
 	c := newTestCPU()
 	c.mem.WriteN(0x0200, 0xa0, 0x00) // ldy #$00
 	testRunCPU(t, c)
-	want := FlagZ | FlagB 
+	want := FlagZ | FlagB
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -872,7 +1791,7 @@ func TestLdySigned(t *testing.T) {
 	c := newTestCPU()
 	c.mem.WriteN(0x0200, 0xa0, 0xff) // ldy #$ff
 	testRunCPU(t, c)
-	want := FlagN | FlagB 
+	want := FlagN | FlagB
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -924,6 +1843,852 @@ func TestLdyAbsoluteX(t *testing.T) {
 	testRunCPU(t, c)
 	want := uint8(0x12)
 	have := c.Y
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+// ----------------------------------------------------------------------------
+// lsr
+// ----------------------------------------------------------------------------
+func TestLsrAccumulator(t *testing.T) {
+	c := newTestCPU()
+	c.A = 0x04
+	c.mem.WriteN(0x0200, 0x04a) // lsr a
+	testRunCPU(t, c)
+	want := uint8(0x02)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+	want = FlagB
+	have = c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestLsrShiftOut(t *testing.T) {
+	c := newTestCPU()
+	c.A = 0x01
+	c.mem.WriteN(0x0200, 0x04a) // lsr a
+	testRunCPU(t, c)
+	want := uint8(0x00)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+	want = FlagZ | FlagC | FlagB
+	have = c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestLsrZeroPage(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x00ab, 4)           // .byte 4
+	c.mem.WriteN(0x0200, 0x46, 0xab) // lsr $ab
+	testRunCPU(t, c)
+	want := uint8(2)
+	have := c.mem.Read(0x00ab)
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestLsrZeroPageX(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x00ab, 4)           // .byte 4
+	c.mem.WriteN(0x0200, 0x56, 0xa0) // lsr $a0
+	c.X = 0x0b
+	testRunCPU(t, c)
+	want := uint8(2)
+	have := c.mem.Read(0x00ab)
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestLsrAbsolute(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x02ab, 4)                 // .byte 4
+	c.mem.WriteN(0x0200, 0x4e, 0xab, 0x02) // lsr $02ab
+	testRunCPU(t, c)
+	want := uint8(2)
+	have := c.mem.Read(0x02ab)
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestLsrAbsoluteX(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x02ab, 4)                 // .byte 4
+	c.mem.WriteN(0x0200, 0x5e, 0xa0, 0x02) // lsr $02a0,X
+	c.X = 0x0b
+	testRunCPU(t, c)
+	want := uint8(2)
+	have := c.mem.Read(0x02ab)
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+// ----------------------------------------------------------------------------
+// nop
+// ----------------------------------------------------------------------------
+func TestNop(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x0200, 0xea)
+	c.Next()
+	want := uint16(0x0200)
+	have := c.pc
+	if want != have {
+		t.Errorf("\n want: %04x \n have: %04x \n", want, have)
+	}
+}
+
+// ----------------------------------------------------------------------------
+// ora
+// ----------------------------------------------------------------------------
+func TestOraImmediate(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0x09, 0x01) // ora #$01
+	c.A = 0x02
+	testRunCPU(t, c)
+	want := uint8(0x03)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+	want = FlagB
+	have = c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestOraZero(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0x09, 0x00) // ora #$00
+	c.A = 0x00
+	testRunCPU(t, c)
+	want := FlagZ | FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestOraSigned(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0xa9, 0xf0) // and #$f0
+	c.A = 0x0f
+	testRunCPU(t, c)
+	want := FlagN | FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestOraZeroPage(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x0034, 0x01)        // .byte $01
+	c.mem.WriteN(0x0200, 0x05, 0x34) // ora $34
+	c.A = 0x02
+	testRunCPU(t, c)
+	want := uint8(0x03)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestOraZeroPageX(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x0034, 0x01)        // .byte $01
+	c.mem.WriteN(0x0200, 0x15, 0x30) // ora $30,X
+	c.A = 0x02
+	c.X = 0x04
+	testRunCPU(t, c)
+	want := uint8(0x03)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestOraAbsolute(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x02ab, 0x01)              // .byte $01
+	c.mem.WriteN(0x0200, 0x0d, 0xab, 0x02) // ora $02ab
+	c.A = 0x02
+	testRunCPU(t, c)
+	want := uint8(0x03)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestOraAbsoluteX(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x02ab, 0x01)              // .byte $01
+	c.mem.WriteN(0x0200, 0x1d, 0xa0, 0x02) // ora $02a0,X
+	c.A = 0x02
+	c.X = 0x0b
+	testRunCPU(t, c)
+	want := uint8(0x03)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestOraAbsoluteY(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x02ab, 0x01)              // .byte $01
+	c.mem.WriteN(0x0200, 0x19, 0xa0, 0x02) // ora $02a0,Y
+	c.A = 0x02
+	c.Y = 0x0b
+	testRunCPU(t, c)
+	want := uint8(0x03)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestOraIndirectX(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteLE(0x4a, 0x02ab)      // .word $02ab
+	c.mem.Write(0x02ab, 0x01)        // .byte $01
+	c.mem.WriteN(0x0200, 0x01, 0x40) // ora ($40,X)
+	c.A = 0x02
+	c.X = 0x0a
+	testRunCPU(t, c)
+	want := uint8(0x03)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestOraIndirectY(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteLE(0x4a, 0x02a0)      // .word $02a0
+	c.mem.Write(0x02ab, 0x01)        // .byte $01
+	c.mem.WriteN(0x0200, 0x11, 0x4a) // ora ($4a),Y
+	c.A = 0x02
+	c.Y = 0x0b
+	testRunCPU(t, c)
+	want := uint8(0x03)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+// ----------------------------------------------------------------------------
+// pha
+// ----------------------------------------------------------------------------
+func TestPha(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0x48)
+	c.A = 0x12
+	testRunCPU(t, c)
+	want := uint8(0x12)
+	have := c.mem.Read(addrStack + 0xff)
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+// ----------------------------------------------------------------------------
+// php
+// ----------------------------------------------------------------------------
+func TestPhp(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0x08)
+	c.SR |= FlagC
+	testRunCPU(t, c)
+	want := FlagC | FlagB
+	have := c.mem.Read(addrStack + 0xff)
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+// ----------------------------------------------------------------------------
+// pla
+// ----------------------------------------------------------------------------
+func TestPla(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0x68)
+	c.SP = 0xfe
+	c.mem.Write(addrStack+0xff, 0x12)
+	testRunCPU(t, c)
+	want := uint8(0x12)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestPlaZero(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0x68)
+	c.SP = 0xfe
+	c.mem.Write(addrStack+0xff, 0x00)
+	testRunCPU(t, c)
+	want := FlagZ | FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestPlaSigned(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0x68)
+	c.SP = 0xfe
+	c.mem.Write(addrStack+0xff, 0xff)
+	testRunCPU(t, c)
+	want := FlagN | FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+// ----------------------------------------------------------------------------
+// plp
+// ----------------------------------------------------------------------------
+func TestPlp(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0x28)
+	c.SP = 0xfe
+	c.mem.Write(addrStack+0xff, FlagC|FlagN)
+	testRunCPU(t, c)
+	want := FlagC | FlagN | FlagB
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+// ----------------------------------------------------------------------------
+// rol
+// ----------------------------------------------------------------------------
+func TestRolAccumulator(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0x2a) // rol a
+	c.A = 4
+	testRunCPU(t, c)
+	want := uint8(0x08)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+	want = FlagB
+	have = c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestRolRotateOut(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0x2a) // rol a
+	c.A = 1 << 7
+	testRunCPU(t, c)
+	want := uint8(0)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+	want = FlagZ | FlagC | FlagB
+	have = c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestRolRotateIn(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0x2a) // rol a
+	c.SR |= FlagC
+	c.A = 0
+	testRunCPU(t, c)
+	want := uint8(0x01)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+	want = FlagB
+	have = c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestRolSigned(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0x2a) // rol a
+	c.A = 1 << 6
+	testRunCPU(t, c)
+	want := uint8(1 << 7)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+	want = FlagN | FlagB
+	have = c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestRolZeroPage(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x00ab, 0x04)        // .byte 0x04
+	c.mem.WriteN(0x0200, 0x26, 0xab) // rol $ab
+	testRunCPU(t, c)
+	want := uint8(0x08)
+	have := c.mem.Read(0x00ab)
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+func TestRolZeroPageX(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x00ab, 0x04)        // .byte 0x04
+	c.mem.WriteN(0x0200, 0x36, 0xa0) // rol $a0
+	c.X = 0x0b
+	testRunCPU(t, c)
+	want := uint8(0x08)
+	have := c.mem.Read(0x00ab)
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestRolAbsolute(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x02ab, 0x04)              // .byte 0x04
+	c.mem.WriteN(0x0200, 0x2e, 0xab, 0x02) // rol $02ab
+	testRunCPU(t, c)
+	want := uint8(0x08)
+	have := c.mem.Read(0x02ab)
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestRolAbsoluteX(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x02ab, 0x04)              // .byte 0x04
+	c.mem.WriteN(0x0200, 0x3e, 0xa0, 0x02) // rol $02a0,X
+	c.X = 0x0b
+	testRunCPU(t, c)
+	want := uint8(0x08)
+	have := c.mem.Read(0x02ab)
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+// ----------------------------------------------------------------------------
+// ror
+// ----------------------------------------------------------------------------
+func TestRorAccumulator(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0x6a) // ror a
+	c.A = 4
+	testRunCPU(t, c)
+	want := uint8(0x02)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+	want = FlagB
+	have = c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+func TestRorRotateOut(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0x6a) // ror a
+	c.A = 1
+	testRunCPU(t, c)
+	want := uint8(0)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+	want = FlagZ | FlagC | FlagB
+	have = c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestRorRotateIn(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0x6a) // ror a
+	c.SR |= FlagC
+	c.A = 0
+	testRunCPU(t, c)
+	want := uint8(0x80)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+	want = FlagN | FlagB
+	have = c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestRorZeroPage(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x00ab, 0x04)        // .byte 0x04
+	c.mem.WriteN(0x0200, 0x66, 0xab) // ror $ab
+	testRunCPU(t, c)
+	want := uint8(0x02)
+	have := c.mem.Read(0x00ab)
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestRorZeroPageX(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x00ab, 0x04)        // .byte 0x04
+	c.mem.WriteN(0x0200, 0x76, 0xa0) // ror $a0
+	c.X = 0x0b
+	testRunCPU(t, c)
+	want := uint8(0x02)
+	have := c.mem.Read(0x00ab)
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestRorAbsolute(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x02ab, 0x04)              // .byte 0x04
+	c.mem.WriteN(0x0200, 0x6e, 0xab, 0x02) // ror $02ab
+	testRunCPU(t, c)
+	want := uint8(0x02)
+	have := c.mem.Read(0x02ab)
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestRorAbsoluteX(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x02ab, 0x04)              // .byte 0x04
+	c.mem.WriteN(0x0200, 0x7e, 0xa0, 0x02) // ror $02a0,X
+	c.X = 0x0b
+	testRunCPU(t, c)
+	want := uint8(0x02)
+	have := c.mem.Read(0x02ab)
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+// ----------------------------------------------------------------------------
+// rti
+// ----------------------------------------------------------------------------
+func TestRti(t *testing.T) {
+	c := newTestCPU()
+	c.push2(0x1234)
+	c.push(FlagC)
+	c.mem.Write(0x0200, 0x40) //rti
+	testRunCPU(t, c)
+	wantSR := FlagC | FlagB
+	haveSR := c.SR
+	if wantSR != haveSR {
+		t.Errorf("\n want: %02x \n have: %02x \n", wantSR, haveSR)
+	}
+	wantPC := uint16(0x1235)
+	havePC := c.pc
+	if wantPC != havePC {
+		t.Errorf("\n want: %04x \n have: %04x \n", wantPC, havePC)
+	}
+}
+
+// ----------------------------------------------------------------------------
+// rts
+// ----------------------------------------------------------------------------
+func TestRts(t *testing.T) {
+	c := newTestCPU()
+	c.push2(0x1234)
+	c.mem.Write(0x0200, 0x60) // rts
+	c.Next()
+	want := uint16(0x1234)
+	have := c.pc
+	if want != have {
+		t.Errorf("\n want: %04x \n have: %04x \n", want, have)
+	}
+}
+
+// ----------------------------------------------------------------------------
+// sbc
+// ----------------------------------------------------------------------------
+func TestSbcImmediate(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0xe9, 0x02) // sbc #$02
+	c.A = 0x08
+	c.SR |= FlagC
+	testRunCPU(t, c)
+	want := uint8(0x06)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+	want = FlagC | FlagB
+	have = c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestAdcWithBorrow(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0xe9, 0x02) // sbc #$02
+	c.A = 0x08
+	testRunCPU(t, c)
+	want := uint8(0x05)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+	want = FlagC | FlagB
+	have = c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestSbcCarryResult(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0xe9, 0x02) // sbc #$02
+	c.A = 0x01
+	c.SR |= FlagC
+	testRunCPU(t, c)
+	want := uint8(0xff)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+	want = FlagN | FlagB
+	have = c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestSbcZero(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0xe9, 0x02) // sbc #$02
+	c.A = 0x02
+	c.SR |= FlagC
+	testRunCPU(t, c)
+	want := uint8(0x00)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+	want = FlagZ | FlagC | FlagB
+	have = c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestSbcOverflowSet(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0xe9, 0x02) // sbc #$02
+	c.A = 0x81
+	c.SR |= FlagC
+	testRunCPU(t, c)
+	want := uint8(0x7f)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+	want = FlagV | FlagB | FlagC
+	have = c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestSbcOverflowClear(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0xe9, 0xff) // sbc #$ff (-1)
+	c.A = 0x82
+	c.SR |= FlagC | FlagV
+	testRunCPU(t, c)
+	want := uint8(0x83)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+	want = FlagN | FlagB
+	have = c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestSbcBcd(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0xe9, 0x02) // sbc $#02
+	c.SR |= FlagD | FlagC
+	c.A = 0x11
+	testRunCPU(t, c)
+	want := uint8(0x09)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestSbcBcdWithBorrow(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0xe9, 0x02) // lda $#02
+	c.SR |= FlagD
+	c.A = 0x11
+	testRunCPU(t, c)
+	want := uint8(0x08)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestSbcBcdBorrowResult(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteN(0x0200, 0xe9, 0x02) // sbc #$02
+	c.SR |= FlagD
+	c.A = 0x01
+	testRunCPU(t, c)
+	want := uint8(0x99)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestSbcZeroPage(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x0034, 0x08)        // .byte $08
+	c.mem.WriteN(0x0200, 0xe5, 0x34) // sbc $34
+	c.A = 0x0a
+	c.SR |= FlagC
+	testRunCPU(t, c)
+	want := uint8(0x02)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestSbcZeroPageX(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x0034, 0x08)        // .byte $08
+	c.mem.WriteN(0x0200, 0xf5, 0x30) // sbc $30,X
+	c.A = 0x0a
+	c.X = 0x04
+	c.SR |= FlagC
+	testRunCPU(t, c)
+	want := uint8(0x02)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestSbcAbsolute(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x02ab, 0x08)              // .byte $08
+	c.mem.WriteN(0x0200, 0xed, 0xab, 0x02) // sbc $02ab
+	c.A = 0x0a
+	c.SR |= FlagC
+	testRunCPU(t, c)
+	want := uint8(0x02)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestSbcAbsoluteX(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x02ab, 0x08)              // .byte $08
+	c.mem.WriteN(0x0200, 0xfd, 0xa0, 0x02) // sbc $02a0,X
+	c.A = 0x0a
+	c.X = 0x0b
+	c.SR |= FlagC
+	testRunCPU(t, c)
+	want := uint8(0x02)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestSbcAbsoluteY(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x02ab, 0x08)              // .byte $08
+	c.mem.WriteN(0x0200, 0xf9, 0xa0, 0x02) // sbc $02a0,Y
+	c.A = 0x0a
+	c.Y = 0x0b
+	c.SR |= FlagC
+	testRunCPU(t, c)
+	want := uint8(0x02)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestSbcIndirectX(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteLE(0x4a, 0x02ab)      // .word $02ab
+	c.mem.Write(0x02ab, 0x08)        // .byte $08
+	c.mem.WriteN(0x0200, 0xe1, 0x40) // sbc ($40,X)
+	c.A = 0x0a
+	c.X = 0x0a
+	c.SR |= FlagC
+	testRunCPU(t, c)
+	want := uint8(0x02)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestSbcIndirectY(t *testing.T) {
+	c := newTestCPU()
+	c.mem.WriteLE(0x4a, 0x02a0)      // .word $02a0
+	c.mem.Write(0x02ab, 0x08)        // .byte $08
+	c.mem.WriteN(0x0200, 0xf1, 0x4a) // sbc ($4a),Y
+	c.A = 0x0a
+	c.Y = 0x0b
+	c.SR |= FlagC
+	testRunCPU(t, c)
+	want := uint8(0x02)
+	have := c.A
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}

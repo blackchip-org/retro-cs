@@ -124,9 +124,10 @@ func (c *CPU) fetch2() int {
 
 func (c *CPU) push(v uint8) {
 	c.mem.Write(addrStack+int(c.SP), v)
+	c.SP--
 }
 
-func (c *CPU) push2(v int) {
+func (c *CPU) push2(v uint16) {
 	c.push(uint8(v >> 8))
 	c.push(uint8(v))
 }
