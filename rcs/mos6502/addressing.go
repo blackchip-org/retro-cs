@@ -1,91 +1,104 @@
 package mos6502
 
-func (cpu *CPU) loadAbsolute() uint8 {
-	return cpu.mem.Read(cpu.fetch2())
+func (c *CPU) loadAbsolute() uint8 {
+	c.addrLoad = c.fetch2()
+	return c.mem.Read(c.addrLoad)
 }
 
-func (cpu *CPU) loadAbsoluteX() uint8 {
-	addr := cpu.fetch2()
-	indexed := addr + int(cpu.X)
-	if addr&0xff00 != indexed&0xff00 {
-		cpu.pageCross = true
+func (c *CPU) loadAbsoluteX() uint8 {
+	arg := c.fetch2()
+	c.addrLoad = arg + int(c.X)
+	if c.addrLoad&0xff00 != arg&0xff00 {
+		c.pageCross = true
 	}
-	return cpu.mem.Read(indexed)
+	return c.mem.Read(c.addrLoad)
 }
 
-func (cpu *CPU) loadAbsoluteY() uint8 {
-	addr := cpu.fetch2()
-	indexed := addr + int(cpu.Y)
-	if addr&0xff00 != indexed&0xff00 {
-		cpu.pageCross = true
+func (c *CPU) loadAbsoluteY() uint8 {
+	arg := c.fetch2()
+	c.addrLoad = arg + int(c.Y)
+	if c.addrLoad&0xff00 != arg&0xff00 {
+		c.pageCross = true
 	}
-	return cpu.mem.Read(indexed)
+	return c.mem.Read(c.addrLoad)
 }
 
-func (cpu *CPU) loadAccumulator() uint8 {
-	return cpu.A
+func (c *CPU) loadAccumulator() uint8 {
+	return c.A
 }
 
-func (cpu *CPU) loadImmediate() uint8 {
-	return cpu.fetch()
+func (c *CPU) loadImmediate() uint8 {
+	return c.fetch()
 }
 
-func (cpu *CPU) loadIndirectX() uint8 {
-	zpaddr := int(cpu.fetch() + cpu.X)
-	return cpu.mem.Read(cpu.mem.ReadLE(zpaddr))
+func (c *CPU) loadIndirectX() uint8 {
+	zpaddr := int(c.fetch() + c.X)
+	c.addrLoad = c.mem.ReadLE(zpaddr)
+	return c.mem.Read(c.addrLoad)
 }
 
-func (cpu *CPU) loadIndirectY() uint8 {
-	addr := cpu.mem.ReadLE(int(cpu.fetch()))
-	indexed := addr + int(cpu.Y)
-	if addr&0xff00 != indexed&0xff00 {
-		cpu.pageCross = true
+func (c *CPU) loadIndirectY() uint8 {
+	c.addrLoad = c.mem.ReadLE(int(c.fetch()))
+	indexed := c.addrLoad + int(c.Y)
+	if c.addrLoad&0xff00 != indexed&0xff00 {
+		c.pageCross = true
 	}
-	return cpu.mem.Read(indexed)
+	return c.mem.Read(indexed)
 }
 
-func (cpu *CPU) loadZeroPage() uint8 {
-	return cpu.mem.Read(int(cpu.fetch()))
+func (c *CPU) loadZeroPage() uint8 {
+	c.addrLoad = int(c.fetch())
+	return c.mem.Read(c.addrLoad)
 }
 
-func (cpu *CPU) loadZeroPageX() uint8 {
-	return cpu.mem.Read(int(cpu.fetch() + cpu.X))
+func (c *CPU) loadZeroPageX() uint8 {
+	c.addrLoad = int(c.fetch() + c.X)
+	return c.mem.Read(c.addrLoad)
 }
 
-func (cpu *CPU) loadZeroPageY() uint8 {
-	return cpu.mem.Read(int(cpu.fetch() + cpu.Y))
+func (c *CPU) loadZeroPageY() uint8 {
+	c.addrLoad = int(c.fetch() + c.Y)
+	return c.mem.Read(c.addrLoad)
 }
 
-func (cpu *CPU) storeAbsolute(value uint8) {
-	cpu.mem.Write(cpu.fetch2(), value)
+func (c *CPU) storeAbsolute(value uint8) {
+	c.mem.Write(c.fetch2(), value)
 }
 
-func (cpu *CPU) storeAbsoluteX(value uint8) {
-	cpu.mem.Write(cpu.fetch2()+int(cpu.X), value)
+func (c *CPU) storeAbsoluteX(value uint8) {
+	c.mem.Write(c.fetch2()+int(c.X), value)
 }
 
-func (cpu *CPU) storeAbsoluteY(v uint8) {
-	cpu.mem.Write(cpu.fetch2()+int(cpu.Y), v)
+func (c *CPU) storeAbsoluteY(v uint8) {
+	c.mem.Write(c.fetch2()+int(c.Y), v)
 }
 
-func (cpu *CPU) storeIndirectX(v uint8) {
-	zpaddr := int(cpu.fetch() + cpu.X)
-	cpu.mem.Write(cpu.mem.ReadLE(zpaddr), v)
+func (c *CPU) storeIndirectX(v uint8) {
+	zpaddr := int(c.fetch() + c.X)
+	c.mem.Write(c.mem.ReadLE(zpaddr), v)
 }
 
-func (cpu *CPU) storeIndirectY(v uint8) {
-	addr := cpu.mem.ReadLE(int(cpu.fetch())) + int(cpu.Y)
-	cpu.mem.Write(addr, v)
+func (c *CPU) storeIndirectY(v uint8) {
+	addr := c.mem.ReadLE(int(c.fetch())) + int(c.Y)
+	c.mem.Write(addr, v)
 }
 
-func (cpu *CPU) storeZeroPage(v uint8) {
-	cpu.mem.Write(int(cpu.fetch()), v)
+func (c *CPU) storeZeroPage(v uint8) {
+	c.mem.Write(int(c.fetch()), v)
 }
 
-func (cpu *CPU) storeZeroPageX(v uint8) {
-	cpu.mem.Write(int(cpu.fetch()+cpu.X), v)
+func (c *CPU) storeZeroPageX(v uint8) {
+	c.mem.Write(int(c.fetch()+c.X), v)
 }
 
-func (cpu *CPU) storeZeroPageY(v uint8) {
-	cpu.mem.Write(int(cpu.fetch()+cpu.Y), v)
+func (c *CPU) storeZeroPageY(v uint8) {
+	c.mem.Write(int(c.fetch()+c.Y), v)
+}
+
+func (c *CPU) storeAccumulator(v uint8) {
+	c.A = v
+}
+
+func (c *CPU) storeBack(v uint8) {
+	c.mem.Write(c.addrLoad, v)
 }

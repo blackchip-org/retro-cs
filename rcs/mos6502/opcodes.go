@@ -2,6 +2,12 @@ package mos6502
 
 var opcodes = map[uint8]func(*CPU){
 	0x00: func(c *CPU) { brk(c) },
+	0x06: func(c *CPU) { asl(c, c.storeBack, c.loadZeroPage) },
+	0x0a: func(c *CPU) { asl(c, c.storeAccumulator, c.loadAccumulator) },
+	0x0e: func(c *CPU) { asl(c, c.storeBack, c.loadAbsolute) },
+
+	0x16: func(c *CPU) { asl(c, c.storeBack, c.loadZeroPageX) },
+	0x1e: func(c *CPU) { asl(c, c.storeBack, c.loadAbsoluteX) },
 
 	0x21: func(c *CPU) { and(c, c.loadIndirectX) },
 	0x25: func(c *CPU) { and(c, c.loadZeroPage) },

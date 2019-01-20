@@ -415,3 +415,92 @@ func TestAndIndirectY(t *testing.T) {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
 }
+
+// ----------------------------------------------------------------------------
+// asl
+// ----------------------------------------------------------------------------
+func TestAslAccumulator(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x0200, 0x0a) // asl a
+	c.A = 4
+	testRunCPU(t, c)
+	want := uint8(8)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestAslSigned(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x0200, 0x0a) // asl a
+	c.A = 1 << 6
+	testRunCPU(t, c)
+	want := FlagN | FlagB 
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestAslCarry(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x0200, 0x0a) // asl a
+	c.A = 1 << 7
+	testRunCPU(t, c)
+	want := FlagC | FlagZ | FlagB 
+	have := c.SR
+	if want != have {
+		flagError(t, want, have)
+	}
+}
+
+func TestAslZeroPage(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x00ab, 4)           // .byte 4
+	c.mem.WriteN(0x0200, 0x06, 0xab) // asl $ab
+	testRunCPU(t, c)
+	want := uint8(8)
+	have := c.mem.Read(0x00ab)
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestAslZeroPageX(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x00ab, 4)           // .byte 4
+	c.mem.WriteN(0x0200, 0x16, 0xa0) // asl $a0
+	c.X = 0x0b
+	testRunCPU(t, c)
+	want := uint8(8)
+	have := c.mem.Read(0x00ab)
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestAslAbsolute(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x02ab, 4)                 // .byte 4
+	c.mem.WriteN(0x0200, 0x0e, 0xab, 0x02) // asl $02ab
+	testRunCPU(t, c)
+	want := uint8(8)
+	have := c.mem.Read(0x02ab)
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestAslAbsoluteX(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x02ab, 4)                 // .byte 4
+	c.mem.WriteN(0x0200, 0x1e, 0xa0, 0x02) // asl $02a0,X
+	c.X = 0x0b
+	testRunCPU(t, c)
+	want := uint8(8)
+	have := c.mem.Read(0x02ab)
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}

@@ -24,7 +24,8 @@ type CPU struct {
 
 	mem       *rcs.Memory
 	ops       map[uint8]func(*CPU)
-	alu       *rcs.ALU
+	alu       rcs.ALU
+	addrLoad  int // memory address where the last value was loaded from
 	pageCross bool
 }
 
@@ -53,12 +54,12 @@ const (
 
 func New(mem *rcs.Memory) *CPU {
 	c := &CPU{mem: mem, ops: opcodes}
-	c.alu = rcs.NewALU(&c.A, &c.SR, rcs.FlagMap{
+	c.alu = rcs.ALU{
 		C: FlagC,
 		Z: FlagZ,
 		V: FlagV,
 		S: FlagN,
-	})
+	}
 	return c
 }
 

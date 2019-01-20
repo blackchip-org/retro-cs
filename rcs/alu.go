@@ -4,7 +4,8 @@ import (
 	"math/bits"
 )
 
-type FlagMap struct {
+// ALU is an 8-bit arithmetic logic unit.
+type ALU struct {
 	C uint8 // carry flag
 	V uint8 // overflow flag
 	P uint8 // parity flag
@@ -13,132 +14,138 @@ type FlagMap struct {
 	S uint8 // sign flag
 }
 
-// ALU is an 8-bit arithmetic logic unit.
-type ALU struct {
-	// Accumulator
-	Acc *uint8
-	// Status register holding flag conditions
-	Status *uint8
-
-	Flags FlagMap
-}
-
-func NewALU(acc *uint8, status *uint8, flags FlagMap) *ALU {
-	return &ALU{
-		Acc:    acc,
-		Status: status,
-		Flags:  flags,
-	}
-}
-
-// Add adds the value of v to alu.Acc. If the carry is set, increments the
-// result by one. All flags are updated in the status register.
-func (a *ALU) Add(v uint8) {
+// Add performs a binary-coded decimal addition of in0 and in1 and
+// places the result in out. Results are undefined if either value is not a
+// valid BCD number. If the carry flag in is set, the result is incremented
+// by one. The Z and S flags are updated.
+func (a *ALU) Add(flags *uint8, out *uint8, in0 uint8, in1 uint8) {
 	carry := 0
-	if *a.Status&a.Flags.C != 0 {
+	if *flags&a.C != 0 {
 		carry = 1
 	}
 
 	// result of 8 bit addition into 16 bits
-	r := uint16(*a.Acc) + uint16(v) + uint16(carry)
+	r := uint16(in0) + uint16(in1) + uint16(carry)
 	// signed result, 16-bit
-	sr := int16(int8(*a.Acc)) + int16(int8(v)) + int16(carry)
+	sr := int16(int8(in0)) + int16(int8(in1)) + int16(carry)
 	// unsigned result, 8-bit
 	ur := uint8(r)
 	// result of half add
-	hr := *a.Acc&0xf + v&0xf + uint8(carry)
+	hr := in0&0xf + in1&0xf + uint8(carry)
 
-	a.carry(r)
-	a.carry4(hr)
-	a.overflow(sr)
-	a.parity(ur)
-	a.zero(ur)
-	a.sign(ur)
-	*a.Acc = ur
+	a.carry(flags, r)
+	a.carry4(flags, hr)
+	a.overflow(flags, sr)
+	a.parity(flags, ur)
+	a.zero(flags, ur)
+	a.sign(flags, ur)
+	*out = ur
 }
 
-// AddBCD adds the value of v to alu.Acc using binary-coded decimal. If the
-// carry is set, increments the result by one. Results are undefined if either
-// value is not a valid BCD number. Flags Z and S are updated in the
-// status register.
-func (a *ALU) AddBCD(v uint8) {
+// AddBCD performs a binary-coded decimal addition of in0 and in1 and
+// places the result in out. Results are undefined if either value is not a
+// valid BCD number. If the carry flag is set, the result is incremented
+// by one. The Z and S flags are updated.
+func (a *ALU) AddBCD(flags *uint8, out *uint8, in0 uint8, in1 uint8) {
 	carry := 0
-	if *a.Status&a.Flags.C != 0 {
+	if *flags&a.C != 0 {
 		carry = 1
 	}
 
-	ba := FromBCD(*a.Acc)
-	bv := FromBCD(v)
-	r := uint16(ba) + uint16(bv) + uint16(carry)
-	bcdr := ToBCD(uint8(r))
+	in0b := FromBCD(in0)
+	in1b := FromBCD(in1)
+	r := uint16(in0b) + uint16(in1b) + uint16(carry)
+	rb := ToBCD(uint8(r))
 
-	a.carryBCD(r)
-	a.zero(bcdr)
-	a.sign(bcdr)
-	*a.Acc = bcdr
+	a.carryBCD(flags, r)
+	a.zero(flags, rb)
+	a.sign(flags, rb)
+	*out = rb
 }
 
-// And performs a logical "and" between alu.A and v. Flags P, Z, and S are
-// updated in the status register.
-func (a *ALU) And(v uint8) {
-	*a.Acc &= v
-	a.parity(*a.Acc)
-	a.zero(*a.Acc)
-	a.sign(*a.Acc)
+// And performs a logical "and" between in0 and in1 and places the result
+// in out. Flags P, Z, and S are updated.
+func (a *ALU) And(flags *uint8, out *uint8, in0 uint8, in1 uint8) {
+	r := in0 & in1
+	a.parity(flags, r)
+	a.zero(flags, r)
+	a.sign(flags, r)
+	*out = r
 }
 
-func (a *ALU) carry(v uint16) {
+// ShiftLeft performs a left bit-shift of in and places the result in out.
+// Bit 0 becomes the value of the carry. Bit 7, that is shifted out, becomes
+// the new value of carry. Flags C, P, Z, and S are updated.
+func (a *ALU) ShiftLeft(flags *uint8, out *uint8, in uint8) {
+	carryOut := in&0x80 != 0
+	r := in << 1
+	if *flags&a.C != 0 {
+		r++
+	}
+
+	a.parity(flags, r)
+	a.zero(flags, r)
+	a.sign(flags, r)
+	if carryOut {
+		*flags |= a.C
+	} else {
+		*flags &^= a.C
+	}
+	*out = r
+}
+
+func (a *ALU) carry(f *uint8, v uint16) {
 	if v > 0xff {
-		*a.Status |= a.Flags.C
+		*f |= a.C
 	} else {
-		*a.Status &^= a.Flags.C
+		*f &^= a.C
 	}
 }
 
-func (a *ALU) carryBCD(v uint16) {
+func (a *ALU) carryBCD(f *uint8, v uint16) {
 	if v > 99 {
-		*a.Status |= a.Flags.C
+		*f |= a.C
 	} else {
-		*a.Status &^= a.Flags.C
+		*f &^= a.C
 	}
 }
 
-func (a *ALU) carry4(v uint8) {
+func (a *ALU) carry4(f *uint8, v uint8) {
 	if v > 0xf {
-		*a.Status |= a.Flags.H
+		*f |= a.H
 	} else {
-		*a.Status &^= a.Flags.H
+		*f &^= a.H
 	}
 }
 
-func (a *ALU) overflow(v int16) {
+func (a *ALU) overflow(f *uint8, v int16) {
 	if v < -128 || v > 127 {
-		*a.Status |= a.Flags.V
+		*f |= a.V
 	} else {
-		*a.Status &^= a.Flags.V
+		*f &^= a.V
 	}
 }
 
-func (a *ALU) parity(v uint8) {
+func (a *ALU) parity(f *uint8, v uint8) {
 	if bits.OnesCount8(v)%2 == 0 {
-		*a.Status |= a.Flags.P
+		*f |= a.P
 	} else {
-		*a.Status &^= a.Flags.P
+		*f &^= a.P
 	}
 }
 
-func (a *ALU) zero(v uint8) {
+func (a *ALU) zero(f *uint8, v uint8) {
 	if v == 0 {
-		*a.Status |= a.Flags.Z
+		*f |= a.Z
 	} else {
-		*a.Status &^= a.Flags.Z
+		*f &^= a.Z
 	}
 }
 
-func (a *ALU) sign(v uint8) {
+func (a *ALU) sign(f *uint8, v uint8) {
 	if v&0x80 != 0 {
-		*a.Status |= a.Flags.S
+		*f |= a.S
 	} else {
-		*a.Status &^= a.Flags.S
+		*f &^= a.S
 	}
 }
