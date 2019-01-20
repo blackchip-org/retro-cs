@@ -86,6 +86,7 @@ var opcodes = map[uint8]func(*CPU){
 	0x85: func(c *CPU) { st(c, c.storeZeroPage, c.loadA) },
 	0x86: func(c *CPU) { st(c, c.storeZeroPage, c.loadX) },
 	0x88: func(c *CPU) { dec(c, c.storeY, c.loadY) },
+	0x8a: func(c *CPU) { ld(c, c.storeA, c.loadX) }, // txa
 	0x8c: func(c *CPU) { st(c, c.storeAbsolute, c.loadY) },
 	0x8d: func(c *CPU) { st(c, c.storeAbsolute, c.loadA) },
 	0x8e: func(c *CPU) { st(c, c.storeAbsolute, c.loadX) },
@@ -95,7 +96,9 @@ var opcodes = map[uint8]func(*CPU){
 	0x94: func(c *CPU) { st(c, c.storeZeroPageX, c.loadY) },
 	0x95: func(c *CPU) { st(c, c.storeZeroPageX, c.loadA) },
 	0x96: func(c *CPU) { st(c, c.storeZeroPageY, c.loadX) },
+	0x98: func(c *CPU) { ld(c, c.storeA, c.loadY) }, // tya
 	0x99: func(c *CPU) { st(c, c.storeAbsoluteY, c.loadA) },
+	0x9a: func(c *CPU) { ld(c, c.storeSP, c.loadX) }, // txs
 	0x9d: func(c *CPU) { st(c, c.storeAbsoluteX, c.loadA) },
 
 	0xa0: func(c *CPU) { ld(c, c.storeY, c.loadImmediate) },
@@ -104,7 +107,9 @@ var opcodes = map[uint8]func(*CPU){
 	0xa4: func(c *CPU) { ld(c, c.storeY, c.loadZeroPage) },
 	0xa5: func(c *CPU) { ld(c, c.storeA, c.loadZeroPage) },
 	0xa6: func(c *CPU) { ld(c, c.storeX, c.loadZeroPage) },
+	0xa8: func(c *CPU) { ld(c, c.storeY, c.loadA) }, // tay
 	0xa9: func(c *CPU) { ld(c, c.storeA, c.loadImmediate) },
+	0xaa: func(c *CPU) { ld(c, c.storeX, c.loadA) }, // tax
 	0xac: func(c *CPU) { ld(c, c.storeY, c.loadAbsolute) },
 	0xad: func(c *CPU) { ld(c, c.storeA, c.loadAbsolute) },
 	0xae: func(c *CPU) { ld(c, c.storeX, c.loadAbsolute) },
@@ -116,6 +121,7 @@ var opcodes = map[uint8]func(*CPU){
 	0xb6: func(c *CPU) { ld(c, c.storeX, c.loadZeroPageY) },
 	0xb8: func(c *CPU) { c.SR &^= FlagV }, // clv
 	0xb9: func(c *CPU) { ld(c, c.storeA, c.loadAbsoluteY) },
+	0xba: func(c *CPU) { ld(c, c.storeX, c.loadSP) }, // tsx
 	0xbc: func(c *CPU) { ld(c, c.storeY, c.loadAbsoluteX) },
 	0xbd: func(c *CPU) { ld(c, c.storeA, c.loadAbsoluteX) },
 	0xbe: func(c *CPU) { ld(c, c.storeX, c.loadAbsoluteY) },

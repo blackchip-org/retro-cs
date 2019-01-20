@@ -1,1 +1,1 @@
-module github.com/blackchip-org/rcs
+module github.com/blackchip-org/retro-cs

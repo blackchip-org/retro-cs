@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/blackchip-org/retro/rcs"
+	"github.com/blackchip-org/retro-cs/rcs"
 )
 
 const (

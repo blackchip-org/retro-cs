@@ -2579,7 +2579,7 @@ func TestSbcBcdWithBorrow(t *testing.T) {
 func TestSbcBcdBorrowResult(t *testing.T) {
 	c := newTestCPU()
 	c.mem.WriteN(0x0200, 0xe9, 0x02) // sbc #$02
-	c.SR |= FlagD
+	c.SR |= FlagD | FlagC
 	c.A = 0x01
 	testRunCPU(t, c)
 	want := uint8(0x99)
@@ -2865,6 +2865,216 @@ func TestStyAbsolute(t *testing.T) {
 	testRunCPU(t, c)
 	want := uint8(0x12)
 	have := c.mem.Read(0x02ab)
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+// ----------------------------------------------------------------------------
+// tax
+// ----------------------------------------------------------------------------
+func TestTax(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x0200, 0xaa)
+	c.A = 0x12
+	testRunCPU(t, c)
+	want := uint8(0x12)
+	have := c.X
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestTaxZero(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x0200, 0xaa)
+	c.A = 0x00
+	testRunCPU(t, c)
+	want := FlagZ | FlagB
+	have := c.SR
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestTaxSigned(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x0200, 0xaa)
+	c.A = 0xff
+	testRunCPU(t, c)
+	want := FlagN | FlagB
+	have := c.SR
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+// ----------------------------------------------------------------------------
+// tay
+// ----------------------------------------------------------------------------
+func TestTay(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x0200, 0xa8)
+	c.A = 0x12
+	testRunCPU(t, c)
+	want := uint8(0x12)
+	have := c.Y
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestTayZero(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x0200, 0xa8)
+	c.A = 0x00
+	testRunCPU(t, c)
+	want := FlagZ | FlagB
+	have := c.SR
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestTaySigned(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x0200, 0xa8)
+	c.A = 0xff
+	testRunCPU(t, c)
+	want := FlagN | FlagB
+	have := c.SR
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+// ----------------------------------------------------------------------------
+// tsx
+// ----------------------------------------------------------------------------
+func TestTsx(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x0200, 0xba)
+	c.SP = 0x12
+	testRunCPU(t, c)
+	want := uint8(0x12)
+	have := c.X
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestTsxZero(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x0200, 0xba)
+	c.SP = 0x00
+	testRunCPU(t, c)
+	want := FlagZ | FlagB
+	have := c.SR
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestTsxSigned(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x0200, 0xba)
+	c.SP = 0xff
+	testRunCPU(t, c)
+	want := FlagN | FlagB
+	have := c.SR
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+// ----------------------------------------------------------------------------
+// txa
+// ----------------------------------------------------------------------------
+func TestTxa(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x0200, 0x8a)
+	c.X = 0x12
+	testRunCPU(t, c)
+	want := uint8(0x12)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestTxaZero(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x0200, 0x8a)
+	c.X = 0x00
+	testRunCPU(t, c)
+	want := FlagZ | FlagB
+	have := c.SR
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestTxaSigned(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x0200, 0x8a)
+	c.X = 0xff
+	testRunCPU(t, c)
+	want := FlagN | FlagB
+	have := c.SR
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+// ----------------------------------------------------------------------------
+// txs
+// ----------------------------------------------------------------------------
+func TestTxs(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x0200, 0x9a)
+	c.X = 0x12
+	testRunCPU(t, c)
+	want := uint8(0x12)
+	have := c.SP
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+// ----------------------------------------------------------------------------
+// tya
+// ----------------------------------------------------------------------------
+func TestTya(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x0200, 0x98)
+	c.Y = 0x12
+	testRunCPU(t, c)
+	want := uint8(0x12)
+	have := c.A
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestTyaZero(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x0200, 0x98)
+	c.Y = 0x00
+	testRunCPU(t, c)
+	want := FlagZ | FlagB
+	have := c.SR
+	if want != have {
+		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
+	}
+}
+
+func TestTyaSigned(t *testing.T) {
+	c := newTestCPU()
+	c.mem.Write(0x0200, 0x98)
+	c.Y = 0xff
+	testRunCPU(t, c)
+	want := FlagN | FlagB
+	have := c.SR
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}

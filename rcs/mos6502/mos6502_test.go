@@ -3,7 +3,7 @@ package mos6502
 import (
 	"testing"
 
-	"github.com/blackchip-org/retro/rcs"
+	"github.com/blackchip-org/retro-cs/rcs"
 )
 
 func newTestCPU() *CPU {

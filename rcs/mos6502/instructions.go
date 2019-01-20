@@ -1,7 +1,7 @@
 package mos6502
 
 import (
-	"github.com/blackchip-org/retro/rcs"
+	"github.com/blackchip-org/retro-cs/rcs"
 )
 
 func adc(c *CPU, load rcs.Load8) {

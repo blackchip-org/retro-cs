@@ -54,11 +54,10 @@ func TestAdd(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			var sr uint8
-			var out uint8
 			if test.carry {
 				sr |= alu.C
 			}
-			alu.Add(&sr, &out, test.a, test.b)
+			out := alu.Add(&sr, test.a, test.b)
 			if out != test.result {
 				t.Errorf("\n have: %v \n want: %v", out, test.result)
 			}
@@ -98,11 +97,10 @@ func TestAddBCD(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			var sr uint8
-			var out uint8
 			if test.carry {
 				sr |= alu.C
 			}
-			alu.AddBCD(&sr, &out, test.a, test.b)
+			out := alu.AddBCD(&sr, test.a, test.b)
 			if out != test.result {
 				t.Errorf("\n have: 0x%02x \n want: 0x%02x", out, test.result)
 			}
@@ -113,11 +111,14 @@ func TestAddBCD(t *testing.T) {
 	}
 }
 
+var benchU8 uint8
+
 func BenchmarkALUAdd(b *testing.B) {
 	alu := testALU()
 	var out uint8
 	var sr uint8
 	for n := 0; n < b.N; n++ {
-		alu.Add(&sr, &out, 2, 2)
+		out = alu.Add(&sr, 2, 2)
 	}
+	benchU8 = out
 }

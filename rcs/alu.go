@@ -192,6 +192,9 @@ func (a *ALU) SubtractBCD(flags *uint8, in0 uint8, in1 uint8) uint8 {
 	in0b := FromBCD(in0)
 	in1b := FromBCD(in1)
 	r := int16(in0b) - int16(in1b) - int16(borrow)
+	if r < 0 {
+		r += 100
+	}
 	rb := ToBCD(uint8(r))
 
 	a.borrow(flags, r)
