@@ -112,9 +112,6 @@ func (c *CPU) String() string {
 
 func (c *CPU) fetch() uint8 {
 	c.pc++
-	if c.pc > 0xffff {
-		c.pc = 0
-	}
 	return c.mem.Read(int(c.pc))
 }
 
