@@ -120,8 +120,8 @@ func TestMemoryMapFunc(t *testing.T) {
 	mem := NewMemory(1, 15)
 	for i := 0; i < 5; i++ {
 		j := i
-		mem.MapGet(i+10, func() uint8 { reads++; return 40 + uint8(j) })
-		mem.MapPut(i+10, func(uint8) { writes++ })
+		mem.MapLoad(i+10, func() uint8 { reads++; return 40 + uint8(j) })
+		mem.MapStore(i+10, func(uint8) { writes++ })
 	}
 	for i := 0; i < 5; i++ {
 		out[i] = mem.Read(i + 10)
@@ -157,6 +157,18 @@ func TestMemoryWriteLE(t *testing.T) {
 
 	mem.WriteLE(0, 0xabcd)
 	want := []uint8{0xcd, 0xab}
+	if !reflect.DeepEqual(ram, want) {
+		t.Errorf("\n have: %v \n want: %v", ram, want)
+	}
+}
+
+func TestWriteN(t *testing.T) {
+	mem := NewMemory(1, 4)
+	ram := make([]uint8, 4, 4)
+	mem.MapRAM(0, ram)
+
+	mem.WriteN(1, 10, 11, 12)
+	want := []uint8{0, 10, 11, 12}
 	if !reflect.DeepEqual(ram, want) {
 		t.Errorf("\n have: %v \n want: %v", ram, want)
 	}

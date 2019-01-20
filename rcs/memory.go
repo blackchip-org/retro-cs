@@ -6,15 +6,15 @@ import "log"
 // and external devices.
 type Memory struct {
 	// read and write functions for each bank
-	reads  [][]Get8
-	writes [][]Put8
+	reads  [][]Load8
+	writes [][]Store8
 
 	// selected bank index
 	bank int
 
 	// read and write functions for the selected bank
-	read  []Get8
-	write []Put8
+	read  []Load8
+	write []Store8
 }
 
 // NewMemory creates a memory space of uint8 values that are addressable
@@ -26,12 +26,12 @@ func NewMemory(banks int, size int) *Memory {
 		banks = 1
 	}
 	mem := &Memory{
-		reads:  make([][]Get8, banks, banks),
-		writes: make([][]Put8, banks, banks),
+		reads:  make([][]Load8, banks, banks),
+		writes: make([][]Store8, banks, banks),
 	}
 	for b := 0; b < banks; b++ {
-		mem.reads[b] = make([]Get8, size, size)
-		mem.writes[b] = make([]Put8, size, size)
+		mem.reads[b] = make([]Load8, size, size)
+		mem.writes[b] = make([]Store8, size, size)
 		for addr := 0; addr < size; addr++ {
 			mem.reads[b][addr] = warnUnmappedRead(b, addr)
 			mem.writes[b][addr] = warnUnmappedWrite(b, addr)
@@ -50,6 +50,13 @@ func (m *Memory) Read(addr int) uint8 {
 // Write sets the 8-bit value at the given address.
 func (m *Memory) Write(addr int, val uint8) {
 	m.write[addr](val)
+}
+
+// WriteN sets multiple 8-bit values starting with the given address.
+func (m *Memory) WriteN(addr int, values ...uint8) {
+	for i, val := range values {
+		m.write[addr+i](val)
+	}
 }
 
 // ReadLE returns the 16-bit value at addr and addr+1 stored in little endian
@@ -107,20 +114,20 @@ func (m *Memory) MapWO(addr int, b *uint8) {
 	m.write[addr] = func(v uint8) { *b = v }
 }
 
-// MapGet adds a read mapping to the given function. When this address is
+// MapLoad adds a read mapping to the given function. When this address is
 // read from, the function is invoked to get the value. If there is already a
 // read mapping for this address, it is replaced. Write mappings are not
 // altered.
-func (m *Memory) MapGet(addr int, get Get8) {
-	m.read[addr] = get
+func (m *Memory) MapLoad(addr int, load Load8) {
+	m.read[addr] = load
 }
 
-// MapPut adds a write mapping to the given function. When this address is
+// MapStore adds a write mapping to the given function. When this address is
 // written to, the function is invoked with the value to write. If there
 // is already a write mapping for this address, it is replaced. Read mappings
 // are not altered.
-func (m *Memory) MapPut(addr int, put Put8) {
-	m.write[addr] = put
+func (m *Memory) MapStore(addr int, store Store8) {
+	m.write[addr] = store
 }
 
 // Bank returns the number of the selected bank. Banks are numbered starting
@@ -136,14 +143,14 @@ func (m *Memory) SetBank(bank int) {
 	m.write = m.writes[bank]
 }
 
-func warnUnmappedRead(bank int, addr int) Get8 {
+func warnUnmappedRead(bank int, addr int) Load8 {
 	return func() uint8 {
 		log.Printf("unmapped memory read, bank %v, addr 0x%x", bank, addr)
 		return 0
 	}
 }
 
-func warnUnmappedWrite(bank int, addr int) Put8 {
+func warnUnmappedWrite(bank int, addr int) Store8 {
 	return func(v uint8) {
 		log.Printf("unmapped memory write, bank %v, addr 0x%x, value 0x%x", bank, addr, v)
 	}
