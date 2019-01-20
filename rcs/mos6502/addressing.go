@@ -19,7 +19,7 @@ func (cpu *CPU) loadAbsoluteY() uint8 {
 	if addr&0xff00 != indexed&0xff00 {
 		cpu.pageCross = true
 	}
-	return cpu.mem.Read(cpu.fetch2() + int(cpu.Y))
+	return cpu.mem.Read(indexed)
 }
 
 func (cpu *CPU) loadAccumulator() uint8 {

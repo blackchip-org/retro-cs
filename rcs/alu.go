@@ -31,8 +31,8 @@ func NewALU(acc *uint8, status *uint8, flags FlagMap) *ALU {
 	}
 }
 
-// Add adds the value of v to alu.A. If the carry is set, increments the
-// result by one.
+// Add adds the value of v to alu.Acc. If the carry is set, increments the
+// result by one. All flags are updated in the status register.
 func (a *ALU) Add(v uint8) {
 	carry := 0
 	if *a.Status&a.Flags.C != 0 {
@@ -57,9 +57,10 @@ func (a *ALU) Add(v uint8) {
 	*a.Acc = ur
 }
 
-// AddBCD adds the value of v to alu.A using binary-coded decimal. If the carry
-// is set, increments the result by one. Results are undefined if either
-// value is not a valid BCD number.
+// AddBCD adds the value of v to alu.Acc using binary-coded decimal. If the
+// carry is set, increments the result by one. Results are undefined if either
+// value is not a valid BCD number. Flags Z and S are updated in the
+// status register.
 func (a *ALU) AddBCD(v uint8) {
 	carry := 0
 	if *a.Status&a.Flags.C != 0 {
@@ -75,6 +76,15 @@ func (a *ALU) AddBCD(v uint8) {
 	a.zero(bcdr)
 	a.sign(bcdr)
 	*a.Acc = bcdr
+}
+
+// And performs a logical "and" between alu.A and v. Flags P, Z, and S are
+// updated in the status register.
+func (a *ALU) And(v uint8) {
+	*a.Acc &= v
+	a.parity(*a.Acc)
+	a.zero(*a.Acc)
+	a.sign(*a.Acc)
 }
 
 func (a *ALU) carry(v uint16) {

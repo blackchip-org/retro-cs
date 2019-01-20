@@ -63,6 +63,7 @@ func New(mem *rcs.Memory) *CPU {
 }
 
 func (c *CPU) Next() {
+	c.pageCross = false
 	opcode := c.fetch()
 	execute, ok := c.ops[opcode]
 	if !ok {

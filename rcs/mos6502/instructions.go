@@ -4,15 +4,19 @@ import (
 	"github.com/blackchip-org/retro/rcs"
 )
 
-func adc(cpu *CPU, load rcs.Load8) {
-	if cpu.SR&FlagD != 0 {
-		cpu.alu.AddBCD(load())
+func adc(c *CPU, load rcs.Load8) {
+	if c.SR&FlagD != 0 {
+		c.alu.AddBCD(load())
 	} else {
-		cpu.alu.Add(load())
+		c.alu.Add(load())
 	}
 }
 
-func brk(cpu *CPU) {
-	cpu.SR |= FlagB
-	cpu.fetch()
+func and(c *CPU, load rcs.Load8) {
+	c.alu.And(load())
+}
+
+func brk(c *CPU) {
+	c.SR |= FlagB
+	c.fetch()
 }
