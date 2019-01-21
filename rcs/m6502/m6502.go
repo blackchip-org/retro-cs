@@ -1,4 +1,4 @@
-package mos6502
+package m6502
 
 import (
 	"fmt"

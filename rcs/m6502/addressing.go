@@ -1,4 +1,4 @@
-package mos6502
+package m6502
 
 func (c *CPU) loadAbsolute() uint8 {
 	c.addrLoad = c.fetch2()

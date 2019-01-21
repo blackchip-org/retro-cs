@@ -1,4 +1,4 @@
-package mos6502
+package m6502
 
 var opcodes = map[uint8]func(*CPU){
 	0x00: func(c *CPU) { brk(c) },
