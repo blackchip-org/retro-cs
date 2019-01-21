@@ -17,7 +17,7 @@ type ALU struct {
 // Add performs addition of in0 and in1 and returns the results. If the carry
 // flag in is set, the result is incremented by one. The Z and S flags are
 // updated.
-func (a *ALU) Add(flags *uint8, in0 uint8, in1 uint8) uint8 {
+func (a ALU) Add(flags *uint8, in0 uint8, in1 uint8) uint8 {
 	carry := 0
 	if *flags&a.C != 0 {
 		carry = 1
@@ -45,7 +45,7 @@ func (a *ALU) Add(flags *uint8, in0 uint8, in1 uint8) uint8 {
 // returns the result. Results are undefined if either value is not a
 // valid BCD number. If the carry flag is set, the result is incremented
 // by one. The Z and S flags are updated.
-func (a *ALU) AddBCD(flags *uint8, in0 uint8, in1 uint8) uint8 {
+func (a ALU) AddBCD(flags *uint8, in0 uint8, in1 uint8) uint8 {
 	carry := 0
 	if *flags&a.C != 0 {
 		carry = 1
@@ -64,7 +64,7 @@ func (a *ALU) AddBCD(flags *uint8, in0 uint8, in1 uint8) uint8 {
 
 // And performs a logical "and" between in0 and in1 and returns the result.
 // Flags P, Z, and S are updated.
-func (a *ALU) And(flags *uint8, in0 uint8, in1 uint8) uint8 {
+func (a ALU) And(flags *uint8, in0 uint8, in1 uint8) uint8 {
 	r := in0 & in1
 	a.parity(flags, r)
 	a.zero(flags, r)
@@ -74,7 +74,7 @@ func (a *ALU) And(flags *uint8, in0 uint8, in1 uint8) uint8 {
 
 // Decrement subracts one from in and returns the results. Only the P, Z,
 // and S flags are updated.
-func (a *ALU) Decrement(flags *uint8, in uint8) uint8 {
+func (a ALU) Decrement(flags *uint8, in uint8) uint8 {
 	r := in - 1
 	a.parity(flags, r)
 	a.zero(flags, r)
@@ -84,7 +84,7 @@ func (a *ALU) Decrement(flags *uint8, in uint8) uint8 {
 
 // ExclusiveOr performs a logical exclusive-or between in0 and in1 and returns
 // the results. The P, Z, and S flags are updated.
-func (a *ALU) ExclusiveOr(flags *uint8, in0 uint8, in1 uint8) uint8 {
+func (a ALU) ExclusiveOr(flags *uint8, in0 uint8, in1 uint8) uint8 {
 	r := in0 ^ in1
 	a.parity(flags, r)
 	a.zero(flags, r)
@@ -94,7 +94,7 @@ func (a *ALU) ExclusiveOr(flags *uint8, in0 uint8, in1 uint8) uint8 {
 
 // Increment add one from in and returns the results. Only the P, Z, and S
 // flags are updated.
-func (a *ALU) Increment(flags *uint8, in uint8) uint8 {
+func (a ALU) Increment(flags *uint8, in uint8) uint8 {
 	r := in + 1
 	a.parity(flags, r)
 	a.zero(flags, r)
@@ -104,7 +104,7 @@ func (a *ALU) Increment(flags *uint8, in uint8) uint8 {
 
 // Pass performs a pass-through of the value in and adjusts the P, Z, and
 // S flags.
-func (a *ALU) Pass(flags *uint8, in uint8) {
+func (a ALU) Pass(flags *uint8, in uint8) {
 	a.parity(flags, in)
 	a.zero(flags, in)
 	a.sign(flags, in)
@@ -113,7 +113,7 @@ func (a *ALU) Pass(flags *uint8, in uint8) {
 // ShiftLeft performs a left bit-shift of in and returns the result.
 // Bit 0 becomes the value of the carry. Bit 7, that is shifted out, becomes
 // the new value of carry. The  C, P, Z, and S flags are updated.
-func (a *ALU) ShiftLeft(flags *uint8, in uint8) uint8 {
+func (a ALU) ShiftLeft(flags *uint8, in uint8) uint8 {
 	carryOut := in&0x80 != 0
 	r := in << 1
 	if *flags&a.C != 0 {
@@ -134,7 +134,7 @@ func (a *ALU) ShiftLeft(flags *uint8, in uint8) uint8 {
 // ShiftRight performs a right bit-shift of in and returns the result. Bit 7
 // becomes the value of the carry. Bit 0, that is shifted out, becomes the
 // new value of carry. The C, P, Z, and S flags are updated.
-func (a *ALU) ShiftRight(flags *uint8, in uint8) uint8 {
+func (a ALU) ShiftRight(flags *uint8, in uint8) uint8 {
 	carryOut := in&0x01 != 0
 	r := in >> 1
 	if *flags&a.C != 0 {
@@ -155,7 +155,7 @@ func (a *ALU) ShiftRight(flags *uint8, in uint8) uint8 {
 // Subtract performs subtraction of in1 from in0 and returns the
 // results. If the carry flag in is set, the result is incremented by one.
 // The Z and S flags are updated.
-func (a *ALU) Subtract(flags *uint8, in0 uint8, in1 uint8) uint8 {
+func (a ALU) Subtract(flags *uint8, in0 uint8, in1 uint8) uint8 {
 	borrow := 0
 	if *flags&a.C == 0 { // borrow if carry clear
 		borrow = 1
@@ -183,7 +183,7 @@ func (a *ALU) Subtract(flags *uint8, in0 uint8, in1 uint8) uint8 {
 // returns the result. Results are undefined if either value is not a
 // valid BCD number. If the carry flag is set, the result is incremented
 // by one. The Z and S flags are updated.
-func (a *ALU) SubtractBCD(flags *uint8, in0 uint8, in1 uint8) uint8 {
+func (a ALU) SubtractBCD(flags *uint8, in0 uint8, in1 uint8) uint8 {
 	borrow := 0
 	if *flags&a.C == 0 {
 		borrow = 1 // borrow on carry clear
@@ -205,7 +205,7 @@ func (a *ALU) SubtractBCD(flags *uint8, in0 uint8, in1 uint8) uint8 {
 
 // Or performs a logical or between in0 and in1 and returns the results.
 // The P, Z, and S flags are updated.
-func (a *ALU) Or(flags *uint8, in0 uint8, in1 uint8) uint8 {
+func (a ALU) Or(flags *uint8, in0 uint8, in1 uint8) uint8 {
 	r := in0 | in1
 	a.parity(flags, r)
 	a.zero(flags, r)
@@ -213,7 +213,7 @@ func (a *ALU) Or(flags *uint8, in0 uint8, in1 uint8) uint8 {
 	return r
 }
 
-func (a *ALU) borrow(f *uint8, v int16) {
+func (a ALU) borrow(f *uint8, v int16) {
 	if v >= 0 {
 		*f |= a.C
 	} else {
@@ -221,7 +221,7 @@ func (a *ALU) borrow(f *uint8, v int16) {
 	}
 }
 
-func (a *ALU) carry(f *uint8, v uint16) {
+func (a ALU) carry(f *uint8, v uint16) {
 	if v > 0xff {
 		*f |= a.C
 	} else {
@@ -229,7 +229,7 @@ func (a *ALU) carry(f *uint8, v uint16) {
 	}
 }
 
-func (a *ALU) carryBCD(f *uint8, v uint16) {
+func (a ALU) carryBCD(f *uint8, v uint16) {
 	if v > 99 {
 		*f |= a.C
 	} else {
@@ -237,7 +237,7 @@ func (a *ALU) carryBCD(f *uint8, v uint16) {
 	}
 }
 
-func (a *ALU) carry4(f *uint8, v uint8) {
+func (a ALU) carry4(f *uint8, v uint8) {
 	if v > 0xf {
 		*f |= a.H
 	} else {
@@ -245,7 +245,7 @@ func (a *ALU) carry4(f *uint8, v uint8) {
 	}
 }
 
-func (a *ALU) overflow(f *uint8, v int16) {
+func (a ALU) overflow(f *uint8, v int16) {
 	if v < -128 || v > 127 {
 		*f |= a.V
 	} else {
@@ -253,7 +253,7 @@ func (a *ALU) overflow(f *uint8, v int16) {
 	}
 }
 
-func (a *ALU) parity(f *uint8, v uint8) {
+func (a ALU) parity(f *uint8, v uint8) {
 	if bits.OnesCount8(v)%2 == 0 {
 		*f |= a.P
 	} else {
@@ -261,7 +261,7 @@ func (a *ALU) parity(f *uint8, v uint8) {
 	}
 }
 
-func (a *ALU) zero(f *uint8, v uint8) {
+func (a ALU) zero(f *uint8, v uint8) {
 	if v == 0 {
 		*f |= a.Z
 	} else {
@@ -269,7 +269,7 @@ func (a *ALU) zero(f *uint8, v uint8) {
 	}
 }
 
-func (a *ALU) sign(f *uint8, v uint8) {
+func (a ALU) sign(f *uint8, v uint8) {
 	if v&0x80 != 0 {
 		*f |= a.S
 	} else {
