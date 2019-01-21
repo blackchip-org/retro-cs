@@ -20,6 +20,7 @@ emulator from pac8 into one.
 - Pickens, John, et al. "NMOS 6502 Opcodes", http://www.6502.org/tutorials/6502opcodes.html
 - Salmoria, Nicola, et al, "Namco PuckMan", https://github.com/mamedev/mame/blob/master/src/mame/drivers/pacman.cpp
 - Salmoria, Nicola, et al, "Galaga", https://github.com/mamedev/mame/blob/master/src/mame/drivers/galaga.cpp
+- "Status Flags", https://wiki.nesdev.com/w/index.php/Status_flags
 - Young, Sean, et al. "Z80 Flag Affection", http://www.z80.info/z80sflag.htm
 - "Z80 Family CPU User Manual", http://www.z80.info/zip/z80cpu_um.pdf
 

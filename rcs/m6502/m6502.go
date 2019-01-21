@@ -31,8 +31,6 @@ type CPU struct {
 	pageCross bool                 // if set, add a one cycle penalty for crossing a page boundary
 }
 
-// https://wiki.nesdev.com/w/index.php/Status_flags
-
 const (
 	// FlagC is the carry flag
 	FlagC = uint8(1 << 0)
