@@ -1,0 +1,12 @@
+sudo: required
+
+language: generic
+
+services:
+  - docker
+
+before_install:
+  - docker pull blackchip/retro-cs
+
+script:
+  - docker run --mount type=bind,source="$(pwd)",target=/root/go/src/github.com/blackchip-org/retro-cs blackchip/retro-cs /bin/bash -c "cd /root/go/src/github.com/blackchip-org/retro-cs ; go test ./..."
