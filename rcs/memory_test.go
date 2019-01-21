@@ -2,6 +2,7 @@ package rcs
 
 import (
 	"bytes"
+	"fmt"
 	"log"
 	"os"
 	"reflect"
@@ -229,3 +230,82 @@ func BenchmarkMemorySpaceW(b *testing.B) { benchmarkMemoryW(0x10000, b) }
 func BenchmarkMemoryR(b *testing.B)      { benchmarkMemoryR(1, b) }
 func BenchmarkMemoryPageR(b *testing.B)  { benchmarkMemoryR(0x100, b) }
 func BenchmarkMemorySpaceR(b *testing.B) { benchmarkMemoryR(0x10000, b) }
+
+func TestPointerFetch(t *testing.T) {
+	mem := NewMemory(1, 10)
+	mem.MapRAM(0, make([]uint8, 10, 10))
+
+	mem.Write(4, 44)
+	p := NewPointer(mem)
+	p.Addr = 4
+
+	have := p.Fetch()
+	want := uint8(44)
+	if have != want {
+		fmt.Printf("\n have: %v \n want: %v", have, want)
+	}
+}
+
+func TestPointerFetch2(t *testing.T) {
+	mem := NewMemory(1, 10)
+	mem.MapRAM(0, make([]uint8, 10, 10))
+
+	mem.Write(4, 44)
+	mem.Write(5, 55)
+	p := NewPointer(mem)
+	p.Addr = 4
+
+	p.Fetch()
+	have := p.Fetch()
+	want := uint8(55)
+	if have != want {
+		fmt.Printf("\n have: %v \n want: %v", have, want)
+	}
+}
+
+func TestPeek(t *testing.T) {
+	mem := NewMemory(1, 10)
+	mem.MapRAM(0, make([]uint8, 10, 10))
+
+	mem.Write(4, 44)
+	p := NewPointer(mem)
+	p.Addr = 4
+
+	p.Peek()
+	have := p.Peek()
+	want := uint8(44)
+	if have != want {
+		fmt.Printf("\n have: %v \n want: %v", have, want)
+	}
+}
+
+func TestFetchLE(t *testing.T) {
+	mem := NewMemory(1, 10)
+	mem.MapRAM(0, make([]uint8, 10, 10))
+
+	mem.Write(4, 0x44)
+	mem.Write(5, 0x55)
+	p := NewPointer(mem)
+	p.Addr = 4
+
+	have := p.FetchLE()
+	want := uint16(0x5544)
+	if have != want {
+		fmt.Printf("\n have: %04x \n want: %04x", have, want)
+	}
+}
+
+func TestPutN(t *testing.T) {
+	mem := NewMemory(1, 5)
+	ram := make([]uint8, 5, 5)
+	mem.MapRAM(0, ram)
+
+	p := NewPointer(mem)
+	p.PutN(1, 2, 3)
+	p.PutN(4, 5)
+
+	want := []uint8{1, 2, 3, 4, 5}
+	if !reflect.DeepEqual(ram, want) {
+		fmt.Printf("\n have: %04x \n want: %04x", ram, want)
+	}
+}

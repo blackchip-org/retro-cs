@@ -176,8 +176,7 @@ func processMain(tab *regtab, op uint8) string {
 	if x == 0 {
 		if z == 0 {
 			if y == 0 {
-				return ""
-				//return "nop()"
+				return "nop()"
 			}
 			if y == 1 {
 				return ""
@@ -757,9 +756,13 @@ func process(out *bytes.Buffer, getFn func(*regtab, uint8) string, tab *regtab) 
 	for i := 0; i < 0x100; i++ {
 		fn := getFn(tab, uint8(i))
 		if fn == "" {
-			fn = "panic(\"unhandled instruction\")"
+			continue
 		}
-
+		/*
+			if fn == "" {
+				fn = "panic(\"unhandled instruction\")"
+			}
+		*/
 		emit := true
 		if tab.name == "dd" || tab.name == "fd" {
 			// If there is an indirect call, the next byte needs to be
@@ -799,7 +802,7 @@ func main() {
 package z80
 
 `)
-	out.WriteString("var ops = map[uint8]func(c *CPU){\n")
+	out.WriteString("var opcodes = map[uint8]func(c *CPU){\n")
 	process(&out, processMain, un)
 	out.WriteString("}\n")
 

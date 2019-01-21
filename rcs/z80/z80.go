@@ -2,7 +2,6 @@ package z80
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/blackchip-org/retro-cs/rcs"
 )
@@ -61,7 +60,7 @@ const (
 )
 
 func New(mem *rcs.Memory) *CPU {
-	c := &CPU{mem: mem}
+	c := &CPU{mem: mem, ops: opcodes}
 	c.alu = rcs.ALU{
 		C: FlagC,
 		V: FlagV,
@@ -72,24 +71,27 @@ func New(mem *rcs.Memory) *CPU {
 	return c
 }
 
-func (c *CPU) Next() {
-	here := c.PC()
+// FIXME: return value is a testing crutch
+func (c *CPU) Next() bool {
+	// here := c.PC()
 	opcode := c.fetch()
 	execute, ok := c.ops[opcode]
 	c.refreshR()
 	if !ok {
-		log.Printf("%04x: illegal instruction: 0x%02x", here, opcode)
-		return
+		return false
+		//log.Printf("%04x: illegal instruction: 0x%02x", here, opcode)
+		//return
 	}
 	execute(c)
+	return ok
 }
 
-func (c *CPU) PC() uint16 {
-	return c.pc
+func (c *CPU) PC() int {
+	return int(c.pc)
 }
 
-func (c *CPU) SetPC(pc uint16) {
-	c.pc = pc
+func (c *CPU) SetPC(pc int) {
+	c.pc = uint16(pc)
 }
 
 func (c *CPU) fetch() uint8 {

@@ -1,6 +1,8 @@
 package rcs
 
-import "log"
+import (
+	"log"
+)
 
 /*
 Memory represents an address space used to access RAM, ROM, IO ports,
@@ -223,5 +225,51 @@ func warnUnmappedRead(bank int, addr int) Load8 {
 func warnUnmappedWrite(bank int, addr int) Store8 {
 	return func(v uint8) {
 		log.Printf("unmapped memory write, bank %v, addr 0x%x, value 0x%x", bank, addr, v)
+	}
+}
+
+// Pointer points to a location in memory.
+type Pointer struct {
+	Addr int // Current position.
+	mem  *Memory
+}
+
+// NewPointer creates pointer at address zero on the provided memory.
+func NewPointer(mem *Memory) *Pointer {
+	return &Pointer{mem: mem}
+}
+
+// Fetch returns the byte at current position as an 8-bit value and advances
+// the pointer by one.
+func (p *Pointer) Fetch() uint8 {
+	value := p.mem.Read(p.Addr)
+	p.Addr++
+	return value
+}
+
+// Peek returns the byte at the current position as an 8-bit value. The
+// pointer is not moved.
+func (p *Pointer) Peek() uint8 {
+	return p.mem.Read(p.Addr)
+}
+
+// FetchLE returns the next two bytes as a 16-bit value stored in little
+// endian format and advances the pointer by two.
+func (p *Pointer) FetchLE() uint16 {
+	lo := uint16(p.Fetch())
+	hi := uint16(p.Fetch())
+	return hi<<8 + lo
+}
+
+// Put sets the value at the current address and advances the pointer by one.
+func (p *Pointer) Put(value uint8) {
+	p.mem.Write(p.Addr, value)
+	p.Addr++
+}
+
+// PutN calls Put for each value.
+func (p *Pointer) PutN(values ...uint8) {
+	for _, value := range values {
+		p.Put(value)
 	}
 }
