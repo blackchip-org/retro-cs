@@ -1,5 +1,7 @@
 package m6502
 
+// http://www.6502.org/tutorials/6502opcodes.html
+
 var opcodes = map[uint8]func(*CPU){
 	0x00: func(c *CPU) { brk(c) },
 	0x01: func(c *CPU) { ora(c, c.loadIndirectX) },

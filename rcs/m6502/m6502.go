@@ -7,8 +7,10 @@ import (
 	"github.com/blackchip-org/retro-cs/rcs"
 )
 
+// http://www.6502.org/tutorials/6502opcodes.html
+
 const (
-	addrStack = 0x0100
+	addrStack = 0x0100 // starting address of the stack
 )
 
 // CPU is the MOS Technology 6502 series processor.
@@ -22,12 +24,14 @@ type CPU struct {
 
 	IRQ bool // interrupt request
 
-	mem       *rcs.Memory
-	ops       map[uint8]func(*CPU)
-	alu       rcs.ALU
-	addrLoad  int // memory address where the last value was loaded from
-	pageCross bool
+	mem       *rcs.Memory          // CPU's view into memory
+	ops       map[uint8]func(*CPU) // opcode table
+	alu       rcs.ALU              // 8-bit arithmetic logic unit
+	addrLoad  int                  // memory address where the last value was loaded from
+	pageCross bool                 // if set, add a one cycle penalty for crossing a page boundary
 }
+
+// https://wiki.nesdev.com/w/index.php/Status_flags
 
 const (
 	// FlagC is the carry flag
@@ -52,6 +56,7 @@ const (
 	FlagN = uint8(1 << 7)
 )
 
+// New creates a new CPU with a view of the provided memory.
 func New(mem *rcs.Memory) *CPU {
 	c := &CPU{mem: mem, ops: opcodes}
 	c.alu = rcs.ALU{
@@ -63,6 +68,7 @@ func New(mem *rcs.Memory) *CPU {
 	return c
 }
 
+// Next executes the next instruction.
 func (c *CPU) Next() {
 	here := c.PC() + 1
 	c.pageCross = false
@@ -75,14 +81,19 @@ func (c *CPU) Next() {
 	execute(c)
 }
 
+// PC returns the value of the program counter.
 func (c *CPU) PC() int {
 	return int(c.pc)
 }
 
+// SetPC sets the value of the program counter.
 func (c *CPU) SetPC(addr int) {
 	c.pc = uint16(addr)
 }
 
+// String returns the status of the CPU in the form of:
+// 		 pc  sr ac xr yr sp  n v - b d i z c
+// 		1234 20 00 00 00 ff  . . * . . . . .
 func (c *CPU) String() string {
 	b := func(v bool) string {
 		if v {
@@ -110,30 +121,37 @@ func (c *CPU) String() string {
 	)
 }
 
+// Increment the program counter and return the 8-bit value at the
+// program counter.
 func (c *CPU) fetch() uint8 {
 	c.pc++
 	return c.mem.Read(int(c.pc))
 }
 
+// Like fetch, but return the next 16-bit value.
 func (c *CPU) fetch2() int {
 	return int(c.fetch()) + (int(c.fetch()) << 8)
 }
 
+// Push a 8-bit value to the stack.
 func (c *CPU) push(v uint8) {
 	c.mem.Write(addrStack+int(c.SP), v)
 	c.SP--
 }
 
+// Push a 16-bit value to the stack.
 func (c *CPU) push2(v uint16) {
 	c.push(uint8(v >> 8))
 	c.push(uint8(v))
 }
 
+// Pull a 8-bit value from the stack.
 func (c *CPU) pull() uint8 {
 	c.SP++
 	return c.mem.Read(addrStack + int(c.SP))
 }
 
+// Pull a 16-bit value from the stack.
 func (c *CPU) pull2() uint16 {
 	return uint16(c.pull()) | uint16(c.pull())<<8
 }
