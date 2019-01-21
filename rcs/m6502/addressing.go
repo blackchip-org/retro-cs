@@ -1,7 +1,5 @@
 package m6502
 
-// http://www.obelisk.me.uk/6502/addressing.html
-
 func (c *CPU) loadAbsolute() uint8 {
 	c.addrLoad = c.fetch2()
 	return c.mem.Read(c.addrLoad)
