@@ -153,7 +153,7 @@ var cc = map[int]string{
 }
 
 func processMain(tab *regtab, op uint8) string {
-	//r := tab.r
+	r := tab.r
 	rp := tab.rp
 	rp2 := tab.rp2
 
@@ -196,84 +196,82 @@ func processMain(tab *regtab, op uint8) string {
 				return fmt.Sprintf("ld16(c, c.store%v, c.loadImm16)", rp[p])
 			}
 			if q == 1 {
-				return fmt.Sprintf("add16(c, c.store%v, c.load%v, c.load%v, false)", rp2[2], rp[2], rp[p])
+				return fmt.Sprintf("add16(c, c.store%v, c.load%v, c.load%v)", rp2[2], rp[2], rp[p])
 			}
 		}
-		/*
-			if z == 2 {
-				if q == 0 {
-					if p == 0 {
-						return "ld(c, c.storeIndBC, c.loadA)"
-					}
-					if p == 1 {
-						return "ld(c, c.storeIndDE, c.loadA)"
-					}
-					if p == 2 {
-						return fmt.Sprintf("ld16(c, c.store16IndImm, c.load%v)", rp2[2])
-					}
-					if p == 3 {
-						return "ld(c, c.storeIndImm, c.loadA)"
-					}
+		if z == 2 {
+			if q == 0 {
+				if p == 0 {
+					return "ld(c, c.storeIndBC, c.loadA)"
 				}
-				if q == 1 {
-					if p == 0 {
-						return "ld(c, c.storeA, c.loadIndBC)"
-					}
-					if p == 1 {
-						return "ld(c, c.storeA, c.loadIndDE)"
-					}
-					if p == 2 {
-						return fmt.Sprintf("ld16(c, c.store%v, c.load16IndImm)", rp2[2])
-					}
-					if p == 3 {
-						return "ld(c, c.storeA, c.loadIndImm)"
-					}
+				if p == 1 {
+					return "ld(c, c.storeIndDE, c.loadA)"
+				}
+				if p == 2 {
+					return fmt.Sprintf("ld16(c, c.store16IndImm, c.load%v)", rp2[2])
+				}
+				if p == 3 {
+					return "ld(c, c.storeIndImm, c.loadA)"
 				}
 			}
-			if z == 3 {
-				if q == 0 {
-					return fmt.Sprintf("inc16(c, c.store%v, c.load%v)", rp[p], rp[p])
+			if q == 1 {
+				if p == 0 {
+					return "ld(c, c.storeA, c.loadIndBC)"
 				}
-				if q == 1 {
-					return fmt.Sprintf("dec16(c, c.store%v, c.load%v)", rp[p], rp[p])
+				if p == 1 {
+					return "ld(c, c.storeA, c.loadIndDE)"
 				}
-			}
-			if z == 4 {
-				return fmt.Sprintf("inc(c, c.store%v, c.load%v)", r[y], r[y])
-			}
-			if z == 5 {
-				return fmt.Sprintf("dec(c, c.store%v, c.load%v)", r[y], r[y])
-			}
-			if z == 6 {
-				return fmt.Sprintf("ld(c, c.store%v, c.loadImm)", r[y])
-			}
-			if z == 7 {
-				if y == 0 {
-					return "rlca(c)"
+				if p == 2 {
+					return fmt.Sprintf("ld16(c, c.store%v, c.load16IndImm)", rp2[2])
 				}
-				if y == 1 {
-					return "rrca(c)"
-				}
-				if y == 2 {
-					return "rla(c)"
-				}
-				if y == 3 {
-					return "rra(c)"
-				}
-				if y == 4 {
-					return "daa(c)"
-				}
-				if y == 5 {
-					return "cpl(c)"
-				}
-				if y == 6 {
-					return "scf(c)"
-				}
-				if y == 7 {
-					return "ccf(c)"
+				if p == 3 {
+					return "ld(c, c.storeA, c.loadIndImm)"
 				}
 			}
-		*/
+		}
+		if z == 3 {
+			if q == 0 {
+				return fmt.Sprintf("inc16(c, c.store%v, c.load%v)", rp[p], rp[p])
+			}
+			if q == 1 {
+				return fmt.Sprintf("dec16(c, c.store%v, c.load%v)", rp[p], rp[p])
+			}
+		}
+		if z == 4 {
+			return fmt.Sprintf("inc(c, c.store%v, c.load%v)", r[y], r[y])
+		}
+		if z == 5 {
+			return fmt.Sprintf("dec(c, c.store%v, c.load%v)", r[y], r[y])
+		}
+		if z == 6 {
+			return fmt.Sprintf("ld(c, c.store%v, c.loadImm)", r[y])
+		}
+		if z == 7 {
+			if y == 0 {
+				//return "rlca(c)"
+			}
+			if y == 1 {
+				//return "rrca(c)"
+			}
+			if y == 2 {
+				// return "rla(c)"
+			}
+			if y == 3 {
+				//return "rra(c)"
+			}
+			if y == 4 {
+				//return "daa(c)"
+			}
+			if y == 5 {
+				//return "cpl(c)"
+			}
+			if y == 6 {
+				//return "scf(c)"
+			}
+			if y == 7 {
+				//return "ccf(c)"
+			}
+		}
 	}
 	/*
 		if x == 1 {

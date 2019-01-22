@@ -4,28 +4,10 @@ import (
 	"testing"
 
 	"github.com/blackchip-org/retro-cs/mock"
-	"github.com/blackchip-org/retro-cs/rcs"
 )
 
 // Set a test name here to test a single test
 var testSingle = ""
-
-// The FUSE tests want the full address space available. Creating memory
-// is expensive and with the amount of tests to run it takes up to 12 seconds
-// to complete. Instead, create memory once and zero out the backing
-// slice each time.
-var (
-	testMem  *rcs.Memory
-	testRAM  []uint8
-	testZero []uint8
-)
-
-func init() {
-	testMem = rcs.NewMemory(1, 0x10000)
-	testRAM = make([]uint8, 0x10000, 0x10000)
-	testZero = make([]uint8, 0x10000, 0x10000)
-	testMem.MapRAM(0, testRAM)
-}
 
 // TODO: Write single tests for:
 // ADC/SBC: Check that both bytes are zero for zero flag when doing 16-bits
@@ -104,8 +86,8 @@ func testPorts(t *testing.T, cpu *CPU, expected fuseTest) {
 */
 
 func load(test fuseTest) *CPU {
-	copy(testRAM, testZero)
-	cpu := New(testMem)
+	mock.ResetMemory()
+	cpu := New(mock.TestMemory)
 
 	cpu.A, cpu.F = uint8(test.af>>8), uint8(test.af)
 	cpu.B, cpu.C = uint8(test.bc>>8), uint8(test.bc)
@@ -129,7 +111,7 @@ func load(test fuseTest) *CPU {
 	cpu.IM = uint8(test.im)
 
 	for _, slice := range test.memory {
-		mock.Import(testMem, slice)
+		mock.Import(mock.TestMemory, slice)
 	}
 	return cpu
 }

@@ -1,6 +1,7 @@
 package rcs
 
 import (
+	"math/bits"
 	"strconv"
 )
 
@@ -47,4 +48,40 @@ func SliceBits(value uint8, lo int, hi int) uint8 {
 	bits := uint(hi - lo + 1)
 	mask := uint8(1)<<bits - 1
 	return value & mask
+}
+
+func Add(in0, in1 uint8, carry bool) (out uint8, c, h, v bool) {
+	// https://stackoverflow.com/questions/8034566/overflow-and-carry-flags-on-z80/8037485#8037485
+	var carryOut uint8
+
+	if carry {
+		if in0 >= 0xff-in1 {
+			carryOut = 1
+		}
+		out = in0 + in1 + 1
+	} else {
+		if in0 > 0xff-in1 {
+			carryOut = 1
+		}
+		out = in0 + in1
+	}
+	carryIns := out ^ in0 ^ in1
+
+	c = carryOut != 0
+	h = carryIns&(1<<4) != 0
+	v = (carryIns>>7)^carryOut != 0
+	return
+}
+
+func Sub(in0, in1 uint8, borrow bool) (out uint8, fc, fh, fv bool) {
+	fc = !borrow
+	out, fc, fh, fv = Add(in0, ^in1, fc)
+	fc = !fc
+	fh = !fh
+	return
+}
+
+func Parity8(v uint8) bool {
+	p := bits.OnesCount8(v)
+	return p == 0 || p == 2 || p == 4 || p == 6
 }

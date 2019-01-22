@@ -3,13 +3,12 @@ package m6502
 import (
 	"testing"
 
-	"github.com/blackchip-org/retro-cs/rcs"
+	"github.com/blackchip-org/retro-cs/mock"
 )
 
 func newTestCPU() *CPU {
-	mem := rcs.NewMemory(1, 0x10000)
-	mem.MapRAM(0, make([]uint8, 0x1000, 0x1000)) // Only 4096 bytes
-	cpu := New(mem)
+	mock.ResetMemory()
+	cpu := New(mock.TestMemory)
 	cpu.SP = 0xff
 	cpu.SetPC(0x1ff)
 	return cpu

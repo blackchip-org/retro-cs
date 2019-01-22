@@ -26,7 +26,6 @@ type CPU struct {
 
 	mem       *rcs.Memory          // CPU's view into memory
 	ops       map[uint8]func(*CPU) // opcode table
-	alu       rcs.ALU              // 8-bit arithmetic logic unit
 	addrLoad  int                  // memory address where the last value was loaded from
 	pageCross bool                 // if set, add a one cycle penalty for crossing a page boundary
 }
@@ -56,16 +55,7 @@ const (
 
 // New creates a new CPU with a view of the provided memory.
 func New(mem *rcs.Memory) *CPU {
-	c := &CPU{mem: mem, ops: opcodes}
-	c.alu = rcs.ALU{
-		C: FlagC,
-		Z: FlagZ,
-		V: FlagV,
-		S: FlagN,
-
-		ClearBorrow: true,
-	}
-	return c
+	return &CPU{mem: mem, ops: opcodes}
 }
 
 // Next executes the next instruction.

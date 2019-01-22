@@ -42,7 +42,6 @@ type CPU struct {
 
 	mem   *rcs.Memory
 	ops   map[uint8]func(*CPU)
-	alu   *rcs.ALU
 	delta uint8
 	// address used to load on the last (IX+d) or (IY+d) instruction
 	iaddr int
@@ -55,8 +54,11 @@ const (
 	// FlagN is set after subtraction
 	FlagN = uint8(1 << 1)
 
-	// FlagV is the overflow or parity flag
+	// FlagV is the overflow flag (also parity)
 	FlagV = uint8(1 << 2)
+
+	// FlagP is the parity flag (also overflow)
+	FlagP = uint8(1 << 2)
 
 	// Flag3 is undefined
 	Flag3 = uint8(1 << 3)
@@ -75,16 +77,7 @@ const (
 )
 
 func New(mem *rcs.Memory) *CPU {
-	c := &CPU{mem: mem, ops: opcodes}
-	c.alu = &rcs.ALU{
-		C: FlagC,
-		V: FlagV,
-		P: FlagV,
-		H: FlagH,
-		Z: FlagZ,
-		S: FlagS,
-	}
-	return c
+	return &CPU{mem: mem, ops: opcodes}
 }
 
 // FIXME: return value is a testing crutch

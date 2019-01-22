@@ -1,7 +1,6 @@
 package z80
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -39,8 +38,8 @@ func TestString(t *testing.T) {
 	want := "" +
 		" pc   af   bc   de   hl   ix   iy   sp   i  r\n" +
 		"0000 0aff 0b0c 0d0e f00f 1234 5678 abcd  ee ff iff1\n" +
-		"im 0 a088 b0c0 d0e0 0ff0      S Z 5 H 3 V N .  iff2\n"
+		"im 0 a088 b0c0 d0e0 0ff0      S Z 5 H 3 V N C  iff2\n"
 	if have != want {
-		fmt.Printf("\n have: %v \b want: %v", have, want)
+		t.Errorf("\n have: \n%v \n want: \n%v", have, want)
 	}
 }
