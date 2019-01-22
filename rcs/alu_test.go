@@ -4,8 +4,8 @@ import (
 	"testing"
 )
 
-func testALU() ALU {
-	return ALU{
+func testALU() *ALU {
+	return &ALU{
 		C: 1 << 0,
 		V: 1 << 1,
 		P: 1 << 2,
@@ -65,6 +65,17 @@ func TestAdd(t *testing.T) {
 				t.Errorf("\n have: %08b \n want: %08b", sr, test.status)
 			}
 		})
+	}
+}
+
+func TestALUIgnore(t *testing.T) {
+	alu := testALU()
+	alu.Ignore = alu.Z | alu.C
+	var flags uint8
+	alu.Add(&flags, 0xff, 0x01)
+	want := alu.H | alu.P
+	if flags != want {
+		t.Errorf("\n have: %08b \n want: %08b", flags, want)
 	}
 }
 

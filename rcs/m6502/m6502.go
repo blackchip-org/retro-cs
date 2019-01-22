@@ -62,6 +62,8 @@ func New(mem *rcs.Memory) *CPU {
 		Z: FlagZ,
 		V: FlagV,
 		S: FlagN,
+
+		ClearBorrow: true,
 	}
 	return c
 }

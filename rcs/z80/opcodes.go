@@ -4,4 +4,19 @@ package z80
 
 var opcodes = map[uint8]func(c *CPU){
 	0x00: func(c *CPU) { nop() },
+	0x01: func(c *CPU) { ld16(c, c.storeBC, c.loadImm16) },
+	0x08: func(c *CPU) { ex(c, c.loadAF, c.storeAF, c.loadAF1, c.storeAF1) },
+	0x09: func(c *CPU) { add16(c, c.storeHL, c.loadHL, c.loadBC, false) },
+	0x10: func(c *CPU) { djnz(c, c.loadImm) },
+	0x11: func(c *CPU) { ld16(c, c.storeDE, c.loadImm16) },
+	0x18: func(c *CPU) { jra(c, c.loadImm) },
+	0x19: func(c *CPU) { add16(c, c.storeHL, c.loadHL, c.loadDE, false) },
+	0x20: func(c *CPU) { jr(c, FlagZ, false, c.loadImm) },
+	0x21: func(c *CPU) { ld16(c, c.storeHL, c.loadImm16) },
+	0x28: func(c *CPU) { jr(c, FlagZ, true, c.loadImm) },
+	0x29: func(c *CPU) { add16(c, c.storeHL, c.loadHL, c.loadHL, false) },
+	0x30: func(c *CPU) { jr(c, FlagC, false, c.loadImm) },
+	0x31: func(c *CPU) { ld16(c, c.storeSP, c.loadImm16) },
+	0x38: func(c *CPU) { jr(c, FlagC, true, c.loadImm) },
+	0x39: func(c *CPU) { add16(c, c.storeHL, c.loadHL, c.loadSP, false) },
 }

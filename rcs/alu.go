@@ -12,33 +12,47 @@ type ALU struct {
 	H uint8 // half carry flag
 	Z uint8 // zero flag
 	S uint8 // sign flag
+
+	// If false, a borrow is used during subraction when the carry is set.
+	// If true, a borrow is used during subraction when the carry is clear.
+	ClearBorrow bool
+
+	// Ignore is a mask of flags to ignore when performing operations.
+	Ignore uint8
 }
 
 // Add performs addition of in0 and in1 and returns the results. If the carry
 // flag in is set, the result is incremented by one. The Z and S flags are
 // updated.
 func (a ALU) Add(flags *uint8, in0 uint8, in1 uint8) uint8 {
-	carry := 0
+	// https://stackoverflow.com/questions/8034566/overflow-and-carry-flags-on-z80/8037485#8037485
+	var out uint8
+	var carryOut uint8
+
 	if *flags&a.C != 0 {
-		carry = 1
+		if in0 >= 0xff-in1 {
+			carryOut = 1
+		}
+		out = in0 + in1 + 1
+	} else {
+		if in0 > 0xff-in1 {
+			carryOut = 1
+		}
+		out = in0 + in1
 	}
+	carryIns := out ^ in0 ^ in1
+	halfCarry := carryIns & (1 << 4)
+	overflow := (carryIns >> 7) ^ carryOut
+	p := bits.OnesCount8(out)
 
-	// result of 8 bit addition into 16 bits
-	r := uint16(in0) + uint16(in1) + uint16(carry)
-	// signed result, 16-bit
-	sr := int16(int8(in0)) + int16(int8(in1)) + int16(carry)
-	// unsigned result, 8-bit
-	ur := uint8(r)
-	// result of half add
-	hr := in0&0xf + in1&0xf + uint8(carry)
+	a.setFlag(flags, a.C, carryOut != 0)
+	a.setFlag(flags, a.H, halfCarry != 0)
+	a.setFlag(flags, a.V, overflow != 0)
+	a.setFlag(flags, a.P, p == 0 || p == 2 || p == 4 || p == 6)
+	a.setFlag(flags, a.Z, out == 0)
+	a.setFlag(flags, a.S, out&(1<<7) != 0)
 
-	a.carry(flags, r)
-	a.carry4(flags, hr)
-	a.overflow(flags, sr)
-	a.parity(flags, ur)
-	a.zero(flags, ur)
-	a.sign(flags, ur)
-	return ur
+	return out
 }
 
 // AddBCD performs a binary-coded decimal addition of in0 and in1 and
@@ -156,8 +170,20 @@ func (a ALU) ShiftRight(flags *uint8, in uint8) uint8 {
 // results. If the carry flag in is set, the result is incremented by one.
 // The Z and S flags are updated.
 func (a ALU) Subtract(flags *uint8, in0 uint8, in1 uint8) uint8 {
+	if !a.ClearBorrow {
+		*flags ^= a.C
+	}
+	out := a.Add(flags, in0, ^in1)
+	if !a.ClearBorrow {
+		*flags ^= a.C
+	}
+	return out
+}
+
+/*
+func (a ALU) Subtract2(flags *uint8, in0 uint8, in1 uint8) uint8 {
 	borrow := 0
-	if *flags&a.C == 0 { // borrow if carry clear
+	if *flags&a.C != 0 { // carry same as borrow!
 		borrow = 1
 	}
 
@@ -172,12 +198,13 @@ func (a ALU) Subtract(flags *uint8, in0 uint8, in1 uint8) uint8 {
 
 	a.borrow(flags, r)
 	// a.carry4(flags, hr)
+	// a.parity(flags, ur)
 	a.overflow(flags, sr)
-	a.parity(flags, ur)
-	a.zero(flags, ur)
-	a.sign(flags, ur)
+	// a.zero(flags, ur)
+	// a.sign(flags, ur)
 	return ur
 }
+*/
 
 // SubtractBCD performs a binary-coded decimal subtraction of in1 from in0 and
 // returns the result. Results are undefined if either value is not a
@@ -211,6 +238,17 @@ func (a ALU) Or(flags *uint8, in0 uint8, in1 uint8) uint8 {
 	a.zero(flags, r)
 	a.sign(flags, r)
 	return r
+}
+
+func (a ALU) setFlag(flags *uint8, flag uint8, set bool) {
+	if flag&a.Ignore != 0 {
+		return
+	}
+	if set {
+		*flags |= flag
+	} else {
+		*flags &^= flag
+	}
 }
 
 func (a ALU) borrow(f *uint8, v int16) {

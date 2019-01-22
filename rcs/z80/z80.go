@@ -42,28 +42,44 @@ type CPU struct {
 
 	mem   *rcs.Memory
 	ops   map[uint8]func(*CPU)
-	alu   rcs.ALU
+	alu   *rcs.ALU
 	delta uint8
 	// address used to load on the last (IX+d) or (IY+d) instruction
-	iaddr uint16
+	iaddr int
 }
 
 const (
-	FlagS = 7
-	FlagZ = 6
-	Flag5 = 5
-	FlagH = 4
-	Flag3 = 3
-	FlagV = 2
-	FlagN = 1
-	FlagC = 0
+	// FlagC is the carry flag
+	FlagC = uint8(1 << 0)
+
+	// FlagN is set after subtraction
+	FlagN = uint8(1 << 1)
+
+	// FlagV is the overflow or parity flag
+	FlagV = uint8(1 << 2)
+
+	// Flag3 is undefined
+	Flag3 = uint8(1 << 3)
+
+	// FlagH is the half-carry flag
+	FlagH = uint8(1 << 4)
+
+	// Flag5 is undefined
+	Flag5 = uint8(1 << 5)
+
+	// FlagZ is the zero flag
+	FlagZ = uint8(1 << 6)
+
+	// FlagS is the sign flag
+	FlagS = uint8(1 << 7)
 )
 
 func New(mem *rcs.Memory) *CPU {
 	c := &CPU{mem: mem, ops: opcodes}
-	c.alu = rcs.ALU{
+	c.alu = &rcs.ALU{
 		C: FlagC,
 		V: FlagV,
+		P: FlagV,
 		H: FlagH,
 		Z: FlagZ,
 		S: FlagS,

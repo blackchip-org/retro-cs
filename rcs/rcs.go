@@ -1,6 +1,8 @@
 package rcs
 
-import "strconv"
+import (
+	"strconv"
+)
 
 // Load8 is a function which loads an unsigned 8-bit value
 type Load8 func() uint8

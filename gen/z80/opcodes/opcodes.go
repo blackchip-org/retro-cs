@@ -154,14 +154,14 @@ var cc = map[int]string{
 
 func processMain(tab *regtab, op uint8) string {
 	//r := tab.r
-	//rp := tab.rp
-	//rp2 := tab.rp2
+	rp := tab.rp
+	rp2 := tab.rp2
 
 	x := int(rcs.SliceBits(op, 6, 7))
 	y := int(rcs.SliceBits(op, 3, 5))
 	z := int(rcs.SliceBits(op, 0, 2))
-	//p := int(rcs.SliceBits(op, 4, 5))
-	//q := int(rcs.SliceBits(op, 3, 3))
+	p := int(rcs.SliceBits(op, 4, 5))
+	q := int(rcs.SliceBits(op, 3, 3))
 
 	// If the instruction has a ddcb or fdcb prefix, the instruction handler
 	// will take care of it so this should never be called. Panic just
@@ -179,31 +179,27 @@ func processMain(tab *regtab, op uint8) string {
 				return "nop()"
 			}
 			if y == 1 {
-				return ""
-				//return "ex(c, c.loadAF, c.storeAF, c.loadAF1, c.storeAF1)"
+				return "ex(c, c.loadAF, c.storeAF, c.loadAF1, c.storeAF1)"
 			}
 			if y == 2 {
-				return ""
-				//return "djnz(c, c.loadImm)"
+				return "djnz(c, c.loadImm)"
 			}
 			if y == 3 {
-				return ""
-				//return "jra(c, c.loadImm)"
+				return "jra(c, c.loadImm)"
 			}
 			if y >= 4 && y <= 7 {
-				return ""
-				//return fmt.Sprintf("jr(c, %v, c.loadImm)", cc[y-4])
+				return fmt.Sprintf("jr(c, %v, c.loadImm)", cc[y-4])
+			}
+		}
+		if z == 1 {
+			if q == 0 {
+				return fmt.Sprintf("ld16(c, c.store%v, c.loadImm16)", rp[p])
+			}
+			if q == 1 {
+				return fmt.Sprintf("add16(c, c.store%v, c.load%v, c.load%v, false)", rp2[2], rp[2], rp[p])
 			}
 		}
 		/*
-			if z == 1 {
-				if q == 0 {
-					return fmt.Sprintf("ld16(c, c.store%v, c.loadImm16)", rp[p])
-				}
-				if q == 1 {
-					return fmt.Sprintf("add16(c, c.store%v, c.load%v, c.load%v, false)", rp2[2], rp[2], rp[p])
-				}
-			}
 			if z == 2 {
 				if q == 0 {
 					if p == 0 {
