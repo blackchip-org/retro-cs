@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/blackchip-org/pac8/pkg/util/bits"
 	"github.com/blackchip-org/retro-cs/rcs"
 )
 
@@ -52,14 +51,14 @@ func op1(e rcs.Eval, parts ...string) {
 			e.Stmt.Bytes = append(e.Stmt.Bytes, lo)
 			hi := e.Ptr.Fetch()
 			e.Stmt.Bytes = append(e.Stmt.Bytes, hi)
-			addr := bits.Join(hi, lo)
+			addr := int(hi)<<8 | int(lo)
 			v = fmt.Sprintf("$%04x", addr)
 		case part == "(&0000)":
 			lo := e.Ptr.Fetch()
 			e.Stmt.Bytes = append(e.Stmt.Bytes, lo)
 			hi := e.Ptr.Fetch()
 			e.Stmt.Bytes = append(e.Stmt.Bytes, hi)
-			addr := bits.Join(hi, lo)
+			addr := int(hi)<<8 | int(lo)
 			v = fmt.Sprintf("($%04x)", addr)
 		case part == "&00":
 			arg := e.Ptr.Fetch()
