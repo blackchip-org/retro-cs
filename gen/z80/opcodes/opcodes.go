@@ -741,12 +741,6 @@ func process(out *bytes.Buffer, getFn func(*regtab, uint8) string, tab *regtab) 
 				fn = strings.Replace(fn, "IYH", "H", -1)
 				fn = strings.Replace(fn, "IYL", "L", -1)
 			}
-			// If the unprefixed version of the op is the same as the
-			// prefixed one, just leave the function blank
-			unfn := getFn(un, uint8(i))
-			if unfn == fn {
-				continue
-			}
 		}
 
 		line := fmt.Sprintf("0x%02x: func(c *CPU){%v},\n", i, fn)

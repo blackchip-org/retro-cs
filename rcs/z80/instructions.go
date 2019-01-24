@@ -205,11 +205,12 @@ func calla(cpu *CPU, load rcs.Load) {
 // invert carry flag
 func ccf(cpu *CPU) {
 	// The H flag was tricky. Correct definition in the Z80 User Manual
+	carryIn := cpu.F&FlagC != 0
 	cpu.F &^= FlagH | FlagN | FlagC | Flag5 | Flag3
-	if cpu.F|FlagC != 0 {
+	if carryIn {
 		cpu.F |= FlagH
 	}
-	if cpu.F|FlagC == 0 {
+	if !carryIn {
 		cpu.F |= FlagC
 	}
 	if cpu.A&(1<<5) != 0 {
@@ -1024,7 +1025,7 @@ func rrd(cpu *CPU) {
 	cpu.mem.Write(addr, memval)
 
 	out := cpu.A
-	cpu.F &^= FlagS | FlagZ | FlagH | FlagV | Flag5 | Flag3
+	cpu.F &^= FlagS | FlagZ | FlagH | FlagV | FlagN | Flag5 | Flag3
 	if out&(1<<7) != 0 {
 		cpu.F |= FlagS
 	}
