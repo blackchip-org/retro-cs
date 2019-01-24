@@ -69,7 +69,7 @@ func (c *CPU) loadIXL() uint8  { return c.IXL }
 func (c *CPU) loadIXH() uint8  { return c.IXH }
 func (c *CPU) loadIYL() uint8  { return c.IYL }
 func (c *CPU) loadIYH() uint8  { return c.IYH }
-func (c *CPU) loadIndC() uint8 { panic("not done") /*return c.Ports.Load(uint16(c.C)) */ }
+func (c *CPU) loadIndC() uint8 { return c.Ports.Read(int(c.C)) }
 
 func (c *CPU) loadA1() uint8 { return c.A1 }
 func (c *CPU) loadF1() uint8 { return c.F1 }

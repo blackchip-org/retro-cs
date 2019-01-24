@@ -474,7 +474,7 @@ func processED(tab *regtab, op uint8) string {
 	q := int(rcs.SliceBits(op, 3, 3))
 
 	if x == 0 || x == 3 {
-		return "invalid()"
+		return ""
 	}
 	if x == 1 {
 		if z == 0 {
@@ -500,11 +500,11 @@ func processED(tab *regtab, op uint8) string {
 		if z == 2 {
 			if q == 0 {
 				// SBC HL, rp[p]
-				return fmt.Sprintf("sub16(c, c.storeHL, c.loadHL, c.load%v, true)", rp[p])
+				return fmt.Sprintf("sbc16(c, c.storeHL, c.loadHL, c.load%v)", rp[p])
 			}
 			if q == 1 {
 				// ADC HL, rp[p]
-				return fmt.Sprintf("add16(c, c.storeHL, c.loadHL, c.load%v, true)", rp[p])
+				return fmt.Sprintf("adc16(c, c.storeHL, c.loadHL, c.load%v)", rp[p])
 			}
 		}
 		if z == 3 {
@@ -561,83 +561,81 @@ func processED(tab *regtab, op uint8) string {
 			if y == 5 {
 				return "rld(c)"
 			}
-			return "nop()"
 		}
 	}
 	if x == 2 {
 		if z == 0 { // b == 0
 			if y == 4 {
 				// ldi
-				return "blockl(c, 1)"
+				return "ldx(c, 1)"
 			}
 			if y == 5 {
 				// ldd
-				return "blockl(c, -1)"
+				return "ldx(c, -1)"
 			}
 			if y == 6 {
 				// ldir
-				return "blocklr(c, 1)"
+				return "ldxr(c, 1)"
 			}
 			if y == 7 {
 				// lddr
-				return "blocklr(c, -1)"
+				return "ldxr(c, -1)"
 			}
 		}
 		if z == 1 { // b == 1
 			if y == 4 {
 				// cpi
-				return "blockc(c, 1)"
+				return "cpx(c, 1)"
 			}
 			if y == 5 {
 				// cpd
-				return "blockc(c, -1)"
+				return "cpx(c, -1)"
 			}
 			if y == 6 {
 				// cpir
-				return "blockcr(c, 1)"
+				return "cpxr(c, 1)"
 			}
 			if y == 7 {
 				// cpdr
-				return "blockcr(c, -1)"
+				return "cpxr(c, -1)"
 			}
 		}
 		if z == 2 {
 			if y == 4 { // b == 2
 				// ini
-				return "blockin(c, 1)"
+				return "inx(c, 1)"
 			}
 			if y == 5 {
 				// ind
-				return "blockin(c, -1)"
+				return "inx(c, -1)"
 			}
 			if y == 6 {
 				// inir
-				return "blockinr(c, 1)"
+				return "inxr(c, 1)"
 			}
 			if y == 7 {
 				// indr
-				return "blockinr(c, -1)"
+				return "inxr(c, -1)"
 			}
 		}
 		if z == 3 {
 			if y == 4 {
 				// outi
-				return "blockout(c, 1)"
+				return "outx(c, 1)"
 			}
 			if y == 5 {
 				// outd
-				return "blockout(c, -1)"
+				return "outx(c, -1)"
 			}
 			if y == 6 {
 				// otir
-				return "blockoutr(c, 1)"
+				return "outxr(c, 1)"
 			}
 			if y == 7 {
 				// otdr
-				return "blockoutr(c, -1)"
+				return "outxr(c, -1)"
 			}
 		}
-		return "invalid()"
 	}
 	return ""
 }
@@ -742,11 +740,6 @@ func process(out *bytes.Buffer, getFn func(*regtab, uint8) string, tab *regtab) 
 		if fn == "" {
 			continue
 		}
-		/*
-			if fn == "" {
-				fn = "panic(\"unhandled instruction\")"
-			}
-		*/
 		emit := true
 		if tab.name == "dd" || tab.name == "fd" {
 			// If there is an indirect call, the next byte needs to be
@@ -793,11 +786,12 @@ package z80
 	out.WriteString("var opcodesCB = map[uint8]func(c *CPU){\n")
 	process(&out, processCB, un)
 	out.WriteString("}\n")
-	/*
-		out.WriteString("var opsED = map[uint8]func(c *CPU){\n")
-		process(&out, processED, un)
-		out.WriteString("}\n")
 
+	out.WriteString("var opcodesED = map[uint8]func(c *CPU){\n")
+	process(&out, processED, un)
+	out.WriteString("}\n")
+
+	/*
 		out.WriteString("var opsDD = map[uint8]func(c *CPU){\n")
 		process(&out, processMain, dd)
 		out.WriteString("}\n")

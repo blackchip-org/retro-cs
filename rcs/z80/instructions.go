@@ -96,7 +96,7 @@ func adc16(cpu *CPU, store rcs.Store, load0 rcs.Load, load1 rcs.Load) {
 	hi, fc, fh, fv := rcs.Add(uint8(in0>>8), uint8(in1>>8), fc)
 
 	cpu.F = 0
-	if hi&(1<<7) == 0 {
+	if hi&(1<<7) != 0 {
 		cpu.F |= FlagS
 	}
 	if lo == 0 && hi == 0 {
@@ -236,6 +236,54 @@ func cpl(cpu *CPU) {
 	cpu.A = out
 }
 
+func cpx(cpu *CPU, increment int) {
+	out, _, fh, _ := rcs.Sub(cpu.A, cpu.loadIndHL(), false)
+
+	cpu.storeHL(cpu.loadHL() + int(increment))
+	cpu.storeBC(cpu.loadBC() - int(1))
+
+	dresult := out
+	if fh {
+		dresult--
+	}
+	cpu.F &^= FlagS | FlagZ | FlagH | FlagV | Flag5 | Flag3
+	if out&(1<<7) != 0 {
+		cpu.F |= FlagS
+	}
+	if out == 0 {
+		cpu.F |= FlagZ
+	}
+	if fh {
+		cpu.F |= FlagH
+	}
+	if cpu.loadBC() != 0 {
+		cpu.F |= FlagV
+	}
+	cpu.F |= FlagN
+	if dresult&(1<<1) != 0 { // yes, one
+		cpu.F |= Flag5
+	}
+	if dresult&(1<<3) != 0 {
+		cpu.F |= Flag3
+	}
+}
+
+func cpxr(cpu *CPU, increment int) {
+	cpx(cpu, increment)
+	for {
+		if cpu.B == 0 && cpu.C == 0 {
+			break
+		}
+		addr := int(cpu.H)<<8 | int(cpu.L)
+		if cpu.A == cpu.mem.Read(addr-1) {
+			break
+		}
+		cpu.refreshR()
+		cpu.refreshR()
+		cpx(cpu, increment)
+	}
+}
+
 // decimal adjust in a
 // http://datasheets.chipdb.org/Zilog/Z80/z80-documented-0.90.pdf
 //
@@ -371,6 +419,34 @@ func halt(cpu *CPU) {
 	cpu.Halt = true
 }
 
+// interrupt mode set
+func im(cpu *CPU, mode int) {
+	cpu.IM = uint8(mode)
+}
+
+// port in
+func in(cpu *CPU, store rcs.Store8, load rcs.Load8) {
+	out := load()
+
+	cpu.F &^= FlagS | FlagZ | FlagH | FlagV | FlagN | Flag5 | Flag3
+	if out&(1<<7) != 0 {
+		cpu.F |= FlagS
+	}
+	if out == 0 {
+		cpu.F |= FlagZ
+	}
+	if rcs.Parity8(out) {
+		cpu.F |= FlagP
+	}
+	if out&(1<<5) != 0 {
+		cpu.F |= Flag5
+	}
+	if out&(1<<3) != 0 {
+		cpu.F |= Flag3
+	}
+	store(out)
+}
+
 // increment
 func inc(cpu *CPU, store rcs.Store8, load rcs.Load8) {
 	in := load()
@@ -407,6 +483,58 @@ func inc16(cpu *CPU, store rcs.Store, load rcs.Load) {
 	store(int(in0 + 1))
 }
 
+// port in, blocked
+func inx(cpu *CPU, increment int) {
+	in := cpu.inIndC()
+	cpu.B--
+
+	// https://github.com/mamedev/mame/blob/master/src/devices/device/proc/z80/z80.cpp
+	// I was unable to figure this out by reading all the conflicting
+	// documentation for these "undefined" flags
+	t := uint16(cpu.C+uint8(increment)) + uint16(in)
+	p := uint8(t&0x07) ^ cpu.B // parity check
+	halfAndCarry := t&0x100 != 0
+
+	cpu.F = 0
+	if cpu.B&(1<<7) != 0 {
+		cpu.F |= FlagS
+	}
+	if cpu.B == 0 {
+		cpu.F |= FlagZ
+	}
+	if halfAndCarry {
+		cpu.F |= FlagH
+	}
+	if rcs.Parity8(p) {
+		cpu.F |= FlagP
+	}
+	if in&(1<<7) != 0 {
+		cpu.F |= FlagN
+	}
+	if halfAndCarry {
+		cpu.F |= FlagC
+	}
+	if cpu.B&(1<<5) != 0 {
+		cpu.F |= Flag5
+	}
+	if cpu.B&(1<<3) != 0 {
+		cpu.F |= Flag3
+	}
+	cpu.storeIndHL(in)
+	ihl := (int(cpu.H)<<8 | int(cpu.L)) + increment
+	cpu.H, cpu.L = uint8(ihl>>8), uint8(ihl)
+}
+
+// port in, blocked, repeat
+func inxr(cpu *CPU, increment int) {
+	inx(cpu, increment)
+	for cpu.B != 0 {
+		cpu.refreshR()
+		cpu.refreshR()
+		inx(cpu, increment)
+	}
+}
+
 // jump absolute, conditional
 func jp(cpu *CPU, flag uint8, condition bool, load rcs.Load) {
 	addr := load()
@@ -440,13 +568,78 @@ func ld(cpu *CPU, store rcs.Store8, load rcs.Load8) {
 	store(load())
 }
 
+// ld a, i or ld a, r
+func ldair(cpu *CPU, load rcs.Load8) {
+	out := load()
+
+	cpu.F &^= FlagS | FlagZ | FlagH | FlagV | FlagN | Flag5 | Flag3
+	if out&(1<<7) != 0 {
+		cpu.F |= FlagS
+	}
+	if out == 0 {
+		cpu.F |= FlagZ
+	}
+	if cpu.IFF2 {
+		cpu.F |= FlagV
+	}
+	if out&(1<<5) != 0 {
+		cpu.F |= Flag5
+	}
+	if out&(1<<3) != 0 {
+		cpu.F |= Flag3
+	}
+	cpu.A = out
+}
+
 // load, 16-bit
 func ld16(cpu *CPU, store rcs.Store, load rcs.Load) {
 	store(load())
 }
 
+func ldx(cpu *CPU, increment int) {
+	source := int(cpu.H)<<8 | int(cpu.L)
+	target := int(cpu.D)<<8 | int(cpu.E)
+	v := cpu.mem.Read(source)
+	cpu.mem.Write(target, v)
+
+	isource := source + increment
+	itarget := target + increment
+
+	cpu.H, cpu.L = uint8(isource>>8), uint8(isource)
+	cpu.D, cpu.E = uint8(itarget>>8), uint8(itarget)
+
+	counter := int(cpu.B)<<8 | int(cpu.C)
+	counter--
+	cpu.B, cpu.C = uint8(counter>>8), uint8(counter)
+
+	cpu.F &^= FlagH | FlagV | FlagN | Flag5 | Flag3
+	if counter != 0 {
+		cpu.F |= FlagV
+	}
+	if (v+cpu.A)&(1<<1) != 0 { // yes, bit one
+		cpu.F |= Flag5
+	}
+	if (v+cpu.A)&(1<<3) != 0 {
+		cpu.F |= Flag3
+	}
+}
+
+func ldxr(cpu *CPU, increment int) {
+	ldx(cpu, increment)
+	for cpu.B != 0 || cpu.C != 0 {
+		cpu.refreshR()
+		cpu.refreshR()
+		ldx(cpu, increment)
+	}
+}
+
 // no operation
 func nop() {}
+
+// negate accumulator
+func neg(cpu *CPU) {
+	sub(cpu, func() uint8 { return 0 }, cpu.loadA)
+}
 
 // bitwise logical or
 func or(cpu *CPU, load rcs.Load8) {
@@ -469,6 +662,57 @@ func or(cpu *CPU, load rcs.Load8) {
 		cpu.F |= Flag3
 	}
 	cpu.A = out
+}
+
+func outx(cpu *CPU, increment int) {
+	in := cpu.mem.Read(int(cpu.H)<<8 | int(cpu.L))
+	cpu.B--
+	ihl := (int(cpu.H)<<8 | int(cpu.L)) + increment
+	cpu.H, cpu.L = uint8(ihl>>8), uint8(ihl)
+
+	// https://github.com/mamedev/mame/blob/master/src/devices/device/proc/z80/z80.cpp
+	// I was unable to figure this out by reading all the conflicting
+	// documentation for these "undefined" flags
+	t := uint16(cpu.L) + uint16(in)
+	p := uint8(t&0x07) ^ cpu.B // parity check
+	halfAndCarry := t&0x100 != 0
+
+	cpu.F = 0
+	if cpu.B&(1<<7) != 0 {
+		cpu.F |= FlagS
+	}
+	if cpu.B == 0 {
+		cpu.F |= FlagZ
+	}
+	if halfAndCarry {
+		cpu.F |= FlagH
+	}
+	if rcs.Parity8(p) {
+		cpu.F |= FlagP
+	}
+	if in&(1<<7) != 0 {
+		cpu.F |= FlagN
+	}
+	if halfAndCarry {
+		cpu.F |= FlagC
+	}
+	if cpu.B&(1<<5) != 0 {
+		cpu.F |= Flag5
+	}
+	if cpu.B&(1<<3) != 0 {
+		cpu.F |= Flag3
+	}
+	cpu.Ports.Write(int(cpu.C), in)
+}
+
+// port out, blocked, repeat
+func outxr(cpu *CPU, increment int) {
+	outx(cpu, increment)
+	for cpu.B != 0 {
+		cpu.refreshR()
+		cpu.refreshR()
+		outx(cpu, increment)
+	}
 }
 
 // Copies the two bytes from (SP) into the operand, then increases SP by 2.
@@ -498,6 +742,19 @@ func ret(cpu *CPU, flag uint8, value bool) {
 
 // return, always
 func reta(cpu *CPU) {
+	cpu.SetPC(cpu.mem.ReadLE(int(cpu.SP)))
+	cpu.SP += 2
+}
+
+// return from interrupt
+func reti(cpu *CPU) {
+	cpu.SetPC(cpu.mem.ReadLE(int(cpu.SP)))
+	cpu.SP += 2
+}
+
+// return from non-maskable interrupt
+func retn(cpu *CPU) {
+	cpu.IFF1 = cpu.IFF2
 	cpu.SetPC(cpu.mem.ReadLE(int(cpu.SP)))
 	cpu.SP += 2
 }
@@ -606,6 +863,35 @@ func rlc(cpu *CPU, store rcs.Store8, load rcs.Load8) {
 	store(out)
 }
 
+func rld(cpu *CPU) {
+	addr := int(cpu.H)<<8 | int(cpu.L)
+	ahi, alo := cpu.A>>4, cpu.A&0x0f
+	readv := cpu.mem.Read(addr)
+	memhi, memlo := readv>>4, readv&0x0f
+
+	cpu.A = ahi<<4 | memhi
+	memval := memlo<<4 | alo
+	cpu.mem.Write(addr, memval)
+
+	out := cpu.A
+	cpu.F &^= FlagS | FlagZ | FlagH | FlagV | FlagN | Flag5 | Flag3
+	if out&(1<<7) != 0 {
+		cpu.F |= FlagS
+	}
+	if out == 0 {
+		cpu.F |= FlagZ
+	}
+	if rcs.Parity8(out) {
+		cpu.F |= FlagP
+	}
+	if cpu.A&(1<<5) != 0 {
+		cpu.F |= Flag5
+	}
+	if cpu.A&(1<<3) != 0 {
+		cpu.F |= Flag3
+	}
+}
+
 // rotate right
 func rr(cpu *CPU, store rcs.Store8, load rcs.Load8) {
 	in := load()
@@ -709,6 +995,35 @@ func rrca(cpu *CPU) {
 		cpu.F |= Flag3
 	}
 	cpu.A = out
+}
+
+func rrd(cpu *CPU) {
+	addr := int(cpu.H)<<8 | int(cpu.L)
+	ahi, alo := cpu.A>>4, cpu.A&0x0f
+	readv := cpu.mem.Read(addr)
+	memhi, memlo := readv>>4, readv&0x0f
+
+	cpu.A = ahi<<4 | memlo
+	memval := alo<<4 | memhi
+	cpu.mem.Write(addr, memval)
+
+	out := cpu.A
+	cpu.F &^= FlagS | FlagZ | FlagH | FlagV | Flag5 | Flag3
+	if out&(1<<7) != 0 {
+		cpu.F |= FlagS
+	}
+	if out == 0 {
+		cpu.F |= FlagZ
+	}
+	if rcs.Parity8(out) {
+		cpu.F |= FlagP
+	}
+	if cpu.A&(1<<5) != 0 {
+		cpu.F |= Flag5
+	}
+	if cpu.A&(1<<3) != 0 {
+		cpu.F |= Flag3
+	}
 }
 
 // reset
@@ -910,6 +1225,40 @@ func sbc(cpu *CPU, load0 rcs.Load8, load1 rcs.Load8) {
 		cpu.F |= Flag3
 	}
 	cpu.A = out
+}
+
+// subtract 16-bit with carry
+func sbc16(cpu *CPU, store rcs.Store, load0 rcs.Load, load1 rcs.Load) {
+	in0 := load0()
+	in1 := load1()
+
+	lo, fc, _, _ := rcs.Sub(uint8(in0), uint8(in1), cpu.F&FlagC != 0)
+	hi, fc, fh, fv := rcs.Sub(uint8(in0>>8), uint8(in1>>8), fc)
+
+	cpu.F = 0
+	if hi&(1<<7) != 0 {
+		cpu.F |= FlagS
+	}
+	if hi == 0 && lo == 0 {
+		cpu.F |= FlagZ
+	}
+	if fh {
+		cpu.F |= FlagH
+	}
+	if fv {
+		cpu.F |= FlagV
+	}
+	cpu.F |= FlagN
+	if fc {
+		cpu.F |= FlagC
+	}
+	if hi&(1<<5) != 0 {
+		cpu.F |= Flag5
+	}
+	if hi&(1<<3) != 0 {
+		cpu.F |= Flag3
+	}
+	store(int(hi)<<8 | int(lo))
 }
 
 // bitwise logical exclusive or

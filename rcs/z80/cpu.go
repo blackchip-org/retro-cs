@@ -44,7 +44,9 @@ type CPU struct {
 	mem       *rcs.Memory
 	opcodes   map[uint8]func(*CPU)
 	opcodesCB map[uint8]func(*CPU)
-	delta     uint8
+	opcodesED map[uint8]func(*CPU)
+
+	delta uint8
 	// address used to load on the last (IX+d) or (IY+d) instruction
 	iaddr int
 }
@@ -84,6 +86,7 @@ func New(mem *rcs.Memory) *CPU {
 		Ports:     rcs.NewMemory(1, 0x100),
 		opcodes:   opcodes,
 		opcodesCB: opcodesCB,
+		opcodesED: opcodesED,
 	}
 	c.Ports.MapRAM(0, make([]uint8, 0x100, 0x100))
 	return c
@@ -92,26 +95,28 @@ func New(mem *rcs.Memory) *CPU {
 // FIXME: return value is a testing crutch
 func (c *CPU) Next() bool {
 	// here := c.PC()
-	var execute func(*CPU)
-	var ok bool
 	opcode := c.fetch()
 	c.refreshR()
-	if opcode == 0xcb {
+
+	var table map[uint8]func(*CPU)
+	switch opcode {
+	case 0xcb:
+		table = c.opcodesCB
 		opcode = c.fetch()
 		c.refreshR()
-		execute, ok = c.opcodesCB[opcode]
-		if !ok {
-			return false
-			//log.Printf("%04x: illegal instruction: 0xcb%02x", here, opcode)
-			//return
-		}
-	} else {
-		execute, ok = c.opcodes[opcode]
-		if !ok {
-			return false
-			//log.Printf("%04x: illegal instruction: 0x%02x", here, opcode)
-			//return
-		}
+	case 0xed:
+		table = c.opcodesED
+		opcode = c.fetch()
+		c.refreshR()
+	default:
+		table = c.opcodes
+	}
+
+	execute, ok := table[opcode]
+	if !ok {
+		return false
+		//log.Printf("%04x: illegal instruction: 0xcb%02x", here, opcode)
+		//return
 	}
 	execute(c)
 	return true
