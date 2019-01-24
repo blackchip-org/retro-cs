@@ -168,6 +168,22 @@ func bit(cpu *CPU, n int, load rcs.Load8) {
 	}
 }
 
+// bit n,(ix+d)
+func biti(cpu *CPU, n int, load rcs.Load8) {
+	bit(cpu, n, load)
+
+	// http://www.z80.info/zip/z80-documented.pdf
+	// "This is where things start to get strange"
+	cpu.F &^= Flag5 | Flag3
+	iaddrh := cpu.iaddr >> 8
+	if iaddrh&(1<<5) != 0 {
+		cpu.F |= Flag5
+	}
+	if iaddrh&(1<<3) != 0 {
+		cpu.F |= Flag3
+	}
+}
+
 // call, conditional
 func call(cpu *CPU, flag uint8, condition bool, load rcs.Load) {
 	addr := load()
@@ -452,7 +468,7 @@ func inc(cpu *CPU, store rcs.Store8, load rcs.Load8) {
 	in := load()
 	out, _, fh, fv := rcs.Add(in, 1, false)
 
-	cpu.F &^= FlagS | FlagZ | FlagH | FlagV | Flag5 | Flag3
+	cpu.F &^= FlagS | FlagZ | FlagH | FlagV | FlagN | Flag5 | Flag3
 	if out&(1<<7) != 0 {
 		cpu.F |= FlagS
 	}

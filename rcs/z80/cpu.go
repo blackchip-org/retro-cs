@@ -2,6 +2,7 @@ package z80
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/blackchip-org/retro-cs/rcs"
 )
@@ -41,11 +42,15 @@ type CPU struct {
 	Halt  bool  // Halted by instruction
 	Ports *rcs.Memory
 
-	mem       *rcs.Memory
-	opcodes   map[uint8]func(*CPU)
-	opcodesCB map[uint8]func(*CPU)
-	opcodesED map[uint8]func(*CPU)
+	opcodes     map[uint8]func(*CPU)
+	opcodesCB   map[uint8]func(*CPU)
+	opcodesED   map[uint8]func(*CPU)
+	opcodesDD   map[uint8]func(*CPU)
+	opcodesFD   map[uint8]func(*CPU)
+	opcodesDDCB map[uint8]func(*CPU)
+	opcodesFDCB map[uint8]func(*CPU)
 
+	mem   *rcs.Memory
 	delta uint8
 	// address used to load on the last (IX+d) or (IY+d) instruction
 	iaddr int
@@ -82,44 +87,70 @@ const (
 
 func New(mem *rcs.Memory) *CPU {
 	c := &CPU{
-		mem:       mem,
-		Ports:     rcs.NewMemory(1, 0x100),
-		opcodes:   opcodes,
-		opcodesCB: opcodesCB,
-		opcodesED: opcodesED,
+		mem:         mem,
+		Ports:       rcs.NewMemory(1, 0x100),
+		opcodes:     opcodes,
+		opcodesCB:   opcodesCB,
+		opcodesED:   opcodesED,
+		opcodesDD:   opcodesDD,
+		opcodesFD:   opcodesFD,
+		opcodesDDCB: opcodesDDCB,
+		opcodesFDCB: opcodesFDCB,
 	}
 	c.Ports.MapRAM(0, make([]uint8, 0x100, 0x100))
 	return c
 }
 
-// FIXME: return value is a testing crutch
-func (c *CPU) Next() bool {
-	// here := c.PC()
+func (c *CPU) Next() {
+	here := c.PC()
 	opcode := c.fetch()
 	c.refreshR()
 
+	prefix := ""
 	var table map[uint8]func(*CPU)
 	switch opcode {
 	case 0xcb:
 		table = c.opcodesCB
 		opcode = c.fetch()
 		c.refreshR()
+		prefix = "cb"
 	case 0xed:
 		table = c.opcodesED
 		opcode = c.fetch()
 		c.refreshR()
+		prefix = "ed"
+	case 0xdd:
+		table = c.opcodesDD
+		opcode = c.fetch()
+		c.refreshR()
+		prefix = "dd"
+		if opcode == 0xcb {
+			table = c.opcodesDDCB
+			c.fetchd()
+			opcode = c.fetch()
+			prefix = "ddcb"
+		}
+	case 0xfd:
+		table = c.opcodesFD
+		opcode = c.fetch()
+		c.refreshR()
+		prefix = "fd"
+		if opcode == 0xcb {
+			table = c.opcodesFDCB
+			c.fetchd()
+			opcode = c.fetch()
+			prefix = "fdcb"
+		}
 	default:
 		table = c.opcodes
 	}
 
 	execute, ok := table[opcode]
 	if !ok {
-		return false
-		//log.Printf("%04x: illegal instruction: 0xcb%02x", here, opcode)
-		//return
+		log.Printf("%04x: illegal instruction: %v%02x", here, prefix, opcode)
+		return
 	}
 	execute(c)
-	return true
 }
 
 func (c *CPU) PC() int {
@@ -137,6 +168,10 @@ func (c *CPU) fetch() uint8 {
 
 func (c *CPU) fetch2() int {
 	return int(c.fetch()) + (int(c.fetch()) << 8)
+}
+
+func (cpu *CPU) fetchd() {
+	cpu.delta = cpu.fetch()
 }
 
 func (c *CPU) refreshR() {

@@ -164,13 +164,12 @@ func processMain(tab *regtab, op uint8) string {
 	q := int(rcs.SliceBits(op, 3, 3))
 
 	// If the instruction has a ddcb or fdcb prefix, the instruction handler
-	// will take care of it so this should never be called. Panic just
-	// in case
+	// will take care of it so this should never be called.
 	if tab.name == "dd" && op == 0xcb {
-		return "panic(\"instruction prefix ddcb should be handled elsewhere\")"
+		return ""
 	}
 	if tab.name == "fd" && op == 0xcb {
-		return "panic(\"instruction prefix fdcb should be handled elsewhere\")"
+		return ""
 	}
 
 	if x == 0 {
@@ -654,20 +653,16 @@ func processXCB(tab *regtab, op uint8) string {
 				return fmt.Sprintf("rlc(c, c.store%v, c.load%v); ld(c, c.storeLastInd, c.load%v)", un.r[z], r[6], un.r[z])
 			}
 			if y == 1 {
-				// rrc
-				return fmt.Sprintf("rotr(c, c.store%v, c.load%v); ld(c, c.storeLastInd, c.load%v)", un.r[z], r[6], un.r[z])
+				return fmt.Sprintf("rrc(c, c.store%v, c.load%v); ld(c, c.storeLastInd, c.load%v)", un.r[z], r[6], un.r[z])
 			}
 			if y == 2 {
-				// rl
-				return fmt.Sprintf("shiftl(c, c.store%v, c.load%v, true); ld(c, c.storeLastInd, c.load%v)", un.r[z], r[6], un.r[z])
+				return fmt.Sprintf("rl(c, c.store%v, c.load%v); ld(c, c.storeLastInd, c.load%v)", un.r[z], r[6], un.r[z])
 			}
 			if y == 3 {
-				// rr
-				return fmt.Sprintf("shiftr(c, c.store%v, c.load%v, true); ld(c, c.storeLastInd, c.load%v)", un.r[z], r[6], un.r[z])
+				return fmt.Sprintf("rr(c, c.store%v, c.load%v); ld(c, c.storeLastInd, c.load%v)", un.r[z], r[6], un.r[z])
 			}
 			if y == 4 {
-				// sla
-				return fmt.Sprintf("shiftl(c, c.store%v, c.load%v, false); ld(c, c.storeLastInd, c.load%v)", un.r[z], r[6], un.r[z])
+				return fmt.Sprintf("sla(c, c.store%v, c.load%v); ld(c, c.storeLastInd, c.load%v)", un.r[z], r[6], un.r[z])
 			}
 			if y == 5 {
 				return fmt.Sprintf("sra(c, c.store%v, c.load%v); ld(c, c.storeLastInd, c.load%v)", un.r[z], r[6], un.r[z])
@@ -676,8 +671,7 @@ func processXCB(tab *regtab, op uint8) string {
 				return fmt.Sprintf("sll(c, c.store%v, c.load%v); ld(c, c.storeLastInd, c.load%v)", un.r[z], r[6], un.r[z])
 			}
 			if y == 7 {
-				// srl
-				return fmt.Sprintf("shiftr(c, c.store%v, c.load%v, false); ld(c, c.storeLastInd, c.load%v)", un.r[z], r[6], un.r[z])
+				return fmt.Sprintf("srl(c, c.store%v, c.load%v); ld(c, c.storeLastInd, c.load%v)", un.r[z], r[6], un.r[z])
 			}
 		}
 		if z == 6 {
@@ -685,20 +679,16 @@ func processXCB(tab *regtab, op uint8) string {
 				return fmt.Sprintf("rlc(c, c.storeLastInd, c.load%v)", r[6])
 			}
 			if y == 1 {
-				// rrc
-				return fmt.Sprintf("rotr(c, c.storeLastInd, c.load%v)", r[6])
+				return fmt.Sprintf("rrc(c, c.storeLastInd, c.load%v)", r[6])
 			}
 			if y == 2 {
-				// rl
-				return fmt.Sprintf("shiftl(c, c.storeLastInd, c.load%v, true)", r[6])
+				return fmt.Sprintf("rl(c, c.storeLastInd, c.load%v)", r[6])
 			}
 			if y == 3 {
-				// rr
-				return fmt.Sprintf("shiftr(c, c.storeLastInd, c.load%v, true)", r[6])
+				return fmt.Sprintf("rr(c, c.storeLastInd, c.load%v)", r[6])
 			}
 			if y == 4 {
-				// sla
-				return fmt.Sprintf("shiftl(c, c.storeLastInd, c.load%v, false)", r[6])
+				return fmt.Sprintf("sla(c, c.storeLastInd, c.load%v)", r[6])
 			}
 			if y == 5 {
 				return fmt.Sprintf("sra(c, c.storeLastInd, c.load%v)", r[6])
@@ -707,8 +697,7 @@ func processXCB(tab *regtab, op uint8) string {
 				return fmt.Sprintf("sll(c, c.storeLastInd, c.load%v)", r[6])
 			}
 			if y == 7 {
-				// srl
-				return fmt.Sprintf("shiftr(c, c.storeLastInd, c.load%v, false)", r[6])
+				return fmt.Sprintf("srl(c, c.storeLastInd, c.load%v)", r[6])
 			}
 		}
 	}
@@ -740,7 +729,6 @@ func process(out *bytes.Buffer, getFn func(*regtab, uint8) string, tab *regtab) 
 		if fn == "" {
 			continue
 		}
-		emit := true
 		if tab.name == "dd" || tab.name == "fd" {
 			// If there is an indirect call, the next byte needs to be
 			// fetched for the displacement
@@ -757,15 +745,11 @@ func process(out *bytes.Buffer, getFn func(*regtab, uint8) string, tab *regtab) 
 			// prefixed one, just leave the function blank
 			unfn := getFn(un, uint8(i))
 			if unfn == fn {
-				emit = false
+				continue
 			}
 		}
 
 		line := fmt.Sprintf("0x%02x: func(c *CPU){%v},\n", i, fn)
-		if !emit {
-			line = fmt.Sprintf("0x%02x: nil,\n", i)
-		}
-
 		out.WriteString(line)
 	}
 }
@@ -791,23 +775,21 @@ package z80
 	process(&out, processED, un)
 	out.WriteString("}\n")
 
-	/*
-		out.WriteString("var opsDD = map[uint8]func(c *CPU){\n")
-		process(&out, processMain, dd)
-		out.WriteString("}\n")
+	out.WriteString("var opcodesDD = map[uint8]func(c *CPU){\n")
+	process(&out, processMain, dd)
+	out.WriteString("}\n")
 
-		out.WriteString("var opsFD = map[uint8]func(c *CPU){\n")
-		process(&out, processMain, fd)
-		out.WriteString("}\n")
+	out.WriteString("var opcodesFD = map[uint8]func(c *CPU){\n")
+	process(&out, processMain, fd)
+	out.WriteString("}\n")
 
-		out.WriteString("var opsDDCB = map[uint8]func(c *CPU){\n")
-		process(&out, processXCB, ddcb)
-		out.WriteString("}\n")
+	out.WriteString("var opcodesDDCB = map[uint8]func(c *CPU){\n")
+	process(&out, processXCB, ddcb)
+	out.WriteString("}\n")
 
-		out.WriteString("var opsFDCB = map[uint8]func(c *CPU){\n")
-		process(&out, processXCB, fdcb)
-		out.WriteString("}\n")
-	*/
+	out.WriteString("var opcodesFDCB = map[uint8]func(c *CPU){\n")
+	process(&out, processXCB, fdcb)
+	out.WriteString("}\n")
 
 	filename := filepath.Join(targetDir, "opcodes.go")
 	err := ioutil.WriteFile(filename, out.Bytes(), 0644)

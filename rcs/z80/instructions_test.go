@@ -1,6 +1,9 @@
 package z80
 
 import (
+	"log"
+	"os"
+	"strings"
 	"testing"
 
 	"github.com/blackchip-org/retro-cs/mock"
@@ -19,13 +22,25 @@ func TestOps(t *testing.T) {
 			continue
 		}
 		t.Run(test.name, func(t *testing.T) {
+			log.SetOutput(&mock.PanicWriter{})
+			defer func() {
+				log.SetOutput(os.Stderr)
+				if r := recover(); r != nil {
+					msg := r.(string)
+					if strings.HasSuffix(msg, ": dd00\n") {
+						return
+					}
+					if strings.HasSuffix(msg, ": ddfd\n") {
+						return
+					}
+					t.Errorf("unexpected panic: %v", r)
+				}
+			}()
 			cpu := load(test)
 			i := 0
 			setupPorts(cpu, fuseExpected[test.name])
 			for {
-				if ok := cpu.Next(); !ok {
-					t.Skip("unimplemented")
-				}
+				cpu.Next()
 				if test.name == "dd00" {
 					if cpu.PC() == 0x0003 {
 						break
