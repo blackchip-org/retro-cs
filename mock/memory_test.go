@@ -38,3 +38,15 @@ func TestImport(t *testing.T) {
 		t.Errorf("\n have: %v \n want: %v", ram, want)
 	}
 }
+
+func ExampleMockRead() {
+	data := []int{1, 2, 3}
+	read := MockRead(data)
+	fmt.Println(read())
+	fmt.Println(read())
+	fmt.Println(read())
+	// Output:
+	// 1
+	// 2
+	// 3
+}

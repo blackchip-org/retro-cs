@@ -83,5 +83,5 @@ func Sub(in0, in1 uint8, borrow bool) (out uint8, fc, fh, fv bool) {
 
 func Parity8(v uint8) bool {
 	p := bits.OnesCount8(v)
-	return p == 0 || p == 2 || p == 4 || p == 6
+	return p == 0 || p == 2 || p == 4 || p == 6 || p == 8
 }

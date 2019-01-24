@@ -248,180 +248,175 @@ func processMain(tab *regtab, op uint8) string {
 		}
 		if z == 7 {
 			if y == 0 {
-				//return "rlca(c)"
+				return "rlca(c)"
 			}
 			if y == 1 {
-				//return "rrca(c)"
+				return "rrca(c)"
 			}
 			if y == 2 {
-				// return "rla(c)"
+				return "rla(c)"
 			}
 			if y == 3 {
-				//return "rra(c)"
+				return "rra(c)"
 			}
 			if y == 4 {
-				//return "daa(c)"
+				return "daa(c)"
 			}
 			if y == 5 {
-				//return "cpl(c)"
+				return "cpl(c)"
 			}
 			if y == 6 {
-				//return "scf(c)"
+				return "scf(c)"
 			}
 			if y == 7 {
-				//return "ccf(c)"
+				return "ccf(c)"
 			}
 		}
 	}
-	/*
-		if x == 1 {
-			if z == 6 && y == 6 {
-				return "halt(c)"
-			}
-			return fmt.Sprintf("ld(c, c.store%v, c.load%v)", r[y], r[z])
+	if x == 1 {
+		if z == 6 && y == 6 {
+			return "halt(c)"
 		}
-		if x == 2 {
-			if y == 0 {
-				return fmt.Sprintf("add(c, c.loadA, c.load%v, false)", r[z])
+		return fmt.Sprintf("ld(c, c.store%v, c.load%v)", r[y], r[z])
+	}
+	if x == 2 {
+		if y == 0 {
+			return fmt.Sprintf("add(c, c.loadA, c.load%v)", r[z])
+		}
+		if y == 1 {
+			return fmt.Sprintf("adc(c, c.loadA, c.load%v)", r[z])
+		}
+		if y == 2 {
+			return fmt.Sprintf("sub(c, c.loadA, c.load%v)", r[z])
+		}
+		if y == 3 {
+			return fmt.Sprintf("sbc(c, c.loadA, c.load%v)", r[z])
+		}
+		if y == 4 {
+			return fmt.Sprintf("and(c, c.load%v)", r[z])
+		}
+		if y == 5 {
+			return fmt.Sprintf("xor(c, c.load%v)", r[z])
+		}
+		if y == 6 {
+			return fmt.Sprintf("or(c, c.load%v)", r[z])
+		}
+		if y == 7 {
+			return fmt.Sprintf("cp(c, c.load%v)", r[z])
+		}
+	}
+	if x == 3 {
+		if z == 0 {
+			return fmt.Sprintf("ret(c, %v)", cc[y])
+		}
+		if z == 1 {
+			if q == 0 {
+				return fmt.Sprintf("pop(c, c.store%v)", rp2[p])
 			}
-			if y == 1 {
-				return fmt.Sprintf("add(c, c.loadA, c.load%v, true)", r[z])
+			if q == 1 {
+				if p == 0 {
+					return "reta(c)"
+				}
+				if p == 1 {
+					return "exx(c)"
+				}
+				if p == 2 {
+					return fmt.Sprintf("jpa(c, c.load%v)", rp2[2])
+				}
+				if p == 3 {
+					return fmt.Sprintf("ld16(c, c.storeSP, c.load%v)", rp2[2])
+				}
+			}
+		}
+		if z == 2 {
+			return fmt.Sprintf("jp(c, %v, c.loadImm16)", cc[y])
+		}
+		if z == 3 {
+			if y == 0 {
+				return "jpa(c, c.loadImm16)"
+			}
+			if y == 1 && tab.name != "un" {
+				return ""
 			}
 			if y == 2 {
-				return fmt.Sprintf("sub(c, c.load%v, false)", r[z])
+				// OUT (n), A
+				return "ld(c, c.outIndImm, c.loadA)"
 			}
 			if y == 3 {
-				return fmt.Sprintf("sub(c, c.load%v, true)", r[z])
+				// IN A, (n)
+				return "ld(c, c.storeA, c.inIndImm)"
 			}
 			if y == 4 {
-				return fmt.Sprintf("and(c, c.load%v)", r[z])
+				return fmt.Sprintf("ex(c, c.load16IndSP, c.store16IndSP, c.load%v, c.store%v)", rp2[2], rp2[2])
 			}
 			if y == 5 {
-				return fmt.Sprintf("xor(c, c.load%v)", r[z])
+				return "ex(c, c.loadDE, c.storeDE, c.loadHL, c.storeHL)"
 			}
 			if y == 6 {
-				return fmt.Sprintf("or(c, c.load%v)", r[z])
+				return "di(c)"
 			}
 			if y == 7 {
-				return fmt.Sprintf("cp(c, c.load%v)", r[z])
+				return "ei(c)"
 			}
 		}
-		if x == 3 {
-			if z == 0 {
-				return fmt.Sprintf("ret(c, %v)", cc[y])
+		if z == 4 {
+			return fmt.Sprintf("call(c, %v, c.loadImm16)", cc[y])
+		}
+		if z == 5 {
+			if q == 0 {
+				return fmt.Sprintf("push(c, c.load%v)", rp2[p])
 			}
-			if z == 1 {
-				if q == 0 {
-					return fmt.Sprintf("pop(c, c.store%v)", rp2[p])
+			if q == 1 {
+				if p == 0 {
+					return "calla(c, c.loadImm16)"
 				}
-				if q == 1 {
-					if p == 0 {
-						return "reta(c)"
-					}
-					if p == 1 {
-						return "exx(c)"
-					}
-					if p == 2 {
-						return fmt.Sprintf("jpa(c, c.load%v)", rp2[2])
-					}
-					if p == 3 {
-						return fmt.Sprintf("ld16(c, c.storeSP, c.load%v)", rp2[2])
-					}
+				if p == 1 && tab.name == "un" {
+					//return "ddfd(c, opsDD, opsDDCB)"
 				}
-			}
-			if z == 2 {
-				return fmt.Sprintf("jp(c, %v, c.loadImm16)", cc[y])
-			}
-			if z == 3 {
-				if y == 0 {
-					return "jpa(c, c.loadImm16)"
+				if p == 1 && tab.name != "un" {
+					// no operation, no interrupt
 				}
-				if y == 1 && tab.name == "un" {
-					return "cb(c)"
+				if p == 2 {
+					//return "ed(c)"
 				}
-				if y == 1 && tab.name != "un" {
-					return ""
+				if p == 3 && tab.name == "un" {
+					//return "ddfd(c, opsFD, opsFDCB)"
 				}
-				if y == 2 {
-					// OUT (n), A
-					return "ld(c, c.outIndImm, c.loadA)"
+				if p == 3 && tab.name != "un" {
+					// no operation, no interrupt
 				}
-				if y == 3 {
-					// IN A, (n)
-					return "ld(c, c.storeA, c.inIndImm)"
-				}
-				if y == 4 {
-					return fmt.Sprintf("ex(c, c.load16IndSP, c.store16IndSP, c.load%v, c.store%v)", rp2[2], rp2[2])
-				}
-				if y == 5 {
-					return "ex(c, c.loadDE, c.storeDE, c.loadHL, c.storeHL)"
-				}
-				if y == 6 {
-					return "di(c)"
-				}
-				if y == 7 {
-					return "ei(c)"
-				}
-			}
-			if z == 4 {
-				return fmt.Sprintf("call(c, %v, c.loadImm16)", cc[y])
-			}
-			if z == 5 {
-				if q == 0 {
-					return fmt.Sprintf("push(c, c.load%v)", rp2[p])
-				}
-				if q == 1 {
-					if p == 0 {
-						return "calla(c, c.loadImm16)"
-					}
-					if p == 1 && tab.name == "un" {
-						return "ddfd(c, opsDD, opsDDCB)"
-					}
-					if p == 1 && tab.name != "un" {
-						return "noni(c)"
-					}
-					if p == 2 {
-						return "ed(c)"
-					}
-					if p == 3 && tab.name == "un" {
-						return "ddfd(c, opsFD, opsFDCB)"
-					}
-					if p == 3 && tab.name != "un" {
-						return "noni(c)"
-					}
-				}
-			}
-			if z == 6 {
-				if y == 0 {
-					return "add(c, c.loadImm, c.loadA, false)"
-				}
-				if y == 1 {
-					return "add(c, c.loadImm, c.loadA, true)"
-				}
-				if y == 2 {
-					return "sub(c, c.loadImm, false)"
-				}
-				if y == 3 {
-					return "sub(c, c.loadImm, true)"
-				}
-				if y == 4 {
-					return "and(c, c.loadImm)"
-				}
-				if y == 5 {
-					return "xor(c, c.loadImm)"
-				}
-				if y == 6 {
-					return "or(c, c.loadImm)"
-				}
-				if y == 7 {
-					return "cp(c, c.loadImm)"
-				}
-			}
-			if z == 7 {
-				return fmt.Sprintf("rst(c, %v)", y)
 			}
 		}
-	*/
+		if z == 6 {
+			if y == 0 {
+				return "add(c, c.loadA, c.loadImm)"
+			}
+			if y == 1 {
+				return "adc(c, c.loadA, c.loadImm)"
+			}
+			if y == 2 {
+				return "sub(c, c.loadA, c.loadImm)"
+			}
+			if y == 3 {
+				return "sbc(c, c.loadA, c.loadImm)"
+			}
+			if y == 4 {
+				return "and(c, c.loadImm)"
+			}
+			if y == 5 {
+				return "xor(c, c.loadImm)"
+			}
+			if y == 6 {
+				return "or(c, c.loadImm)"
+			}
+			if y == 7 {
+				return "cp(c, c.loadImm)"
+			}
+		}
+		if z == 7 {
+			return fmt.Sprintf("rst(c, %v)", y)
+		}
+	}
 	return ""
 }
 
@@ -436,20 +431,16 @@ func processCB(tab *regtab, op uint8) string {
 			return fmt.Sprintf("rlc(c, c.store%v, c.load%v)", r[z], r[z])
 		}
 		if y == 1 {
-			// rrc
-			return fmt.Sprintf("rotr(c, c.store%v, c.load%v)", r[z], r[z])
+			return fmt.Sprintf("rrc(c, c.store%v, c.load%v)", r[z], r[z])
 		}
 		if y == 2 {
-			// rl
-			return fmt.Sprintf("shiftl(c, c.store%v, c.load%v, true)", r[z], r[z])
+			return fmt.Sprintf("rl(c, c.store%v, c.load%v)", r[z], r[z])
 		}
 		if y == 3 {
-			// rr
-			return fmt.Sprintf("shiftr(c, c.store%v, c.load%v, true)", r[z], r[z])
+			return fmt.Sprintf("rr(c, c.store%v, c.load%v)", r[z], r[z])
 		}
 		if y == 4 {
-			// sla
-			return fmt.Sprintf("shiftl(c, c.store%v, c.load%v, false)", r[z], r[z])
+			return fmt.Sprintf("sla(c, c.store%v, c.load%v)", r[z], r[z])
 		}
 		if y == 5 {
 			return fmt.Sprintf("sra(c, c.store%v, c.load%v)", r[z], r[z])
@@ -458,8 +449,7 @@ func processCB(tab *regtab, op uint8) string {
 			return fmt.Sprintf("sll(c, c.store%v, c.load%v)", r[z], r[z])
 		}
 		if y == 7 {
-			// srl
-			return fmt.Sprintf("shiftr(c, c.store%v, c.load%v, false)", r[z], r[z])
+			return fmt.Sprintf("srl(c, c.store%v, c.load%v)", r[z], r[z]) // undocumented
 		}
 	}
 	if x == 1 {
@@ -800,11 +790,10 @@ package z80
 	process(&out, processMain, un)
 	out.WriteString("}\n")
 
+	out.WriteString("var opcodesCB = map[uint8]func(c *CPU){\n")
+	process(&out, processCB, un)
+	out.WriteString("}\n")
 	/*
-		out.WriteString("var opsCB = map[uint8]func(c *CPU){\n")
-		process(&out, processCB, un)
-		out.WriteString("}\n")
-
 		out.WriteString("var opsED = map[uint8]func(c *CPU){\n")
 		process(&out, processED, un)
 		out.WriteString("}\n")

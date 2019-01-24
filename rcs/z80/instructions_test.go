@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/blackchip-org/retro-cs/mock"
+	"github.com/blackchip-org/retro-cs/rcs"
 )
 
 // Set a test name here to test a single test
@@ -20,7 +21,7 @@ func TestOps(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			cpu := load(test)
 			i := 0
-			//setupPorts(cpu, fuseExpected[test.name])
+			setupPorts(cpu, fuseExpected[test.name])
 			for {
 				if ok := cpu.Next(); !ok {
 					t.Skip("unimplemented")
@@ -51,39 +52,37 @@ func TestOps(t *testing.T) {
 			if cpu.String() != expected.String() {
 				t.Errorf("\n have: \n%v \n want: \n%v", cpu.String(), expected.String())
 			}
-			testMemory(t, cpu, fuseExpected[test.name])
-			/*
-				testHalt(t, cpu, fuseExpected[test.name])
-				testPorts(t, cpu, fuseExpected[test.name])
-			*/
+			testMemory(t, cpu.mem, fuseExpected[test.name].memory)
+			testMemory(t, cpu.Ports, fuseExpected[test.name].portWrites)
+			testHalt(t, cpu, fuseExpected[test.name])
 		})
 	}
-
 }
 
-func testMemory(t *testing.T, cpu *CPU, expected fuseTest) {
-	diff, equal := mock.Verify(cpu.mem, expected.memory)
-	if !equal {
-		t.Fatalf("\nmemory mismatch (have, want): \n%v", diff.String())
+func testMemory(t *testing.T, mem *rcs.Memory, expected [][]int) {
+	for _, av := range expected {
+		addr := av[0]
+		value := uint8(av[1])
+		have := mem.Read(addr)
+		if have != value {
+			t.Errorf("\n addr %04x have: %02x \n addr %04x want: %02x", addr, have, addr, value)
+		}
 	}
 }
 
-/*
 func testHalt(t *testing.T, cpu *CPU, expected fuseTest) {
-	WithFormat(t, "halt(%v)").Expect(cpu.Halt).ToBe(expected.Halt != 0)
+	if cpu.Halt != (expected.halt != 0) {
+		t.Errorf("\n want: halt(%v) \n have: halt(%v)", cpu.Halt, expected.halt)
+	}
 }
 
 func setupPorts(cpu *CPU, expected fuseTest) {
-	cpu.Ports = newMockIO(expected.PortReads)
-}
-
-func testPorts(t *testing.T, cpu *CPU, expected fuseTest) {
-	diff, ok := memory.Verify(cpu.Ports, expected.PortWrites)
-	if !ok {
-		t.Fatalf("\n write ports mismatch: \n%v", diff.String())
+	for _, avs := range expected.portReads {
+		addr := avs[0]
+		values := avs[1:]
+		cpu.Ports.MapLoad(addr, mock.MockRead(values))
 	}
 }
-*/
 
 func load(test fuseTest) *CPU {
 	mock.ResetMemory()
@@ -110,68 +109,14 @@ func load(test fuseTest) *CPU {
 	cpu.IFF2 = test.iff2 != 0
 	cpu.IM = uint8(test.im)
 
-	for _, slice := range test.memory {
-		mock.Import(mock.TestMemory, slice)
+	for _, av := range test.memory {
+		addr := av[0]
+		value := uint8(av[1])
+		mock.TestMemory.Write(addr, value)
 	}
+
 	return cpu
 }
-
-/*
-type mockIO struct {
-	data map[uint8][]uint8
-}
-
-func newMockIO(snapshots []memory.Snapshot) memory.IO {
-	mio := &mockIO{
-		data: make(map[uint8][]uint8),
-	}
-	for _, snapshot := range snapshots {
-		addr := uint8(snapshot.Address)
-		stack, exists := mio.data[addr]
-		if !exists {
-			stack = make([]uint8, 0, 0)
-		}
-		stack = append(stack, snapshot.Values[0])
-		mio.data[addr] = stack
-	}
-	return mio
-}
-
-func (m *mockIO) Load(addr uint16) uint8 {
-	stack, exists := m.data[uint8(addr)]
-	if !exists {
-		return 0
-	}
-	if len(stack) == 0 {
-		return 0
-	}
-	v := stack[0]
-	stack = stack[1:]
-	m.data[uint8(addr)] = stack
-	return v
-}
-
-func (m *mockIO) Store(addr uint16, value uint8) {
-	stack, exists := m.data[uint8(addr)]
-	if !exists {
-		stack = make([]uint8, 0, 0)
-	}
-	stack = append(stack, value)
-	m.data[uint8(addr)] = stack
-}
-
-func (m *mockIO) Length() int {
-	return 0
-}
-
-func (m *mockIO) Port(n int) *memory.Port {
-	return &memory.Port{}
-}
-
-func (m *mockIO) Save(_ *state.Encoder) {}
-
-func (m *mockIO) Restore(_ *state.Decoder) {}
-*/
 
 type fuseTest struct {
 	name    string
@@ -195,7 +140,7 @@ type fuseTest struct {
 	halt    int
 	tstates int
 
-	memory     []mock.Slice
-	portReads  []mock.Slice
-	portWrites []mock.Slice
+	memory     [][]int
+	portReads  [][]int
+	portWrites [][]int
 }

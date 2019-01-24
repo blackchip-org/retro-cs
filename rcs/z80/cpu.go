@@ -35,14 +35,16 @@ type CPU struct {
 	IYL uint8
 	SP  uint16 // Stack pointer
 
-	IFF1 bool // Interrupt flip flops
-	IFF2 bool
-	IM   uint8 // Interrupt mode
-	Halt bool  // Halted by instruction
+	IFF1  bool // Interrupt flip flops
+	IFF2  bool
+	IM    uint8 // Interrupt mode
+	Halt  bool  // Halted by instruction
+	Ports *rcs.Memory
 
-	mem   *rcs.Memory
-	ops   map[uint8]func(*CPU)
-	delta uint8
+	mem       *rcs.Memory
+	opcodes   map[uint8]func(*CPU)
+	opcodesCB map[uint8]func(*CPU)
+	delta     uint8
 	// address used to load on the last (IX+d) or (IY+d) instruction
 	iaddr int
 }
@@ -77,22 +79,42 @@ const (
 )
 
 func New(mem *rcs.Memory) *CPU {
-	return &CPU{mem: mem, ops: opcodes}
+	c := &CPU{
+		mem:       mem,
+		Ports:     rcs.NewMemory(1, 0x100),
+		opcodes:   opcodes,
+		opcodesCB: opcodesCB,
+	}
+	c.Ports.MapRAM(0, make([]uint8, 0x100, 0x100))
+	return c
 }
 
 // FIXME: return value is a testing crutch
 func (c *CPU) Next() bool {
 	// here := c.PC()
+	var execute func(*CPU)
+	var ok bool
 	opcode := c.fetch()
-	execute, ok := c.ops[opcode]
 	c.refreshR()
-	if !ok {
-		return false
-		//log.Printf("%04x: illegal instruction: 0x%02x", here, opcode)
-		//return
+	if opcode == 0xcb {
+		opcode = c.fetch()
+		c.refreshR()
+		execute, ok = c.opcodesCB[opcode]
+		if !ok {
+			return false
+			//log.Printf("%04x: illegal instruction: 0xcb%02x", here, opcode)
+			//return
+		}
+	} else {
+		execute, ok = c.opcodes[opcode]
+		if !ok {
+			return false
+			//log.Printf("%04x: illegal instruction: 0x%02x", here, opcode)
+			//return
+		}
 	}
 	execute(c)
-	return ok
+	return true
 }
 
 func (c *CPU) PC() int {

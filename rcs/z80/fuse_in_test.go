@@ -2,8 +2,6 @@
 
 package z80
 
-import "github.com/blackchip-org/retro-cs/mock"
-
 var fuseIn = []fuseTest{
 	fuseTest{
 		name:    "00",
@@ -26,11 +24,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x00}},
+		memory: [][]int{
+			[]int{0x0000, 0x00},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "01",
@@ -53,11 +51,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x01, 0x12, 0x34}},
+		memory: [][]int{
+			[]int{0x0000, 0x01},
+			[]int{0x0001, 0x12},
+			[]int{0x0002, 0x34},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "02",
@@ -80,11 +80,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x02}},
+		memory: [][]int{
+			[]int{0x0000, 0x02},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "03",
@@ -107,11 +107,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x03}},
+		memory: [][]int{
+			[]int{0x0000, 0x03},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "04",
@@ -134,11 +134,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x04}},
+		memory: [][]int{
+			[]int{0x0000, 0x04},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "05",
@@ -161,11 +161,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x05}},
+		memory: [][]int{
+			[]int{0x0000, 0x05},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "06",
@@ -188,11 +188,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x06, 0xbc}},
+		memory: [][]int{
+			[]int{0x0000, 0x06},
+			[]int{0x0001, 0xbc},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "07",
@@ -215,11 +216,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x07}},
+		memory: [][]int{
+			[]int{0x0000, 0x07},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "08",
@@ -242,11 +243,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x08}},
+		memory: [][]int{
+			[]int{0x0000, 0x08},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "09",
@@ -269,11 +270,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x09}},
+		memory: [][]int{
+			[]int{0x0000, 0x09},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "0a",
@@ -296,11 +297,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x0a, 0xde}},
+		memory: [][]int{
+			[]int{0x0000, 0x0a},
+			[]int{0x0001, 0xde},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "0b",
@@ -323,11 +325,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x0b}},
+		memory: [][]int{
+			[]int{0x0000, 0x0b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "0c",
@@ -350,11 +352,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x0c}},
+		memory: [][]int{
+			[]int{0x0000, 0x0c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "0d",
@@ -377,11 +379,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x0d}},
+		memory: [][]int{
+			[]int{0x0000, 0x0d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "0e",
@@ -404,11 +406,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x0e, 0xf0}},
+		memory: [][]int{
+			[]int{0x0000, 0x0e},
+			[]int{0x0001, 0xf0},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "0f",
@@ -431,11 +434,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x0f}},
+		memory: [][]int{
+			[]int{0x0000, 0x0f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "10",
@@ -458,11 +461,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 132,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x00, 0x10, 0xfd, 0x0c}},
+		memory: [][]int{
+			[]int{0x0000, 0x00},
+			[]int{0x0001, 0x10},
+			[]int{0x0002, 0xfd},
+			[]int{0x0003, 0x0c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "11",
@@ -485,11 +491,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x11, 0x9a, 0xbc}},
+		memory: [][]int{
+			[]int{0x0000, 0x11},
+			[]int{0x0001, 0x9a},
+			[]int{0x0002, 0xbc},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "12",
@@ -512,11 +520,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x12}},
+		memory: [][]int{
+			[]int{0x0000, 0x12},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "13",
@@ -539,11 +547,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x13}},
+		memory: [][]int{
+			[]int{0x0000, 0x13},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "14",
@@ -566,11 +574,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x14}},
+		memory: [][]int{
+			[]int{0x0000, 0x14},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "15",
@@ -593,11 +601,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x15}},
+		memory: [][]int{
+			[]int{0x0000, 0x15},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "16",
@@ -620,11 +628,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x16, 0x12}},
+		memory: [][]int{
+			[]int{0x0000, 0x16},
+			[]int{0x0001, 0x12},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "17",
@@ -647,11 +656,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x17}},
+		memory: [][]int{
+			[]int{0x0000, 0x17},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "18",
@@ -674,11 +683,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x18, 0x40}},
+		memory: [][]int{
+			[]int{0x0000, 0x18},
+			[]int{0x0001, 0x40},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "19",
@@ -701,11 +711,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x19}},
+		memory: [][]int{
+			[]int{0x0000, 0x19},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "1a",
@@ -728,12 +738,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x1a}},
-			mock.Slice{Addr: 0x8000, Values: []uint8{0x13}},
+		memory: [][]int{
+			[]int{0x0000, 0x1a},
+			[]int{0x8000, 0x13},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "1b",
@@ -756,11 +766,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x1b}},
+		memory: [][]int{
+			[]int{0x0000, 0x1b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "1c",
@@ -783,11 +793,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x1c}},
+		memory: [][]int{
+			[]int{0x0000, 0x1c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "1d",
@@ -810,11 +820,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x1d}},
+		memory: [][]int{
+			[]int{0x0000, 0x1d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "1e",
@@ -837,11 +847,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x1e, 0xef}},
+		memory: [][]int{
+			[]int{0x0000, 0x1e},
+			[]int{0x0001, 0xef},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "1f",
@@ -864,11 +875,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x1f}},
+		memory: [][]int{
+			[]int{0x0000, 0x1f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "20_1",
@@ -891,11 +902,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x20, 0x40}},
+		memory: [][]int{
+			[]int{0x0000, 0x20},
+			[]int{0x0001, 0x40},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "20_2",
@@ -918,11 +930,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x20, 0x40}},
+		memory: [][]int{
+			[]int{0x0000, 0x20},
+			[]int{0x0001, 0x40},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "21",
@@ -945,11 +958,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x21, 0x28, 0xed}},
+		memory: [][]int{
+			[]int{0x0000, 0x21},
+			[]int{0x0001, 0x28},
+			[]int{0x0002, 0xed},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "22",
@@ -972,11 +987,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x22, 0xb0, 0xc3}},
+		memory: [][]int{
+			[]int{0x0000, 0x22},
+			[]int{0x0001, 0xb0},
+			[]int{0x0002, 0xc3},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "23",
@@ -999,11 +1016,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x23}},
+		memory: [][]int{
+			[]int{0x0000, 0x23},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "24",
@@ -1026,11 +1043,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x24}},
+		memory: [][]int{
+			[]int{0x0000, 0x24},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "25",
@@ -1053,11 +1070,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x25}},
+		memory: [][]int{
+			[]int{0x0000, 0x25},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "26",
@@ -1080,11 +1097,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x26, 0x3a}},
+		memory: [][]int{
+			[]int{0x0000, 0x26},
+			[]int{0x0001, 0x3a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "27_1",
@@ -1107,11 +1125,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x27}},
+		memory: [][]int{
+			[]int{0x0000, 0x27},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "27",
@@ -1134,11 +1152,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x27}},
+		memory: [][]int{
+			[]int{0x0000, 0x27},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "28_1",
@@ -1161,11 +1179,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x28, 0x8e}},
+		memory: [][]int{
+			[]int{0x0000, 0x28},
+			[]int{0x0001, 0x8e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "28_2",
@@ -1188,11 +1207,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x28, 0x8e}},
+		memory: [][]int{
+			[]int{0x0000, 0x28},
+			[]int{0x0001, 0x8e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "29",
@@ -1215,11 +1235,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x29}},
+		memory: [][]int{
+			[]int{0x0000, 0x29},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "2a",
@@ -1242,12 +1262,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x2a, 0x45, 0xac}},
-			mock.Slice{Addr: 0xac45, Values: []uint8{0xc4, 0xde}},
+		memory: [][]int{
+			[]int{0x0000, 0x2a},
+			[]int{0x0001, 0x45},
+			[]int{0x0002, 0xac},
+			[]int{0xac45, 0xc4},
+			[]int{0xac46, 0xde},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "2b",
@@ -1270,11 +1293,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x2b}},
+		memory: [][]int{
+			[]int{0x0000, 0x2b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "2c",
@@ -1297,11 +1320,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x2c}},
+		memory: [][]int{
+			[]int{0x0000, 0x2c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "2d",
@@ -1324,11 +1347,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x2d}},
+		memory: [][]int{
+			[]int{0x0000, 0x2d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "2e",
@@ -1351,11 +1374,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x2e, 0x18}},
+		memory: [][]int{
+			[]int{0x0000, 0x2e},
+			[]int{0x0001, 0x18},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "2f",
@@ -1378,11 +1402,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x2f}},
+		memory: [][]int{
+			[]int{0x0000, 0x2f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "30_1",
@@ -1405,11 +1429,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x30, 0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x30},
+			[]int{0x0001, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "30_2",
@@ -1432,11 +1457,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x30, 0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x30},
+			[]int{0x0001, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "31",
@@ -1459,11 +1485,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x31, 0xd4, 0x61}},
+		memory: [][]int{
+			[]int{0x0000, 0x31},
+			[]int{0x0001, 0xd4},
+			[]int{0x0002, 0x61},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "32",
@@ -1486,11 +1514,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x32, 0xac, 0xad}},
+		memory: [][]int{
+			[]int{0x0000, 0x32},
+			[]int{0x0001, 0xac},
+			[]int{0x0002, 0xad},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "33",
@@ -1513,11 +1543,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x33}},
+		memory: [][]int{
+			[]int{0x0000, 0x33},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "34",
@@ -1540,12 +1570,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x34}},
-			mock.Slice{Addr: 0xfe1d, Values: []uint8{0xfd}},
+		memory: [][]int{
+			[]int{0x0000, 0x34},
+			[]int{0xfe1d, 0xfd},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "35",
@@ -1568,12 +1598,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x35}},
-			mock.Slice{Addr: 0x470c, Values: []uint8{0x82}},
+		memory: [][]int{
+			[]int{0x0000, 0x35},
+			[]int{0x470c, 0x82},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "36",
@@ -1596,11 +1626,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x36, 0x7c}},
+		memory: [][]int{
+			[]int{0x0000, 0x36},
+			[]int{0x0001, 0x7c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "37_1",
@@ -1623,11 +1654,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x37}},
+		memory: [][]int{
+			[]int{0x0000, 0x37},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "37_2",
@@ -1650,11 +1681,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x37}},
+		memory: [][]int{
+			[]int{0x0000, 0x37},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "37_3",
@@ -1677,11 +1708,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x37}},
+		memory: [][]int{
+			[]int{0x0000, 0x37},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "37",
@@ -1704,11 +1735,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x37}},
+		memory: [][]int{
+			[]int{0x0000, 0x37},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "38_1",
@@ -1731,11 +1762,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x38, 0x66}},
+		memory: [][]int{
+			[]int{0x0000, 0x38},
+			[]int{0x0001, 0x66},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "38_2",
@@ -1758,11 +1790,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x38, 0x66}},
+		memory: [][]int{
+			[]int{0x0000, 0x38},
+			[]int{0x0001, 0x66},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "39",
@@ -1785,11 +1818,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x29}},
+		memory: [][]int{
+			[]int{0x0000, 0x29},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "3a",
@@ -1812,12 +1845,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x3a, 0x52, 0x99}},
-			mock.Slice{Addr: 0x9952, Values: []uint8{0x28}},
+		memory: [][]int{
+			[]int{0x0000, 0x3a},
+			[]int{0x0001, 0x52},
+			[]int{0x0002, 0x99},
+			[]int{0x9952, 0x28},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "3b",
@@ -1840,11 +1875,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x3b}},
+		memory: [][]int{
+			[]int{0x0000, 0x3b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "3c",
@@ -1867,11 +1902,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x3c}},
+		memory: [][]int{
+			[]int{0x0000, 0x3c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "3d",
@@ -1894,11 +1929,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x3d}},
+		memory: [][]int{
+			[]int{0x0000, 0x3d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "3e",
@@ -1921,11 +1956,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x3e, 0xd6}},
+		memory: [][]int{
+			[]int{0x0000, 0x3e},
+			[]int{0x0001, 0xd6},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "3f",
@@ -1948,11 +1984,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x3f}},
+		memory: [][]int{
+			[]int{0x0000, 0x3f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "40",
@@ -1975,12 +2011,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x40}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x40},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "41",
@@ -2003,12 +2039,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x41}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x41},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "42",
@@ -2031,12 +2067,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x42}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x42},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "43",
@@ -2059,12 +2095,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x43}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x43},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "44",
@@ -2087,12 +2123,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x44}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x44},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "45",
@@ -2115,12 +2151,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x45}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x45},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "46",
@@ -2143,12 +2179,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x46}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x46},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "47",
@@ -2171,12 +2207,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x47}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x47},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "48",
@@ -2199,12 +2235,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x48}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x48},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "49",
@@ -2227,12 +2263,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x49}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x49},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "4a",
@@ -2255,12 +2291,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x4a}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x4a},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "4b",
@@ -2283,12 +2319,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x4b}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x4b},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "4c",
@@ -2311,12 +2347,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x4c}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x4c},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "4d",
@@ -2339,12 +2375,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x4d}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x4d},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "4e",
@@ -2367,12 +2403,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x4e}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x4e},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "4f",
@@ -2395,12 +2431,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x4f}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x4f},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "50",
@@ -2423,12 +2459,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x50}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x50},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "51",
@@ -2451,12 +2487,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x51}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x51},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "52",
@@ -2479,12 +2515,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x52}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x52},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "53",
@@ -2507,12 +2543,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x53}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x53},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "54",
@@ -2535,12 +2571,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x54}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x54},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "55",
@@ -2563,12 +2599,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x55}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x55},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "56",
@@ -2591,12 +2627,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x56}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x56},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "57",
@@ -2619,12 +2655,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x57}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x57},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "58",
@@ -2647,12 +2683,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x58}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x58},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "59",
@@ -2675,12 +2711,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x59}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x59},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "5a",
@@ -2703,12 +2739,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x5a}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x5a},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "5b",
@@ -2731,12 +2767,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x5b}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x5b},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "5c",
@@ -2759,12 +2795,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x5c}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x5c},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "5d",
@@ -2787,12 +2823,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x5d}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x5d},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "5e",
@@ -2815,12 +2851,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x5e}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x5e},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "5f",
@@ -2843,12 +2879,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x5f}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x5f},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "60",
@@ -2871,12 +2907,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x60}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x60},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "61",
@@ -2899,12 +2935,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x61}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x61},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "62",
@@ -2927,12 +2963,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x62}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x62},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "63",
@@ -2955,12 +2991,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x63}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x63},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "64",
@@ -2983,12 +3019,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x64}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x64},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "65",
@@ -3011,12 +3047,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x65}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x65},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "66",
@@ -3039,12 +3075,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x66}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x66},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "67",
@@ -3067,12 +3103,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x67}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x67},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "68",
@@ -3095,12 +3131,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x68}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x68},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "69",
@@ -3123,12 +3159,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x69}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x69},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "6a",
@@ -3151,12 +3187,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x6a}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x6a},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "6b",
@@ -3179,12 +3215,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x6b}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x6b},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "6c",
@@ -3207,12 +3243,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x6c}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x6c},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "6d",
@@ -3235,12 +3271,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x6d}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x6d},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "6e",
@@ -3263,12 +3299,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x6e}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x6e},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "6f",
@@ -3291,12 +3327,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x6f}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x6f},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "70",
@@ -3319,12 +3355,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x70}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x70},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "71",
@@ -3347,12 +3383,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x71}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x71},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "72",
@@ -3375,12 +3411,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x72}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x72},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "73",
@@ -3403,12 +3439,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x73}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x73},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "74",
@@ -3431,12 +3467,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x74}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x74},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "75",
@@ -3459,12 +3495,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x75}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x75},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "76",
@@ -3487,12 +3523,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x76}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x76},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "77",
@@ -3515,12 +3551,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x77}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x77},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "78",
@@ -3543,12 +3579,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x78}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x78},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "79",
@@ -3571,12 +3607,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x79}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x79},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "7a",
@@ -3599,12 +3635,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x7a}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x7a},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "7b",
@@ -3627,12 +3663,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x7b}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x7b},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "7c",
@@ -3655,12 +3691,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x7c}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x7c},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "7d",
@@ -3683,12 +3719,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x7d}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x7d},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "7e",
@@ -3711,12 +3747,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x7e}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x7e},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "7f",
@@ -3739,12 +3775,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x7f}},
-			mock.Slice{Addr: 0xa169, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0x7f},
+			[]int{0xa169, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "80",
@@ -3767,12 +3803,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x80}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x80},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "81",
@@ -3795,12 +3831,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x81}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x81},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "82",
@@ -3823,12 +3859,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x82}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x82},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "83",
@@ -3851,12 +3887,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x83}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x83},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "84",
@@ -3879,12 +3915,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x84}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x84},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "85",
@@ -3907,12 +3943,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x85}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x85},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "86",
@@ -3935,12 +3971,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x86}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x86},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "87",
@@ -3963,12 +3999,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x87}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x87},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "88",
@@ -3991,12 +4027,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x88}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x88},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "89",
@@ -4019,12 +4055,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x89}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x89},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "8a",
@@ -4047,12 +4083,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x8a}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x8a},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "8b",
@@ -4075,12 +4111,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x8b}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x8b},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "8c",
@@ -4103,12 +4139,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x8c}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x8c},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "8d",
@@ -4131,12 +4167,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x8d}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x8d},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "8e",
@@ -4159,12 +4195,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x8e}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x8e},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "8f",
@@ -4187,12 +4223,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x8f}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x8f},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "90",
@@ -4215,12 +4251,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x90}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x90},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "91",
@@ -4243,12 +4279,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x91}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x91},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "92",
@@ -4271,12 +4307,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x92}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x92},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "93",
@@ -4299,12 +4335,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x93}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x93},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "94",
@@ -4327,12 +4363,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x94}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x94},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "95",
@@ -4355,12 +4391,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x95}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x95},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "96",
@@ -4383,12 +4419,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x96}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x96},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "97",
@@ -4411,12 +4447,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x97}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x97},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "98",
@@ -4439,12 +4475,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x98}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x98},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "99",
@@ -4467,12 +4503,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x99}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x99},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "9a",
@@ -4495,12 +4531,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x9a}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x9a},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "9b",
@@ -4523,12 +4559,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x9b}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x9b},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "9c",
@@ -4551,12 +4587,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x9c}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x9c},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "9d",
@@ -4579,12 +4615,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x9d}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x9d},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "9e",
@@ -4607,12 +4643,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x9e}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x9e},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "9f",
@@ -4635,12 +4671,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0x9f}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0x9f},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "a0",
@@ -4663,12 +4699,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xa0}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xa0},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "a1",
@@ -4691,12 +4727,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xa1}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xa1},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "a2",
@@ -4719,12 +4755,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xa2}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xa2},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "a3",
@@ -4747,12 +4783,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xa3}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xa3},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "a4",
@@ -4775,12 +4811,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xa4}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xa4},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "a5",
@@ -4803,12 +4839,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xa5}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xa5},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "a6",
@@ -4831,12 +4867,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xa6}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xa6},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "a7",
@@ -4859,12 +4895,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xa7}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xa7},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "a8",
@@ -4887,12 +4923,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xa8}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xa8},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "a9",
@@ -4915,12 +4951,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xa9}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xa9},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "aa",
@@ -4943,12 +4979,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xaa}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xaa},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ab",
@@ -4971,12 +5007,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xab}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xab},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ac",
@@ -4999,12 +5035,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xac}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xac},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ad",
@@ -5027,12 +5063,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xad}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xad},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ae",
@@ -5055,12 +5091,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xae}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xae},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "af",
@@ -5083,12 +5119,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xaf}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xaf},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "b0",
@@ -5111,12 +5147,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xb0}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xb0},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "b1",
@@ -5139,12 +5175,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xb1}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xb1},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "b2",
@@ -5167,12 +5203,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xb2}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xb2},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "b3",
@@ -5195,12 +5231,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xb3}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xb3},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "b4",
@@ -5223,12 +5259,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xb4}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xb4},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "b5",
@@ -5251,12 +5287,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xb5}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xb5},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "b6",
@@ -5279,12 +5315,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xb6}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xb6},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "b7",
@@ -5307,12 +5343,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xb7}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xb7},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "b8",
@@ -5335,12 +5371,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xb8}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xb8},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "b9",
@@ -5363,12 +5399,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xb9}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xb9},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ba",
@@ -5391,12 +5427,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xba}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xba},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "bb",
@@ -5419,12 +5455,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xbb}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xbb},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "bc",
@@ -5447,12 +5483,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xbc}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xbc},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "bd",
@@ -5475,12 +5511,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xbd}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xbd},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "be",
@@ -5503,12 +5539,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xbe}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xbe},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "bf",
@@ -5531,12 +5567,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xbf}},
-			mock.Slice{Addr: 0xdca6, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xbf},
+			[]int{0xdca6, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "c0_1",
@@ -5559,12 +5595,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xc0}},
-			mock.Slice{Addr: 0x43f7, Values: []uint8{0xe9, 0xaf}},
+		memory: [][]int{
+			[]int{0x0000, 0xc0},
+			[]int{0x43f7, 0xe9},
+			[]int{0x43f8, 0xaf},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "c0_2",
@@ -5587,12 +5624,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xc0}},
-			mock.Slice{Addr: 0x43f7, Values: []uint8{0xe9, 0xaf}},
+		memory: [][]int{
+			[]int{0x0000, 0xc0},
+			[]int{0x43f7, 0xe9},
+			[]int{0x43f8, 0xaf},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "c1",
@@ -5615,12 +5653,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xc1}},
-			mock.Slice{Addr: 0x4143, Values: []uint8{0xce, 0xe8}},
+		memory: [][]int{
+			[]int{0x0000, 0xc1},
+			[]int{0x4143, 0xce},
+			[]int{0x4144, 0xe8},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "c2_1",
@@ -5643,11 +5682,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xc2, 0x1b, 0xe1}},
+		memory: [][]int{
+			[]int{0x0000, 0xc2},
+			[]int{0x0001, 0x1b},
+			[]int{0x0002, 0xe1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "c2_2",
@@ -5670,11 +5711,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xc2, 0x1b, 0xe1}},
+		memory: [][]int{
+			[]int{0x0000, 0xc2},
+			[]int{0x0001, 0x1b},
+			[]int{0x0002, 0xe1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "c3",
@@ -5697,11 +5740,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xc3, 0xed, 0x7c}},
+		memory: [][]int{
+			[]int{0x0000, 0xc3},
+			[]int{0x0001, 0xed},
+			[]int{0x0002, 0x7c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "c4_1",
@@ -5724,11 +5769,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xc4, 0x61, 0x9c}},
+		memory: [][]int{
+			[]int{0x0000, 0xc4},
+			[]int{0x0001, 0x61},
+			[]int{0x0002, 0x9c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "c4_2",
@@ -5751,11 +5798,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xc4, 0x61, 0x9c}},
+		memory: [][]int{
+			[]int{0x0000, 0xc4},
+			[]int{0x0001, 0x61},
+			[]int{0x0002, 0x9c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "c5",
@@ -5778,11 +5827,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xc5}},
+		memory: [][]int{
+			[]int{0x0000, 0xc5},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "c6",
@@ -5805,11 +5854,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xc6, 0x6f}},
+		memory: [][]int{
+			[]int{0x0000, 0xc6},
+			[]int{0x0001, 0x6f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "c7",
@@ -5832,11 +5882,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x6d33, Values: []uint8{0xc7}},
+		memory: [][]int{
+			[]int{0x6d33, 0xc7},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "c8_1",
@@ -5859,12 +5909,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xc8}},
-			mock.Slice{Addr: 0x43f7, Values: []uint8{0xe9, 0xaf}},
+		memory: [][]int{
+			[]int{0x0000, 0xc8},
+			[]int{0x43f7, 0xe9},
+			[]int{0x43f8, 0xaf},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "c8_2",
@@ -5887,12 +5938,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xc8}},
-			mock.Slice{Addr: 0x43f7, Values: []uint8{0xe9, 0xaf}},
+		memory: [][]int{
+			[]int{0x0000, 0xc8},
+			[]int{0x43f7, 0xe9},
+			[]int{0x43f8, 0xaf},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "c9",
@@ -5915,12 +5967,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xc9}},
-			mock.Slice{Addr: 0x887e, Values: []uint8{0x36, 0x11}},
+		memory: [][]int{
+			[]int{0x0000, 0xc9},
+			[]int{0x887e, 0x36},
+			[]int{0x887f, 0x11},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ca_1",
@@ -5943,11 +5996,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xca, 0x1b, 0xe1}},
+		memory: [][]int{
+			[]int{0x0000, 0xca},
+			[]int{0x0001, 0x1b},
+			[]int{0x0002, 0xe1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ca_2",
@@ -5970,11 +6025,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xca, 0x1b, 0xe1}},
+		memory: [][]int{
+			[]int{0x0000, 0xca},
+			[]int{0x0001, 0x1b},
+			[]int{0x0002, 0xe1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb00",
@@ -5997,12 +6054,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x00}},
-			mock.Slice{Addr: 0xa806, Values: []uint8{0x76}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x00},
+			[]int{0xa806, 0x76},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb01",
@@ -6025,12 +6083,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x01}},
-			mock.Slice{Addr: 0xef65, Values: []uint8{0xfb}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x01},
+			[]int{0xef65, 0xfb},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb02",
@@ -6053,12 +6112,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x02}},
-			mock.Slice{Addr: 0xa7f2, Values: []uint8{0x4a}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x02},
+			[]int{0xa7f2, 0x4a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb03",
@@ -6081,12 +6141,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x03}},
-			mock.Slice{Addr: 0xca71, Values: []uint8{0xe7}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x03},
+			[]int{0xca71, 0xe7},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb04",
@@ -6109,12 +6170,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x04}},
-			mock.Slice{Addr: 0x67b0, Values: []uint8{0xcd}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x04},
+			[]int{0x67b0, 0xcd},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb05",
@@ -6137,12 +6199,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x05}},
-			mock.Slice{Addr: 0xcb32, Values: []uint8{0x1b}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x05},
+			[]int{0xcb32, 0x1b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb06",
@@ -6165,12 +6228,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x06}},
-			mock.Slice{Addr: 0x5b04, Values: []uint8{0xd4}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x06},
+			[]int{0x5b04, 0xd4},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb07",
@@ -6193,12 +6257,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x07}},
-			mock.Slice{Addr: 0xdcaa, Values: []uint8{0x8d}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x07},
+			[]int{0xdcaa, 0x8d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb08",
@@ -6221,12 +6286,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x08}},
-			mock.Slice{Addr: 0x2ee2, Values: []uint8{0x53}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x08},
+			[]int{0x2ee2, 0x53},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb09",
@@ -6249,12 +6315,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x09}},
-			mock.Slice{Addr: 0x59c6, Values: []uint8{0x9e}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x09},
+			[]int{0x59c6, 0x9e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb0a",
@@ -6277,12 +6344,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x0a}},
-			mock.Slice{Addr: 0x63ad, Values: []uint8{0x96}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x0a},
+			[]int{0x63ad, 0x96},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb0b",
@@ -6305,12 +6373,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x0b}},
-			mock.Slice{Addr: 0x0289, Values: []uint8{0x37}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x0b},
+			[]int{0x0289, 0x37},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb0c",
@@ -6333,12 +6402,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x0c}},
-			mock.Slice{Addr: 0x34d9, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x0c},
+			[]int{0x34d9, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb0d",
@@ -6361,12 +6431,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x0d}},
-			mock.Slice{Addr: 0x519a, Values: []uint8{0x7a}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x0d},
+			[]int{0x519a, 0x7a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb0e",
@@ -6389,12 +6460,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x0e}},
-			mock.Slice{Addr: 0x543e, Values: []uint8{0xd2}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x0e},
+			[]int{0x543e, 0xd2},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb0f",
@@ -6417,12 +6489,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x0f}},
-			mock.Slice{Addr: 0x070b, Values: []uint8{0x86}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x0f},
+			[]int{0x070b, 0x86},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb10",
@@ -6445,12 +6518,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x10}},
-			mock.Slice{Addr: 0x0d74, Values: []uint8{0x3d}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x10},
+			[]int{0x0d74, 0x3d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb11",
@@ -6473,12 +6547,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x11}},
-			mock.Slice{Addr: 0xed42, Values: []uint8{0xb7}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x11},
+			[]int{0xed42, 0xb7},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb12",
@@ -6501,12 +6576,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x12}},
-			mock.Slice{Addr: 0x29c6, Values: []uint8{0x88}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x12},
+			[]int{0x29c6, 0x88},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb13",
@@ -6529,12 +6605,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x13}},
-			mock.Slice{Addr: 0x3ed7, Values: []uint8{0xea}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x13},
+			[]int{0x3ed7, 0xea},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb14",
@@ -6557,12 +6634,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x14}},
-			mock.Slice{Addr: 0x7c9a, Values: []uint8{0x0f}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x14},
+			[]int{0x7c9a, 0x0f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb15",
@@ -6585,12 +6663,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x15}},
-			mock.Slice{Addr: 0x03e2, Values: []uint8{0xbc}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x15},
+			[]int{0x03e2, 0xbc},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb16",
@@ -6613,12 +6692,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x16}},
-			mock.Slice{Addr: 0x684e, Values: []uint8{0xc3}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x16},
+			[]int{0x684e, 0xc3},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb17",
@@ -6641,12 +6721,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x17}},
-			mock.Slice{Addr: 0x0fa2, Values: []uint8{0x23}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x17},
+			[]int{0x0fa2, 0x23},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb18",
@@ -6669,12 +6750,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x18}},
-			mock.Slice{Addr: 0x9596, Values: []uint8{0xb6}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x18},
+			[]int{0x9596, 0xb6},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb19",
@@ -6697,12 +6779,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x19}},
-			mock.Slice{Addr: 0x71c8, Values: []uint8{0x85}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x19},
+			[]int{0x71c8, 0x85},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb1a",
@@ -6725,12 +6808,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x1a}},
-			mock.Slice{Addr: 0x5279, Values: []uint8{0x26}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x1a},
+			[]int{0x5279, 0x26},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb1b",
@@ -6753,12 +6837,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x1b}},
-			mock.Slice{Addr: 0xe8b4, Values: []uint8{0xb9}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x1b},
+			[]int{0xe8b4, 0xb9},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb1c",
@@ -6781,12 +6866,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x1c}},
-			mock.Slice{Addr: 0x311d, Values: []uint8{0x11}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x1c},
+			[]int{0x311d, 0x11},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb1d",
@@ -6809,12 +6895,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x1d}},
-			mock.Slice{Addr: 0xe451, Values: []uint8{0x47}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x1d},
+			[]int{0xe451, 0x47},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb1e",
@@ -6837,12 +6924,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x1e}},
-			mock.Slice{Addr: 0x00ef, Values: []uint8{0x91}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x1e},
+			[]int{0x00ef, 0x91},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb1f",
@@ -6865,12 +6953,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x1f}},
-			mock.Slice{Addr: 0xace7, Values: []uint8{0x82}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x1f},
+			[]int{0xace7, 0x82},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb20",
@@ -6893,12 +6982,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x20}},
-			mock.Slice{Addr: 0xccb6, Values: []uint8{0x1a}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x20},
+			[]int{0xccb6, 0x1a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb21",
@@ -6921,12 +7011,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x21}},
-			mock.Slice{Addr: 0x37a8, Values: []uint8{0xdd}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x21},
+			[]int{0x37a8, 0xdd},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb22",
@@ -6949,12 +7040,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x22}},
-			mock.Slice{Addr: 0x0641, Values: []uint8{0x4d}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x22},
+			[]int{0x0641, 0x4d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb23",
@@ -6977,12 +7069,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x23}},
-			mock.Slice{Addr: 0xaa59, Values: []uint8{0xc1}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x23},
+			[]int{0xaa59, 0xc1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb24",
@@ -7005,12 +7098,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x24}},
-			mock.Slice{Addr: 0x84b6, Values: []uint8{0x80}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x24},
+			[]int{0x84b6, 0x80},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb25",
@@ -7033,12 +7127,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x25}},
-			mock.Slice{Addr: 0x85bc, Values: []uint8{0xef}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x25},
+			[]int{0x85bc, 0xef},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb26",
@@ -7061,12 +7156,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x26}},
-			mock.Slice{Addr: 0x283a, Values: []uint8{0xee}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x26},
+			[]int{0x283a, 0xee},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb27",
@@ -7089,12 +7185,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x27}},
-			mock.Slice{Addr: 0x5ea2, Values: []uint8{0xbd}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x27},
+			[]int{0x5ea2, 0xbd},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb28",
@@ -7117,12 +7214,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x28}},
-			mock.Slice{Addr: 0x021b, Values: []uint8{0x90}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x28},
+			[]int{0x021b, 0x90},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb29",
@@ -7145,12 +7243,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x29}},
-			mock.Slice{Addr: 0xc306, Values: []uint8{0x5c}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x29},
+			[]int{0xc306, 0x5c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb2a",
@@ -7173,12 +7272,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x2a}},
-			mock.Slice{Addr: 0x3473, Values: []uint8{0x34}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x2a},
+			[]int{0x3473, 0x34},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb2b",
@@ -7201,12 +7301,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x2b}},
-			mock.Slice{Addr: 0xb78a, Values: []uint8{0xab}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x2b},
+			[]int{0xb78a, 0xab},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb2c",
@@ -7229,12 +7330,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x2c}},
-			mock.Slice{Addr: 0x1e7b, Values: []uint8{0x2c}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x2c},
+			[]int{0x1e7b, 0x2c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb2d",
@@ -7257,12 +7359,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x2d}},
-			mock.Slice{Addr: 0x78ea, Values: []uint8{0x85}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x2d},
+			[]int{0x78ea, 0x85},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb2e",
@@ -7285,12 +7388,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x2e}},
-			mock.Slice{Addr: 0x24bf, Values: []uint8{0xb5}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x2e},
+			[]int{0x24bf, 0xb5},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb2f",
@@ -7313,12 +7417,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x2f}},
-			mock.Slice{Addr: 0x5c65, Values: []uint8{0xc9}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x2f},
+			[]int{0x5c65, 0xc9},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb30",
@@ -7341,12 +7446,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x30}},
-			mock.Slice{Addr: 0x656b, Values: []uint8{0x32}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x30},
+			[]int{0x656b, 0x32},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb31",
@@ -7369,12 +7475,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x31}},
-			mock.Slice{Addr: 0x75a4, Values: []uint8{0x0c}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x31},
+			[]int{0x75a4, 0x0c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb32",
@@ -7397,12 +7504,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x32}},
-			mock.Slice{Addr: 0x5e56, Values: []uint8{0x8d}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x32},
+			[]int{0x5e56, 0x8d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb33",
@@ -7425,12 +7533,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x33}},
-			mock.Slice{Addr: 0x038f, Values: []uint8{0xba}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x33},
+			[]int{0x038f, 0xba},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb34",
@@ -7453,12 +7562,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x34}},
-			mock.Slice{Addr: 0xfb38, Values: []uint8{0x07}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x34},
+			[]int{0xfb38, 0x07},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb35",
@@ -7481,12 +7591,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x35}},
-			mock.Slice{Addr: 0x7861, Values: []uint8{0x72}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x35},
+			[]int{0x7861, 0x72},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb36",
@@ -7509,12 +7620,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x36}},
-			mock.Slice{Addr: 0x6d38, Values: []uint8{0xf1}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x36},
+			[]int{0x6d38, 0xf1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb37",
@@ -7537,12 +7649,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x37}},
-			mock.Slice{Addr: 0x6e56, Values: []uint8{0xf8}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x37},
+			[]int{0x6e56, 0xf8},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb38",
@@ -7565,12 +7678,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x38}},
-			mock.Slice{Addr: 0x4ff2, Values: []uint8{0xaa}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x38},
+			[]int{0x4ff2, 0xaa},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb39",
@@ -7593,12 +7707,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x39}},
-			mock.Slice{Addr: 0x3c17, Values: []uint8{0x61}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x39},
+			[]int{0x3c17, 0x61},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb3a",
@@ -7621,12 +7736,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x3a}},
-			mock.Slice{Addr: 0xf1b1, Values: []uint8{0x6e}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x3a},
+			[]int{0xf1b1, 0x6e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb3b",
@@ -7649,12 +7765,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x3b}},
-			mock.Slice{Addr: 0x7419, Values: []uint8{0x11}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x3b},
+			[]int{0x7419, 0x11},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb3c",
@@ -7677,12 +7794,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x3c}},
-			mock.Slice{Addr: 0x2ad8, Values: []uint8{0x8d}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x3c},
+			[]int{0x2ad8, 0x8d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb3d",
@@ -7705,12 +7823,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x3d}},
-			mock.Slice{Addr: 0x46cd, Values: []uint8{0xf9}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x3d},
+			[]int{0x46cd, 0xf9},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb3e",
@@ -7733,12 +7852,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x3e}},
-			mock.Slice{Addr: 0xa96c, Values: []uint8{0xa0}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x3e},
+			[]int{0xa96c, 0xa0},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb3f",
@@ -7761,12 +7881,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x3f}},
-			mock.Slice{Addr: 0x77f0, Values: []uint8{0x7c}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x3f},
+			[]int{0x77f0, 0x7c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb40",
@@ -7789,12 +7910,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x40}},
-			mock.Slice{Addr: 0x505f, Values: []uint8{0x59}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x40},
+			[]int{0x505f, 0x59},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb41",
@@ -7817,12 +7939,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x41}},
-			mock.Slice{Addr: 0x7be9, Values: []uint8{0xf7}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x41},
+			[]int{0x7be9, 0xf7},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb42",
@@ -7845,12 +7968,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x42}},
-			mock.Slice{Addr: 0x551f, Values: []uint8{0xc9}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x42},
+			[]int{0x551f, 0xc9},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb43",
@@ -7873,12 +7997,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x43}},
-			mock.Slice{Addr: 0xbab4, Values: []uint8{0x76}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x43},
+			[]int{0xbab4, 0x76},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb44",
@@ -7901,12 +8026,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x44}},
-			mock.Slice{Addr: 0x5b92, Values: []uint8{0x78}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x44},
+			[]int{0x5b92, 0x78},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb45",
@@ -7929,12 +8055,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x45}},
-			mock.Slice{Addr: 0x409b, Values: []uint8{0x64}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x45},
+			[]int{0x409b, 0x64},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb46",
@@ -7957,12 +8084,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x46}},
-			mock.Slice{Addr: 0x6131, Values: []uint8{0xd5}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x46},
+			[]int{0x6131, 0xd5},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb47_1",
@@ -7985,11 +8113,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x47}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x47},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb47",
@@ -8012,12 +8141,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x47}},
-			mock.Slice{Addr: 0x8a8c, Values: []uint8{0x0e}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x47},
+			[]int{0x8a8c, 0x0e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb48",
@@ -8040,12 +8170,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x48}},
-			mock.Slice{Addr: 0x6de0, Values: []uint8{0x8c}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x48},
+			[]int{0x6de0, 0x8c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb49",
@@ -8068,12 +8199,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x49}},
-			mock.Slice{Addr: 0xa040, Values: []uint8{0x5f}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x49},
+			[]int{0xa040, 0x5f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb4a",
@@ -8096,12 +8228,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x4a}},
-			mock.Slice{Addr: 0x77a4, Values: []uint8{0x96}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x4a},
+			[]int{0x77a4, 0x96},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb4b",
@@ -8124,12 +8257,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x4b}},
-			mock.Slice{Addr: 0x40ca, Values: []uint8{0x8a}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x4b},
+			[]int{0x40ca, 0x8a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb4c",
@@ -8152,12 +8286,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x4c}},
-			mock.Slice{Addr: 0x6d5d, Values: []uint8{0xe7}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x4c},
+			[]int{0x6d5d, 0xe7},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb4d",
@@ -8180,12 +8315,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x4d}},
-			mock.Slice{Addr: 0x158d, Values: []uint8{0xe0}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x4d},
+			[]int{0x158d, 0xe0},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb4e",
@@ -8208,12 +8344,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x4e}},
-			mock.Slice{Addr: 0xada3, Values: []uint8{0x5b}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x4e},
+			[]int{0xada3, 0x5b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb4f_1",
@@ -8236,11 +8373,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x4f}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x4f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb4f",
@@ -8263,12 +8401,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x4f}},
-			mock.Slice{Addr: 0x0bcc, Values: []uint8{0xa3}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x4f},
+			[]int{0x0bcc, 0xa3},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb50",
@@ -8291,12 +8430,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x50}},
-			mock.Slice{Addr: 0x84d2, Values: []uint8{0x6a}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x50},
+			[]int{0x84d2, 0x6a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb51",
@@ -8319,12 +8459,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x51}},
-			mock.Slice{Addr: 0xaafc, Values: []uint8{0xa6}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x51},
+			[]int{0xaafc, 0xa6},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb52",
@@ -8347,12 +8488,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x52}},
-			mock.Slice{Addr: 0xac44, Values: []uint8{0x00}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x52},
+			[]int{0xac44, 0x00},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb53",
@@ -8375,12 +8517,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x53}},
-			mock.Slice{Addr: 0x7c75, Values: []uint8{0xab}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x53},
+			[]int{0x7c75, 0xab},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb54",
@@ -8403,12 +8546,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x54}},
-			mock.Slice{Addr: 0x1999, Values: []uint8{0x98}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x54},
+			[]int{0x1999, 0x98},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb55",
@@ -8431,12 +8575,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x55}},
-			mock.Slice{Addr: 0xfb4b, Values: []uint8{0x0b}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x55},
+			[]int{0xfb4b, 0x0b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb56",
@@ -8459,12 +8604,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x56}},
-			mock.Slice{Addr: 0xbbf9, Values: []uint8{0x10}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x56},
+			[]int{0xbbf9, 0x10},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb57_1",
@@ -8487,11 +8633,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x57}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x57},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb57",
@@ -8514,12 +8661,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x57}},
-			mock.Slice{Addr: 0xda50, Values: []uint8{0x30}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x57},
+			[]int{0xda50, 0x30},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb58",
@@ -8542,12 +8690,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x58}},
-			mock.Slice{Addr: 0x1479, Values: []uint8{0xa0}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x58},
+			[]int{0x1479, 0xa0},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb59",
@@ -8570,12 +8719,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x59}},
-			mock.Slice{Addr: 0x2075, Values: []uint8{0xc1}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x59},
+			[]int{0x2075, 0xc1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb5a",
@@ -8598,12 +8748,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x5a}},
-			mock.Slice{Addr: 0xd99b, Values: []uint8{0xe8}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x5a},
+			[]int{0xd99b, 0xe8},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb5b",
@@ -8626,12 +8777,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x5b}},
-			mock.Slice{Addr: 0x1691, Values: []uint8{0xc7}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x5b},
+			[]int{0x1691, 0xc7},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb5c",
@@ -8654,12 +8806,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x5c}},
-			mock.Slice{Addr: 0x13e9, Values: []uint8{0xae}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x5c},
+			[]int{0x13e9, 0xae},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb5d",
@@ -8682,12 +8835,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x5d}},
-			mock.Slice{Addr: 0xee49, Values: []uint8{0xa6}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x5d},
+			[]int{0xee49, 0xa6},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb5e",
@@ -8710,12 +8864,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x5e}},
-			mock.Slice{Addr: 0x349a, Values: []uint8{0x3c}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x5e},
+			[]int{0x349a, 0x3c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb5f_1",
@@ -8738,11 +8893,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x5f}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x5f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb5f",
@@ -8765,12 +8921,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x5f}},
-			mock.Slice{Addr: 0x6133, Values: []uint8{0x90}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x5f},
+			[]int{0x6133, 0x90},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb60",
@@ -8793,12 +8950,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x60}},
-			mock.Slice{Addr: 0x5273, Values: []uint8{0x0a}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x60},
+			[]int{0x5273, 0x0a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb61",
@@ -8821,12 +8979,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x61}},
-			mock.Slice{Addr: 0x7c44, Values: []uint8{0x77}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x61},
+			[]int{0x7c44, 0x77},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb62",
@@ -8849,12 +9008,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x62}},
-			mock.Slice{Addr: 0x8cc5, Values: []uint8{0xaf}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x62},
+			[]int{0x8cc5, 0xaf},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb63",
@@ -8877,12 +9037,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x63}},
-			mock.Slice{Addr: 0x84ca, Values: []uint8{0xe6}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x63},
+			[]int{0x84ca, 0xe6},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb64",
@@ -8905,12 +9066,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x64}},
-			mock.Slice{Addr: 0xea94, Values: []uint8{0x0c}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x64},
+			[]int{0xea94, 0x0c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb65",
@@ -8933,12 +9095,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x65}},
-			mock.Slice{Addr: 0x427a, Values: []uint8{0xee}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x65},
+			[]int{0x427a, 0xee},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb66",
@@ -8961,12 +9124,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x66}},
-			mock.Slice{Addr: 0xa44f, Values: []uint8{0xd2}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x66},
+			[]int{0xa44f, 0xd2},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb67_1",
@@ -8989,11 +9153,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x67}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x67},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb67",
@@ -9016,12 +9181,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x67}},
-			mock.Slice{Addr: 0x394d, Values: []uint8{0x10}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x67},
+			[]int{0x394d, 0x10},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb68",
@@ -9044,12 +9210,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x68}},
-			mock.Slice{Addr: 0xddd2, Values: []uint8{0x16}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x68},
+			[]int{0xddd2, 0x16},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb69",
@@ -9072,12 +9239,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x69}},
-			mock.Slice{Addr: 0x1dba, Values: []uint8{0x8a}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x69},
+			[]int{0x1dba, 0x8a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb6a",
@@ -9100,12 +9268,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x6a}},
-			mock.Slice{Addr: 0x4e09, Values: []uint8{0xd5}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x6a},
+			[]int{0x4e09, 0xd5},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb6b",
@@ -9128,12 +9297,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x6b}},
-			mock.Slice{Addr: 0x1ca9, Values: []uint8{0x86}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x6b},
+			[]int{0x1ca9, 0x86},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb6c",
@@ -9156,12 +9326,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x6c}},
-			mock.Slice{Addr: 0x5605, Values: []uint8{0x2b}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x6c},
+			[]int{0x5605, 0x2b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb6d",
@@ -9184,12 +9355,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x6d}},
-			mock.Slice{Addr: 0xd9ad, Values: []uint8{0x4e}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x6d},
+			[]int{0xd9ad, 0x4e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb6e",
@@ -9212,12 +9384,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x6e}},
-			mock.Slice{Addr: 0xd8ba, Values: []uint8{0x31}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x6e},
+			[]int{0xd8ba, 0x31},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb6f_1",
@@ -9240,11 +9413,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x6f}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x6f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb6f",
@@ -9267,12 +9441,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x6f}},
-			mock.Slice{Addr: 0x4d34, Values: []uint8{0x78}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x6f},
+			[]int{0x4d34, 0x78},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb70",
@@ -9295,12 +9470,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x70}},
-			mock.Slice{Addr: 0xf913, Values: []uint8{0xcf}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x70},
+			[]int{0xf913, 0xcf},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb71",
@@ -9323,12 +9499,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x71}},
-			mock.Slice{Addr: 0x42fe, Values: []uint8{0x24}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x71},
+			[]int{0x42fe, 0x24},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb72",
@@ -9351,12 +9528,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x72}},
-			mock.Slice{Addr: 0xad11, Values: []uint8{0x3b}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x72},
+			[]int{0xad11, 0x3b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb73",
@@ -9379,12 +9557,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x73}},
-			mock.Slice{Addr: 0x2ecc, Values: []uint8{0xe0}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x73},
+			[]int{0x2ecc, 0xe0},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb74",
@@ -9407,12 +9586,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x74}},
-			mock.Slice{Addr: 0x983d, Values: []uint8{0xfa}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x74},
+			[]int{0x983d, 0xfa},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb75",
@@ -9435,12 +9615,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x75}},
-			mock.Slice{Addr: 0xd18d, Values: []uint8{0x11}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x75},
+			[]int{0xd18d, 0x11},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb76",
@@ -9463,12 +9644,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x76}},
-			mock.Slice{Addr: 0xbc71, Values: []uint8{0x18}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x76},
+			[]int{0xbc71, 0x18},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb77_1",
@@ -9491,11 +9673,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x77}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x77},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb77",
@@ -9518,12 +9701,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x77}},
-			mock.Slice{Addr: 0x736d, Values: []uint8{0x36}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x77},
+			[]int{0x736d, 0x36},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb78",
@@ -9546,12 +9730,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x78}},
-			mock.Slice{Addr: 0xc76a, Values: []uint8{0x1f}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x78},
+			[]int{0xc76a, 0x1f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb79",
@@ -9574,12 +9759,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x79}},
-			mock.Slice{Addr: 0x39e8, Values: []uint8{0x98}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x79},
+			[]int{0x39e8, 0x98},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb7a",
@@ -9602,12 +9788,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x7a}},
-			mock.Slice{Addr: 0xd9af, Values: []uint8{0xed}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x7a},
+			[]int{0xd9af, 0xed},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb7b",
@@ -9630,12 +9817,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x7b}},
-			mock.Slice{Addr: 0x6bd0, Values: []uint8{0xa5}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x7b},
+			[]int{0x6bd0, 0xa5},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb7c",
@@ -9658,12 +9846,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x7c}},
-			mock.Slice{Addr: 0x063b, Values: []uint8{0x34}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x7c},
+			[]int{0x063b, 0x34},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb7d",
@@ -9686,12 +9875,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x7d}},
-			mock.Slice{Addr: 0x5f9b, Values: []uint8{0x97}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x7d},
+			[]int{0x5f9b, 0x97},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb7e",
@@ -9714,12 +9904,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x7e}},
-			mock.Slice{Addr: 0xa25e, Values: []uint8{0xd7}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x7e},
+			[]int{0xa25e, 0xd7},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb7f_1",
@@ -9742,11 +9933,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x7f}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x7f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb7f",
@@ -9769,12 +9961,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x7f}},
-			mock.Slice{Addr: 0x185b, Values: []uint8{0xf1}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x7f},
+			[]int{0x185b, 0xf1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb80",
@@ -9797,12 +9990,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x80}},
-			mock.Slice{Addr: 0xa706, Values: []uint8{0x0a}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x80},
+			[]int{0xa706, 0x0a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb81",
@@ -9825,12 +10019,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x81}},
-			mock.Slice{Addr: 0x6616, Values: []uint8{0x74}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x81},
+			[]int{0x6616, 0x74},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb82",
@@ -9853,12 +10048,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x82}},
-			mock.Slice{Addr: 0x4572, Values: []uint8{0x2f}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x82},
+			[]int{0x4572, 0x2f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb83",
@@ -9881,12 +10077,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x83}},
-			mock.Slice{Addr: 0xae9a, Values: []uint8{0x16}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x83},
+			[]int{0xae9a, 0x16},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb84",
@@ -9909,12 +10106,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x84}},
-			mock.Slice{Addr: 0xd6c0, Values: []uint8{0x72}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x84},
+			[]int{0xd6c0, 0x72},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb85",
@@ -9937,12 +10135,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x85}},
-			mock.Slice{Addr: 0xdda0, Values: []uint8{0x8a}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x85},
+			[]int{0xdda0, 0x8a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb86",
@@ -9965,12 +10164,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x86}},
-			mock.Slice{Addr: 0x1b48, Values: []uint8{0x62}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x86},
+			[]int{0x1b48, 0x62},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb87",
@@ -9993,12 +10193,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x87}},
-			mock.Slice{Addr: 0xdfc5, Values: []uint8{0xde}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x87},
+			[]int{0xdfc5, 0xde},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb88",
@@ -10021,12 +10222,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x88}},
-			mock.Slice{Addr: 0x674d, Values: []uint8{0x5f}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x88},
+			[]int{0x674d, 0x5f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb89",
@@ -10049,12 +10251,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x89}},
-			mock.Slice{Addr: 0x1bd7, Values: []uint8{0xf2}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x89},
+			[]int{0x1bd7, 0xf2},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb8a",
@@ -10077,12 +10280,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x8a}},
-			mock.Slice{Addr: 0xb98e, Values: []uint8{0x2f}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x8a},
+			[]int{0xb98e, 0x2f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb8b",
@@ -10105,12 +10309,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x8b}},
-			mock.Slice{Addr: 0x4a07, Values: []uint8{0x3f}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x8b},
+			[]int{0x4a07, 0x3f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb8c",
@@ -10133,12 +10338,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x8c}},
-			mock.Slice{Addr: 0xdaef, Values: []uint8{0x0c}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x8c},
+			[]int{0xdaef, 0x0c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb8d",
@@ -10161,12 +10367,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x8d}},
-			mock.Slice{Addr: 0xbd72, Values: []uint8{0x13}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x8d},
+			[]int{0xbd72, 0x13},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb8e",
@@ -10189,12 +10396,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x8e}},
-			mock.Slice{Addr: 0x63a7, Values: []uint8{0xd4}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x8e},
+			[]int{0x63a7, 0xd4},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb8f",
@@ -10217,12 +10425,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x8f}},
-			mock.Slice{Addr: 0x1c1a, Values: []uint8{0x37}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x8f},
+			[]int{0x1c1a, 0x37},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb90",
@@ -10245,12 +10454,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x90}},
-			mock.Slice{Addr: 0xc73c, Values: []uint8{0xa2}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x90},
+			[]int{0xc73c, 0xa2},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb91",
@@ -10273,12 +10483,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x91}},
-			mock.Slice{Addr: 0x97e0, Values: []uint8{0x5e}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x91},
+			[]int{0x97e0, 0x5e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb92",
@@ -10301,12 +10512,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x92}},
-			mock.Slice{Addr: 0x83d0, Values: []uint8{0x2b}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x92},
+			[]int{0x83d0, 0x2b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb93",
@@ -10329,12 +10541,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x93}},
-			mock.Slice{Addr: 0x2234, Values: []uint8{0xa0}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x93},
+			[]int{0x2234, 0xa0},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb94",
@@ -10357,12 +10570,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x94}},
-			mock.Slice{Addr: 0xd6a6, Values: []uint8{0xd0}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x94},
+			[]int{0xd6a6, 0xd0},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb95",
@@ -10385,12 +10599,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x95}},
-			mock.Slice{Addr: 0x36ff, Values: []uint8{0xcd}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x95},
+			[]int{0x36ff, 0xcd},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb96",
@@ -10413,12 +10628,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x96}},
-			mock.Slice{Addr: 0x3324, Values: []uint8{0x21}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x96},
+			[]int{0x3324, 0x21},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb97",
@@ -10441,12 +10657,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x97}},
-			mock.Slice{Addr: 0x97bc, Values: []uint8{0x75}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x97},
+			[]int{0x97bc, 0x75},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb98",
@@ -10469,12 +10686,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x98}},
-			mock.Slice{Addr: 0x5d5e, Values: []uint8{0xa4}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x98},
+			[]int{0x5d5e, 0xa4},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb99",
@@ -10497,12 +10715,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x99}},
-			mock.Slice{Addr: 0x8bec, Values: []uint8{0x0b}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x99},
+			[]int{0x8bec, 0x0b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb9a",
@@ -10525,12 +10744,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x9a}},
-			mock.Slice{Addr: 0xdcb2, Values: []uint8{0x09}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x9a},
+			[]int{0xdcb2, 0x09},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb9b",
@@ -10553,12 +10773,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x9b}},
-			mock.Slice{Addr: 0x2bd6, Values: []uint8{0xd3}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x9b},
+			[]int{0x2bd6, 0xd3},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb9c",
@@ -10581,12 +10802,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x9c}},
-			mock.Slice{Addr: 0xc7a0, Values: []uint8{0x75}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x9c},
+			[]int{0xc7a0, 0x75},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb9d",
@@ -10609,12 +10831,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x9d}},
-			mock.Slice{Addr: 0x0800, Values: []uint8{0xcd}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x9d},
+			[]int{0x0800, 0xcd},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb9e",
@@ -10637,12 +10860,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x9e}},
-			mock.Slice{Addr: 0x3a65, Values: []uint8{0x2a}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x9e},
+			[]int{0x3a65, 0x2a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cb9f",
@@ -10665,12 +10889,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0x9f}},
-			mock.Slice{Addr: 0x72f6, Values: []uint8{0x72}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0x9f},
+			[]int{0x72f6, 0x72},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cba0",
@@ -10693,12 +10918,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xa0}},
-			mock.Slice{Addr: 0xc80d, Values: []uint8{0xc0}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xa0},
+			[]int{0xc80d, 0xc0},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cba1",
@@ -10721,12 +10947,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xa1}},
-			mock.Slice{Addr: 0xd0ba, Values: []uint8{0xbd}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xa1},
+			[]int{0xd0ba, 0xbd},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cba2",
@@ -10749,12 +10976,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xa2}},
-			mock.Slice{Addr: 0x6fc0, Values: []uint8{0x61}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xa2},
+			[]int{0x6fc0, 0x61},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cba3",
@@ -10777,12 +11005,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xa3}},
-			mock.Slice{Addr: 0x6666, Values: []uint8{0x8e}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xa3},
+			[]int{0x6666, 0x8e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cba4",
@@ -10805,12 +11034,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xa4}},
-			mock.Slice{Addr: 0x8bb1, Values: []uint8{0xbb}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xa4},
+			[]int{0x8bb1, 0xbb},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cba5",
@@ -10833,12 +11063,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xa5}},
-			mock.Slice{Addr: 0x88ca, Values: []uint8{0x4f}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xa5},
+			[]int{0x88ca, 0x4f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cba6",
@@ -10861,12 +11092,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xa6}},
-			mock.Slice{Addr: 0xe70d, Values: []uint8{0x27}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xa6},
+			[]int{0xe70d, 0x27},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cba7",
@@ -10889,12 +11121,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xa7}},
-			mock.Slice{Addr: 0xc77b, Values: []uint8{0xff}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xa7},
+			[]int{0xc77b, 0xff},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cba8",
@@ -10917,12 +11150,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xa8}},
-			mock.Slice{Addr: 0xc9e7, Values: []uint8{0x46}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xa8},
+			[]int{0xc9e7, 0x46},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cba9",
@@ -10945,12 +11179,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xa9}},
-			mock.Slice{Addr: 0xce0b, Values: []uint8{0x39}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xa9},
+			[]int{0xce0b, 0x39},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbaa",
@@ -10973,12 +11208,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xaa}},
-			mock.Slice{Addr: 0xfed5, Values: []uint8{0xb0}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xaa},
+			[]int{0xfed5, 0xb0},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbab",
@@ -11001,12 +11237,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xab}},
-			mock.Slice{Addr: 0x0812, Values: []uint8{0xf2}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xab},
+			[]int{0x0812, 0xf2},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbac",
@@ -11029,12 +11266,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xac}},
-			mock.Slice{Addr: 0xffaa, Values: []uint8{0x09}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xac},
+			[]int{0xffaa, 0x09},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbad",
@@ -11057,12 +11295,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xad}},
-			mock.Slice{Addr: 0xae15, Values: []uint8{0x30}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xad},
+			[]int{0xae15, 0x30},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbae",
@@ -11085,12 +11324,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xae}},
-			mock.Slice{Addr: 0x190e, Values: []uint8{0x66}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xae},
+			[]int{0x190e, 0x66},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbaf",
@@ -11113,12 +11353,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xaf}},
-			mock.Slice{Addr: 0x5877, Values: []uint8{0x62}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xaf},
+			[]int{0x5877, 0x62},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbb0",
@@ -11141,12 +11382,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xb0}},
-			mock.Slice{Addr: 0xc3ba, Values: []uint8{0x4c}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xb0},
+			[]int{0xc3ba, 0x4c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbb1",
@@ -11169,12 +11411,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xb1}},
-			mock.Slice{Addr: 0x1190, Values: []uint8{0xe3}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xb1},
+			[]int{0x1190, 0xe3},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbb2",
@@ -11197,12 +11440,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xb2}},
-			mock.Slice{Addr: 0x6ff5, Values: []uint8{0x04}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xb2},
+			[]int{0x6ff5, 0x04},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbb3",
@@ -11225,12 +11469,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xb3}},
-			mock.Slice{Addr: 0x5cb1, Values: []uint8{0x43}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xb3},
+			[]int{0x5cb1, 0x43},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbb4",
@@ -11253,12 +11498,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xb4}},
-			mock.Slice{Addr: 0xe1bb, Values: []uint8{0x78}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xb4},
+			[]int{0xe1bb, 0x78},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbb5",
@@ -11281,12 +11527,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xb5}},
-			mock.Slice{Addr: 0x4bba, Values: []uint8{0x70}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xb5},
+			[]int{0x4bba, 0x70},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbb6",
@@ -11309,12 +11556,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xb6}},
-			mock.Slice{Addr: 0x4fab, Values: []uint8{0xa5}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xb6},
+			[]int{0x4fab, 0xa5},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbb7",
@@ -11337,12 +11585,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xb7}},
-			mock.Slice{Addr: 0xd4a2, Values: []uint8{0xf2}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xb7},
+			[]int{0xd4a2, 0xf2},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbb8",
@@ -11365,12 +11614,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xb8}},
-			mock.Slice{Addr: 0xd249, Values: []uint8{0xc4}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xb8},
+			[]int{0xd249, 0xc4},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbb9",
@@ -11393,12 +11643,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xb9}},
-			mock.Slice{Addr: 0x5dee, Values: []uint8{0xcc}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xb9},
+			[]int{0x5dee, 0xcc},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbba",
@@ -11421,12 +11672,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xba}},
-			mock.Slice{Addr: 0x34c9, Values: []uint8{0xbc}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xba},
+			[]int{0x34c9, 0xbc},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbbb",
@@ -11449,12 +11701,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xbb}},
-			mock.Slice{Addr: 0xcb30, Values: []uint8{0xf4}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xbb},
+			[]int{0xcb30, 0xf4},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbbc",
@@ -11477,12 +11730,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xbc}},
-			mock.Slice{Addr: 0x7b6e, Values: []uint8{0x45}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xbc},
+			[]int{0x7b6e, 0x45},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbbd",
@@ -11505,12 +11759,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xbd}},
-			mock.Slice{Addr: 0x10b8, Values: []uint8{0x35}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xbd},
+			[]int{0x10b8, 0x35},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbbe",
@@ -11533,12 +11788,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xbe}},
-			mock.Slice{Addr: 0x77d5, Values: []uint8{0xea}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xbe},
+			[]int{0x77d5, 0xea},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbbf",
@@ -11561,12 +11817,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xbf}},
-			mock.Slice{Addr: 0x15de, Values: []uint8{0x1d}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xbf},
+			[]int{0x15de, 0x1d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbc0",
@@ -11589,12 +11846,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xc0}},
-			mock.Slice{Addr: 0xb3a1, Values: []uint8{0x5c}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xc0},
+			[]int{0xb3a1, 0x5c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbc1",
@@ -11617,12 +11875,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xc1}},
-			mock.Slice{Addr: 0x3343, Values: []uint8{0xaa}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xc1},
+			[]int{0x3343, 0xaa},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbc2",
@@ -11645,12 +11904,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xc2}},
-			mock.Slice{Addr: 0xe1f3, Values: []uint8{0x14}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xc2},
+			[]int{0xe1f3, 0x14},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbc3",
@@ -11673,12 +11933,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xc3}},
-			mock.Slice{Addr: 0x8f3a, Values: []uint8{0x81}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xc3},
+			[]int{0x8f3a, 0x81},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbc4",
@@ -11701,12 +11962,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xc4}},
-			mock.Slice{Addr: 0x5876, Values: []uint8{0x9d}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xc4},
+			[]int{0x5876, 0x9d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbc5",
@@ -11729,12 +11991,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xc5}},
-			mock.Slice{Addr: 0x4107, Values: []uint8{0xcc}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xc5},
+			[]int{0x4107, 0xcc},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbc6",
@@ -11757,12 +12020,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xc6}},
-			mock.Slice{Addr: 0xf0be, Values: []uint8{0x9c}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xc6},
+			[]int{0xf0be, 0x9c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbc7",
@@ -11785,12 +12049,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xc7}},
-			mock.Slice{Addr: 0x583f, Values: []uint8{0x58}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xc7},
+			[]int{0x583f, 0x58},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbc8",
@@ -11813,12 +12078,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xc8}},
-			mock.Slice{Addr: 0x7cf3, Values: []uint8{0x75}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xc8},
+			[]int{0x7cf3, 0x75},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbc9",
@@ -11841,12 +12107,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xc9}},
-			mock.Slice{Addr: 0x72db, Values: []uint8{0x87}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xc9},
+			[]int{0x72db, 0x87},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbca",
@@ -11869,12 +12136,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xca}},
-			mock.Slice{Addr: 0xfbc7, Values: []uint8{0x1a}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xca},
+			[]int{0xfbc7, 0x1a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbcb",
@@ -11897,12 +12165,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xcb}},
-			mock.Slice{Addr: 0xf70d, Values: []uint8{0xa1}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xcb},
+			[]int{0xf70d, 0xa1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbcc",
@@ -11925,12 +12194,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xcc}},
-			mock.Slice{Addr: 0x18fd, Values: []uint8{0xfe}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xcc},
+			[]int{0x18fd, 0xfe},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbcd",
@@ -11953,12 +12223,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xcd}},
-			mock.Slice{Addr: 0x2602, Values: []uint8{0x2d}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xcd},
+			[]int{0x2602, 0x2d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbce",
@@ -11981,12 +12252,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xce}},
-			mock.Slice{Addr: 0x8ec6, Values: []uint8{0xbf}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xce},
+			[]int{0x8ec6, 0xbf},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbcf",
@@ -12009,12 +12281,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xcf}},
-			mock.Slice{Addr: 0x98a0, Values: []uint8{0xd4}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xcf},
+			[]int{0x98a0, 0xd4},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbd0",
@@ -12037,12 +12310,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xd0}},
-			mock.Slice{Addr: 0x1724, Values: []uint8{0x30}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xd0},
+			[]int{0x1724, 0x30},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbd1",
@@ -12065,12 +12339,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xd1}},
-			mock.Slice{Addr: 0x47f4, Values: []uint8{0xc7}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xd1},
+			[]int{0x47f4, 0xc7},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbd2",
@@ -12093,12 +12368,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xd2}},
-			mock.Slice{Addr: 0x7528, Values: []uint8{0x4f}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xd2},
+			[]int{0x7528, 0x4f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbd3",
@@ -12121,12 +12397,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xd3}},
-			mock.Slice{Addr: 0x5fba, Values: []uint8{0x3a}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xd3},
+			[]int{0x5fba, 0x3a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbd4",
@@ -12149,12 +12426,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xd4}},
-			mock.Slice{Addr: 0xbf2e, Values: []uint8{0x71}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xd4},
+			[]int{0xbf2e, 0x71},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbd5",
@@ -12177,12 +12455,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xd5}},
-			mock.Slice{Addr: 0x8a77, Values: []uint8{0x52}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xd5},
+			[]int{0x8a77, 0x52},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbd6",
@@ -12205,12 +12484,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xd6}},
-			mock.Slice{Addr: 0x6029, Values: []uint8{0xb7}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xd6},
+			[]int{0x6029, 0xb7},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbd7",
@@ -12233,12 +12513,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xd7}},
-			mock.Slice{Addr: 0x290a, Values: []uint8{0x42}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xd7},
+			[]int{0x290a, 0x42},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbd8",
@@ -12261,12 +12542,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xd8}},
-			mock.Slice{Addr: 0x6d7e, Values: []uint8{0x6e}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xd8},
+			[]int{0x6d7e, 0x6e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbd9",
@@ -12289,12 +12571,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xd9}},
-			mock.Slice{Addr: 0xefc6, Values: []uint8{0x5b}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xd9},
+			[]int{0xefc6, 0x5b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbda",
@@ -12317,12 +12600,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xda}},
-			mock.Slice{Addr: 0x1c87, Values: []uint8{0xb9}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xda},
+			[]int{0x1c87, 0xb9},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbdb",
@@ -12345,12 +12629,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xdb}},
-			mock.Slice{Addr: 0xbc48, Values: []uint8{0xef}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xdb},
+			[]int{0xbc48, 0xef},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbdc",
@@ -12373,12 +12658,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xdc}},
-			mock.Slice{Addr: 0xb125, Values: []uint8{0x0e}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xdc},
+			[]int{0xb125, 0x0e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbdd",
@@ -12401,12 +12687,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xdd}},
-			mock.Slice{Addr: 0x5b9f, Values: []uint8{0x94}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xdd},
+			[]int{0x5b9f, 0x94},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbde",
@@ -12429,12 +12716,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xde}},
-			mock.Slice{Addr: 0xba03, Values: []uint8{0x93}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xde},
+			[]int{0xba03, 0x93},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbdf",
@@ -12457,12 +12745,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xdf}},
-			mock.Slice{Addr: 0x0fa1, Values: []uint8{0xc5}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xdf},
+			[]int{0x0fa1, 0xc5},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbe0",
@@ -12485,12 +12774,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xe0}},
-			mock.Slice{Addr: 0x3744, Values: []uint8{0x54}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xe0},
+			[]int{0x3744, 0x54},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbe1",
@@ -12513,12 +12803,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xe1}},
-			mock.Slice{Addr: 0x5334, Values: []uint8{0x85}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xe1},
+			[]int{0x5334, 0x85},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbe2",
@@ -12541,12 +12832,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xe2}},
-			mock.Slice{Addr: 0x3a4c, Values: []uint8{0x47}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xe2},
+			[]int{0x3a4c, 0x47},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbe3",
@@ -12569,12 +12861,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xe3}},
-			mock.Slice{Addr: 0x2e78, Values: []uint8{0x48}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xe3},
+			[]int{0x2e78, 0x48},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbe4",
@@ -12597,12 +12890,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xe4}},
-			mock.Slice{Addr: 0x0978, Values: []uint8{0x84}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xe4},
+			[]int{0x0978, 0x84},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbe5",
@@ -12625,12 +12919,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xe5}},
-			mock.Slice{Addr: 0xb48f, Values: []uint8{0xcf}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xe5},
+			[]int{0xb48f, 0xcf},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbe6",
@@ -12653,12 +12948,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xe6}},
-			mock.Slice{Addr: 0x9f9b, Values: []uint8{0xf6}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xe6},
+			[]int{0x9f9b, 0xf6},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbe7",
@@ -12681,12 +12977,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xe7}},
-			mock.Slice{Addr: 0xf2e0, Values: []uint8{0xcf}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xe7},
+			[]int{0xf2e0, 0xcf},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbe8",
@@ -12709,12 +13006,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xe8}},
-			mock.Slice{Addr: 0x4a05, Values: []uint8{0xe6}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xe8},
+			[]int{0x4a05, 0xe6},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbe9",
@@ -12737,12 +13035,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xe9}},
-			mock.Slice{Addr: 0xa4d0, Values: []uint8{0xb2}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xe9},
+			[]int{0xa4d0, 0xb2},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbea",
@@ -12765,12 +13064,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xea}},
-			mock.Slice{Addr: 0xf32a, Values: []uint8{0x9c}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xea},
+			[]int{0xf32a, 0x9c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbeb",
@@ -12793,12 +13093,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xeb}},
-			mock.Slice{Addr: 0x1a1a, Values: []uint8{0x21}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xeb},
+			[]int{0x1a1a, 0x21},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbec",
@@ -12821,12 +13122,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xec}},
-			mock.Slice{Addr: 0xba08, Values: []uint8{0x82}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xec},
+			[]int{0xba08, 0x82},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbed",
@@ -12849,12 +13151,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xed}},
-			mock.Slice{Addr: 0x2dec, Values: []uint8{0xcb}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xed},
+			[]int{0x2dec, 0xcb},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbee",
@@ -12877,12 +13180,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xee}},
-			mock.Slice{Addr: 0xe90d, Values: []uint8{0xf1}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xee},
+			[]int{0xe90d, 0xf1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbef",
@@ -12905,12 +13209,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xef}},
-			mock.Slice{Addr: 0x2c39, Values: []uint8{0xc8}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xef},
+			[]int{0x2c39, 0xc8},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbf0",
@@ -12933,12 +13238,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xf0}},
-			mock.Slice{Addr: 0x6ff5, Values: []uint8{0xf6}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xf0},
+			[]int{0x6ff5, 0xf6},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbf1",
@@ -12961,12 +13267,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xf1}},
-			mock.Slice{Addr: 0x5e1c, Values: []uint8{0x37}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xf1},
+			[]int{0x5e1c, 0x37},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbf2",
@@ -12989,12 +13296,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xf2}},
-			mock.Slice{Addr: 0x9819, Values: []uint8{0xe4}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xf2},
+			[]int{0x9819, 0xe4},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbf3",
@@ -13017,12 +13325,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xf3}},
-			mock.Slice{Addr: 0x263f, Values: []uint8{0xa1}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xf3},
+			[]int{0x263f, 0xa1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbf4",
@@ -13045,12 +13354,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xf4}},
-			mock.Slice{Addr: 0x75d9, Values: []uint8{0x3f}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xf4},
+			[]int{0x75d9, 0x3f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbf5",
@@ -13073,12 +13383,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xf5}},
-			mock.Slice{Addr: 0x47e6, Values: []uint8{0xce}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xf5},
+			[]int{0x47e6, 0xce},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbf6",
@@ -13101,12 +13412,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xf6}},
-			mock.Slice{Addr: 0xa9bc, Values: []uint8{0xb1}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xf6},
+			[]int{0xa9bc, 0xb1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbf7",
@@ -13129,12 +13441,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xf7}},
-			mock.Slice{Addr: 0x188c, Values: []uint8{0x6c}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xf7},
+			[]int{0x188c, 0x6c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbf8",
@@ -13157,12 +13470,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xf8}},
-			mock.Slice{Addr: 0xd2b0, Values: []uint8{0xcb}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xf8},
+			[]int{0xd2b0, 0xcb},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbf9",
@@ -13185,12 +13499,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xf9}},
-			mock.Slice{Addr: 0x0730, Values: []uint8{0xae}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xf9},
+			[]int{0x0730, 0xae},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbfa",
@@ -13213,12 +13528,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xfa}},
-			mock.Slice{Addr: 0xed03, Values: []uint8{0x27}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xfa},
+			[]int{0xed03, 0x27},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbfb",
@@ -13241,12 +13557,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xfb}},
-			mock.Slice{Addr: 0xd1ae, Values: []uint8{0xf2}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xfb},
+			[]int{0xd1ae, 0xf2},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbfc",
@@ -13269,12 +13586,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xfc}},
-			mock.Slice{Addr: 0x500f, Values: []uint8{0x94}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xfc},
+			[]int{0x500f, 0x94},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbfd",
@@ -13297,12 +13615,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xfd}},
-			mock.Slice{Addr: 0x28c5, Values: []uint8{0xab}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xfd},
+			[]int{0x28c5, 0xab},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbfe",
@@ -13325,12 +13644,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xfe}},
-			mock.Slice{Addr: 0x3a24, Values: []uint8{0xc3}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xfe},
+			[]int{0x3a24, 0xc3},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cbff",
@@ -13353,12 +13673,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcb, 0xff}},
-			mock.Slice{Addr: 0xe3f2, Values: []uint8{0x25}},
+		memory: [][]int{
+			[]int{0x0000, 0xcb},
+			[]int{0x0001, 0xff},
+			[]int{0xe3f2, 0x25},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cc_1",
@@ -13381,11 +13702,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcc, 0x61, 0x9c}},
+		memory: [][]int{
+			[]int{0x0000, 0xcc},
+			[]int{0x0001, 0x61},
+			[]int{0x0002, 0x9c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cc_2",
@@ -13408,11 +13731,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcc, 0x61, 0x9c}},
+		memory: [][]int{
+			[]int{0x0000, 0xcc},
+			[]int{0x0001, 0x61},
+			[]int{0x0002, 0x9c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cd",
@@ -13435,11 +13760,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xcd, 0x5d, 0x3a}},
+		memory: [][]int{
+			[]int{0x0000, 0xcd},
+			[]int{0x0001, 0x5d},
+			[]int{0x0002, 0x3a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ce",
@@ -13462,11 +13789,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xce, 0xb2}},
+		memory: [][]int{
+			[]int{0x0000, 0xce},
+			[]int{0x0001, 0xb2},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "cf",
@@ -13489,11 +13817,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x6d33, Values: []uint8{0xcf}},
+		memory: [][]int{
+			[]int{0x6d33, 0xcf},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "d0_1",
@@ -13516,12 +13844,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xd0}},
-			mock.Slice{Addr: 0x43f7, Values: []uint8{0xe9, 0xaf}},
+		memory: [][]int{
+			[]int{0x0000, 0xd0},
+			[]int{0x43f7, 0xe9},
+			[]int{0x43f8, 0xaf},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "d0_2",
@@ -13544,12 +13873,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xd0}},
-			mock.Slice{Addr: 0x43f7, Values: []uint8{0xe9, 0xaf}},
+		memory: [][]int{
+			[]int{0x0000, 0xd0},
+			[]int{0x43f7, 0xe9},
+			[]int{0x43f8, 0xaf},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "d1",
@@ -13572,12 +13902,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xd1}},
-			mock.Slice{Addr: 0x4143, Values: []uint8{0xce, 0xe8}},
+		memory: [][]int{
+			[]int{0x0000, 0xd1},
+			[]int{0x4143, 0xce},
+			[]int{0x4144, 0xe8},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "d2_1",
@@ -13600,11 +13931,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xd2, 0x1b, 0xe1}},
+		memory: [][]int{
+			[]int{0x0000, 0xd2},
+			[]int{0x0001, 0x1b},
+			[]int{0x0002, 0xe1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "d2_2",
@@ -13627,11 +13960,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xd2, 0x1b, 0xe1}},
+		memory: [][]int{
+			[]int{0x0000, 0xd2},
+			[]int{0x0001, 0x1b},
+			[]int{0x0002, 0xe1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "d3_1",
@@ -13654,11 +13989,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xd3, 0xed}},
+		memory: [][]int{
+			[]int{0x0000, 0xd3},
+			[]int{0x0001, 0xed},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "d3_2",
@@ -13681,11 +14017,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xd3, 0xec}},
+		memory: [][]int{
+			[]int{0x0000, 0xd3},
+			[]int{0x0001, 0xec},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "d3_3",
@@ -13708,11 +14045,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xd3, 0xed}},
+		memory: [][]int{
+			[]int{0x0000, 0xd3},
+			[]int{0x0001, 0xed},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "d3",
@@ -13735,11 +14073,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xd3, 0xec}},
+		memory: [][]int{
+			[]int{0x0000, 0xd3},
+			[]int{0x0001, 0xec},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "d4_1",
@@ -13762,11 +14101,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xd4, 0x61, 0x9c}},
+		memory: [][]int{
+			[]int{0x0000, 0xd4},
+			[]int{0x0001, 0x61},
+			[]int{0x0002, 0x9c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "d4_2",
@@ -13789,11 +14130,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xd4, 0x61, 0x9c}},
+		memory: [][]int{
+			[]int{0x0000, 0xd4},
+			[]int{0x0001, 0x61},
+			[]int{0x0002, 0x9c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "d5",
@@ -13816,11 +14159,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xd5}},
+		memory: [][]int{
+			[]int{0x0000, 0xd5},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "d6",
@@ -13843,11 +14186,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xd6, 0xdf}},
+		memory: [][]int{
+			[]int{0x0000, 0xd6},
+			[]int{0x0001, 0xdf},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "d7",
@@ -13870,11 +14214,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x6d33, Values: []uint8{0xd7}},
+		memory: [][]int{
+			[]int{0x6d33, 0xd7},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "d8_1",
@@ -13897,12 +14241,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xd8}},
-			mock.Slice{Addr: 0x43f7, Values: []uint8{0xe9, 0xaf}},
+		memory: [][]int{
+			[]int{0x0000, 0xd8},
+			[]int{0x43f7, 0xe9},
+			[]int{0x43f8, 0xaf},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "d8_2",
@@ -13925,12 +14270,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xd8}},
-			mock.Slice{Addr: 0x43f7, Values: []uint8{0xe9, 0xaf}},
+		memory: [][]int{
+			[]int{0x0000, 0xd8},
+			[]int{0x43f7, 0xe9},
+			[]int{0x43f8, 0xaf},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "d9",
@@ -13953,11 +14299,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xd9}},
+		memory: [][]int{
+			[]int{0x0000, 0xd9},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "da_1",
@@ -13980,11 +14326,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xda, 0x1b, 0xe1}},
+		memory: [][]int{
+			[]int{0x0000, 0xda},
+			[]int{0x0001, 0x1b},
+			[]int{0x0002, 0xe1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "da_2",
@@ -14007,11 +14355,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xda, 0x1b, 0xe1}},
+		memory: [][]int{
+			[]int{0x0000, 0xda},
+			[]int{0x0001, 0x1b},
+			[]int{0x0002, 0xe1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "db_1",
@@ -14034,11 +14384,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdb, 0xe3}},
+		memory: [][]int{
+			[]int{0x0000, 0xdb},
+			[]int{0x0001, 0xe3},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "db_2",
@@ -14061,11 +14412,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdb, 0xe2}},
+		memory: [][]int{
+			[]int{0x0000, 0xdb},
+			[]int{0x0001, 0xe2},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "db_3",
@@ -14088,11 +14440,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdb, 0xe3}},
+		memory: [][]int{
+			[]int{0x0000, 0xdb},
+			[]int{0x0001, 0xe3},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "db",
@@ -14115,11 +14468,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdb, 0xe2}},
+		memory: [][]int{
+			[]int{0x0000, 0xdb},
+			[]int{0x0001, 0xe2},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dc_1",
@@ -14142,11 +14496,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdc, 0x61, 0x9c}},
+		memory: [][]int{
+			[]int{0x0000, 0xdc},
+			[]int{0x0001, 0x61},
+			[]int{0x0002, 0x9c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dc_2",
@@ -14169,11 +14525,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdc, 0x61, 0x9c}},
+		memory: [][]int{
+			[]int{0x0000, 0xdc},
+			[]int{0x0001, 0x61},
+			[]int{0x0002, 0x9c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd00",
@@ -14196,11 +14554,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 9,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x00, 0x00}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x00},
+			[]int{0x0002, 0x00},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd09",
@@ -14223,11 +14583,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x09}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x09},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd19",
@@ -14250,11 +14611,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x19}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x19},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd21",
@@ -14277,11 +14639,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x21, 0xf2, 0x7c}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x21},
+			[]int{0x0002, 0xf2},
+			[]int{0x0003, 0x7c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd22",
@@ -14304,11 +14669,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x22, 0x4f, 0xad}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x22},
+			[]int{0x0002, 0x4f},
+			[]int{0x0003, 0xad},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd23",
@@ -14331,11 +14699,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x23}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x23},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd24",
@@ -14358,11 +14727,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x24}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x24},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd25",
@@ -14385,11 +14755,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x25}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x25},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd26",
@@ -14412,11 +14783,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x26, 0xad}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x26},
+			[]int{0x0002, 0xad},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd29",
@@ -14439,11 +14812,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x29}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x29},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd2a",
@@ -14466,12 +14840,16 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x2a, 0xbc, 0x40}},
-			mock.Slice{Addr: 0x40bc, Values: []uint8{0xb5, 0x30}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x2a},
+			[]int{0x0002, 0xbc},
+			[]int{0x0003, 0x40},
+			[]int{0x40bc, 0xb5},
+			[]int{0x40bd, 0x30},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd2b",
@@ -14494,11 +14872,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x2b}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x2b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd2c",
@@ -14521,11 +14900,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x2c}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x2c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd2d",
@@ -14548,11 +14928,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x2d}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x2d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd2e",
@@ -14575,11 +14956,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x2e, 0x1c}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x2e},
+			[]int{0x0002, 0x1c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd34",
@@ -14602,12 +14985,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x34, 0xe6}},
-			mock.Slice{Addr: 0xde8f, Values: []uint8{0x57}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x34},
+			[]int{0x0002, 0xe6},
+			[]int{0xde8f, 0x57},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd35",
@@ -14630,12 +15015,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x35, 0x60}},
-			mock.Slice{Addr: 0xc793, Values: []uint8{0xf7}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x35},
+			[]int{0x0002, 0x60},
+			[]int{0xc793, 0xf7},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd36",
@@ -14658,11 +15045,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x36, 0x35, 0xb5}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x36},
+			[]int{0x0002, 0x35},
+			[]int{0x0003, 0xb5},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd39",
@@ -14685,11 +15075,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x39}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x39},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd44",
@@ -14712,11 +15103,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x44}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x44},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd45",
@@ -14739,11 +15131,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x45}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x45},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd46",
@@ -14766,12 +15159,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x46, 0x68}},
-			mock.Slice{Addr: 0x5d2f, Values: []uint8{0x8d}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x46},
+			[]int{0x0002, 0x68},
+			[]int{0x5d2f, 0x8d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd4c",
@@ -14794,11 +15189,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x4c}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x4c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd4d",
@@ -14821,11 +15217,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x4d}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x4d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd4e",
@@ -14848,12 +15245,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x4e, 0x2e}},
-			mock.Slice{Addr: 0xd979, Values: []uint8{0x76}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x4e},
+			[]int{0x0002, 0x2e},
+			[]int{0xd979, 0x76},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd54",
@@ -14876,11 +15275,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x54}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x54},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd55",
@@ -14903,11 +15303,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x55}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x55},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd56",
@@ -14930,12 +15331,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x56, 0xf4}},
-			mock.Slice{Addr: 0xa2fa, Values: []uint8{0xde}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x56},
+			[]int{0x0002, 0xf4},
+			[]int{0xa2fa, 0xde},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd5c",
@@ -14958,11 +15361,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x5c}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x5c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd5d",
@@ -14985,11 +15389,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x5d}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x5d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd5e",
@@ -15012,12 +15417,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x5e, 0x8f}},
-			mock.Slice{Addr: 0x8cc1, Values: []uint8{0xce}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x5e},
+			[]int{0x0002, 0x8f},
+			[]int{0x8cc1, 0xce},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd60",
@@ -15040,11 +15447,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x60}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x60},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd61",
@@ -15067,11 +15475,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x61}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x61},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd62",
@@ -15094,11 +15503,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x62}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x62},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd63",
@@ -15121,11 +15531,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x63}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x63},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd64",
@@ -15148,11 +15559,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x64}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x64},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd65",
@@ -15175,11 +15587,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x65}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x65},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd66",
@@ -15202,12 +15615,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x66, 0xb5}},
-			mock.Slice{Addr: 0xce12, Values: []uint8{0x03}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x66},
+			[]int{0x0002, 0xb5},
+			[]int{0xce12, 0x03},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd67",
@@ -15230,11 +15645,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x67}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x67},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd68",
@@ -15257,11 +15673,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x68}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x68},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd69",
@@ -15284,11 +15701,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x69}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x69},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd6a",
@@ -15311,11 +15729,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x6a}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x6a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd6b",
@@ -15338,11 +15757,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x6b}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x6b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd6c",
@@ -15365,11 +15785,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x6c}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x6c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd6d",
@@ -15392,11 +15813,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x6d}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x6d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd6e",
@@ -15419,12 +15841,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x6e, 0x2c}},
-			mock.Slice{Addr: 0xc674, Values: []uint8{0x6b}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x6e},
+			[]int{0x0002, 0x2c},
+			[]int{0xc674, 0x6b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd6f",
@@ -15447,11 +15871,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x6f}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x6f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd70",
@@ -15474,11 +15899,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x70, 0xf6}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x70},
+			[]int{0x0002, 0xf6},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd71",
@@ -15501,11 +15928,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x71, 0x23}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x71},
+			[]int{0x0002, 0x23},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd72",
@@ -15528,11 +15957,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x72, 0x93}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x72},
+			[]int{0x0002, 0x93},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd73",
@@ -15555,11 +15986,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x73, 0x57}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x73},
+			[]int{0x0002, 0x57},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd74",
@@ -15582,11 +16015,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x74, 0xb9}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x74},
+			[]int{0x0002, 0xb9},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd75",
@@ -15609,11 +16044,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x75, 0x30}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x75},
+			[]int{0x0002, 0x30},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd77",
@@ -15636,11 +16073,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x77, 0x8c}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x77},
+			[]int{0x0002, 0x8c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd7c",
@@ -15663,11 +16102,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x7c}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x7c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd7d",
@@ -15690,11 +16130,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x7d}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x7d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd7e",
@@ -15717,12 +16158,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x7e, 0xbc}},
-			mock.Slice{Addr: 0x1cb0, Values: []uint8{0x57}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x7e},
+			[]int{0x0002, 0xbc},
+			[]int{0x1cb0, 0x57},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd84",
@@ -15745,11 +16188,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x84}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x84},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd85",
@@ -15772,11 +16216,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x85}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x85},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd86",
@@ -15799,12 +16244,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x86, 0xc1}},
-			mock.Slice{Addr: 0xb576, Values: []uint8{0x5b}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x86},
+			[]int{0x0002, 0xc1},
+			[]int{0xb576, 0x5b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd8c",
@@ -15827,11 +16274,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x8c}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x8c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd8d",
@@ -15854,11 +16302,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x8d}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x8d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd8e",
@@ -15881,12 +16330,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x8e, 0x25}},
-			mock.Slice{Addr: 0xbbbc, Values: []uint8{0x32}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x8e},
+			[]int{0x0002, 0x25},
+			[]int{0xbbbc, 0x32},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd94",
@@ -15909,11 +16360,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x94}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x94},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd95",
@@ -15936,11 +16388,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x95}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x95},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd96",
@@ -15963,12 +16416,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x96, 0x5f}},
-			mock.Slice{Addr: 0x2cc5, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x96},
+			[]int{0x0002, 0x5f},
+			[]int{0x2cc5, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd9c",
@@ -15991,11 +16446,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x9c}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x9c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd9d",
@@ -16018,11 +16474,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x9d}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x9d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dd9e",
@@ -16045,12 +16502,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0x9e, 0x14}},
-			mock.Slice{Addr: 0xb4e0, Values: []uint8{0xb5}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0x9e},
+			[]int{0x0002, 0x14},
+			[]int{0xb4e0, 0xb5},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dda4",
@@ -16073,11 +16532,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xa4}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xa4},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dda5",
@@ -16100,11 +16560,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xa5}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xa5},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dda6",
@@ -16127,12 +16588,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xa6, 0x41}},
-			mock.Slice{Addr: 0x7ed6, Values: []uint8{0xc7}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xa6},
+			[]int{0x0002, 0x41},
+			[]int{0x7ed6, 0xc7},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddac",
@@ -16155,11 +16618,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xac}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xac},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddad",
@@ -16182,11 +16646,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xad}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xad},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddae",
@@ -16209,12 +16674,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xae, 0x72}},
-			mock.Slice{Addr: 0xe97b, Values: []uint8{0xc3}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xae},
+			[]int{0x0002, 0x72},
+			[]int{0xe97b, 0xc3},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddb4",
@@ -16237,11 +16704,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xb4}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xb4},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddb5",
@@ -16264,11 +16732,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xb5}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xb5},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddb6",
@@ -16291,12 +16760,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xb6, 0x31}},
-			mock.Slice{Addr: 0xc6a0, Values: []uint8{0x1c}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xb6},
+			[]int{0x0002, 0x31},
+			[]int{0xc6a0, 0x1c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddbc",
@@ -16319,11 +16790,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xbc}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xbc},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddbd",
@@ -16346,11 +16818,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xbd}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xbd},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddbe",
@@ -16373,12 +16846,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xbe, 0x48}},
-			mock.Slice{Addr: 0x937a, Values: []uint8{0x5b}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xbe},
+			[]int{0x0002, 0x48},
+			[]int{0x937a, 0x5b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb00",
@@ -16401,12 +16876,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x0d, 0x00}},
-			mock.Slice{Addr: 0x1dae, Values: []uint8{0xa1}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x0d},
+			[]int{0x0003, 0x00},
+			[]int{0x1dae, 0xa1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb01",
@@ -16429,12 +16907,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xb7, 0x01}},
-			mock.Slice{Addr: 0x28b4, Values: []uint8{0xe3}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xb7},
+			[]int{0x0003, 0x01},
+			[]int{0x28b4, 0xe3},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb02",
@@ -16457,12 +16938,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x91, 0x02}},
-			mock.Slice{Addr: 0xc727, Values: []uint8{0x8d}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x91},
+			[]int{0x0003, 0x02},
+			[]int{0xc727, 0x8d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb03",
@@ -16485,12 +16969,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x48, 0x03}},
-			mock.Slice{Addr: 0x0466, Values: []uint8{0x78}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x48},
+			[]int{0x0003, 0x03},
+			[]int{0x0466, 0x78},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb04",
@@ -16513,12 +17000,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x48, 0x04}},
-			mock.Slice{Addr: 0x5991, Values: []uint8{0x68}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x48},
+			[]int{0x0003, 0x04},
+			[]int{0x5991, 0x68},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb05",
@@ -16541,12 +17031,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xff, 0x05}},
-			mock.Slice{Addr: 0x0076, Values: []uint8{0x95}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xff},
+			[]int{0x0003, 0x05},
+			[]int{0x0076, 0x95},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb06",
@@ -16569,12 +17062,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x07, 0x06}},
-			mock.Slice{Addr: 0x5428, Values: []uint8{0x97}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x07},
+			[]int{0x0003, 0x06},
+			[]int{0x5428, 0x97},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb07",
@@ -16597,12 +17093,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x42, 0x07}},
-			mock.Slice{Addr: 0x9845, Values: []uint8{0xae}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x42},
+			[]int{0x0003, 0x07},
+			[]int{0x9845, 0xae},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb08",
@@ -16625,12 +17124,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x0a, 0x08}},
-			mock.Slice{Addr: 0xef4a, Values: []uint8{0xda}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x0a},
+			[]int{0x0003, 0x08},
+			[]int{0xef4a, 0xda},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb09",
@@ -16653,12 +17155,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x3b, 0x09}},
-			mock.Slice{Addr: 0x9d46, Values: []uint8{0x6f}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x3b},
+			[]int{0x0003, 0x09},
+			[]int{0x9d46, 0x6f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb0a",
@@ -16681,12 +17186,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x83, 0x0a}},
-			mock.Slice{Addr: 0x1f37, Values: []uint8{0x78}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x83},
+			[]int{0x0003, 0x0a},
+			[]int{0x1f37, 0x78},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb0b",
@@ -16709,12 +17217,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xfa, 0x0b}},
-			mock.Slice{Addr: 0xcd03, Values: []uint8{0x92}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xfa},
+			[]int{0x0003, 0x0b},
+			[]int{0xcd03, 0x92},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb0c",
@@ -16737,12 +17248,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x79, 0x0c}},
-			mock.Slice{Addr: 0xbfe4, Values: []uint8{0x0d}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x79},
+			[]int{0x0003, 0x0c},
+			[]int{0xbfe4, 0x0d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb0d",
@@ -16765,12 +17279,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xe4, 0x0d}},
-			mock.Slice{Addr: 0x88a1, Values: []uint8{0x1f}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xe4},
+			[]int{0x0003, 0x0d},
+			[]int{0x88a1, 0x1f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb0e",
@@ -16793,12 +17310,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xc6, 0x0e}},
-			mock.Slice{Addr: 0xfd0f, Values: []uint8{0xad}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xc6},
+			[]int{0x0003, 0x0e},
+			[]int{0xfd0f, 0xad},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb0f",
@@ -16821,12 +17341,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x57, 0x0f}},
-			mock.Slice{Addr: 0x749e, Values: []uint8{0xf8}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x57},
+			[]int{0x0003, 0x0f},
+			[]int{0x749e, 0xf8},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb10",
@@ -16849,12 +17372,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x4f, 0x10}},
-			mock.Slice{Addr: 0xbbf1, Values: []uint8{0x45}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x4f},
+			[]int{0x0003, 0x10},
+			[]int{0xbbf1, 0x45},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb11",
@@ -16877,12 +17403,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xeb, 0x11}},
-			mock.Slice{Addr: 0x17f4, Values: []uint8{0xd9}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xeb},
+			[]int{0x0003, 0x11},
+			[]int{0x17f4, 0xd9},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb12",
@@ -16905,12 +17434,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xa6, 0x12}},
-			mock.Slice{Addr: 0xc0a1, Values: []uint8{0xe2}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xa6},
+			[]int{0x0003, 0x12},
+			[]int{0xc0a1, 0xe2},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb13",
@@ -16933,12 +17465,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xff, 0x13}},
-			mock.Slice{Addr: 0x5ac3, Values: []uint8{0xa7}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xff},
+			[]int{0x0003, 0x13},
+			[]int{0x5ac3, 0xa7},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb14",
@@ -16961,12 +17496,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xdd, 0x14}},
-			mock.Slice{Addr: 0x0954, Values: []uint8{0x85}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xdd},
+			[]int{0x0003, 0x14},
+			[]int{0x0954, 0x85},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb15",
@@ -16989,12 +17527,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x07, 0x15}},
-			mock.Slice{Addr: 0xedf0, Values: []uint8{0x0e}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x07},
+			[]int{0x0003, 0x15},
+			[]int{0xedf0, 0x0e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb16",
@@ -17017,12 +17558,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x45, 0x16}},
-			mock.Slice{Addr: 0x1703, Values: []uint8{0x5b}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x45},
+			[]int{0x0003, 0x16},
+			[]int{0x1703, 0x5b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb17",
@@ -17045,12 +17589,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x1c, 0x17}},
-			mock.Slice{Addr: 0xb8e5, Values: []uint8{0x7e}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x1c},
+			[]int{0x0003, 0x17},
+			[]int{0xb8e5, 0x7e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb18",
@@ -17073,12 +17620,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x0e, 0x18}},
-			mock.Slice{Addr: 0xa197, Values: []uint8{0x90}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x0e},
+			[]int{0x0003, 0x18},
+			[]int{0xa197, 0x90},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb19",
@@ -17101,12 +17651,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xa3, 0x19}},
-			mock.Slice{Addr: 0xf08a, Values: []uint8{0x37}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xa3},
+			[]int{0x0003, 0x19},
+			[]int{0xf08a, 0x37},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb1a",
@@ -17129,12 +17682,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xac, 0x1a}},
-			mock.Slice{Addr: 0xde0d, Values: []uint8{0xcc}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xac},
+			[]int{0x0003, 0x1a},
+			[]int{0xde0d, 0xcc},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb1b",
@@ -17157,12 +17713,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x05, 0x1b}},
-			mock.Slice{Addr: 0xb7c8, Values: []uint8{0x91}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x05},
+			[]int{0x0003, 0x1b},
+			[]int{0xb7c8, 0x91},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb1c",
@@ -17185,12 +17744,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xff, 0x1c}},
-			mock.Slice{Addr: 0xfef8, Values: []uint8{0x61}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xff},
+			[]int{0x0003, 0x1c},
+			[]int{0xfef8, 0x61},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb1d",
@@ -17213,12 +17775,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x3a, 0x1d}},
-			mock.Slice{Addr: 0x5b9d, Values: []uint8{0xf3}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x3a},
+			[]int{0x0003, 0x1d},
+			[]int{0x5b9d, 0xf3},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb1e",
@@ -17241,12 +17806,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xce, 0x1e}},
-			mock.Slice{Addr: 0x7582, Values: []uint8{0x91}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xce},
+			[]int{0x0003, 0x1e},
+			[]int{0x7582, 0x91},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb1f",
@@ -17269,12 +17837,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xa8, 0x1f}},
-			mock.Slice{Addr: 0x1d43, Values: []uint8{0xb4}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xa8},
+			[]int{0x0003, 0x1f},
+			[]int{0x1d43, 0xb4},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb20",
@@ -17297,12 +17868,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xe8, 0x20}},
-			mock.Slice{Addr: 0xdc21, Values: []uint8{0x0e}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xe8},
+			[]int{0x0003, 0x20},
+			[]int{0xdc21, 0x0e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb21",
@@ -17325,12 +17899,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x9e, 0x21}},
-			mock.Slice{Addr: 0x3432, Values: []uint8{0xf7}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x9e},
+			[]int{0x0003, 0x21},
+			[]int{0x3432, 0xf7},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb22",
@@ -17353,12 +17930,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x43, 0x22}},
-			mock.Slice{Addr: 0xbd82, Values: []uint8{0x9f}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x43},
+			[]int{0x0003, 0x22},
+			[]int{0xbd82, 0x9f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb23",
@@ -17381,12 +17961,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xc1, 0x23}},
-			mock.Slice{Addr: 0x229e, Values: []uint8{0xe0}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xc1},
+			[]int{0x0003, 0x23},
+			[]int{0x229e, 0xe0},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb24",
@@ -17409,12 +17992,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xe8, 0x24}},
-			mock.Slice{Addr: 0x31d9, Values: []uint8{0xc3}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xe8},
+			[]int{0x0003, 0x24},
+			[]int{0x31d9, 0xc3},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb25",
@@ -17437,12 +18023,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xc1, 0x25}},
-			mock.Slice{Addr: 0xcc24, Values: []uint8{0xeb}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xc1},
+			[]int{0x0003, 0x25},
+			[]int{0xcc24, 0xeb},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb26",
@@ -17465,12 +18054,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xf7, 0x26}},
-			mock.Slice{Addr: 0x651f, Values: []uint8{0x89}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xf7},
+			[]int{0x0003, 0x26},
+			[]int{0x651f, 0x89},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb27",
@@ -17493,12 +18085,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xc3, 0x27}},
-			mock.Slice{Addr: 0x1f2c, Values: []uint8{0xac}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xc3},
+			[]int{0x0003, 0x27},
+			[]int{0x1f2c, 0xac},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb28",
@@ -17521,12 +18116,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xb6, 0x28}},
-			mock.Slice{Addr: 0x9951, Values: []uint8{0x24}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xb6},
+			[]int{0x0003, 0x28},
+			[]int{0x9951, 0x24},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb29",
@@ -17549,12 +18147,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x9c, 0x29}},
-			mock.Slice{Addr: 0x2083, Values: []uint8{0x82}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x9c},
+			[]int{0x0003, 0x29},
+			[]int{0x2083, 0x82},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb2a",
@@ -17577,12 +18178,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xd8, 0x2a}},
-			mock.Slice{Addr: 0x94dd, Values: []uint8{0x7c}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xd8},
+			[]int{0x0003, 0x2a},
+			[]int{0x94dd, 0x7c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb2b",
@@ -17605,12 +18209,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xbd, 0x2b}},
-			mock.Slice{Addr: 0xb441, Values: []uint8{0x44}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xbd},
+			[]int{0x0003, 0x2b},
+			[]int{0xb441, 0x44},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb2c",
@@ -17633,12 +18240,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x2c, 0x2c}},
-			mock.Slice{Addr: 0xfe54, Values: []uint8{0x81}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x2c},
+			[]int{0x0003, 0x2c},
+			[]int{0xfe54, 0x81},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb2d",
@@ -17661,12 +18271,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x9b, 0x2d}},
-			mock.Slice{Addr: 0xb488, Values: []uint8{0x44}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x9b},
+			[]int{0x0003, 0x2d},
+			[]int{0xb488, 0x44},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb2e",
@@ -17689,12 +18302,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x3d, 0x2e}},
-			mock.Slice{Addr: 0x6a15, Values: []uint8{0x05}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x3d},
+			[]int{0x0003, 0x2e},
+			[]int{0x6a15, 0x05},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb2f",
@@ -17717,12 +18333,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xd3, 0x2f}},
-			mock.Slice{Addr: 0x7a03, Values: []uint8{0xf2}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xd3},
+			[]int{0x0003, 0x2f},
+			[]int{0x7a03, 0xf2},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb30",
@@ -17745,12 +18364,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xdf, 0x30}},
-			mock.Slice{Addr: 0xeec7, Values: []uint8{0x32}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xdf},
+			[]int{0x0003, 0x30},
+			[]int{0xeec7, 0x32},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb31",
@@ -17773,12 +18395,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x49, 0x31}},
-			mock.Slice{Addr: 0xf276, Values: []uint8{0xcd}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x49},
+			[]int{0x0003, 0x31},
+			[]int{0xf276, 0xcd},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb32",
@@ -17801,12 +18426,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xe0, 0x32}},
-			mock.Slice{Addr: 0x577f, Values: []uint8{0xe2}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xe0},
+			[]int{0x0003, 0x32},
+			[]int{0x577f, 0xe2},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb33",
@@ -17829,12 +18457,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xc9, 0x33}},
-			mock.Slice{Addr: 0xef75, Values: []uint8{0x0b}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xc9},
+			[]int{0x0003, 0x33},
+			[]int{0xef75, 0x0b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb34",
@@ -17857,12 +18488,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x49, 0x34}},
-			mock.Slice{Addr: 0xab91, Values: []uint8{0xef}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x49},
+			[]int{0x0003, 0x34},
+			[]int{0xab91, 0xef},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb35",
@@ -17885,12 +18519,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xb9, 0x35}},
-			mock.Slice{Addr: 0xead3, Values: []uint8{0x8f}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xb9},
+			[]int{0x0003, 0x35},
+			[]int{0xead3, 0x8f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb36",
@@ -17913,12 +18550,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xb4, 0x36}},
-			mock.Slice{Addr: 0x12e2, Values: []uint8{0x02}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xb4},
+			[]int{0x0003, 0x36},
+			[]int{0x12e2, 0x02},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb37",
@@ -17941,12 +18581,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xc6, 0x37}},
-			mock.Slice{Addr: 0x503d, Values: []uint8{0x3d}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xc6},
+			[]int{0x0003, 0x37},
+			[]int{0x503d, 0x3d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb38",
@@ -17969,12 +18612,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x8e, 0x38}},
-			mock.Slice{Addr: 0xf623, Values: []uint8{0x5e}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x8e},
+			[]int{0x0003, 0x38},
+			[]int{0xf623, 0x5e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb39",
@@ -17997,12 +18643,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xdc, 0x39}},
-			mock.Slice{Addr: 0xa871, Values: []uint8{0x83}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xdc},
+			[]int{0x0003, 0x39},
+			[]int{0xa871, 0x83},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb3a",
@@ -18025,12 +18674,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x0d, 0x3a}},
-			mock.Slice{Addr: 0x259e, Values: []uint8{0x89}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x0d},
+			[]int{0x0003, 0x3a},
+			[]int{0x259e, 0x89},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb3b",
@@ -18053,12 +18705,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x20, 0x3b}},
-			mock.Slice{Addr: 0x700d, Values: []uint8{0xa9}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x20},
+			[]int{0x0003, 0x3b},
+			[]int{0x700d, 0xa9},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb3c",
@@ -18081,12 +18736,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xe1, 0x3c}},
-			mock.Slice{Addr: 0xf51c, Values: []uint8{0xd0}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xe1},
+			[]int{0x0003, 0x3c},
+			[]int{0xf51c, 0xd0},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb3d",
@@ -18109,12 +18767,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xbe, 0x3d}},
-			mock.Slice{Addr: 0x02de, Values: []uint8{0x58}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xbe},
+			[]int{0x0003, 0x3d},
+			[]int{0x02de, 0x58},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb3e",
@@ -18137,12 +18798,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x0a, 0x3e}},
-			mock.Slice{Addr: 0x7854, Values: []uint8{0x5d}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x0a},
+			[]int{0x0003, 0x3e},
+			[]int{0x7854, 0x5d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb3f",
@@ -18165,12 +18829,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x31, 0x3f}},
-			mock.Slice{Addr: 0x34b9, Values: []uint8{0x04}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x31},
+			[]int{0x0003, 0x3f},
+			[]int{0x34b9, 0x04},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb40",
@@ -18193,12 +18860,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xbd, 0x40}},
-			mock.Slice{Addr: 0x8bbe, Values: []uint8{0xe7}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xbd},
+			[]int{0x0003, 0x40},
+			[]int{0x8bbe, 0xe7},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb41",
@@ -18221,12 +18891,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x52, 0x41}},
-			mock.Slice{Addr: 0xce21, Values: []uint8{0x75}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x52},
+			[]int{0x0003, 0x41},
+			[]int{0xce21, 0x75},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb42",
@@ -18249,12 +18922,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x1e, 0x42}},
-			mock.Slice{Addr: 0xf058, Values: []uint8{0x90}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x1e},
+			[]int{0x0003, 0x42},
+			[]int{0xf058, 0x90},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb43",
@@ -18277,12 +18953,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xbc, 0x43}},
-			mock.Slice{Addr: 0xe872, Values: []uint8{0x6b}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xbc},
+			[]int{0x0003, 0x43},
+			[]int{0xe872, 0x6b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb44",
@@ -18305,12 +18984,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xe8, 0x44}},
-			mock.Slice{Addr: 0xedf2, Values: []uint8{0x62}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xe8},
+			[]int{0x0003, 0x44},
+			[]int{0xedf2, 0x62},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb45",
@@ -18333,12 +19015,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x02, 0x45}},
-			mock.Slice{Addr: 0xa2c0, Values: []uint8{0x55}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x02},
+			[]int{0x0003, 0x45},
+			[]int{0xa2c0, 0x55},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb46",
@@ -18361,12 +19046,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xe2, 0x46}},
-			mock.Slice{Addr: 0xa381, Values: []uint8{0xd5}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xe2},
+			[]int{0x0003, 0x46},
+			[]int{0xa381, 0xd5},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb47",
@@ -18389,12 +19077,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x7a, 0x47}},
-			mock.Slice{Addr: 0x52a1, Values: []uint8{0x6a}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x7a},
+			[]int{0x0003, 0x47},
+			[]int{0x52a1, 0x6a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb48",
@@ -18417,12 +19108,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x13, 0x48}},
-			mock.Slice{Addr: 0x2759, Values: []uint8{0xa8}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x13},
+			[]int{0x0003, 0x48},
+			[]int{0x2759, 0xa8},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb49",
@@ -18445,12 +19139,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x94, 0x49}},
-			mock.Slice{Addr: 0x415a, Values: []uint8{0x26}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x94},
+			[]int{0x0003, 0x49},
+			[]int{0x415a, 0x26},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb4a",
@@ -18473,12 +19170,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x3b, 0x4a}},
-			mock.Slice{Addr: 0xc026, Values: []uint8{0xb5}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x3b},
+			[]int{0x0003, 0x4a},
+			[]int{0xc026, 0xb5},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb4b",
@@ -18501,12 +19201,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xb0, 0x4b}},
-			mock.Slice{Addr: 0xc1e9, Values: []uint8{0x18}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xb0},
+			[]int{0x0003, 0x4b},
+			[]int{0xc1e9, 0x18},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb4c",
@@ -18529,12 +19232,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x97, 0x4c}},
-			mock.Slice{Addr: 0x86e3, Values: []uint8{0x63}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x97},
+			[]int{0x0003, 0x4c},
+			[]int{0x86e3, 0x63},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb4d",
@@ -18557,12 +19263,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x15, 0x4d}},
-			mock.Slice{Addr: 0x7d3f, Values: []uint8{0x60}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x15},
+			[]int{0x0003, 0x4d},
+			[]int{0x7d3f, 0x60},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb4e",
@@ -18585,12 +19294,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xb0, 0x4e}},
-			mock.Slice{Addr: 0xea8e, Values: []uint8{0x3b}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xb0},
+			[]int{0x0003, 0x4e},
+			[]int{0xea8e, 0x3b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb4f",
@@ -18613,12 +19325,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x8b, 0x4f}},
-			mock.Slice{Addr: 0x884b, Values: []uint8{0x4c}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x8b},
+			[]int{0x0003, 0x4f},
+			[]int{0x884b, 0x4c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb50",
@@ -18641,12 +19356,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x12, 0x50}},
-			mock.Slice{Addr: 0xdb04, Values: []uint8{0x00}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x12},
+			[]int{0x0003, 0x50},
+			[]int{0xdb04, 0x00},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb51",
@@ -18669,12 +19387,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x18, 0x51}},
-			mock.Slice{Addr: 0x84ca, Values: []uint8{0x1c}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x18},
+			[]int{0x0003, 0x51},
+			[]int{0x84ca, 0x1c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb52",
@@ -18697,12 +19418,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x42, 0x52}},
-			mock.Slice{Addr: 0x6198, Values: []uint8{0x53}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x42},
+			[]int{0x0003, 0x52},
+			[]int{0x6198, 0x53},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb53",
@@ -18725,12 +19449,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xe3, 0x53}},
-			mock.Slice{Addr: 0xae28, Values: []uint8{0xd6}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xe3},
+			[]int{0x0003, 0x53},
+			[]int{0xae28, 0xd6},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb54",
@@ -18753,12 +19480,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x7d, 0x54}},
-			mock.Slice{Addr: 0xf052, Values: []uint8{0x5d}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x7d},
+			[]int{0x0003, 0x54},
+			[]int{0xf052, 0x5d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb55",
@@ -18781,12 +19511,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x88, 0x55}},
-			mock.Slice{Addr: 0xf2da, Values: []uint8{0x03}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x88},
+			[]int{0x0003, 0x55},
+			[]int{0xf2da, 0x03},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb56",
@@ -18809,12 +19542,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x57, 0x56}},
-			mock.Slice{Addr: 0x6d87, Values: []uint8{0x61}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x57},
+			[]int{0x0003, 0x56},
+			[]int{0x6d87, 0x61},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb57",
@@ -18837,12 +19573,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x06, 0x57}},
-			mock.Slice{Addr: 0x5839, Values: []uint8{0x1d}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x06},
+			[]int{0x0003, 0x57},
+			[]int{0x5839, 0x1d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb58",
@@ -18865,12 +19604,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x83, 0x58}},
-			mock.Slice{Addr: 0x69c9, Values: []uint8{0x0f}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x83},
+			[]int{0x0003, 0x58},
+			[]int{0x69c9, 0x0f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb59",
@@ -18893,12 +19635,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xdb, 0x59}},
-			mock.Slice{Addr: 0x9170, Values: []uint8{0x10}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xdb},
+			[]int{0x0003, 0x59},
+			[]int{0x9170, 0x10},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb5a",
@@ -18921,12 +19666,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xd1, 0x5a}},
-			mock.Slice{Addr: 0x0db1, Values: []uint8{0xbe}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xd1},
+			[]int{0x0003, 0x5a},
+			[]int{0x0db1, 0xbe},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb5b",
@@ -18949,12 +19697,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xd5, 0x5b}},
-			mock.Slice{Addr: 0x6282, Values: []uint8{0x67}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xd5},
+			[]int{0x0003, 0x5b},
+			[]int{0x6282, 0x67},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb5c",
@@ -18977,12 +19728,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x5c, 0x5c}},
-			mock.Slice{Addr: 0x9e22, Values: []uint8{0xc9}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x5c},
+			[]int{0x0003, 0x5c},
+			[]int{0x9e22, 0xc9},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb5d",
@@ -19005,12 +19759,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xff, 0x5d}},
-			mock.Slice{Addr: 0xd192, Values: []uint8{0x0d}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xff},
+			[]int{0x0003, 0x5d},
+			[]int{0xd192, 0x0d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb5e",
@@ -19033,12 +19790,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x62, 0x5e}},
-			mock.Slice{Addr: 0xed76, Values: []uint8{0xa7}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x62},
+			[]int{0x0003, 0x5e},
+			[]int{0xed76, 0xa7},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb5f",
@@ -19061,12 +19821,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x3f, 0x5f}},
-			mock.Slice{Addr: 0xdf85, Values: []uint8{0x9e}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x3f},
+			[]int{0x0003, 0x5f},
+			[]int{0xdf85, 0x9e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb60",
@@ -19089,12 +19852,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x65, 0x60}},
-			mock.Slice{Addr: 0x3307, Values: []uint8{0x2e}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x65},
+			[]int{0x0003, 0x60},
+			[]int{0x3307, 0x2e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb61",
@@ -19117,12 +19883,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xa8, 0x61}},
-			mock.Slice{Addr: 0x3673, Values: []uint8{0xbc}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xa8},
+			[]int{0x0003, 0x61},
+			[]int{0x3673, 0xbc},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb62",
@@ -19145,12 +19914,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xd9, 0x62}},
-			mock.Slice{Addr: 0x0aa5, Values: []uint8{0xea}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xd9},
+			[]int{0x0003, 0x62},
+			[]int{0x0aa5, 0xea},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb63",
@@ -19173,12 +19945,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x79, 0x63}},
-			mock.Slice{Addr: 0xe6f2, Values: []uint8{0x83}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x79},
+			[]int{0x0003, 0x63},
+			[]int{0xe6f2, 0x83},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb64",
@@ -19201,12 +19976,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x71, 0x64}},
-			mock.Slice{Addr: 0xed6c, Values: []uint8{0x52}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x71},
+			[]int{0x0003, 0x64},
+			[]int{0xed6c, 0x52},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb65",
@@ -19229,12 +20007,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x67, 0x65}},
-			mock.Slice{Addr: 0x77e0, Values: []uint8{0xf5}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x67},
+			[]int{0x0003, 0x65},
+			[]int{0x77e0, 0xf5},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb66",
@@ -19257,12 +20038,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x63, 0x66}},
-			mock.Slice{Addr: 0xee78, Values: []uint8{0x70}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x63},
+			[]int{0x0003, 0x66},
+			[]int{0xee78, 0x70},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb67",
@@ -19285,12 +20069,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xd7, 0x67}},
-			mock.Slice{Addr: 0xee78, Values: []uint8{0x06}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xd7},
+			[]int{0x0003, 0x67},
+			[]int{0xee78, 0x06},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb68",
@@ -19313,12 +20100,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xb1, 0x68}},
-			mock.Slice{Addr: 0xe919, Values: []uint8{0x20}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xb1},
+			[]int{0x0003, 0x68},
+			[]int{0xe919, 0x20},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb69",
@@ -19341,12 +20131,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xe8, 0x69}},
-			mock.Slice{Addr: 0x33dc, Values: []uint8{0x4f}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xe8},
+			[]int{0x0003, 0x69},
+			[]int{0x33dc, 0x4f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb6a",
@@ -19369,12 +20162,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x33, 0x6a}},
-			mock.Slice{Addr: 0x86e9, Values: []uint8{0x1c}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x33},
+			[]int{0x0003, 0x6a},
+			[]int{0x86e9, 0x1c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb6b",
@@ -19397,12 +20193,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x11, 0x6b}},
-			mock.Slice{Addr: 0x188c, Values: []uint8{0xbc}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x11},
+			[]int{0x0003, 0x6b},
+			[]int{0x188c, 0xbc},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb6c",
@@ -19425,12 +20224,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x5e, 0x6c}},
-			mock.Slice{Addr: 0x3e7f, Values: []uint8{0x2a}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x5e},
+			[]int{0x0003, 0x6c},
+			[]int{0x3e7f, 0x2a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb6d",
@@ -19453,12 +20255,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xdd, 0x6d}},
-			mock.Slice{Addr: 0xe2f1, Values: []uint8{0x41}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xdd},
+			[]int{0x0003, 0x6d},
+			[]int{0xe2f1, 0x41},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb6e",
@@ -19481,12 +20286,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xb2, 0x6e}},
-			mock.Slice{Addr: 0x3038, Values: []uint8{0x3f}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xb2},
+			[]int{0x0003, 0x6e},
+			[]int{0x3038, 0x3f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb6f",
@@ -19509,12 +20317,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xbe, 0x6f}},
-			mock.Slice{Addr: 0xfbd9, Values: []uint8{0x56}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xbe},
+			[]int{0x0003, 0x6f},
+			[]int{0xfbd9, 0x56},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb70",
@@ -19537,12 +20348,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xb5, 0x70}},
-			mock.Slice{Addr: 0x03e1, Values: []uint8{0x74}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xb5},
+			[]int{0x0003, 0x70},
+			[]int{0x03e1, 0x74},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb71",
@@ -19565,12 +20379,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xf7, 0x71}},
-			mock.Slice{Addr: 0x1b2a, Values: []uint8{0x08}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xf7},
+			[]int{0x0003, 0x71},
+			[]int{0x1b2a, 0x08},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb72",
@@ -19593,12 +20410,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x22, 0x72}},
-			mock.Slice{Addr: 0xce47, Values: []uint8{0x08}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x22},
+			[]int{0x0003, 0x72},
+			[]int{0xce47, 0x08},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb73",
@@ -19621,12 +20441,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x12, 0x73}},
-			mock.Slice{Addr: 0x6454, Values: []uint8{0x3c}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x12},
+			[]int{0x0003, 0x73},
+			[]int{0x6454, 0x3c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb74",
@@ -19649,12 +20472,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x08, 0x74}},
-			mock.Slice{Addr: 0x7dc9, Values: []uint8{0xbe}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x08},
+			[]int{0x0003, 0x74},
+			[]int{0x7dc9, 0xbe},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb75",
@@ -19677,12 +20503,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x5b, 0x75}},
-			mock.Slice{Addr: 0x6108, Values: []uint8{0xcf}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x5b},
+			[]int{0x0003, 0x75},
+			[]int{0x6108, 0xcf},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb76",
@@ -19705,12 +20534,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x73, 0x76}},
-			mock.Slice{Addr: 0x7efd, Values: []uint8{0x1e}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x73},
+			[]int{0x0003, 0x76},
+			[]int{0x7efd, 0x1e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb77",
@@ -19733,12 +20565,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x7f, 0x77}},
-			mock.Slice{Addr: 0x05b6, Values: []uint8{0x97}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x7f},
+			[]int{0x0003, 0x77},
+			[]int{0x05b6, 0x97},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb78",
@@ -19761,12 +20596,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x70, 0x78}},
-			mock.Slice{Addr: 0x9407, Values: []uint8{0x76}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x70},
+			[]int{0x0003, 0x78},
+			[]int{0x9407, 0x76},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb79",
@@ -19789,12 +20627,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xc3, 0x79}},
-			mock.Slice{Addr: 0x41a1, Values: []uint8{0xb8}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xc3},
+			[]int{0x0003, 0x79},
+			[]int{0x41a1, 0xb8},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb7a",
@@ -19817,12 +20658,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x3f, 0x7a}},
-			mock.Slice{Addr: 0x0ae8, Values: []uint8{0xeb}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x3f},
+			[]int{0x0003, 0x7a},
+			[]int{0x0ae8, 0xeb},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb7b",
@@ -19845,12 +20689,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x88, 0x7b}},
-			mock.Slice{Addr: 0x4fc8, Values: []uint8{0x22}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x88},
+			[]int{0x0003, 0x7b},
+			[]int{0x4fc8, 0x22},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb7c",
@@ -19873,12 +20720,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x9e, 0x7c}},
-			mock.Slice{Addr: 0x6821, Values: []uint8{0x3a}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x9e},
+			[]int{0x0003, 0x7c},
+			[]int{0x6821, 0x3a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb7d",
@@ -19901,12 +20751,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x29, 0x7d}},
-			mock.Slice{Addr: 0xb04a, Values: []uint8{0x2c}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x29},
+			[]int{0x0003, 0x7d},
+			[]int{0xb04a, 0x2c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb7e",
@@ -19929,12 +20782,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x4f, 0x7e}},
-			mock.Slice{Addr: 0xcf3f, Values: []uint8{0xf2}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x4f},
+			[]int{0x0003, 0x7e},
+			[]int{0xcf3f, 0xf2},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb7f",
@@ -19957,12 +20813,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x75, 0x7f}},
-			mock.Slice{Addr: 0x5f37, Values: []uint8{0xa2}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x75},
+			[]int{0x0003, 0x7f},
+			[]int{0x5f37, 0xa2},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb80",
@@ -19985,12 +20844,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x70, 0x80}},
-			mock.Slice{Addr: 0xad35, Values: []uint8{0x30}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x70},
+			[]int{0x0003, 0x80},
+			[]int{0xad35, 0x30},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb81",
@@ -20013,12 +20875,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x2a, 0x81}},
-			mock.Slice{Addr: 0xbdfd, Values: []uint8{0x24}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x2a},
+			[]int{0x0003, 0x81},
+			[]int{0xbdfd, 0x24},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb82",
@@ -20041,12 +20906,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x9a, 0x82}},
-			mock.Slice{Addr: 0x5e0e, Values: []uint8{0x51}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x9a},
+			[]int{0x0003, 0x82},
+			[]int{0x5e0e, 0x51},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb83",
@@ -20069,12 +20937,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x0e, 0x83}},
-			mock.Slice{Addr: 0x344f, Values: []uint8{0x01}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x0e},
+			[]int{0x0003, 0x83},
+			[]int{0x344f, 0x01},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb84",
@@ -20097,12 +20968,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x47, 0x84}},
-			mock.Slice{Addr: 0x016a, Values: []uint8{0xb0}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x47},
+			[]int{0x0003, 0x84},
+			[]int{0x016a, 0xb0},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb85",
@@ -20125,12 +20999,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x6c, 0x85}},
-			mock.Slice{Addr: 0x0c0f, Values: []uint8{0xde}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x6c},
+			[]int{0x0003, 0x85},
+			[]int{0x0c0f, 0xde},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb86",
@@ -20153,12 +21030,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x5c, 0x86}},
-			mock.Slice{Addr: 0x1121, Values: []uint8{0x7c}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x5c},
+			[]int{0x0003, 0x86},
+			[]int{0x1121, 0x7c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb87",
@@ -20181,12 +21061,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x02, 0x87}},
-			mock.Slice{Addr: 0xede8, Values: []uint8{0xc4}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x02},
+			[]int{0x0003, 0x87},
+			[]int{0xede8, 0xc4},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb88",
@@ -20209,12 +21092,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x9b, 0x88}},
-			mock.Slice{Addr: 0x8729, Values: []uint8{0x7c}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x9b},
+			[]int{0x0003, 0x88},
+			[]int{0x8729, 0x7c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb89",
@@ -20237,12 +21123,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x2b, 0x89}},
-			mock.Slice{Addr: 0x8f69, Values: []uint8{0xcf}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x2b},
+			[]int{0x0003, 0x89},
+			[]int{0x8f69, 0xcf},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb8a",
@@ -20265,12 +21154,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x0a, 0x8a}},
-			mock.Slice{Addr: 0x39b3, Values: []uint8{0xea}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x0a},
+			[]int{0x0003, 0x8a},
+			[]int{0x39b3, 0xea},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb8b",
@@ -20293,12 +21185,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x62, 0x8b}},
-			mock.Slice{Addr: 0x16e7, Values: []uint8{0x8a}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x62},
+			[]int{0x0003, 0x8b},
+			[]int{0x16e7, 0x8a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb8c",
@@ -20321,12 +21216,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xe8, 0x8c}},
-			mock.Slice{Addr: 0xc68a, Values: []uint8{0x3e}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xe8},
+			[]int{0x0003, 0x8c},
+			[]int{0xc68a, 0x3e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb8d",
@@ -20349,12 +21247,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xcc, 0x8d}},
-			mock.Slice{Addr: 0x22b2, Values: []uint8{0x9e}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xcc},
+			[]int{0x0003, 0x8d},
+			[]int{0x22b2, 0x9e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb8e",
@@ -20377,12 +21278,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x0a, 0x8e}},
-			mock.Slice{Addr: 0xd2f2, Values: []uint8{0x03}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x0a},
+			[]int{0x0003, 0x8e},
+			[]int{0xd2f2, 0x03},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb8f",
@@ -20405,12 +21309,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x7b, 0x8f}},
-			mock.Slice{Addr: 0x4079, Values: []uint8{0x96}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x7b},
+			[]int{0x0003, 0x8f},
+			[]int{0x4079, 0x96},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb90",
@@ -20433,12 +21340,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x04, 0x90}},
-			mock.Slice{Addr: 0xb505, Values: []uint8{0x46}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x04},
+			[]int{0x0003, 0x90},
+			[]int{0xb505, 0x46},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb91",
@@ -20461,12 +21371,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x11, 0x91}},
-			mock.Slice{Addr: 0xc998, Values: []uint8{0x83}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x11},
+			[]int{0x0003, 0x91},
+			[]int{0xc998, 0x83},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb92",
@@ -20489,12 +21402,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x4b, 0x92}},
-			mock.Slice{Addr: 0x91b1, Values: []uint8{0xaa}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x4b},
+			[]int{0x0003, 0x92},
+			[]int{0x91b1, 0xaa},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb93",
@@ -20517,12 +21433,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x03, 0x93}},
-			mock.Slice{Addr: 0xac31, Values: []uint8{0x93}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x03},
+			[]int{0x0003, 0x93},
+			[]int{0xac31, 0x93},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb94",
@@ -20545,12 +21464,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x11, 0x94}},
-			mock.Slice{Addr: 0x5e95, Values: []uint8{0xb7}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x11},
+			[]int{0x0003, 0x94},
+			[]int{0x5e95, 0xb7},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb95",
@@ -20573,12 +21495,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xe6, 0x95}},
-			mock.Slice{Addr: 0xfb5a, Values: []uint8{0xc6}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xe6},
+			[]int{0x0003, 0x95},
+			[]int{0xfb5a, 0xc6},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb96",
@@ -20601,12 +21526,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xd5, 0x96}},
-			mock.Slice{Addr: 0x7a56, Values: []uint8{0xae}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xd5},
+			[]int{0x0003, 0x96},
+			[]int{0x7a56, 0xae},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb97",
@@ -20629,12 +21557,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x92, 0x97}},
-			mock.Slice{Addr: 0x840e, Values: []uint8{0x23}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x92},
+			[]int{0x0003, 0x97},
+			[]int{0x840e, 0x23},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb98",
@@ -20657,12 +21588,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xdc, 0x98}},
-			mock.Slice{Addr: 0x03fa, Values: []uint8{0x58}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xdc},
+			[]int{0x0003, 0x98},
+			[]int{0x03fa, 0x58},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb99",
@@ -20685,12 +21619,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x6d, 0x99}},
-			mock.Slice{Addr: 0x0a6a, Values: []uint8{0xce}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x6d},
+			[]int{0x0003, 0x99},
+			[]int{0x0a6a, 0xce},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb9a",
@@ -20713,12 +21650,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x8a, 0x9a}},
-			mock.Slice{Addr: 0x6832, Values: []uint8{0xa8}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x8a},
+			[]int{0x0003, 0x9a},
+			[]int{0x6832, 0xa8},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb9b",
@@ -20741,12 +21681,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x97, 0x9b}},
-			mock.Slice{Addr: 0x0686, Values: []uint8{0x62}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x97},
+			[]int{0x0003, 0x9b},
+			[]int{0x0686, 0x62},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb9c",
@@ -20769,12 +21712,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x54, 0x9c}},
-			mock.Slice{Addr: 0x84cf, Values: []uint8{0x1b}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x54},
+			[]int{0x0003, 0x9c},
+			[]int{0x84cf, 0x1b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb9d",
@@ -20797,12 +21743,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x0f, 0x9d}},
-			mock.Slice{Addr: 0xe92f, Values: []uint8{0xe8}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x0f},
+			[]int{0x0003, 0x9d},
+			[]int{0xe92f, 0xe8},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb9e",
@@ -20825,12 +21774,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xb5, 0x9e}},
-			mock.Slice{Addr: 0xd870, Values: []uint8{0xee}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xb5},
+			[]int{0x0003, 0x9e},
+			[]int{0xd870, 0xee},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcb9f",
@@ -20853,12 +21805,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xb8, 0x9f}},
-			mock.Slice{Addr: 0xe5f4, Values: []uint8{0xa6}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xb8},
+			[]int{0x0003, 0x9f},
+			[]int{0xe5f4, 0xa6},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcba0",
@@ -20881,12 +21836,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x02, 0xa0}},
-			mock.Slice{Addr: 0xa2f2, Values: []uint8{0x39}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x02},
+			[]int{0x0003, 0xa0},
+			[]int{0xa2f2, 0x39},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcba1",
@@ -20909,12 +21867,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xf5, 0xa1}},
-			mock.Slice{Addr: 0x45b0, Values: []uint8{0xd2}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xf5},
+			[]int{0x0003, 0xa1},
+			[]int{0x45b0, 0xd2},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcba2",
@@ -20937,12 +21898,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x0e, 0xa2}},
-			mock.Slice{Addr: 0x6299, Values: []uint8{0xa1}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x0e},
+			[]int{0x0003, 0xa2},
+			[]int{0x6299, 0xa1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcba3",
@@ -20965,12 +21929,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x2e, 0xa3}},
-			mock.Slice{Addr: 0x043b, Values: []uint8{0x04}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x2e},
+			[]int{0x0003, 0xa3},
+			[]int{0x043b, 0x04},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcba4",
@@ -20993,12 +21960,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x03, 0xa4}},
-			mock.Slice{Addr: 0xfe50, Values: []uint8{0x27}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x03},
+			[]int{0x0003, 0xa4},
+			[]int{0xfe50, 0x27},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcba5",
@@ -21021,12 +21991,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xf6, 0xa5}},
-			mock.Slice{Addr: 0x7b1d, Values: []uint8{0x6b}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xf6},
+			[]int{0x0003, 0xa5},
+			[]int{0x7b1d, 0x6b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcba6",
@@ -21049,12 +22022,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x27, 0xa6}},
-			mock.Slice{Addr: 0xae42, Values: []uint8{0x8f}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x27},
+			[]int{0x0003, 0xa6},
+			[]int{0xae42, 0x8f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcba7",
@@ -21077,12 +22053,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xf2, 0xa7}},
-			mock.Slice{Addr: 0x5eba, Values: []uint8{0x87}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xf2},
+			[]int{0x0003, 0xa7},
+			[]int{0x5eba, 0x87},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcba8",
@@ -21105,12 +22084,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xd0, 0xa8}},
-			mock.Slice{Addr: 0xe81f, Values: []uint8{0x7e}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xd0},
+			[]int{0x0003, 0xa8},
+			[]int{0xe81f, 0x7e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcba9",
@@ -21133,12 +22115,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x9d, 0xa9}},
-			mock.Slice{Addr: 0x0f7a, Values: []uint8{0x1f}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x9d},
+			[]int{0x0003, 0xa9},
+			[]int{0x0f7a, 0x1f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbaa",
@@ -21161,12 +22146,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x9f, 0xaa}},
-			mock.Slice{Addr: 0x66e6, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x9f},
+			[]int{0x0003, 0xaa},
+			[]int{0x66e6, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbab",
@@ -21189,12 +22177,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x16, 0xab}},
-			mock.Slice{Addr: 0x6698, Values: []uint8{0xeb}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x16},
+			[]int{0x0003, 0xab},
+			[]int{0x6698, 0xeb},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbac",
@@ -21217,12 +22208,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xc4, 0xac}},
-			mock.Slice{Addr: 0xa4a1, Values: []uint8{0x44}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xc4},
+			[]int{0x0003, 0xac},
+			[]int{0xa4a1, 0x44},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbad",
@@ -21245,12 +22239,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x49, 0xad}},
-			mock.Slice{Addr: 0xef3e, Values: []uint8{0x76}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x49},
+			[]int{0x0003, 0xad},
+			[]int{0xef3e, 0x76},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbae",
@@ -21273,12 +22270,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x6e, 0xae}},
-			mock.Slice{Addr: 0xb374, Values: []uint8{0x5a}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x6e},
+			[]int{0x0003, 0xae},
+			[]int{0xb374, 0x5a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbaf",
@@ -21301,12 +22301,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xc2, 0xaf}},
-			mock.Slice{Addr: 0x35db, Values: []uint8{0x15}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xc2},
+			[]int{0x0003, 0xaf},
+			[]int{0x35db, 0x15},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbb0",
@@ -21329,12 +22332,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x47, 0xb0}},
-			mock.Slice{Addr: 0x591e, Values: []uint8{0x1e}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x47},
+			[]int{0x0003, 0xb0},
+			[]int{0x591e, 0x1e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbb1",
@@ -21357,12 +22363,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x86, 0xb1}},
-			mock.Slice{Addr: 0xad58, Values: []uint8{0x46}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x86},
+			[]int{0x0003, 0xb1},
+			[]int{0xad58, 0x46},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbb2",
@@ -21385,12 +22394,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x70, 0xb2}},
-			mock.Slice{Addr: 0xe840, Values: []uint8{0x48}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x70},
+			[]int{0x0003, 0xb2},
+			[]int{0xe840, 0x48},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbb3",
@@ -21413,12 +22425,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xde, 0xb3}},
-			mock.Slice{Addr: 0x53d9, Values: []uint8{0x06}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xde},
+			[]int{0x0003, 0xb3},
+			[]int{0x53d9, 0x06},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbb4",
@@ -21441,12 +22456,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x6b, 0xb4}},
-			mock.Slice{Addr: 0x50d1, Values: []uint8{0xdd}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x6b},
+			[]int{0x0003, 0xb4},
+			[]int{0x50d1, 0xdd},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbb5",
@@ -21469,12 +22487,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xec, 0xb5}},
-			mock.Slice{Addr: 0x145a, Values: []uint8{0xd6}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xec},
+			[]int{0x0003, 0xb5},
+			[]int{0x145a, 0xd6},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbb6",
@@ -21497,12 +22518,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x15, 0xb6}},
-			mock.Slice{Addr: 0x8787, Values: []uint8{0x8c}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x15},
+			[]int{0x0003, 0xb6},
+			[]int{0x8787, 0x8c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbb7",
@@ -21525,12 +22549,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xd3, 0xb7}},
-			mock.Slice{Addr: 0x60f3, Values: []uint8{0x54}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xd3},
+			[]int{0x0003, 0xb7},
+			[]int{0x60f3, 0x54},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbb8",
@@ -21553,12 +22580,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x13, 0xb8}},
-			mock.Slice{Addr: 0x0c09, Values: []uint8{0x87}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x13},
+			[]int{0x0003, 0xb8},
+			[]int{0x0c09, 0x87},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbb9",
@@ -21581,12 +22611,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x56, 0xb9}},
-			mock.Slice{Addr: 0x05ba, Values: []uint8{0xc8}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x56},
+			[]int{0x0003, 0xb9},
+			[]int{0x05ba, 0xc8},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbba",
@@ -21609,12 +22642,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x86, 0xba}},
-			mock.Slice{Addr: 0xf566, Values: []uint8{0x30}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x86},
+			[]int{0x0003, 0xba},
+			[]int{0xf566, 0x30},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbbb",
@@ -21637,12 +22673,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xef, 0xbb}},
-			mock.Slice{Addr: 0xbd20, Values: []uint8{0xc9}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xef},
+			[]int{0x0003, 0xbb},
+			[]int{0xbd20, 0xc9},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbbc",
@@ -21665,12 +22704,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xc0, 0xbc}},
-			mock.Slice{Addr: 0x634e, Values: []uint8{0x28}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xc0},
+			[]int{0x0003, 0xbc},
+			[]int{0x634e, 0x28},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbbd",
@@ -21693,12 +22735,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xb9, 0xbd}},
-			mock.Slice{Addr: 0xe37d, Values: []uint8{0xdd}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xb9},
+			[]int{0x0003, 0xbd},
+			[]int{0xe37d, 0xdd},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbbe",
@@ -21721,12 +22766,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x4d, 0xbe}},
-			mock.Slice{Addr: 0x5920, Values: []uint8{0xe8}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x4d},
+			[]int{0x0003, 0xbe},
+			[]int{0x5920, 0xe8},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbbf",
@@ -21749,12 +22797,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x26, 0xbf}},
-			mock.Slice{Addr: 0x175a, Values: []uint8{0xe2}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x26},
+			[]int{0x0003, 0xbf},
+			[]int{0x175a, 0xe2},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbc0",
@@ -21777,12 +22828,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x00, 0xc0}},
-			mock.Slice{Addr: 0x792e, Values: []uint8{0x92}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x00},
+			[]int{0x0003, 0xc0},
+			[]int{0x792e, 0x92},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbc1",
@@ -21805,12 +22859,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xf7, 0xc1}},
-			mock.Slice{Addr: 0xdcc3, Values: []uint8{0x1c}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xf7},
+			[]int{0x0003, 0xc1},
+			[]int{0xdcc3, 0x1c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbc2",
@@ -21833,12 +22890,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x85, 0xc2}},
-			mock.Slice{Addr: 0x0c7f, Values: []uint8{0x30}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x85},
+			[]int{0x0003, 0xc2},
+			[]int{0x0c7f, 0x30},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbc3",
@@ -21861,12 +22921,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x32, 0xc3}},
-			mock.Slice{Addr: 0x5458, Values: []uint8{0xdd}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x32},
+			[]int{0x0003, 0xc3},
+			[]int{0x5458, 0xdd},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbc4",
@@ -21889,12 +22952,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xae, 0xc4}},
-			mock.Slice{Addr: 0x7a7b, Values: []uint8{0x27}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xae},
+			[]int{0x0003, 0xc4},
+			[]int{0x7a7b, 0x27},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbc5",
@@ -21917,12 +22983,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x9c, 0xc5}},
-			mock.Slice{Addr: 0xba35, Values: []uint8{0x20}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x9c},
+			[]int{0x0003, 0xc5},
+			[]int{0xba35, 0x20},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbc6",
@@ -21945,12 +23014,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xc4, 0xc6}},
-			mock.Slice{Addr: 0xaaf0, Values: []uint8{0xb8}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xc4},
+			[]int{0x0003, 0xc6},
+			[]int{0xaaf0, 0xb8},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbc7",
@@ -21973,12 +23045,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xf8, 0xc7}},
-			mock.Slice{Addr: 0x64c3, Values: []uint8{0x94}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xf8},
+			[]int{0x0003, 0xc7},
+			[]int{0x64c3, 0x94},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbc8",
@@ -22001,12 +23076,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x65, 0xc8}},
-			mock.Slice{Addr: 0x6edf, Values: []uint8{0x8f}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x65},
+			[]int{0x0003, 0xc8},
+			[]int{0x6edf, 0x8f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbc9",
@@ -22029,12 +23107,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xfb, 0xc9}},
-			mock.Slice{Addr: 0xb66b, Values: []uint8{0xb9}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xfb},
+			[]int{0x0003, 0xc9},
+			[]int{0xb66b, 0xb9},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbca",
@@ -22057,12 +23138,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x8a, 0xca}},
-			mock.Slice{Addr: 0xa811, Values: []uint8{0x7e}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x8a},
+			[]int{0x0003, 0xca},
+			[]int{0xa811, 0x7e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbcb",
@@ -22085,12 +23169,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xa4, 0xcb}},
-			mock.Slice{Addr: 0xa3eb, Values: []uint8{0x73}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xa4},
+			[]int{0x0003, 0xcb},
+			[]int{0xa3eb, 0x73},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbcc",
@@ -22113,12 +23200,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x65, 0xcc}},
-			mock.Slice{Addr: 0x1fbf, Values: []uint8{0x72}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x65},
+			[]int{0x0003, 0xcc},
+			[]int{0x1fbf, 0x72},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbcd",
@@ -22141,12 +23231,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xe9, 0xcd}},
-			mock.Slice{Addr: 0x535f, Values: []uint8{0x1c}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xe9},
+			[]int{0x0003, 0xcd},
+			[]int{0x535f, 0x1c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbce",
@@ -22169,12 +23262,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x85, 0xce}},
-			mock.Slice{Addr: 0x0298, Values: []uint8{0x10}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x85},
+			[]int{0x0003, 0xce},
+			[]int{0x0298, 0x10},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbcf",
@@ -22197,12 +23293,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xe2, 0xcf}},
-			mock.Slice{Addr: 0xc5b2, Values: []uint8{0xb5}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xe2},
+			[]int{0x0003, 0xcf},
+			[]int{0xc5b2, 0xb5},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbd0",
@@ -22225,12 +23324,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x7f, 0xd0}},
-			mock.Slice{Addr: 0xadc2, Values: []uint8{0x51}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x7f},
+			[]int{0x0003, 0xd0},
+			[]int{0xadc2, 0x51},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbd1",
@@ -22253,12 +23355,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xa6, 0xd1}},
-			mock.Slice{Addr: 0x1058, Values: []uint8{0x2c}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xa6},
+			[]int{0x0003, 0xd1},
+			[]int{0x1058, 0x2c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbd2",
@@ -22281,12 +23386,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x9c, 0xd2}},
-			mock.Slice{Addr: 0xb93d, Values: []uint8{0x9c}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x9c},
+			[]int{0x0003, 0xd2},
+			[]int{0xb93d, 0x9c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbd3",
@@ -22309,12 +23417,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xbd, 0xd3}},
-			mock.Slice{Addr: 0xd9f3, Values: []uint8{0x60}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xbd},
+			[]int{0x0003, 0xd3},
+			[]int{0xd9f3, 0x60},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbd4",
@@ -22337,12 +23448,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x58, 0xd4}},
-			mock.Slice{Addr: 0xef7e, Values: []uint8{0x5e}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x58},
+			[]int{0x0003, 0xd4},
+			[]int{0xef7e, 0x5e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbd5",
@@ -22365,12 +23479,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x41, 0xd5}},
-			mock.Slice{Addr: 0x8dfd, Values: []uint8{0x71}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x41},
+			[]int{0x0003, 0xd5},
+			[]int{0x8dfd, 0x71},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbd6",
@@ -22393,12 +23510,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xea, 0xd6}},
-			mock.Slice{Addr: 0x5eed, Values: []uint8{0x73}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xea},
+			[]int{0x0003, 0xd6},
+			[]int{0x5eed, 0x73},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbd7",
@@ -22421,12 +23541,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x80, 0xd7}},
-			mock.Slice{Addr: 0xe6a5, Values: []uint8{0x60}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x80},
+			[]int{0x0003, 0xd7},
+			[]int{0xe6a5, 0x60},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbd8",
@@ -22449,12 +23572,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x4c, 0xd8}},
-			mock.Slice{Addr: 0xb35b, Values: []uint8{0x96}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x4c},
+			[]int{0x0003, 0xd8},
+			[]int{0xb35b, 0x96},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbd9",
@@ -22477,12 +23603,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x52, 0xd9}},
-			mock.Slice{Addr: 0x2694, Values: []uint8{0xef}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x52},
+			[]int{0x0003, 0xd9},
+			[]int{0x2694, 0xef},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbda",
@@ -22505,12 +23634,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xea, 0xda}},
-			mock.Slice{Addr: 0x2d60, Values: []uint8{0x82}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xea},
+			[]int{0x0003, 0xda},
+			[]int{0x2d60, 0x82},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbdb",
@@ -22533,12 +23665,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x4d, 0xdb}},
-			mock.Slice{Addr: 0x2bca, Values: []uint8{0x10}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x4d},
+			[]int{0x0003, 0xdb},
+			[]int{0x2bca, 0x10},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbdc",
@@ -22561,12 +23696,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xd3, 0xdc}},
-			mock.Slice{Addr: 0x7ea7, Values: []uint8{0x45}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xd3},
+			[]int{0x0003, 0xdc},
+			[]int{0x7ea7, 0x45},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbdd",
@@ -22589,12 +23727,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x6f, 0xdd}},
-			mock.Slice{Addr: 0x5930, Values: []uint8{0x20}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x6f},
+			[]int{0x0003, 0xdd},
+			[]int{0x5930, 0x20},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbde",
@@ -22617,12 +23758,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x14, 0xde}},
-			mock.Slice{Addr: 0x89e6, Values: []uint8{0x5e}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x14},
+			[]int{0x0003, 0xde},
+			[]int{0x89e6, 0x5e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbdf",
@@ -22645,12 +23789,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xef, 0xdf}},
-			mock.Slice{Addr: 0xd216, Values: []uint8{0x72}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xef},
+			[]int{0x0003, 0xdf},
+			[]int{0xd216, 0x72},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbe0",
@@ -22673,12 +23820,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x62, 0xe0}},
-			mock.Slice{Addr: 0x1cad, Values: []uint8{0x46}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x62},
+			[]int{0x0003, 0xe0},
+			[]int{0x1cad, 0x46},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbe1",
@@ -22701,12 +23851,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x2e, 0xe1}},
-			mock.Slice{Addr: 0xb95f, Values: []uint8{0x75}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x2e},
+			[]int{0x0003, 0xe1},
+			[]int{0xb95f, 0x75},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbe2",
@@ -22729,12 +23882,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x85, 0xe2}},
-			mock.Slice{Addr: 0xeed5, Values: []uint8{0x72}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x85},
+			[]int{0x0003, 0xe2},
+			[]int{0xeed5, 0x72},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbe3",
@@ -22757,12 +23913,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xf4, 0xe3}},
-			mock.Slice{Addr: 0x7eba, Values: []uint8{0x34}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xf4},
+			[]int{0x0003, 0xe3},
+			[]int{0x7eba, 0x34},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbe4",
@@ -22785,12 +23944,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xbf, 0xe4}},
-			mock.Slice{Addr: 0x9586, Values: []uint8{0x34}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xbf},
+			[]int{0x0003, 0xe4},
+			[]int{0x9586, 0x34},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbe5",
@@ -22813,12 +23975,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xf2, 0xe5}},
-			mock.Slice{Addr: 0x6aa2, Values: []uint8{0x2e}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xf2},
+			[]int{0x0003, 0xe5},
+			[]int{0x6aa2, 0x2e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbe6",
@@ -22841,12 +24006,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x25, 0xe6}},
-			mock.Slice{Addr: 0xd88b, Values: []uint8{0x4c}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x25},
+			[]int{0x0003, 0xe6},
+			[]int{0xd88b, 0x4c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbe7",
@@ -22869,12 +24037,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xf3, 0xe7}},
-			mock.Slice{Addr: 0x2a0e, Values: []uint8{0xeb}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xf3},
+			[]int{0x0003, 0xe7},
+			[]int{0x2a0e, 0xeb},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbe8",
@@ -22897,12 +24068,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xf2, 0xe8}},
-			mock.Slice{Addr: 0x4bcc, Values: []uint8{0xba}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xf2},
+			[]int{0x0003, 0xe8},
+			[]int{0x4bcc, 0xba},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbe9",
@@ -22925,12 +24099,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x8a, 0xe9}},
-			mock.Slice{Addr: 0x7267, Values: []uint8{0x0a}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x8a},
+			[]int{0x0003, 0xe9},
+			[]int{0x7267, 0x0a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbea",
@@ -22953,12 +24130,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x04, 0xea}},
-			mock.Slice{Addr: 0xa7ed, Values: []uint8{0x5f}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x04},
+			[]int{0x0003, 0xea},
+			[]int{0xa7ed, 0x5f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbeb",
@@ -22981,12 +24161,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x24, 0xeb}},
-			mock.Slice{Addr: 0x1703, Values: []uint8{0xf3}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x24},
+			[]int{0x0003, 0xeb},
+			[]int{0x1703, 0xf3},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbec",
@@ -23009,12 +24192,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x60, 0xec}},
-			mock.Slice{Addr: 0xdde8, Values: []uint8{0x00}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x60},
+			[]int{0x0003, 0xec},
+			[]int{0xdde8, 0x00},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbed",
@@ -23037,12 +24223,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xbe, 0xed}},
-			mock.Slice{Addr: 0xf730, Values: []uint8{0x6b}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xbe},
+			[]int{0x0003, 0xed},
+			[]int{0xf730, 0x6b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbee",
@@ -23065,12 +24254,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xde, 0xee}},
-			mock.Slice{Addr: 0x6c06, Values: []uint8{0xbd}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xde},
+			[]int{0x0003, 0xee},
+			[]int{0x6c06, 0xbd},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbef",
@@ -23093,12 +24285,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x30, 0xef}},
-			mock.Slice{Addr: 0xcc98, Values: []uint8{0x11}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x30},
+			[]int{0x0003, 0xef},
+			[]int{0xcc98, 0x11},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbf0",
@@ -23121,12 +24316,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x2f, 0xf0}},
-			mock.Slice{Addr: 0x13ef, Values: []uint8{0xad}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x2f},
+			[]int{0x0003, 0xf0},
+			[]int{0x13ef, 0xad},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbf1",
@@ -23149,12 +24347,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x40, 0xf1}},
-			mock.Slice{Addr: 0x47fa, Values: []uint8{0x78}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x40},
+			[]int{0x0003, 0xf1},
+			[]int{0x47fa, 0x78},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbf2",
@@ -23177,12 +24378,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x0f, 0xf2}},
-			mock.Slice{Addr: 0xc956, Values: []uint8{0x21}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x0f},
+			[]int{0x0003, 0xf2},
+			[]int{0xc956, 0x21},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbf3",
@@ -23205,12 +24409,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x06, 0xf3}},
-			mock.Slice{Addr: 0x1d9c, Values: []uint8{0xe4}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x06},
+			[]int{0x0003, 0xf3},
+			[]int{0x1d9c, 0xe4},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbf4",
@@ -23233,12 +24440,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x3b, 0xf4}},
-			mock.Slice{Addr: 0x173d, Values: []uint8{0xe1}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x3b},
+			[]int{0x0003, 0xf4},
+			[]int{0x173d, 0xe1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbf5",
@@ -23261,12 +24471,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x64, 0xf5}},
-			mock.Slice{Addr: 0xeba3, Values: []uint8{0xc5}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x64},
+			[]int{0x0003, 0xf5},
+			[]int{0xeba3, 0xc5},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbf6",
@@ -23289,12 +24502,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x7b, 0xf6}},
-			mock.Slice{Addr: 0xdcd5, Values: []uint8{0xa2}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x7b},
+			[]int{0x0003, 0xf6},
+			[]int{0xdcd5, 0xa2},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbf7",
@@ -23317,12 +24533,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xc3, 0xf7}},
-			mock.Slice{Addr: 0x2fe1, Values: []uint8{0xa9}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xc3},
+			[]int{0x0003, 0xf7},
+			[]int{0x2fe1, 0xa9},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbf8",
@@ -23345,12 +24564,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x59, 0xf8}},
-			mock.Slice{Addr: 0x42d8, Values: []uint8{0x28}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x59},
+			[]int{0x0003, 0xf8},
+			[]int{0x42d8, 0x28},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbf9",
@@ -23373,12 +24595,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x55, 0xf9}},
-			mock.Slice{Addr: 0xd8e4, Values: []uint8{0x14}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x55},
+			[]int{0x0003, 0xf9},
+			[]int{0xd8e4, 0x14},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbfa",
@@ -23401,12 +24626,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x74, 0xfa}},
-			mock.Slice{Addr: 0x9494, Values: []uint8{0xfe}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x74},
+			[]int{0x0003, 0xfa},
+			[]int{0x9494, 0xfe},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbfb",
@@ -23429,12 +24657,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xaf, 0xfb}},
-			mock.Slice{Addr: 0x3402, Values: []uint8{0x02}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xaf},
+			[]int{0x0003, 0xfb},
+			[]int{0x3402, 0x02},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbfc",
@@ -23457,12 +24688,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xa1, 0xfc}},
-			mock.Slice{Addr: 0x60da, Values: []uint8{0x10}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xa1},
+			[]int{0x0003, 0xfc},
+			[]int{0x60da, 0x10},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbfd",
@@ -23485,12 +24719,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0x28, 0xfd}},
-			mock.Slice{Addr: 0x3ef8, Values: []uint8{0xc2}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x28},
+			[]int{0x0003, 0xfd},
+			[]int{0x3ef8, 0xc2},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbfe",
@@ -23513,12 +24750,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xec, 0xfe}},
-			mock.Slice{Addr: 0x41a1, Values: []uint8{0xa1}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xec},
+			[]int{0x0003, 0xfe},
+			[]int{0x41a1, 0xa1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddcbff",
@@ -23541,12 +24781,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xcb, 0xd3, 0xff}},
-			mock.Slice{Addr: 0x0628, Values: []uint8{0x2b}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xd3},
+			[]int{0x0003, 0xff},
+			[]int{0x0628, 0x2b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dde1",
@@ -23569,12 +24812,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xe1}},
-			mock.Slice{Addr: 0x595f, Values: []uint8{0x9a, 0x09}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xe1},
+			[]int{0x595f, 0x9a},
+			[]int{0x5960, 0x09},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dde3",
@@ -23597,12 +24842,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xe3}},
-			mock.Slice{Addr: 0x57bd, Values: []uint8{0x15, 0x3f}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xe3},
+			[]int{0x57bd, 0x15},
+			[]int{0x57be, 0x3f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dde5",
@@ -23625,11 +24872,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xe5}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xe5},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "dde9",
@@ -23652,11 +24900,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xe9}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xe9},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddf9",
@@ -23679,11 +24928,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xf9}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xf9},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ddfd00",
@@ -23706,11 +24956,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 13,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xdd, 0xfd, 0x00, 0x00}},
+		memory: [][]int{
+			[]int{0x0000, 0xdd},
+			[]int{0x0001, 0xfd},
+			[]int{0x0002, 0x00},
+			[]int{0x0003, 0x00},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "de",
@@ -23733,11 +24986,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xde, 0xa1}},
+		memory: [][]int{
+			[]int{0x0000, 0xde},
+			[]int{0x0001, 0xa1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "df",
@@ -23760,11 +25014,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x6d33, Values: []uint8{0xdf}},
+		memory: [][]int{
+			[]int{0x6d33, 0xdf},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "e0_1",
@@ -23787,12 +25041,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xe0}},
-			mock.Slice{Addr: 0x43f7, Values: []uint8{0xe9, 0xaf}},
+		memory: [][]int{
+			[]int{0x0000, 0xe0},
+			[]int{0x43f7, 0xe9},
+			[]int{0x43f8, 0xaf},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "e0_2",
@@ -23815,12 +25070,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xe0}},
-			mock.Slice{Addr: 0x43f7, Values: []uint8{0xe9, 0xaf}},
+		memory: [][]int{
+			[]int{0x0000, 0xe0},
+			[]int{0x43f7, 0xe9},
+			[]int{0x43f8, 0xaf},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "e1",
@@ -23843,12 +25099,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xe1}},
-			mock.Slice{Addr: 0x4143, Values: []uint8{0xce, 0xe8}},
+		memory: [][]int{
+			[]int{0x0000, 0xe1},
+			[]int{0x4143, 0xce},
+			[]int{0x4144, 0xe8},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "e2_1",
@@ -23871,11 +25128,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xe2, 0x1b, 0xe1}},
+		memory: [][]int{
+			[]int{0x0000, 0xe2},
+			[]int{0x0001, 0x1b},
+			[]int{0x0002, 0xe1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "e2_2",
@@ -23898,11 +25157,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xe2, 0x1b, 0xe1}},
+		memory: [][]int{
+			[]int{0x0000, 0xe2},
+			[]int{0x0001, 0x1b},
+			[]int{0x0002, 0xe1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "e3",
@@ -23925,12 +25186,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xe3}},
-			mock.Slice{Addr: 0x0373, Values: []uint8{0x8e, 0xe1}},
+		memory: [][]int{
+			[]int{0x0000, 0xe3},
+			[]int{0x0373, 0x8e},
+			[]int{0x0374, 0xe1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "e4_1",
@@ -23953,11 +25215,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xe4, 0x61, 0x9c}},
+		memory: [][]int{
+			[]int{0x0000, 0xe4},
+			[]int{0x0001, 0x61},
+			[]int{0x0002, 0x9c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "e4_2",
@@ -23980,11 +25244,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xe4, 0x61, 0x9c}},
+		memory: [][]int{
+			[]int{0x0000, 0xe4},
+			[]int{0x0001, 0x61},
+			[]int{0x0002, 0x9c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "e5",
@@ -24007,11 +25273,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xe5}},
+		memory: [][]int{
+			[]int{0x0000, 0xe5},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "e6",
@@ -24034,11 +25300,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xe6, 0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xe6},
+			[]int{0x0001, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "e7",
@@ -24061,11 +25328,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x6d33, Values: []uint8{0xe7}},
+		memory: [][]int{
+			[]int{0x6d33, 0xe7},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "e8_1",
@@ -24088,12 +25355,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xe8}},
-			mock.Slice{Addr: 0x43f7, Values: []uint8{0xe9, 0xaf}},
+		memory: [][]int{
+			[]int{0x0000, 0xe8},
+			[]int{0x43f7, 0xe9},
+			[]int{0x43f8, 0xaf},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "e8_2",
@@ -24116,12 +25384,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xe8}},
-			mock.Slice{Addr: 0x43f7, Values: []uint8{0xe9, 0xaf}},
+		memory: [][]int{
+			[]int{0x0000, 0xe8},
+			[]int{0x43f7, 0xe9},
+			[]int{0x43f8, 0xaf},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "e9",
@@ -24144,11 +25413,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xe9}},
+		memory: [][]int{
+			[]int{0x0000, 0xe9},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ea_1",
@@ -24171,11 +25440,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xea, 0x1b, 0xe1}},
+		memory: [][]int{
+			[]int{0x0000, 0xea},
+			[]int{0x0001, 0x1b},
+			[]int{0x0002, 0xe1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ea_2",
@@ -24198,11 +25469,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xea, 0x1b, 0xe1}},
+		memory: [][]int{
+			[]int{0x0000, 0xea},
+			[]int{0x0001, 0x1b},
+			[]int{0x0002, 0xe1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "eb",
@@ -24225,11 +25498,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xeb}},
+		memory: [][]int{
+			[]int{0x0000, 0xeb},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ec_1",
@@ -24252,11 +25525,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xec, 0x61, 0x9c}},
+		memory: [][]int{
+			[]int{0x0000, 0xec},
+			[]int{0x0001, 0x61},
+			[]int{0x0002, 0x9c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ec_2",
@@ -24279,11 +25554,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xec, 0x61, 0x9c}},
+		memory: [][]int{
+			[]int{0x0000, 0xec},
+			[]int{0x0001, 0x61},
+			[]int{0x0002, 0x9c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed40",
@@ -24306,11 +25583,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x40}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x40},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed41",
@@ -24333,11 +25611,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x41}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x41},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed42",
@@ -24360,11 +25639,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x42}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x42},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed43",
@@ -24387,11 +25667,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x43, 0xc6, 0x54}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x43},
+			[]int{0x0002, 0xc6},
+			[]int{0x0003, 0x54},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed44",
@@ -24414,11 +25697,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x44}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x44},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed45",
@@ -24441,12 +25725,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x45}},
-			mock.Slice{Addr: 0x3100, Values: []uint8{0x1f, 0x22}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x45},
+			[]int{0x3100, 0x1f},
+			[]int{0x3101, 0x22},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed46",
@@ -24469,11 +25755,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x46}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x46},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed47",
@@ -24496,11 +25783,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x47}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x47},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed48",
@@ -24523,11 +25811,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x48}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x48},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed49",
@@ -24550,11 +25839,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed4a",
@@ -24577,11 +25867,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x4a}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x4a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed4b",
@@ -24604,12 +25895,16 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x4b, 0x1a, 0xa4}},
-			mock.Slice{Addr: 0xa41a, Values: []uint8{0xf3, 0xd4}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x4b},
+			[]int{0x0002, 0x1a},
+			[]int{0x0003, 0xa4},
+			[]int{0xa41a, 0xf3},
+			[]int{0xa41b, 0xd4},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed4c",
@@ -24632,11 +25927,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x4c}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x4c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed4d",
@@ -24659,12 +25955,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x4d}},
-			mock.Slice{Addr: 0x680e, Values: []uint8{0x03, 0x7c}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x4d},
+			[]int{0x680e, 0x03},
+			[]int{0x680f, 0x7c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed4e",
@@ -24687,11 +25985,12 @@ var fuseIn = []fuseTest{
 		im:      1,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x4e}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x4e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed4f",
@@ -24714,11 +26013,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x4f}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x4f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed50",
@@ -24741,11 +26041,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed51",
@@ -24768,11 +26069,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x51}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x51},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed52",
@@ -24795,11 +26097,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x52}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x52},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed53",
@@ -24822,11 +26125,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x53, 0xff, 0x21}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x53},
+			[]int{0x0002, 0xff},
+			[]int{0x0003, 0x21},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed54",
@@ -24849,11 +26155,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x54}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x54},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed55",
@@ -24876,12 +26183,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x55}},
-			mock.Slice{Addr: 0xd4b4, Values: []uint8{0xea, 0xc9}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x55},
+			[]int{0xd4b4, 0xea},
+			[]int{0xd4b5, 0xc9},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed56",
@@ -24904,11 +26213,12 @@ var fuseIn = []fuseTest{
 		im:      1,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x56}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x56},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed57",
@@ -24931,11 +26241,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x57}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x57},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed58",
@@ -24958,11 +26269,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x58}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x58},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed59",
@@ -24985,11 +26297,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x59}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x59},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed5a",
@@ -25012,11 +26325,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x5a}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x5a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed5b",
@@ -25039,12 +26353,16 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x5b, 0x04, 0x9f}},
-			mock.Slice{Addr: 0x9f04, Values: []uint8{0x84, 0x4d}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x5b},
+			[]int{0x0002, 0x04},
+			[]int{0x0003, 0x9f},
+			[]int{0x9f04, 0x84},
+			[]int{0x9f05, 0x4d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed5c",
@@ -25067,11 +26385,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x5c}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x5c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed5d",
@@ -25094,12 +26413,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x5d}},
-			mock.Slice{Addr: 0x5308, Values: []uint8{0x26, 0xe0}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x5d},
+			[]int{0x5308, 0x26},
+			[]int{0x5309, 0xe0},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed5e",
@@ -25122,11 +26443,12 @@ var fuseIn = []fuseTest{
 		im:      1,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x5e}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x5e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed5f",
@@ -25149,11 +26471,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x5f}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x5f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed60",
@@ -25176,11 +26499,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x60}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x60},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed61",
@@ -25203,11 +26527,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x61}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x61},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed62",
@@ -25230,11 +26555,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x62}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x62},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed63",
@@ -25257,11 +26583,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x63, 0x67, 0x65}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x63},
+			[]int{0x0002, 0x67},
+			[]int{0x0003, 0x65},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed64",
@@ -25284,11 +26613,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x64}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x64},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed65",
@@ -25311,12 +26641,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x65}},
-			mock.Slice{Addr: 0xf207, Values: []uint8{0xeb, 0x0e}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x65},
+			[]int{0xf207, 0xeb},
+			[]int{0xf208, 0x0e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed66",
@@ -25339,11 +26671,12 @@ var fuseIn = []fuseTest{
 		im:      1,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x66}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x66},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed67",
@@ -25366,12 +26699,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x67}},
-			mock.Slice{Addr: 0xb9de, Values: []uint8{0x93}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x67},
+			[]int{0xb9de, 0x93},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed68",
@@ -25394,11 +26728,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x68}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x68},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed69",
@@ -25421,11 +26756,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x69}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x69},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed6a",
@@ -25448,11 +26784,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x6a}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x6a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed6b",
@@ -25475,12 +26812,16 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x6b, 0x98, 0x61}},
-			mock.Slice{Addr: 0x6198, Values: []uint8{0x3f, 0xbe}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x6b},
+			[]int{0x0002, 0x98},
+			[]int{0x0003, 0x61},
+			[]int{0x6198, 0x3f},
+			[]int{0x6199, 0xbe},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed6c",
@@ -25503,11 +26844,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x6c}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x6c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed6d",
@@ -25530,12 +26872,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x6d}},
-			mock.Slice{Addr: 0x5cd3, Values: []uint8{0xa9, 0x73}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x6d},
+			[]int{0x5cd3, 0xa9},
+			[]int{0x5cd4, 0x73},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed6e",
@@ -25558,11 +26902,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x6e}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x6e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed6f",
@@ -25585,12 +26930,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x6f}},
-			mock.Slice{Addr: 0x403c, Values: []uint8{0xc4}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x6f},
+			[]int{0x403c, 0xc4},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed70",
@@ -25613,11 +26959,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x70}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x70},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed71",
@@ -25640,11 +26987,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x71}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x71},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed72",
@@ -25667,11 +27015,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x72}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x72},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed73",
@@ -25694,11 +27043,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x73, 0x2a, 0x79}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x73},
+			[]int{0x0002, 0x2a},
+			[]int{0x0003, 0x79},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed74",
@@ -25721,11 +27073,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x74}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x74},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed75",
@@ -25748,12 +27101,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x75}},
-			mock.Slice{Addr: 0x7d00, Values: []uint8{0xfd, 0x4f}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x75},
+			[]int{0x7d00, 0xfd},
+			[]int{0x7d01, 0x4f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed76",
@@ -25776,11 +27131,12 @@ var fuseIn = []fuseTest{
 		im:      2,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x76}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x76},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed78",
@@ -25803,11 +27159,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x78}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x78},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed79",
@@ -25830,11 +27187,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x79}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x79},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed7a",
@@ -25857,11 +27215,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x7a}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x7a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed7b",
@@ -25884,12 +27243,16 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x7b, 0x50, 0x8c}},
-			mock.Slice{Addr: 0x8c50, Values: []uint8{0xd8, 0x48}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x7b},
+			[]int{0x0002, 0x50},
+			[]int{0x0003, 0x8c},
+			[]int{0x8c50, 0xd8},
+			[]int{0x8c51, 0x48},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed7c",
@@ -25912,11 +27275,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x7c}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x7c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed7d",
@@ -25939,12 +27303,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x7d}},
-			mock.Slice{Addr: 0x66f0, Values: []uint8{0x4f, 0xfb}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x7d},
+			[]int{0x66f0, 0x4f},
+			[]int{0x66f1, 0xfb},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ed7e",
@@ -25967,11 +27333,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0x7e}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0x7e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "eda0",
@@ -25994,12 +27361,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xa0}},
-			mock.Slice{Addr: 0xd097, Values: []uint8{0xb7}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xa0},
+			[]int{0xd097, 0xb7},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "eda1",
@@ -26022,12 +27390,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xa1}},
-			mock.Slice{Addr: 0x3bc3, Values: []uint8{0xb4}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xa1},
+			[]int{0x3bc3, 0xb4},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "eda2",
@@ -26050,11 +27419,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xa2}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xa2},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "eda2_01",
@@ -26077,11 +27447,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xa2}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xa2},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "eda2_02",
@@ -26104,11 +27475,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xa2}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xa2},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "eda2_03",
@@ -26131,11 +27503,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xa2}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xa2},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "eda3",
@@ -26158,12 +27531,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xa3}},
-			mock.Slice{Addr: 0x32fa, Values: []uint8{0xb3}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xa3},
+			[]int{0x32fa, 0xb3},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "eda3_01",
@@ -26186,12 +27560,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xa3}},
-			mock.Slice{Addr: 0x01ff, Values: []uint8{0x00}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xa3},
+			[]int{0x01ff, 0x00},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "eda3_02",
@@ -26214,12 +27589,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xa3}},
-			mock.Slice{Addr: 0x0100, Values: []uint8{0x00}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xa3},
+			[]int{0x0100, 0x00},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "eda3_03",
@@ -26242,12 +27618,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xa3}},
-			mock.Slice{Addr: 0x0107, Values: []uint8{0x00}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xa3},
+			[]int{0x0107, 0x00},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "eda3_04",
@@ -26270,12 +27647,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xa3}},
-			mock.Slice{Addr: 0x01ff, Values: []uint8{0x80}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xa3},
+			[]int{0x01ff, 0x80},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "eda3_05",
@@ -26298,12 +27676,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xa3}},
-			mock.Slice{Addr: 0x01fd, Values: []uint8{0x12}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xa3},
+			[]int{0x01fd, 0x12},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "eda3_06",
@@ -26326,12 +27705,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xa3}},
-			mock.Slice{Addr: 0x01fe, Values: []uint8{0x12}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xa3},
+			[]int{0x01fe, 0x12},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "eda3_07",
@@ -26354,12 +27734,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xa3}},
-			mock.Slice{Addr: 0x01ff, Values: []uint8{0x00}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xa3},
+			[]int{0x01ff, 0x00},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "eda3_08",
@@ -26382,12 +27763,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xa3}},
-			mock.Slice{Addr: 0x01fe, Values: []uint8{0x00}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xa3},
+			[]int{0x01fe, 0x00},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "eda3_09",
@@ -26410,12 +27792,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xa3}},
-			mock.Slice{Addr: 0x01ff, Values: []uint8{0x00}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xa3},
+			[]int{0x01ff, 0x00},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "eda3_10",
@@ -26438,12 +27821,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xa3}},
-			mock.Slice{Addr: 0x01ff, Values: []uint8{0x00}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xa3},
+			[]int{0x01ff, 0x00},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "eda3_11",
@@ -26466,12 +27850,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xa3}},
-			mock.Slice{Addr: 0x01ff, Values: []uint8{0x00}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xa3},
+			[]int{0x01ff, 0x00},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "eda8",
@@ -26494,12 +27879,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xa8}},
-			mock.Slice{Addr: 0x12e8, Values: []uint8{0xd8}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xa8},
+			[]int{0x12e8, 0xd8},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "eda9",
@@ -26522,12 +27908,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xa9}},
-			mock.Slice{Addr: 0x0dbe, Values: []uint8{0x89}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xa9},
+			[]int{0x0dbe, 0x89},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "edaa",
@@ -26550,11 +27937,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xaa}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xaa},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "edaa_01",
@@ -26577,11 +27965,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xaa}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xaa},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "edaa_02",
@@ -26604,11 +27993,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xaa}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xaa},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "edaa_03",
@@ -26631,11 +28021,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xaa}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xaa},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "edab",
@@ -26658,12 +28049,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xab}},
-			mock.Slice{Addr: 0x199f, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xab},
+			[]int{0x199f, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "edab_01",
@@ -26686,12 +28078,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xab}},
-			mock.Slice{Addr: 0x007a, Values: []uint8{0x7f}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xab},
+			[]int{0x007a, 0x7f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "edab_02",
@@ -26714,12 +28107,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xab}},
-			mock.Slice{Addr: 0x00f1, Values: []uint8{0xcd}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xab},
+			[]int{0x00f1, 0xcd},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "edb0",
@@ -26742,12 +28136,28 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 331,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xb0}},
-			mock.Slice{Addr: 0x558e, Values: []uint8{0x53, 0x94, 0x30, 0x05, 0x44, 0x24, 0x22, 0xb9, 0xe9, 0x77, 0x23, 0x71, 0xe2, 0x5c, 0xfb, 0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xb0},
+			[]int{0x558e, 0x53},
+			[]int{0x558f, 0x94},
+			[]int{0x5590, 0x30},
+			[]int{0x5591, 0x05},
+			[]int{0x5592, 0x44},
+			[]int{0x5593, 0x24},
+			[]int{0x5594, 0x22},
+			[]int{0x5595, 0xb9},
+			[]int{0x5596, 0xe9},
+			[]int{0x5597, 0x77},
+			[]int{0x5598, 0x23},
+			[]int{0x5599, 0x71},
+			[]int{0x559a, 0xe2},
+			[]int{0x559b, 0x5c},
+			[]int{0x559c, 0xfb},
+			[]int{0x559d, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "edb1",
@@ -26770,12 +28180,20 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 79,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xb1}},
-			mock.Slice{Addr: 0x9825, Values: []uint8{0x50, 0xe5, 0x41, 0xf4, 0x01, 0x9f, 0x11, 0x85}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xb1},
+			[]int{0x9825, 0x50},
+			[]int{0x9826, 0xe5},
+			[]int{0x9827, 0x41},
+			[]int{0x9828, 0xf4},
+			[]int{0x9829, 0x01},
+			[]int{0x982a, 0x9f},
+			[]int{0x982b, 0x11},
+			[]int{0x982c, 0x85},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "edb2",
@@ -26798,11 +28216,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 205,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xb2}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xb2},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "edb3",
@@ -26825,12 +28244,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 58,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xb3}},
-			mock.Slice{Addr: 0x1d7c, Values: []uint8{0x9d, 0x24, 0xaa}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xb3},
+			[]int{0x1d7c, 0x9d},
+			[]int{0x1d7d, 0x24},
+			[]int{0x1d7e, 0xaa},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "edb8",
@@ -26853,12 +28275,20 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 163,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xb8}},
-			mock.Slice{Addr: 0x4dc8, Values: []uint8{0x29, 0x85, 0xa7, 0xc3, 0x55, 0x74, 0x23, 0x0a}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xb8},
+			[]int{0x4dc8, 0x29},
+			[]int{0x4dc9, 0x85},
+			[]int{0x4dca, 0xa7},
+			[]int{0x4dcb, 0xc3},
+			[]int{0x4dcc, 0x55},
+			[]int{0x4dcd, 0x74},
+			[]int{0x4dce, 0x23},
+			[]int{0x4dcf, 0x0a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "edb9",
@@ -26881,12 +28311,20 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 163,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xb9}},
-			mock.Slice{Addr: 0xc742, Values: []uint8{0xc6, 0x09, 0x85, 0xec, 0x5a, 0x01, 0x4e, 0x6c}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xb9},
+			[]int{0xc742, 0xc6},
+			[]int{0xc743, 0x09},
+			[]int{0xc744, 0x85},
+			[]int{0xc745, 0xec},
+			[]int{0xc746, 0x5a},
+			[]int{0xc747, 0x01},
+			[]int{0xc748, 0x4e},
+			[]int{0xc749, 0x6c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "edba",
@@ -26909,11 +28347,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 121,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xba}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xba},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "edbb",
@@ -26936,12 +28375,16 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 79,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xed, 0xbb}},
-			mock.Slice{Addr: 0x1dcd, Values: []uint8{0xf9, 0x71, 0xc5, 0xb6}},
+		memory: [][]int{
+			[]int{0x0000, 0xed},
+			[]int{0x0001, 0xbb},
+			[]int{0x1dcd, 0xf9},
+			[]int{0x1dce, 0x71},
+			[]int{0x1dcf, 0xc5},
+			[]int{0x1dd0, 0xb6},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ee",
@@ -26964,11 +28407,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xee, 0xd0}},
+		memory: [][]int{
+			[]int{0x0000, 0xee},
+			[]int{0x0001, 0xd0},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ef",
@@ -26991,11 +28435,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x6d33, Values: []uint8{0xef}},
+		memory: [][]int{
+			[]int{0x6d33, 0xef},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "f0_1",
@@ -27018,12 +28462,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xf0}},
-			mock.Slice{Addr: 0x43f7, Values: []uint8{0xe9, 0xaf}},
+		memory: [][]int{
+			[]int{0x0000, 0xf0},
+			[]int{0x43f7, 0xe9},
+			[]int{0x43f8, 0xaf},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "f0_2",
@@ -27046,12 +28491,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xf0}},
-			mock.Slice{Addr: 0x43f7, Values: []uint8{0xe9, 0xaf}},
+		memory: [][]int{
+			[]int{0x0000, 0xf0},
+			[]int{0x43f7, 0xe9},
+			[]int{0x43f8, 0xaf},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "f1",
@@ -27074,12 +28520,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xf1}},
-			mock.Slice{Addr: 0x4143, Values: []uint8{0xce, 0xe8}},
+		memory: [][]int{
+			[]int{0x0000, 0xf1},
+			[]int{0x4143, 0xce},
+			[]int{0x4144, 0xe8},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "f2_1",
@@ -27102,11 +28549,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xf2, 0x1b, 0xe1}},
+		memory: [][]int{
+			[]int{0x0000, 0xf2},
+			[]int{0x0001, 0x1b},
+			[]int{0x0002, 0xe1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "f2_2",
@@ -27129,11 +28578,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xf2, 0x1b, 0xe1}},
+		memory: [][]int{
+			[]int{0x0000, 0xf2},
+			[]int{0x0001, 0x1b},
+			[]int{0x0002, 0xe1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "f3",
@@ -27156,11 +28607,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xf3}},
+		memory: [][]int{
+			[]int{0x0000, 0xf3},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "f4_1",
@@ -27183,11 +28634,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xf4, 0x61, 0x9c}},
+		memory: [][]int{
+			[]int{0x0000, 0xf4},
+			[]int{0x0001, 0x61},
+			[]int{0x0002, 0x9c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "f4_2",
@@ -27210,11 +28663,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xf4, 0x61, 0x9c}},
+		memory: [][]int{
+			[]int{0x0000, 0xf4},
+			[]int{0x0001, 0x61},
+			[]int{0x0002, 0x9c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "f5",
@@ -27237,11 +28692,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xf5}},
+		memory: [][]int{
+			[]int{0x0000, 0xf5},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "f6",
@@ -27264,11 +28719,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xf6, 0xa7}},
+		memory: [][]int{
+			[]int{0x0000, 0xf6},
+			[]int{0x0001, 0xa7},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "f7",
@@ -27291,11 +28747,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x6d33, Values: []uint8{0xf7}},
+		memory: [][]int{
+			[]int{0x6d33, 0xf7},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "f8_1",
@@ -27318,12 +28774,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xf8}},
-			mock.Slice{Addr: 0x43f7, Values: []uint8{0xe9, 0xaf}},
+		memory: [][]int{
+			[]int{0x0000, 0xf8},
+			[]int{0x43f7, 0xe9},
+			[]int{0x43f8, 0xaf},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "f8_2",
@@ -27346,12 +28803,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xf8}},
-			mock.Slice{Addr: 0x43f7, Values: []uint8{0xe9, 0xaf}},
+		memory: [][]int{
+			[]int{0x0000, 0xf8},
+			[]int{0x43f7, 0xe9},
+			[]int{0x43f8, 0xaf},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "f9",
@@ -27374,11 +28832,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xf9}},
+		memory: [][]int{
+			[]int{0x0000, 0xf9},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fa_1",
@@ -27401,11 +28859,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfa, 0x1b, 0xe1}},
+		memory: [][]int{
+			[]int{0x0000, 0xfa},
+			[]int{0x0001, 0x1b},
+			[]int{0x0002, 0xe1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fa_2",
@@ -27428,11 +28888,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfa, 0x1b, 0xe1}},
+		memory: [][]int{
+			[]int{0x0000, 0xfa},
+			[]int{0x0001, 0x1b},
+			[]int{0x0002, 0xe1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fb",
@@ -27455,11 +28917,11 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfb}},
+		memory: [][]int{
+			[]int{0x0000, 0xfb},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fc_1",
@@ -27482,11 +28944,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfc, 0x61, 0x9c}},
+		memory: [][]int{
+			[]int{0x0000, 0xfc},
+			[]int{0x0001, 0x61},
+			[]int{0x0002, 0x9c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fc_2",
@@ -27509,11 +28973,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfc, 0x61, 0x9c}},
+		memory: [][]int{
+			[]int{0x0000, 0xfc},
+			[]int{0x0001, 0x61},
+			[]int{0x0002, 0x9c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd09",
@@ -27536,11 +29002,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x09}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x09},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd19",
@@ -27563,11 +29030,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x19}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x19},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd21",
@@ -27590,11 +29058,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x21, 0x46, 0x47}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x21},
+			[]int{0x0002, 0x46},
+			[]int{0x0003, 0x47},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd22",
@@ -27617,11 +29088,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x22, 0x9a, 0xe2}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x22},
+			[]int{0x0002, 0x9a},
+			[]int{0x0003, 0xe2},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd23",
@@ -27644,11 +29118,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x23}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x23},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd24",
@@ -27671,11 +29146,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x24}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x24},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd25",
@@ -27698,11 +29174,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x25}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x25},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd26",
@@ -27725,11 +29202,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x26, 0x77}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x26},
+			[]int{0x0002, 0x77},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd29",
@@ -27752,11 +29231,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x29}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x29},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd2a",
@@ -27779,12 +29259,16 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x2a, 0x91, 0xf9}},
-			mock.Slice{Addr: 0xf991, Values: []uint8{0x92, 0xbf}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x2a},
+			[]int{0x0002, 0x91},
+			[]int{0x0003, 0xf9},
+			[]int{0xf991, 0x92},
+			[]int{0xf992, 0xbf},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd2b",
@@ -27807,11 +29291,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x2b}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x2b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd2c",
@@ -27834,11 +29319,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x2c}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x2c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd2d",
@@ -27861,11 +29347,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x2d}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x2d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd2e",
@@ -27888,11 +29375,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x2e, 0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x2e},
+			[]int{0x0002, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd34",
@@ -27915,12 +29404,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x34, 0xb8}},
-			mock.Slice{Addr: 0xef7c, Values: []uint8{0xe0}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x34},
+			[]int{0x0002, 0xb8},
+			[]int{0xef7c, 0xe0},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd35",
@@ -27943,12 +29434,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x35, 0xab}},
-			mock.Slice{Addr: 0xae71, Values: []uint8{0xa6}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x35},
+			[]int{0x0002, 0xab},
+			[]int{0xae71, 0xa6},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd36",
@@ -27971,11 +29464,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x36, 0x81, 0xc5}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x36},
+			[]int{0x0002, 0x81},
+			[]int{0x0003, 0xc5},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd39",
@@ -27998,11 +29494,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x39}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x39},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd44",
@@ -28025,11 +29522,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x44}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x44},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd45",
@@ -28052,11 +29550,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x45}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x45},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd46",
@@ -28079,12 +29578,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x46, 0x4d}},
-			mock.Slice{Addr: 0x3b49, Values: []uint8{0xc9}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x46},
+			[]int{0x0002, 0x4d},
+			[]int{0x3b49, 0xc9},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd4c",
@@ -28107,11 +29608,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x4c}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x4c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd4d",
@@ -28134,11 +29636,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x4d}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x4d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd4e",
@@ -28161,12 +29664,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x4e, 0x67}},
-			mock.Slice{Addr: 0xbc01, Values: []uint8{0x9d}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x4e},
+			[]int{0x0002, 0x67},
+			[]int{0xbc01, 0x9d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd54",
@@ -28189,11 +29694,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x54}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x54},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd55",
@@ -28216,11 +29722,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x55}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x55},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd56",
@@ -28243,12 +29750,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x56, 0xce}},
-			mock.Slice{Addr: 0xfd70, Values: []uint8{0x78}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x56},
+			[]int{0x0002, 0xce},
+			[]int{0xfd70, 0x78},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd5c",
@@ -28271,11 +29780,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x5c}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x5c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd5d",
@@ -28298,11 +29808,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x5d}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x5d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd5e",
@@ -28325,12 +29836,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x5e, 0xc6}},
-			mock.Slice{Addr: 0x8a70, Values: []uint8{0x8c}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x5e},
+			[]int{0x0002, 0xc6},
+			[]int{0x8a70, 0x8c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd60",
@@ -28353,11 +29866,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x60}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x60},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd61",
@@ -28380,11 +29894,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x61}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x61},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd62",
@@ -28407,11 +29922,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x62}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x62},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd63",
@@ -28434,11 +29950,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x63}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x63},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd64",
@@ -28461,11 +29978,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x64}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x64},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd65",
@@ -28488,11 +30006,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x65}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x65},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd66",
@@ -28515,12 +30034,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x66, 0x80}},
-			mock.Slice{Addr: 0x5aa4, Values: []uint8{0x77}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x66},
+			[]int{0x0002, 0x80},
+			[]int{0x5aa4, 0x77},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd67",
@@ -28543,11 +30064,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x67}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x67},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd68",
@@ -28570,11 +30092,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x68}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x68},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd69",
@@ -28597,11 +30120,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x69}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x69},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd6a",
@@ -28624,11 +30148,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x6a}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x6a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd6b",
@@ -28651,11 +30176,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x6b}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x6b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd6c",
@@ -28678,11 +30204,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x6c}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x6c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd6d",
@@ -28705,11 +30232,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x6d}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x6d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd6e",
@@ -28732,12 +30260,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x6e, 0x78}},
-			mock.Slice{Addr: 0xb11b, Values: []uint8{0xf8}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x6e},
+			[]int{0x0002, 0x78},
+			[]int{0xb11b, 0xf8},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd6f",
@@ -28760,11 +30290,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x6f}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x6f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd70",
@@ -28787,11 +30318,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x70, 0x53}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x70},
+			[]int{0x0002, 0x53},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd71",
@@ -28814,11 +30347,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x71, 0xb4}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x71},
+			[]int{0x0002, 0xb4},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd72",
@@ -28841,11 +30376,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x72, 0xe3}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x72},
+			[]int{0x0002, 0xe3},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd73",
@@ -28868,11 +30405,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x73, 0x17}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x73},
+			[]int{0x0002, 0x17},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd74",
@@ -28895,11 +30434,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x74, 0xf6}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x74},
+			[]int{0x0002, 0xf6},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd75",
@@ -28922,11 +30463,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x75, 0xab}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x75},
+			[]int{0x0002, 0xab},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd77",
@@ -28949,11 +30492,13 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x77, 0xf7}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x77},
+			[]int{0x0002, 0xf7},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd7c",
@@ -28976,11 +30521,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x7c}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x7c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd7d",
@@ -29003,11 +30549,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x7d}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x7d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd7e",
@@ -29030,12 +30577,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x7e, 0xe4}},
-			mock.Slice{Addr: 0xd443, Values: []uint8{0xaa}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x7e},
+			[]int{0x0002, 0xe4},
+			[]int{0xd443, 0xaa},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd84",
@@ -29058,11 +30607,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x84}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x84},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd85",
@@ -29085,11 +30635,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x85}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x85},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd86",
@@ -29112,12 +30663,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x86, 0xce}},
-			mock.Slice{Addr: 0x8b01, Values: []uint8{0xe1}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x86},
+			[]int{0x0002, 0xce},
+			[]int{0x8b01, 0xe1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd8c",
@@ -29140,11 +30693,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x8c}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x8c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd8d",
@@ -29167,11 +30721,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x8d}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x8d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd8e",
@@ -29194,12 +30749,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x8e, 0x78}},
-			mock.Slice{Addr: 0x1b1a, Values: []uint8{0xc0}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x8e},
+			[]int{0x0002, 0x78},
+			[]int{0x1b1a, 0xc0},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd94",
@@ -29222,11 +30779,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x94}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x94},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd95",
@@ -29249,11 +30807,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x95}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x95},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd96",
@@ -29276,12 +30835,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x96, 0x55}},
-			mock.Slice{Addr: 0xc0e0, Values: []uint8{0x7b}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x96},
+			[]int{0x0002, 0x55},
+			[]int{0xc0e0, 0x7b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd9c",
@@ -29304,11 +30865,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x9c}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x9c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd9d",
@@ -29331,11 +30893,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x9d}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x9d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fd9e",
@@ -29358,12 +30921,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0x9e, 0xf9}},
-			mock.Slice{Addr: 0xf665, Values: []uint8{0xf3}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0x9e},
+			[]int{0x0002, 0xf9},
+			[]int{0xf665, 0xf3},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fda4",
@@ -29386,11 +30951,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xa4}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xa4},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fda5",
@@ -29413,11 +30979,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xa5}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xa5},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fda6",
@@ -29440,12 +31007,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xa6, 0x53}},
-			mock.Slice{Addr: 0x65ee, Values: []uint8{0x95}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xa6},
+			[]int{0x0002, 0x53},
+			[]int{0x65ee, 0x95},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdac",
@@ -29468,11 +31037,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xac}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xac},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdad",
@@ -29495,11 +31065,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xad}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xad},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdae",
@@ -29522,12 +31093,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xae, 0x09}},
-			mock.Slice{Addr: 0x8201, Values: []uint8{0xcb}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xae},
+			[]int{0x0002, 0x09},
+			[]int{0x8201, 0xcb},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdb4",
@@ -29550,11 +31123,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xb4}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xb4},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdb5",
@@ -29577,11 +31151,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xb5}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xb5},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdb6",
@@ -29604,12 +31179,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xb6, 0x4b}},
-			mock.Slice{Addr: 0xdfb8, Values: []uint8{0x64}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xb6},
+			[]int{0x0002, 0x4b},
+			[]int{0xdfb8, 0x64},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdbc",
@@ -29632,11 +31209,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xbc}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xbc},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdbd",
@@ -29659,11 +31237,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xbd}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xbd},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdbe",
@@ -29686,12 +31265,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xbe, 0x6b}},
-			mock.Slice{Addr: 0xa9d6, Values: []uint8{0xc0}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xbe},
+			[]int{0x0002, 0x6b},
+			[]int{0xa9d6, 0xc0},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb00",
@@ -29714,12 +31295,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x0b, 0x00}},
-			mock.Slice{Addr: 0x2781, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x0b},
+			[]int{0x0003, 0x00},
+			[]int{0x2781, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb01",
@@ -29742,12 +31326,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xc8, 0x01}},
-			mock.Slice{Addr: 0x5bfd, Values: []uint8{0xcb}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xc8},
+			[]int{0x0003, 0x01},
+			[]int{0x5bfd, 0xcb},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb02",
@@ -29770,12 +31357,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x14, 0x02}},
-			mock.Slice{Addr: 0x3e06, Values: []uint8{0x58}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x14},
+			[]int{0x0003, 0x02},
+			[]int{0x3e06, 0x58},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb03",
@@ -29798,12 +31388,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x3a, 0x03}},
-			mock.Slice{Addr: 0x5821, Values: []uint8{0x1a}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x3a},
+			[]int{0x0003, 0x03},
+			[]int{0x5821, 0x1a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb04",
@@ -29826,12 +31419,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x67, 0x04}},
-			mock.Slice{Addr: 0x50d8, Values: []uint8{0x92}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x67},
+			[]int{0x0003, 0x04},
+			[]int{0x50d8, 0x92},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb05",
@@ -29854,12 +31450,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x1e, 0x05}},
-			mock.Slice{Addr: 0xb279, Values: []uint8{0x66}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x1e},
+			[]int{0x0003, 0x05},
+			[]int{0xb279, 0x66},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb06",
@@ -29882,12 +31481,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x72, 0x06}},
-			mock.Slice{Addr: 0xff99, Values: []uint8{0xf1}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x72},
+			[]int{0x0003, 0x06},
+			[]int{0xff99, 0xf1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb07",
@@ -29910,12 +31512,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x24, 0x07}},
-			mock.Slice{Addr: 0x080f, Values: []uint8{0xae}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x24},
+			[]int{0x0003, 0x07},
+			[]int{0x080f, 0xae},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb08",
@@ -29938,12 +31543,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x25, 0x08}},
-			mock.Slice{Addr: 0x615c, Values: []uint8{0x83}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x25},
+			[]int{0x0003, 0x08},
+			[]int{0x615c, 0x83},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb09",
@@ -29966,12 +31574,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xa0, 0x09}},
-			mock.Slice{Addr: 0x197a, Values: []uint8{0x27}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xa0},
+			[]int{0x0003, 0x09},
+			[]int{0x197a, 0x27},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb0a",
@@ -29994,12 +31605,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xe1, 0x0a}},
-			mock.Slice{Addr: 0xeed7, Values: []uint8{0x19}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xe1},
+			[]int{0x0003, 0x0a},
+			[]int{0xeed7, 0x19},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb0b",
@@ -30022,12 +31636,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x0c, 0x0b}},
-			mock.Slice{Addr: 0xc69b, Values: []uint8{0xf2}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x0c},
+			[]int{0x0003, 0x0b},
+			[]int{0xc69b, 0xf2},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb0c",
@@ -30050,12 +31667,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xd7, 0x0c}},
-			mock.Slice{Addr: 0x8c74, Values: []uint8{0xae}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xd7},
+			[]int{0x0003, 0x0c},
+			[]int{0x8c74, 0xae},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb0d",
@@ -30078,12 +31698,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x11, 0x0d}},
-			mock.Slice{Addr: 0xfe3e, Values: []uint8{0x1b}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x11},
+			[]int{0x0003, 0x0d},
+			[]int{0xfe3e, 0x1b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb0e",
@@ -30106,12 +31729,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x0c, 0x0e}},
-			mock.Slice{Addr: 0xf22f, Values: []uint8{0xf7}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x0c},
+			[]int{0x0003, 0x0e},
+			[]int{0xf22f, 0xf7},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb0f",
@@ -30134,12 +31760,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x15, 0x0f}},
-			mock.Slice{Addr: 0xce4d, Values: []uint8{0x44}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x15},
+			[]int{0x0003, 0x0f},
+			[]int{0xce4d, 0x44},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb10",
@@ -30162,12 +31791,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x7a, 0x10}},
-			mock.Slice{Addr: 0x431c, Values: []uint8{0x1c}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x7a},
+			[]int{0x0003, 0x10},
+			[]int{0x431c, 0x1c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb11",
@@ -30190,12 +31822,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x7b, 0x11}},
-			mock.Slice{Addr: 0x9d0b, Values: []uint8{0x5e}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x7b},
+			[]int{0x0003, 0x11},
+			[]int{0x9d0b, 0x5e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb12",
@@ -30218,12 +31853,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x61, 0x12}},
-			mock.Slice{Addr: 0x8598, Values: []uint8{0xa7}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x61},
+			[]int{0x0003, 0x12},
+			[]int{0x8598, 0xa7},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb13",
@@ -30246,12 +31884,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xb3, 0x13}},
-			mock.Slice{Addr: 0xe74b, Values: []uint8{0xb3}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xb3},
+			[]int{0x0003, 0x13},
+			[]int{0xe74b, 0xb3},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb14",
@@ -30274,12 +31915,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xc4, 0x14}},
-			mock.Slice{Addr: 0xd900, Values: []uint8{0x06}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xc4},
+			[]int{0x0003, 0x14},
+			[]int{0xd900, 0x06},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb15",
@@ -30302,12 +31946,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x17, 0x15}},
-			mock.Slice{Addr: 0x2d92, Values: []uint8{0x12}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x17},
+			[]int{0x0003, 0x15},
+			[]int{0x2d92, 0x12},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb16",
@@ -30330,12 +31977,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x23, 0x16}},
-			mock.Slice{Addr: 0xf0d7, Values: []uint8{0x89}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x23},
+			[]int{0x0003, 0x16},
+			[]int{0xf0d7, 0x89},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb17",
@@ -30358,12 +32008,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x8a, 0x17}},
-			mock.Slice{Addr: 0x1f9d, Values: []uint8{0xb8}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x8a},
+			[]int{0x0003, 0x17},
+			[]int{0x1f9d, 0xb8},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb18",
@@ -30386,12 +32039,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xc0, 0x18}},
-			mock.Slice{Addr: 0x31d6, Values: []uint8{0xfa}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xc0},
+			[]int{0x0003, 0x18},
+			[]int{0x31d6, 0xfa},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb19",
@@ -30414,12 +32070,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xa2, 0x19}},
-			mock.Slice{Addr: 0x4cd0, Values: []uint8{0x4b}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xa2},
+			[]int{0x0003, 0x19},
+			[]int{0x4cd0, 0x4b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb1a",
@@ -30442,12 +32101,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x78, 0x1a}},
-			mock.Slice{Addr: 0x414b, Values: []uint8{0x44}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x78},
+			[]int{0x0003, 0x1a},
+			[]int{0x414b, 0x44},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb1b",
@@ -30470,12 +32132,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x16, 0x1b}},
-			mock.Slice{Addr: 0x71c6, Values: []uint8{0xb8}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x16},
+			[]int{0x0003, 0x1b},
+			[]int{0x71c6, 0xb8},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb1c",
@@ -30498,12 +32163,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x86, 0x1c}},
-			mock.Slice{Addr: 0xdee8, Values: []uint8{0x8f}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x86},
+			[]int{0x0003, 0x1c},
+			[]int{0xdee8, 0x8f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb1d",
@@ -30526,12 +32194,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x27, 0x1d}},
-			mock.Slice{Addr: 0xd68e, Values: []uint8{0xb7}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x27},
+			[]int{0x0003, 0x1d},
+			[]int{0xd68e, 0xb7},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb1e",
@@ -30554,12 +32225,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x3a, 0x1e}},
-			mock.Slice{Addr: 0xda72, Values: []uint8{0x25}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x3a},
+			[]int{0x0003, 0x1e},
+			[]int{0xda72, 0x25},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb1f",
@@ -30582,12 +32256,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x7b, 0x1f}},
-			mock.Slice{Addr: 0x2110, Values: []uint8{0x04}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x7b},
+			[]int{0x0003, 0x1f},
+			[]int{0x2110, 0x04},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb20",
@@ -30610,12 +32287,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x7a, 0x20}},
-			mock.Slice{Addr: 0xda9f, Values: []uint8{0x89}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x7a},
+			[]int{0x0003, 0x20},
+			[]int{0xda9f, 0x89},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb21",
@@ -30638,12 +32318,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x7b, 0x21}},
-			mock.Slice{Addr: 0xdeb1, Values: []uint8{0x23}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x7b},
+			[]int{0x0003, 0x21},
+			[]int{0xdeb1, 0x23},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb22",
@@ -30666,12 +32349,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x9a, 0x22}},
-			mock.Slice{Addr: 0x88c0, Values: []uint8{0xd4}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x9a},
+			[]int{0x0003, 0x22},
+			[]int{0x88c0, 0xd4},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb23",
@@ -30694,12 +32380,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xf5, 0x23}},
-			mock.Slice{Addr: 0x524a, Values: []uint8{0x65}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xf5},
+			[]int{0x0003, 0x23},
+			[]int{0x524a, 0x65},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb24",
@@ -30722,12 +32411,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xb4, 0x24}},
-			mock.Slice{Addr: 0xafb2, Values: []uint8{0x7e}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xb4},
+			[]int{0x0003, 0x24},
+			[]int{0xafb2, 0x7e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb25",
@@ -30750,12 +32442,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xa6, 0x25}},
-			mock.Slice{Addr: 0x238f, Values: []uint8{0x26}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xa6},
+			[]int{0x0003, 0x25},
+			[]int{0x238f, 0x26},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb26",
@@ -30778,12 +32473,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xbd, 0x26}},
-			mock.Slice{Addr: 0xd4a1, Values: []uint8{0xbf}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xbd},
+			[]int{0x0003, 0x26},
+			[]int{0xd4a1, 0xbf},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb27",
@@ -30806,12 +32504,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x59, 0x27}},
-			mock.Slice{Addr: 0x8d9b, Values: []uint8{0xa7}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x59},
+			[]int{0x0003, 0x27},
+			[]int{0x8d9b, 0xa7},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb28",
@@ -30834,12 +32535,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x83, 0x28}},
-			mock.Slice{Addr: 0xaac6, Values: []uint8{0x5d}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x83},
+			[]int{0x0003, 0x28},
+			[]int{0xaac6, 0x5d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb29",
@@ -30862,12 +32566,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x7d, 0x29}},
-			mock.Slice{Addr: 0x03c0, Values: []uint8{0x84}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x7d},
+			[]int{0x0003, 0x29},
+			[]int{0x03c0, 0x84},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb2a",
@@ -30890,12 +32597,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xf9, 0x2a}},
-			mock.Slice{Addr: 0xabe0, Values: []uint8{0xdd}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xf9},
+			[]int{0x0003, 0x2a},
+			[]int{0xabe0, 0xdd},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb2b",
@@ -30918,12 +32628,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x4b, 0x2b}},
-			mock.Slice{Addr: 0x4adf, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x4b},
+			[]int{0x0003, 0x2b},
+			[]int{0x4adf, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb2c",
@@ -30946,12 +32659,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xe6, 0x2c}},
-			mock.Slice{Addr: 0xccb7, Values: []uint8{0x3c}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xe6},
+			[]int{0x0003, 0x2c},
+			[]int{0xccb7, 0x3c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb2d",
@@ -30974,12 +32690,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x5f, 0x2d}},
-			mock.Slice{Addr: 0xe545, Values: []uint8{0x78}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x5f},
+			[]int{0x0003, 0x2d},
+			[]int{0xe545, 0x78},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb2e",
@@ -31002,12 +32721,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x06, 0x2e}},
-			mock.Slice{Addr: 0x4303, Values: []uint8{0xad}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x06},
+			[]int{0x0003, 0x2e},
+			[]int{0x4303, 0xad},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb2f",
@@ -31030,12 +32752,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x29, 0x2f}},
-			mock.Slice{Addr: 0x16e1, Values: []uint8{0x18}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x29},
+			[]int{0x0003, 0x2f},
+			[]int{0x16e1, 0x18},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb30",
@@ -31058,12 +32783,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x1b, 0x30}},
-			mock.Slice{Addr: 0xd661, Values: []uint8{0xa5}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x1b},
+			[]int{0x0003, 0x30},
+			[]int{0xd661, 0xa5},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb31",
@@ -31086,12 +32814,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xf0, 0x31}},
-			mock.Slice{Addr: 0xbfd0, Values: []uint8{0xf1}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xf0},
+			[]int{0x0003, 0x31},
+			[]int{0xbfd0, 0xf1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb32",
@@ -31114,12 +32845,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xc5, 0x32}},
-			mock.Slice{Addr: 0x5aa3, Values: []uint8{0x59}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xc5},
+			[]int{0x0003, 0x32},
+			[]int{0x5aa3, 0x59},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb33",
@@ -31142,12 +32876,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x7f, 0x33}},
-			mock.Slice{Addr: 0x19e3, Values: []uint8{0xda}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x7f},
+			[]int{0x0003, 0x33},
+			[]int{0x19e3, 0xda},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb34",
@@ -31170,12 +32907,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xd2, 0x34}},
-			mock.Slice{Addr: 0x5668, Values: []uint8{0xd4}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xd2},
+			[]int{0x0003, 0x34},
+			[]int{0x5668, 0xd4},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb35",
@@ -31198,12 +32938,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x71, 0x35}},
-			mock.Slice{Addr: 0x0169, Values: []uint8{0x0b}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x71},
+			[]int{0x0003, 0x35},
+			[]int{0x0169, 0x0b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb36",
@@ -31226,12 +32969,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xda, 0x36}},
-			mock.Slice{Addr: 0x1ab8, Values: []uint8{0x3c}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xda},
+			[]int{0x0003, 0x36},
+			[]int{0x1ab8, 0x3c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb37",
@@ -31254,12 +33000,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xcb, 0x37}},
-			mock.Slice{Addr: 0xe7b7, Values: []uint8{0x9f}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xcb},
+			[]int{0x0003, 0x37},
+			[]int{0xe7b7, 0x9f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb38",
@@ -31282,12 +33031,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x8e, 0x38}},
-			mock.Slice{Addr: 0xd024, Values: []uint8{0x0d}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x8e},
+			[]int{0x0003, 0x38},
+			[]int{0xd024, 0x0d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb39",
@@ -31310,12 +33062,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x7f, 0x39}},
-			mock.Slice{Addr: 0xf4b2, Values: []uint8{0xf5}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x7f},
+			[]int{0x0003, 0x39},
+			[]int{0xf4b2, 0xf5},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb3a",
@@ -31338,12 +33093,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x1d, 0x3a}},
-			mock.Slice{Addr: 0xcb20, Values: []uint8{0xa8}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x1d},
+			[]int{0x0003, 0x3a},
+			[]int{0xcb20, 0xa8},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb3b",
@@ -31366,12 +33124,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x05, 0x3b}},
-			mock.Slice{Addr: 0xd268, Values: []uint8{0xb2}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x05},
+			[]int{0x0003, 0x3b},
+			[]int{0xd268, 0xb2},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb3c",
@@ -31394,12 +33155,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xae, 0x3c}},
-			mock.Slice{Addr: 0xa7bd, Values: []uint8{0x96}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xae},
+			[]int{0x0003, 0x3c},
+			[]int{0xa7bd, 0x96},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb3d",
@@ -31422,12 +33186,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x13, 0x3d}},
-			mock.Slice{Addr: 0xe53d, Values: []uint8{0xfb}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x13},
+			[]int{0x0003, 0x3d},
+			[]int{0xe53d, 0xfb},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb3e",
@@ -31450,12 +33217,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x2e, 0x3e}},
-			mock.Slice{Addr: 0xb2ff, Values: []uint8{0x50}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x2e},
+			[]int{0x0003, 0x3e},
+			[]int{0xb2ff, 0x50},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb3f",
@@ -31478,12 +33248,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x21, 0x3f}},
-			mock.Slice{Addr: 0xc1cd, Values: []uint8{0x78}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x21},
+			[]int{0x0003, 0x3f},
+			[]int{0xc1cd, 0x78},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb40",
@@ -31506,12 +33279,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x3b, 0x40}},
-			mock.Slice{Addr: 0x41d0, Values: []uint8{0x0d}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x3b},
+			[]int{0x0003, 0x40},
+			[]int{0x41d0, 0x0d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb41",
@@ -31534,12 +33310,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xcc, 0x41}},
-			mock.Slice{Addr: 0x0397, Values: []uint8{0xe9}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xcc},
+			[]int{0x0003, 0x41},
+			[]int{0x0397, 0xe9},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb42",
@@ -31562,12 +33341,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x01, 0x42}},
-			mock.Slice{Addr: 0x9f57, Values: []uint8{0xa8}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x01},
+			[]int{0x0003, 0x42},
+			[]int{0x9f57, 0xa8},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb43",
@@ -31590,12 +33372,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x08, 0x43}},
-			mock.Slice{Addr: 0x1fd9, Values: []uint8{0xaa}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x08},
+			[]int{0x0003, 0x43},
+			[]int{0x1fd9, 0xaa},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb44",
@@ -31618,12 +33403,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x03, 0x44}},
-			mock.Slice{Addr: 0xf4f6, Values: []uint8{0x89}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x03},
+			[]int{0x0003, 0x44},
+			[]int{0xf4f6, 0x89},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb45",
@@ -31646,12 +33434,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x8d, 0x45}},
-			mock.Slice{Addr: 0x937a, Values: []uint8{0x8d}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x8d},
+			[]int{0x0003, 0x45},
+			[]int{0x937a, 0x8d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb46",
@@ -31674,12 +33465,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x8c, 0x46}},
-			mock.Slice{Addr: 0x633d, Values: []uint8{0xfe}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x8c},
+			[]int{0x0003, 0x46},
+			[]int{0x633d, 0xfe},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb47",
@@ -31702,12 +33496,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x96, 0x47}},
-			mock.Slice{Addr: 0x6da4, Values: []uint8{0xd6}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x96},
+			[]int{0x0003, 0x47},
+			[]int{0x6da4, 0xd6},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb48",
@@ -31730,12 +33527,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x44, 0x48}},
-			mock.Slice{Addr: 0xabed, Values: []uint8{0xb0}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x44},
+			[]int{0x0003, 0x48},
+			[]int{0xabed, 0xb0},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb49",
@@ -31758,12 +33558,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x4e, 0x49}},
-			mock.Slice{Addr: 0x3e6f, Values: []uint8{0xa9}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x4e},
+			[]int{0x0003, 0x49},
+			[]int{0x3e6f, 0xa9},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb4a",
@@ -31786,12 +33589,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x52, 0x4a}},
-			mock.Slice{Addr: 0xe82d, Values: []uint8{0xda}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x52},
+			[]int{0x0003, 0x4a},
+			[]int{0xe82d, 0xda},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb4b",
@@ -31814,12 +33620,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xea, 0x4b}},
-			mock.Slice{Addr: 0x8829, Values: []uint8{0x4e}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xea},
+			[]int{0x0003, 0x4b},
+			[]int{0x8829, 0x4e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb4c",
@@ -31842,12 +33651,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xee, 0x4c}},
-			mock.Slice{Addr: 0x7f10, Values: []uint8{0x70}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xee},
+			[]int{0x0003, 0x4c},
+			[]int{0x7f10, 0x70},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb4d",
@@ -31870,12 +33682,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x29, 0x4d}},
-			mock.Slice{Addr: 0xa799, Values: []uint8{0x78}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x29},
+			[]int{0x0003, 0x4d},
+			[]int{0xa799, 0x78},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb4e",
@@ -31898,12 +33713,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x20, 0x4e}},
-			mock.Slice{Addr: 0xe1e8, Values: []uint8{0xaa}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x20},
+			[]int{0x0003, 0x4e},
+			[]int{0xe1e8, 0xaa},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb4f",
@@ -31926,12 +33744,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x9d, 0x4f}},
-			mock.Slice{Addr: 0x1c95, Values: []uint8{0x18}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x9d},
+			[]int{0x0003, 0x4f},
+			[]int{0x1c95, 0x18},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb50",
@@ -31954,12 +33775,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x6b, 0x50}},
-			mock.Slice{Addr: 0xc7ca, Values: []uint8{0xfe}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x6b},
+			[]int{0x0003, 0x50},
+			[]int{0xc7ca, 0xfe},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb51",
@@ -31982,12 +33806,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x86, 0x51}},
-			mock.Slice{Addr: 0x341b, Values: []uint8{0x13}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x86},
+			[]int{0x0003, 0x51},
+			[]int{0x341b, 0x13},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb52",
@@ -32010,12 +33837,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xe6, 0x52}},
-			mock.Slice{Addr: 0x8af3, Values: []uint8{0x87}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xe6},
+			[]int{0x0003, 0x52},
+			[]int{0x8af3, 0x87},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb53",
@@ -32038,12 +33868,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xd1, 0x53}},
-			mock.Slice{Addr: 0x7eb2, Values: []uint8{0xe4}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xd1},
+			[]int{0x0003, 0x53},
+			[]int{0x7eb2, 0xe4},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb54",
@@ -32066,12 +33899,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x08, 0x54}},
-			mock.Slice{Addr: 0x5b73, Values: []uint8{0x07}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x08},
+			[]int{0x0003, 0x54},
+			[]int{0x5b73, 0x07},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb55",
@@ -32094,12 +33930,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x54, 0x55}},
-			mock.Slice{Addr: 0xb506, Values: []uint8{0x46}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x54},
+			[]int{0x0003, 0x55},
+			[]int{0xb506, 0x46},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb56",
@@ -32122,12 +33961,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x6f, 0x56}},
-			mock.Slice{Addr: 0x69a1, Values: []uint8{0xdf}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x6f},
+			[]int{0x0003, 0x56},
+			[]int{0x69a1, 0xdf},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb57",
@@ -32150,12 +33992,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x3c, 0x57}},
-			mock.Slice{Addr: 0xa3f7, Values: []uint8{0x6c}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x3c},
+			[]int{0x0003, 0x57},
+			[]int{0xa3f7, 0x6c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb58",
@@ -32178,12 +34023,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x4e, 0x58}},
-			mock.Slice{Addr: 0x1ee2, Values: []uint8{0xf6}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x4e},
+			[]int{0x0003, 0x58},
+			[]int{0x1ee2, 0xf6},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb59",
@@ -32206,12 +34054,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x2e, 0x59}},
-			mock.Slice{Addr: 0xfb01, Values: []uint8{0x6f}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x2e},
+			[]int{0x0003, 0x59},
+			[]int{0xfb01, 0x6f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb5a",
@@ -32234,12 +34085,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x88, 0x5a}},
-			mock.Slice{Addr: 0x7b40, Values: []uint8{0x6e}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x88},
+			[]int{0x0003, 0x5a},
+			[]int{0x7b40, 0x6e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb5b",
@@ -32262,12 +34116,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xe7, 0x5b}},
-			mock.Slice{Addr: 0x3143, Values: []uint8{0xb1}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xe7},
+			[]int{0x0003, 0x5b},
+			[]int{0x3143, 0xb1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb5c",
@@ -32290,12 +34147,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x74, 0x5c}},
-			mock.Slice{Addr: 0x54b2, Values: []uint8{0xe3}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x74},
+			[]int{0x0003, 0x5c},
+			[]int{0x54b2, 0xe3},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb5d",
@@ -32318,12 +34178,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xdc, 0x5d}},
-			mock.Slice{Addr: 0x3b60, Values: []uint8{0xef}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xdc},
+			[]int{0x0003, 0x5d},
+			[]int{0x3b60, 0xef},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb5e",
@@ -32346,12 +34209,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xe2, 0x5e}},
-			mock.Slice{Addr: 0xe147, Values: []uint8{0x17}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xe2},
+			[]int{0x0003, 0x5e},
+			[]int{0xe147, 0x17},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb5f",
@@ -32374,12 +34240,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xab, 0x5f}},
-			mock.Slice{Addr: 0xf7c6, Values: []uint8{0xe2}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xab},
+			[]int{0x0003, 0x5f},
+			[]int{0xf7c6, 0xe2},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb60",
@@ -32402,12 +34271,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x85, 0x60}},
-			mock.Slice{Addr: 0x8bc9, Values: []uint8{0xb9}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x85},
+			[]int{0x0003, 0x60},
+			[]int{0x8bc9, 0xb9},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb61",
@@ -32430,12 +34302,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xbe, 0x61}},
-			mock.Slice{Addr: 0x92a2, Values: []uint8{0x28}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xbe},
+			[]int{0x0003, 0x61},
+			[]int{0x92a2, 0x28},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb62",
@@ -32458,12 +34333,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x9d, 0x62}},
-			mock.Slice{Addr: 0x7e4e, Values: []uint8{0x1a}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x9d},
+			[]int{0x0003, 0x62},
+			[]int{0x7e4e, 0x1a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb63",
@@ -32486,12 +34364,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xf4, 0x63}},
-			mock.Slice{Addr: 0x1707, Values: []uint8{0x3b}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xf4},
+			[]int{0x0003, 0x63},
+			[]int{0x1707, 0x3b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb64",
@@ -32514,12 +34395,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x35, 0x64}},
-			mock.Slice{Addr: 0xb36b, Values: []uint8{0x8c}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x35},
+			[]int{0x0003, 0x64},
+			[]int{0xb36b, 0x8c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb65",
@@ -32542,12 +34426,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x37, 0x65}},
-			mock.Slice{Addr: 0x8a2b, Values: []uint8{0x08}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x37},
+			[]int{0x0003, 0x65},
+			[]int{0x8a2b, 0x08},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb66",
@@ -32570,12 +34457,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x9d, 0x66}},
-			mock.Slice{Addr: 0x68e5, Values: []uint8{0x90}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x9d},
+			[]int{0x0003, 0x66},
+			[]int{0x68e5, 0x90},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb67",
@@ -32598,12 +34488,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xcb, 0x67}},
-			mock.Slice{Addr: 0x653d, Values: []uint8{0x15}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xcb},
+			[]int{0x0003, 0x67},
+			[]int{0x653d, 0x15},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb68",
@@ -32626,12 +34519,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xca, 0x68}},
-			mock.Slice{Addr: 0x0388, Values: []uint8{0x83}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xca},
+			[]int{0x0003, 0x68},
+			[]int{0x0388, 0x83},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb69",
@@ -32654,12 +34550,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xe2, 0x69}},
-			mock.Slice{Addr: 0xa5e5, Values: []uint8{0x01}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xe2},
+			[]int{0x0003, 0x69},
+			[]int{0xa5e5, 0x01},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb6a",
@@ -32682,12 +34581,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xae, 0x6a}},
-			mock.Slice{Addr: 0x936c, Values: []uint8{0x33}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xae},
+			[]int{0x0003, 0x6a},
+			[]int{0x936c, 0x33},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb6b",
@@ -32710,12 +34612,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x1f, 0x6b}},
-			mock.Slice{Addr: 0xaa4e, Values: []uint8{0x7c}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x1f},
+			[]int{0x0003, 0x6b},
+			[]int{0xaa4e, 0x7c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb6c",
@@ -32738,12 +34643,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x0d, 0x6c}},
-			mock.Slice{Addr: 0x86c7, Values: []uint8{0x25}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x0d},
+			[]int{0x0003, 0x6c},
+			[]int{0x86c7, 0x25},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb6d",
@@ -32766,12 +34674,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xf0, 0x6d}},
-			mock.Slice{Addr: 0x62b8, Values: []uint8{0xe3}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xf0},
+			[]int{0x0003, 0x6d},
+			[]int{0x62b8, 0xe3},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb6e",
@@ -32794,12 +34705,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x93, 0x6e}},
-			mock.Slice{Addr: 0x41a3, Values: []uint8{0x1e}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x93},
+			[]int{0x0003, 0x6e},
+			[]int{0x41a3, 0x1e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb6f",
@@ -32822,12 +34736,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x20, 0x6f}},
-			mock.Slice{Addr: 0x006e, Values: []uint8{0x37}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x20},
+			[]int{0x0003, 0x6f},
+			[]int{0x006e, 0x37},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb70",
@@ -32850,12 +34767,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xd9, 0x70}},
-			mock.Slice{Addr: 0x3e41, Values: []uint8{0xc9}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xd9},
+			[]int{0x0003, 0x70},
+			[]int{0x3e41, 0xc9},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb71",
@@ -32878,12 +34798,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x27, 0x71}},
-			mock.Slice{Addr: 0x99c1, Values: []uint8{0x3e}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x27},
+			[]int{0x0003, 0x71},
+			[]int{0x99c1, 0x3e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb72",
@@ -32906,12 +34829,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x98, 0x72}},
-			mock.Slice{Addr: 0xfcc9, Values: []uint8{0x4f}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x98},
+			[]int{0x0003, 0x72},
+			[]int{0xfcc9, 0x4f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb73",
@@ -32934,12 +34860,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x7a, 0x73}},
-			mock.Slice{Addr: 0xf652, Values: []uint8{0x31}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x7a},
+			[]int{0x0003, 0x73},
+			[]int{0xf652, 0x31},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb74",
@@ -32962,12 +34891,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x4b, 0x74}},
-			mock.Slice{Addr: 0x5e95, Values: []uint8{0xfe}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x4b},
+			[]int{0x0003, 0x74},
+			[]int{0x5e95, 0xfe},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb75",
@@ -32990,12 +34922,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x57, 0x75}},
-			mock.Slice{Addr: 0x6115, Values: []uint8{0x21}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x57},
+			[]int{0x0003, 0x75},
+			[]int{0x6115, 0x21},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb76",
@@ -33018,12 +34953,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x53, 0x76}},
-			mock.Slice{Addr: 0x6676, Values: []uint8{0x3a}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x53},
+			[]int{0x0003, 0x76},
+			[]int{0x6676, 0x3a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb77",
@@ -33046,12 +34984,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x02, 0x77}},
-			mock.Slice{Addr: 0x8843, Values: []uint8{0xd8}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x02},
+			[]int{0x0003, 0x77},
+			[]int{0x8843, 0xd8},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb78",
@@ -33074,12 +35015,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x7d, 0x78}},
-			mock.Slice{Addr: 0xff48, Values: []uint8{0xec}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x7d},
+			[]int{0x0003, 0x78},
+			[]int{0xff48, 0xec},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb79",
@@ -33102,12 +35046,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x23, 0x79}},
-			mock.Slice{Addr: 0x1cd1, Values: []uint8{0x87}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x23},
+			[]int{0x0003, 0x79},
+			[]int{0x1cd1, 0x87},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb7a",
@@ -33130,12 +35077,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x42, 0x7a}},
-			mock.Slice{Addr: 0xd965, Values: []uint8{0xb3}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x42},
+			[]int{0x0003, 0x7a},
+			[]int{0xd965, 0xb3},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb7b",
@@ -33158,12 +35108,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x17, 0x7b}},
-			mock.Slice{Addr: 0x0a9a, Values: []uint8{0xbd}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x17},
+			[]int{0x0003, 0x7b},
+			[]int{0x0a9a, 0xbd},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb7c",
@@ -33186,12 +35139,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xf1, 0x7c}},
-			mock.Slice{Addr: 0xd362, Values: []uint8{0x1b}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xf1},
+			[]int{0x0003, 0x7c},
+			[]int{0xd362, 0x1b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb7d",
@@ -33214,12 +35170,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x9f, 0x7d}},
-			mock.Slice{Addr: 0xabda, Values: []uint8{0x8a}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x9f},
+			[]int{0x0003, 0x7d},
+			[]int{0xabda, 0x8a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb7e",
@@ -33242,12 +35201,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x40, 0x7e}},
-			mock.Slice{Addr: 0x94c4, Values: []uint8{0x9e}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x40},
+			[]int{0x0003, 0x7e},
+			[]int{0x94c4, 0x9e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb7f",
@@ -33270,12 +35232,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xa2, 0x7f}},
-			mock.Slice{Addr: 0xce0b, Values: []uint8{0x47}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xa2},
+			[]int{0x0003, 0x7f},
+			[]int{0xce0b, 0x47},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb80",
@@ -33298,12 +35263,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x8b, 0x80}},
-			mock.Slice{Addr: 0x9198, Values: []uint8{0xa9}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x8b},
+			[]int{0x0003, 0x80},
+			[]int{0x9198, 0xa9},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb81",
@@ -33326,12 +35294,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x55, 0x81}},
-			mock.Slice{Addr: 0x82fa, Values: []uint8{0xfa}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x55},
+			[]int{0x0003, 0x81},
+			[]int{0x82fa, 0xfa},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb82",
@@ -33354,12 +35325,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x9c, 0x82}},
-			mock.Slice{Addr: 0x5d74, Values: []uint8{0x9d}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x9c},
+			[]int{0x0003, 0x82},
+			[]int{0x5d74, 0x9d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb83",
@@ -33382,12 +35356,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x28, 0x83}},
-			mock.Slice{Addr: 0x3772, Values: []uint8{0xd5}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x28},
+			[]int{0x0003, 0x83},
+			[]int{0x3772, 0xd5},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb84",
@@ -33410,12 +35387,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xaa, 0x84}},
-			mock.Slice{Addr: 0xf16d, Values: []uint8{0xea}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xaa},
+			[]int{0x0003, 0x84},
+			[]int{0xf16d, 0xea},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb85",
@@ -33438,12 +35418,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x6c, 0x85}},
-			mock.Slice{Addr: 0x049f, Values: []uint8{0xe0}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x6c},
+			[]int{0x0003, 0x85},
+			[]int{0x049f, 0xe0},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb86",
@@ -33466,12 +35449,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x7e, 0x86}},
-			mock.Slice{Addr: 0x2ace, Values: []uint8{0x36}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x7e},
+			[]int{0x0003, 0x86},
+			[]int{0x2ace, 0x36},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb87",
@@ -33494,12 +35480,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x59, 0x87}},
-			mock.Slice{Addr: 0x24c3, Values: []uint8{0x65}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x59},
+			[]int{0x0003, 0x87},
+			[]int{0x24c3, 0x65},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb88",
@@ -33522,12 +35511,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xd4, 0x88}},
-			mock.Slice{Addr: 0xc5e1, Values: []uint8{0xd6}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xd4},
+			[]int{0x0003, 0x88},
+			[]int{0xc5e1, 0xd6},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb89",
@@ -33550,12 +35542,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xc3, 0x89}},
-			mock.Slice{Addr: 0x09c4, Values: []uint8{0xb0}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xc3},
+			[]int{0x0003, 0x89},
+			[]int{0x09c4, 0xb0},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb8a",
@@ -33578,12 +35573,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xf9, 0x8a}},
-			mock.Slice{Addr: 0xd4cb, Values: []uint8{0xd8}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xf9},
+			[]int{0x0003, 0x8a},
+			[]int{0xd4cb, 0xd8},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb8b",
@@ -33606,12 +35604,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xed, 0x8b}},
-			mock.Slice{Addr: 0xc70b, Values: []uint8{0xdc}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xed},
+			[]int{0x0003, 0x8b},
+			[]int{0xc70b, 0xdc},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb8c",
@@ -33634,12 +35635,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x97, 0x8c}},
-			mock.Slice{Addr: 0xa199, Values: []uint8{0x67}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x97},
+			[]int{0x0003, 0x8c},
+			[]int{0xa199, 0x67},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb8d",
@@ -33662,12 +35666,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xc9, 0x8d}},
-			mock.Slice{Addr: 0x5632, Values: []uint8{0x9a}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xc9},
+			[]int{0x0003, 0x8d},
+			[]int{0x5632, 0x9a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb8e",
@@ -33690,12 +35697,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xc2, 0x8e}},
-			mock.Slice{Addr: 0x4c43, Values: []uint8{0x7f}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xc2},
+			[]int{0x0003, 0x8e},
+			[]int{0x4c43, 0x7f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb8f",
@@ -33718,12 +35728,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xd4, 0x8f}},
-			mock.Slice{Addr: 0x6b25, Values: []uint8{0x59}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xd4},
+			[]int{0x0003, 0x8f},
+			[]int{0x6b25, 0x59},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb90",
@@ -33746,12 +35759,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xfd, 0x90}},
-			mock.Slice{Addr: 0xd7f2, Values: []uint8{0x70}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xfd},
+			[]int{0x0003, 0x90},
+			[]int{0xd7f2, 0x70},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb91",
@@ -33774,12 +35790,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xbf, 0x91}},
-			mock.Slice{Addr: 0x4791, Values: []uint8{0x0e}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xbf},
+			[]int{0x0003, 0x91},
+			[]int{0x4791, 0x0e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb92",
@@ -33802,12 +35821,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x0b, 0x92}},
-			mock.Slice{Addr: 0x3145, Values: []uint8{0xf6}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x0b},
+			[]int{0x0003, 0x92},
+			[]int{0x3145, 0xf6},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb93",
@@ -33830,12 +35852,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x52, 0x93}},
-			mock.Slice{Addr: 0x2992, Values: []uint8{0x38}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x52},
+			[]int{0x0003, 0x93},
+			[]int{0x2992, 0x38},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb94",
@@ -33858,12 +35883,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x95, 0x94}},
-			mock.Slice{Addr: 0xfdb1, Values: []uint8{0x48}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x95},
+			[]int{0x0003, 0x94},
+			[]int{0xfdb1, 0x48},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb95",
@@ -33886,12 +35914,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x90, 0x95}},
-			mock.Slice{Addr: 0xe706, Values: []uint8{0xeb}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x90},
+			[]int{0x0003, 0x95},
+			[]int{0xe706, 0xeb},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb96",
@@ -33914,12 +35945,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x9e, 0x96}},
-			mock.Slice{Addr: 0xe66d, Values: []uint8{0xfc}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x9e},
+			[]int{0x0003, 0x96},
+			[]int{0xe66d, 0xfc},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb97",
@@ -33942,12 +35976,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x64, 0x97}},
-			mock.Slice{Addr: 0x18e3, Values: []uint8{0x9d}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x64},
+			[]int{0x0003, 0x97},
+			[]int{0x18e3, 0x9d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb98",
@@ -33970,12 +36007,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xda, 0x98}},
-			mock.Slice{Addr: 0x4392, Values: []uint8{0x15}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xda},
+			[]int{0x0003, 0x98},
+			[]int{0x4392, 0x15},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb99",
@@ -33998,12 +36038,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x78, 0x99}},
-			mock.Slice{Addr: 0xd8e4, Values: []uint8{0xb5}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x78},
+			[]int{0x0003, 0x99},
+			[]int{0xd8e4, 0xb5},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb9a",
@@ -34026,12 +36069,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x9c, 0x9a}},
-			mock.Slice{Addr: 0xd6b3, Values: []uint8{0x9d}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x9c},
+			[]int{0x0003, 0x9a},
+			[]int{0xd6b3, 0x9d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb9b",
@@ -34054,12 +36100,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x83, 0x9b}},
-			mock.Slice{Addr: 0xcaa1, Values: []uint8{0x95}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x83},
+			[]int{0x0003, 0x9b},
+			[]int{0xcaa1, 0x95},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb9c",
@@ -34082,12 +36131,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x1e, 0x9c}},
-			mock.Slice{Addr: 0x03d1, Values: []uint8{0x78}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x1e},
+			[]int{0x0003, 0x9c},
+			[]int{0x03d1, 0x78},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb9d",
@@ -34110,12 +36162,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xe6, 0x9d}},
-			mock.Slice{Addr: 0xc06d, Values: []uint8{0x53}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xe6},
+			[]int{0x0003, 0x9d},
+			[]int{0xc06d, 0x53},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb9e",
@@ -34138,12 +36193,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xeb, 0x9e}},
-			mock.Slice{Addr: 0x41a8, Values: []uint8{0x61}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xeb},
+			[]int{0x0003, 0x9e},
+			[]int{0x41a8, 0x61},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcb9f",
@@ -34166,12 +36224,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x50, 0x9f}},
-			mock.Slice{Addr: 0x9d99, Values: []uint8{0x89}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x50},
+			[]int{0x0003, 0x9f},
+			[]int{0x9d99, 0x89},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcba0",
@@ -34194,12 +36255,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x76, 0xa0}},
-			mock.Slice{Addr: 0xd703, Values: []uint8{0xd4}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x76},
+			[]int{0x0003, 0xa0},
+			[]int{0xd703, 0xd4},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcba1",
@@ -34222,12 +36286,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x31, 0xa1}},
-			mock.Slice{Addr: 0x66f9, Values: []uint8{0xec}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x31},
+			[]int{0x0003, 0xa1},
+			[]int{0x66f9, 0xec},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcba2",
@@ -34250,12 +36317,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x0e, 0xa2}},
-			mock.Slice{Addr: 0x04cd, Values: []uint8{0x47}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x0e},
+			[]int{0x0003, 0xa2},
+			[]int{0x04cd, 0x47},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcba3",
@@ -34278,12 +36348,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x05, 0xa3}},
-			mock.Slice{Addr: 0xad7c, Values: []uint8{0x59}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x05},
+			[]int{0x0003, 0xa3},
+			[]int{0xad7c, 0x59},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcba4",
@@ -34306,12 +36379,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x66, 0xa4}},
-			mock.Slice{Addr: 0xc133, Values: []uint8{0xc5}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x66},
+			[]int{0x0003, 0xa4},
+			[]int{0xc133, 0xc5},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcba5",
@@ -34334,12 +36410,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xa0, 0xa5}},
-			mock.Slice{Addr: 0xf141, Values: []uint8{0x44}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xa0},
+			[]int{0x0003, 0xa5},
+			[]int{0xf141, 0x44},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcba6",
@@ -34362,12 +36441,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x76, 0xa6}},
-			mock.Slice{Addr: 0x9469, Values: []uint8{0xbc}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x76},
+			[]int{0x0003, 0xa6},
+			[]int{0x9469, 0xbc},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcba7",
@@ -34390,12 +36472,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x66, 0xa7}},
-			mock.Slice{Addr: 0x7a2a, Values: []uint8{0x2e}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x66},
+			[]int{0x0003, 0xa7},
+			[]int{0x7a2a, 0x2e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcba8",
@@ -34418,12 +36503,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xa9, 0xa8}},
-			mock.Slice{Addr: 0x0cef, Values: []uint8{0xb7}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xa9},
+			[]int{0x0003, 0xa8},
+			[]int{0x0cef, 0xb7},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcba9",
@@ -34446,12 +36534,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x2b, 0xa9}},
-			mock.Slice{Addr: 0x0f7f, Values: []uint8{0x8f}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x2b},
+			[]int{0x0003, 0xa9},
+			[]int{0x0f7f, 0x8f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbaa",
@@ -34474,12 +36565,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x0b, 0xaa}},
-			mock.Slice{Addr: 0xb3dc, Values: []uint8{0x3a}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x0b},
+			[]int{0x0003, 0xaa},
+			[]int{0xb3dc, 0x3a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbab",
@@ -34502,12 +36596,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xa9, 0xab}},
-			mock.Slice{Addr: 0x8e77, Values: []uint8{0x1f}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xa9},
+			[]int{0x0003, 0xab},
+			[]int{0x8e77, 0x1f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbac",
@@ -34530,12 +36627,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x23, 0xac}},
-			mock.Slice{Addr: 0x0548, Values: []uint8{0x9c}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x23},
+			[]int{0x0003, 0xac},
+			[]int{0x0548, 0x9c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbad",
@@ -34558,12 +36658,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x4e, 0xad}},
-			mock.Slice{Addr: 0x94dd, Values: []uint8{0x37}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x4e},
+			[]int{0x0003, 0xad},
+			[]int{0x94dd, 0x37},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbae",
@@ -34586,12 +36689,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x0c, 0xae}},
-			mock.Slice{Addr: 0x0c29, Values: []uint8{0xa9}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x0c},
+			[]int{0x0003, 0xae},
+			[]int{0x0c29, 0xa9},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbaf",
@@ -34614,12 +36720,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x0d, 0xaf}},
-			mock.Slice{Addr: 0x26f8, Values: []uint8{0x44}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x0d},
+			[]int{0x0003, 0xaf},
+			[]int{0x26f8, 0x44},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbb0",
@@ -34642,12 +36751,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x5a, 0xb0}},
-			mock.Slice{Addr: 0xa125, Values: []uint8{0x76}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x5a},
+			[]int{0x0003, 0xb0},
+			[]int{0xa125, 0x76},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbb1",
@@ -34670,12 +36782,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x82, 0xb1}},
-			mock.Slice{Addr: 0xf31a, Values: []uint8{0x79}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x82},
+			[]int{0x0003, 0xb1},
+			[]int{0xf31a, 0x79},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbb2",
@@ -34698,12 +36813,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x23, 0xb2}},
-			mock.Slice{Addr: 0x341c, Values: []uint8{0x7b}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x23},
+			[]int{0x0003, 0xb2},
+			[]int{0x341c, 0x7b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbb3",
@@ -34726,12 +36844,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x6c, 0xb3}},
-			mock.Slice{Addr: 0x523e, Values: []uint8{0x37}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x6c},
+			[]int{0x0003, 0xb3},
+			[]int{0x523e, 0x37},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbb4",
@@ -34754,12 +36875,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xc5, 0xb4}},
-			mock.Slice{Addr: 0x4cdc, Values: []uint8{0xe9}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xc5},
+			[]int{0x0003, 0xb4},
+			[]int{0x4cdc, 0xe9},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbb5",
@@ -34782,12 +36906,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x50, 0xb5}},
-			mock.Slice{Addr: 0x8f2d, Values: []uint8{0x0f}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x50},
+			[]int{0x0003, 0xb5},
+			[]int{0x8f2d, 0x0f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbb6",
@@ -34810,12 +36937,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x3a, 0xb6}},
-			mock.Slice{Addr: 0x1e50, Values: []uint8{0x13}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x3a},
+			[]int{0x0003, 0xb6},
+			[]int{0x1e50, 0x13},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbb7",
@@ -34838,12 +36968,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xc0, 0xb7}},
-			mock.Slice{Addr: 0x0069, Values: []uint8{0x38}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xc0},
+			[]int{0x0003, 0xb7},
+			[]int{0x0069, 0x38},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbb8",
@@ -34866,12 +36999,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x31, 0xb8}},
-			mock.Slice{Addr: 0xd0b8, Values: []uint8{0x17}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x31},
+			[]int{0x0003, 0xb8},
+			[]int{0xd0b8, 0x17},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbb9",
@@ -34894,12 +37030,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x3b, 0xb9}},
-			mock.Slice{Addr: 0xb889, Values: []uint8{0xb4}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x3b},
+			[]int{0x0003, 0xb9},
+			[]int{0xb889, 0xb4},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbba",
@@ -34922,12 +37061,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x38, 0xba}},
-			mock.Slice{Addr: 0x3877, Values: []uint8{0xd6}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x38},
+			[]int{0x0003, 0xba},
+			[]int{0x3877, 0xd6},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbbb",
@@ -34950,12 +37092,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x07, 0xbb}},
-			mock.Slice{Addr: 0xe305, Values: []uint8{0x6e}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x07},
+			[]int{0x0003, 0xbb},
+			[]int{0xe305, 0x6e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbbc",
@@ -34978,12 +37123,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xf8, 0xbc}},
-			mock.Slice{Addr: 0xaf04, Values: []uint8{0xcf}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xf8},
+			[]int{0x0003, 0xbc},
+			[]int{0xaf04, 0xcf},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbbd",
@@ -35006,12 +37154,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xaa, 0xbd}},
-			mock.Slice{Addr: 0xdeb7, Values: []uint8{0x8d}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xaa},
+			[]int{0x0003, 0xbd},
+			[]int{0xdeb7, 0x8d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbbe",
@@ -35034,12 +37185,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xc8, 0xbe}},
-			mock.Slice{Addr: 0x3cd7, Values: []uint8{0xa1}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xc8},
+			[]int{0x0003, 0xbe},
+			[]int{0x3cd7, 0xa1},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbbf",
@@ -35062,12 +37216,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xfd, 0xbf}},
-			mock.Slice{Addr: 0xbde4, Values: []uint8{0xac}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xfd},
+			[]int{0x0003, 0xbf},
+			[]int{0xbde4, 0xac},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbc0",
@@ -35090,12 +37247,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x0a, 0xc0}},
-			mock.Slice{Addr: 0x2b3b, Values: []uint8{0xec}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x0a},
+			[]int{0x0003, 0xc0},
+			[]int{0x2b3b, 0xec},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbc1",
@@ -35118,12 +37278,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x87, 0xc1}},
-			mock.Slice{Addr: 0xbcee, Values: []uint8{0xee}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x87},
+			[]int{0x0003, 0xc1},
+			[]int{0xbcee, 0xee},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbc2",
@@ -35146,12 +37309,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x8d, 0xc2}},
-			mock.Slice{Addr: 0x5ab9, Values: []uint8{0xc2}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x8d},
+			[]int{0x0003, 0xc2},
+			[]int{0x5ab9, 0xc2},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbc3",
@@ -35174,12 +37340,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x5a, 0xc3}},
-			mock.Slice{Addr: 0xe6c0, Values: []uint8{0x4f}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x5a},
+			[]int{0x0003, 0xc3},
+			[]int{0xe6c0, 0x4f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbc4",
@@ -35202,12 +37371,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x89, 0xc4}},
-			mock.Slice{Addr: 0x5c99, Values: []uint8{0x61}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x89},
+			[]int{0x0003, 0xc4},
+			[]int{0x5c99, 0x61},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbc5",
@@ -35230,12 +37402,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xa9, 0xc5}},
-			mock.Slice{Addr: 0x0264, Values: []uint8{0xcd}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xa9},
+			[]int{0x0003, 0xc5},
+			[]int{0x0264, 0xcd},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbc6",
@@ -35258,12 +37433,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xee, 0xc6}},
-			mock.Slice{Addr: 0x76b2, Values: []uint8{0x82}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xee},
+			[]int{0x0003, 0xc6},
+			[]int{0x76b2, 0x82},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbc7",
@@ -35286,12 +37464,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x9e, 0xc7}},
-			mock.Slice{Addr: 0xf2a9, Values: []uint8{0xd7}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x9e},
+			[]int{0x0003, 0xc7},
+			[]int{0xf2a9, 0xd7},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbc8",
@@ -35314,12 +37495,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x10, 0xc8}},
-			mock.Slice{Addr: 0xc422, Values: []uint8{0xe9}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x10},
+			[]int{0x0003, 0xc8},
+			[]int{0xc422, 0xe9},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbc9",
@@ -35342,12 +37526,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x61, 0xc9}},
-			mock.Slice{Addr: 0x8ba3, Values: []uint8{0xb7}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x61},
+			[]int{0x0003, 0xc9},
+			[]int{0x8ba3, 0xb7},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbca",
@@ -35370,12 +37557,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x1a, 0xca}},
-			mock.Slice{Addr: 0x51aa, Values: []uint8{0x90}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x1a},
+			[]int{0x0003, 0xca},
+			[]int{0x51aa, 0x90},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbcb",
@@ -35398,12 +37588,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x5e, 0xcb}},
-			mock.Slice{Addr: 0x9ad0, Values: []uint8{0x70}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x5e},
+			[]int{0x0003, 0xcb},
+			[]int{0x9ad0, 0x70},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbcc",
@@ -35426,12 +37619,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x2d, 0xcc}},
-			mock.Slice{Addr: 0x1526, Values: []uint8{0x4e}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x2d},
+			[]int{0x0003, 0xcc},
+			[]int{0x1526, 0x4e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbcd",
@@ -35454,12 +37650,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xa1, 0xcd}},
-			mock.Slice{Addr: 0xbb8a, Values: []uint8{0x66}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xa1},
+			[]int{0x0003, 0xcd},
+			[]int{0xbb8a, 0x66},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbce",
@@ -35482,12 +37681,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x36, 0xce}},
-			mock.Slice{Addr: 0xb8d8, Values: []uint8{0x45}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x36},
+			[]int{0x0003, 0xce},
+			[]int{0xb8d8, 0x45},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbcf",
@@ -35510,12 +37712,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x70, 0xcf}},
-			mock.Slice{Addr: 0xc30c, Values: []uint8{0x7a}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x70},
+			[]int{0x0003, 0xcf},
+			[]int{0xc30c, 0x7a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbd0",
@@ -35538,12 +37743,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xbc, 0xd0}},
-			mock.Slice{Addr: 0x3ba7, Values: []uint8{0x20}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xbc},
+			[]int{0x0003, 0xd0},
+			[]int{0x3ba7, 0x20},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbd1",
@@ -35566,12 +37774,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x11, 0xd1}},
-			mock.Slice{Addr: 0x8c76, Values: []uint8{0xb9}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x11},
+			[]int{0x0003, 0xd1},
+			[]int{0x8c76, 0xb9},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbd2",
@@ -35594,12 +37805,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xfb, 0xd2}},
-			mock.Slice{Addr: 0xc04c, Values: []uint8{0x51}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xfb},
+			[]int{0x0003, 0xd2},
+			[]int{0xc04c, 0x51},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbd3",
@@ -35622,12 +37836,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x3e, 0xd3}},
-			mock.Slice{Addr: 0x0ac5, Values: []uint8{0xe0}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x3e},
+			[]int{0x0003, 0xd3},
+			[]int{0x0ac5, 0xe0},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbd4",
@@ -35650,12 +37867,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x36, 0xd4}},
-			mock.Slice{Addr: 0x94ae, Values: []uint8{0x7d}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x36},
+			[]int{0x0003, 0xd4},
+			[]int{0x94ae, 0x7d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbd5",
@@ -35678,12 +37898,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x48, 0xd5}},
-			mock.Slice{Addr: 0x8650, Values: []uint8{0x98}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x48},
+			[]int{0x0003, 0xd5},
+			[]int{0x8650, 0x98},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbd6",
@@ -35706,12 +37929,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xc9, 0xd6}},
-			mock.Slice{Addr: 0x6a6c, Values: []uint8{0x7c}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xc9},
+			[]int{0x0003, 0xd6},
+			[]int{0x6a6c, 0x7c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbd7",
@@ -35734,12 +37960,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xbe, 0xd7}},
-			mock.Slice{Addr: 0x3669, Values: []uint8{0x95}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xbe},
+			[]int{0x0003, 0xd7},
+			[]int{0x3669, 0x95},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbd8",
@@ -35762,12 +37991,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xbc, 0xd8}},
-			mock.Slice{Addr: 0x43b4, Values: []uint8{0xd8}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xbc},
+			[]int{0x0003, 0xd8},
+			[]int{0x43b4, 0xd8},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbd9",
@@ -35790,12 +38022,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x16, 0xd9}},
-			mock.Slice{Addr: 0x0a7c, Values: []uint8{0xf4}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x16},
+			[]int{0x0003, 0xd9},
+			[]int{0x0a7c, 0xf4},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbda",
@@ -35818,12 +38053,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xe8, 0xda}},
-			mock.Slice{Addr: 0xd0d8, Values: []uint8{0x6b}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xe8},
+			[]int{0x0003, 0xda},
+			[]int{0xd0d8, 0x6b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbdb",
@@ -35846,12 +38084,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x7a, 0xdb}},
-			mock.Slice{Addr: 0x8ca3, Values: []uint8{0x15}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x7a},
+			[]int{0x0003, 0xdb},
+			[]int{0x8ca3, 0x15},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbdc",
@@ -35874,12 +38115,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x64, 0xdc}},
-			mock.Slice{Addr: 0x599e, Values: []uint8{0x15}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x64},
+			[]int{0x0003, 0xdc},
+			[]int{0x599e, 0x15},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbdd",
@@ -35902,12 +38146,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x75, 0xdd}},
-			mock.Slice{Addr: 0x1e09, Values: []uint8{0x28}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x75},
+			[]int{0x0003, 0xdd},
+			[]int{0x1e09, 0x28},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbde",
@@ -35930,12 +38177,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x17, 0xde}},
-			mock.Slice{Addr: 0xc9f7, Values: []uint8{0x41}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x17},
+			[]int{0x0003, 0xde},
+			[]int{0xc9f7, 0x41},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbdf",
@@ -35958,12 +38208,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x93, 0xdf}},
-			mock.Slice{Addr: 0xea56, Values: []uint8{0xef}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x93},
+			[]int{0x0003, 0xdf},
+			[]int{0xea56, 0xef},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbe0",
@@ -35986,12 +38239,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x56, 0xe0}},
-			mock.Slice{Addr: 0x155d, Values: []uint8{0xb9}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x56},
+			[]int{0x0003, 0xe0},
+			[]int{0x155d, 0xb9},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbe1",
@@ -36014,12 +38270,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xd1, 0xe1}},
-			mock.Slice{Addr: 0x0dde, Values: []uint8{0x16}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xd1},
+			[]int{0x0003, 0xe1},
+			[]int{0x0dde, 0x16},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbe2",
@@ -36042,12 +38301,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x50, 0xe2}},
-			mock.Slice{Addr: 0xe4ec, Values: []uint8{0xc2}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x50},
+			[]int{0x0003, 0xe2},
+			[]int{0xe4ec, 0xc2},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbe3",
@@ -36070,12 +38332,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xca, 0xe3}},
-			mock.Slice{Addr: 0xad72, Values: []uint8{0xba}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xca},
+			[]int{0x0003, 0xe3},
+			[]int{0xad72, 0xba},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbe4",
@@ -36098,12 +38363,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x62, 0xe4}},
-			mock.Slice{Addr: 0x54d6, Values: []uint8{0x7b}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x62},
+			[]int{0x0003, 0xe4},
+			[]int{0x54d6, 0x7b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbe5",
@@ -36126,12 +38394,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xda, 0xe5}},
-			mock.Slice{Addr: 0xa507, Values: []uint8{0x4c}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xda},
+			[]int{0x0003, 0xe5},
+			[]int{0xa507, 0x4c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbe6",
@@ -36154,12 +38425,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x76, 0xe6}},
-			mock.Slice{Addr: 0x8b7c, Values: []uint8{0x45}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x76},
+			[]int{0x0003, 0xe6},
+			[]int{0x8b7c, 0x45},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbe7",
@@ -36182,12 +38456,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x11, 0xe7}},
-			mock.Slice{Addr: 0xb5a8, Values: []uint8{0xa6}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x11},
+			[]int{0x0003, 0xe7},
+			[]int{0xb5a8, 0xa6},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbe8",
@@ -36210,12 +38487,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xed, 0xe8}},
-			mock.Slice{Addr: 0x0a64, Values: []uint8{0xd0}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xed},
+			[]int{0x0003, 0xe8},
+			[]int{0x0a64, 0xd0},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbe9",
@@ -36238,12 +38518,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x35, 0xe9}},
-			mock.Slice{Addr: 0xa883, Values: []uint8{0x2f}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x35},
+			[]int{0x0003, 0xe9},
+			[]int{0xa883, 0x2f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbea",
@@ -36266,12 +38549,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x93, 0xea}},
-			mock.Slice{Addr: 0x7526, Values: []uint8{0x1b}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x93},
+			[]int{0x0003, 0xea},
+			[]int{0x7526, 0x1b},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbeb",
@@ -36294,12 +38580,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xd0, 0xeb}},
-			mock.Slice{Addr: 0x23e1, Values: []uint8{0x47}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xd0},
+			[]int{0x0003, 0xeb},
+			[]int{0x23e1, 0x47},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbec",
@@ -36322,12 +38611,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xf3, 0xec}},
-			mock.Slice{Addr: 0xd2de, Values: []uint8{0x49}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xf3},
+			[]int{0x0003, 0xec},
+			[]int{0xd2de, 0x49},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbed",
@@ -36350,12 +38642,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x58, 0xed}},
-			mock.Slice{Addr: 0x0f03, Values: []uint8{0x10}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x58},
+			[]int{0x0003, 0xed},
+			[]int{0x0f03, 0x10},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbee",
@@ -36378,12 +38673,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x02, 0xee}},
-			mock.Slice{Addr: 0x42be, Values: []uint8{0xd0}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x02},
+			[]int{0x0003, 0xee},
+			[]int{0x42be, 0xd0},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbef",
@@ -36406,12 +38704,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x58, 0xef}},
-			mock.Slice{Addr: 0x22ca, Values: []uint8{0x09}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x58},
+			[]int{0x0003, 0xef},
+			[]int{0x22ca, 0x09},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbf0",
@@ -36434,12 +38735,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x45, 0xf0}},
-			mock.Slice{Addr: 0xeee3, Values: []uint8{0x2c}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x45},
+			[]int{0x0003, 0xf0},
+			[]int{0xeee3, 0x2c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbf1",
@@ -36462,12 +38766,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x2f, 0xf1}},
-			mock.Slice{Addr: 0x47b2, Values: []uint8{0xdc}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x2f},
+			[]int{0x0003, 0xf1},
+			[]int{0x47b2, 0xdc},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbf2",
@@ -36490,12 +38797,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x2c, 0xf2}},
-			mock.Slice{Addr: 0xeac3, Values: []uint8{0x5e}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x2c},
+			[]int{0x0003, 0xf2},
+			[]int{0xeac3, 0x5e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbf3",
@@ -36518,12 +38828,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x38, 0xf3}},
-			mock.Slice{Addr: 0x7dc8, Values: []uint8{0x0c}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x38},
+			[]int{0x0003, 0xf3},
+			[]int{0x7dc8, 0x0c},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbf4",
@@ -36546,12 +38859,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xd0, 0xf4}},
-			mock.Slice{Addr: 0x306c, Values: []uint8{0x0e}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xd0},
+			[]int{0x0003, 0xf4},
+			[]int{0x306c, 0x0e},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbf5",
@@ -36574,12 +38890,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x55, 0xf5}},
-			mock.Slice{Addr: 0x6b74, Values: []uint8{0xf8}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x55},
+			[]int{0x0003, 0xf5},
+			[]int{0x6b74, 0xf8},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbf6",
@@ -36602,12 +38921,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x56, 0xf6}},
-			mock.Slice{Addr: 0xc670, Values: []uint8{0x5d}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x56},
+			[]int{0x0003, 0xf6},
+			[]int{0xc670, 0x5d},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbf7",
@@ -36630,12 +38952,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x9e, 0xf7}},
-			mock.Slice{Addr: 0x5727, Values: []uint8{0x66}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x9e},
+			[]int{0x0003, 0xf7},
+			[]int{0x5727, 0x66},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbf8",
@@ -36658,12 +38983,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x54, 0xf8}},
-			mock.Slice{Addr: 0xdece, Values: []uint8{0x7a}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x54},
+			[]int{0x0003, 0xf8},
+			[]int{0xdece, 0x7a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbf9",
@@ -36686,12 +39014,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x30, 0xf9}},
-			mock.Slice{Addr: 0x9a13, Values: []uint8{0xc6}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x30},
+			[]int{0x0003, 0xf9},
+			[]int{0x9a13, 0xc6},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbfa",
@@ -36714,12 +39045,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x09, 0xfa}},
-			mock.Slice{Addr: 0xbd82, Values: []uint8{0xf4}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x09},
+			[]int{0x0003, 0xfa},
+			[]int{0xbd82, 0xf4},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbfb",
@@ -36742,12 +39076,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xba, 0xfb}},
-			mock.Slice{Addr: 0xf82f, Values: []uint8{0xed}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xba},
+			[]int{0x0003, 0xfb},
+			[]int{0xf82f, 0xed},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbfc",
@@ -36770,12 +39107,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x56, 0xfc}},
-			mock.Slice{Addr: 0x6679, Values: []uint8{0x65}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x56},
+			[]int{0x0003, 0xfc},
+			[]int{0x6679, 0x65},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbfd",
@@ -36798,12 +39138,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x25, 0xfd}},
-			mock.Slice{Addr: 0x5d50, Values: []uint8{0x27}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x25},
+			[]int{0x0003, 0xfd},
+			[]int{0x5d50, 0x27},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbfe",
@@ -36826,12 +39169,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0x88, 0xfe}},
-			mock.Slice{Addr: 0x4dd7, Values: []uint8{0x4a}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0x88},
+			[]int{0x0003, 0xfe},
+			[]int{0x4dd7, 0x4a},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdcbff",
@@ -36854,12 +39200,15 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xcb, 0xe4, 0xff}},
-			mock.Slice{Addr: 0x2ad1, Values: []uint8{0x97}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xcb},
+			[]int{0x0002, 0xe4},
+			[]int{0x0003, 0xff},
+			[]int{0x2ad1, 0x97},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fde1",
@@ -36882,12 +39231,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xe1}},
-			mock.Slice{Addr: 0x716e, Values: []uint8{0xd5, 0x92}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xe1},
+			[]int{0x716e, 0xd5},
+			[]int{0x716f, 0x92},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fde3",
@@ -36910,12 +39261,14 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xe3}},
-			mock.Slice{Addr: 0x1a38, Values: []uint8{0xe0, 0x0f}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xe3},
+			[]int{0x1a38, 0xe0},
+			[]int{0x1a39, 0x0f},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fde5",
@@ -36938,11 +39291,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xe5}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xe5},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fde9",
@@ -36965,11 +39319,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xe9}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xe9},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fdf9",
@@ -36992,11 +39347,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfd, 0xf9}},
+		memory: [][]int{
+			[]int{0x0000, 0xfd},
+			[]int{0x0001, 0xf9},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "fe",
@@ -37019,11 +39375,12 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x0000, Values: []uint8{0xfe, 0x82}},
+		memory: [][]int{
+			[]int{0x0000, 0xfe},
+			[]int{0x0001, 0x82},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 	fuseTest{
 		name:    "ff",
@@ -37046,10 +39403,10 @@ var fuseIn = []fuseTest{
 		im:      0,
 		halt:    0,
 		tstates: 1,
-		memory: []mock.Slice{
-			mock.Slice{Addr: 0x6d33, Values: []uint8{0xff}},
+		memory: [][]int{
+			[]int{0x6d33, 0xff},
 		},
-		portReads:  []mock.Slice{},
-		portWrites: []mock.Slice{},
+		portReads:  [][]int{},
+		portWrites: [][]int{},
 	},
 }

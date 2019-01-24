@@ -128,27 +128,19 @@ func (c *CPU) storeLastInd(v uint8) {
 }
 
 func (c *CPU) outIndImm(v uint8) {
-	/*
-		addr := uint16(c.fetch())
-		c.Ports.Store(addr, v)
-	*/
-	panic("not done")
+	addr := int(c.fetch())
+	c.Ports.Write(addr, v)
 }
 
 func (c *CPU) inIndImm() uint8 {
-	/*
-		addr := uint16(c.fetch())
-		return c.Ports.Load(addr)
-	*/
-	panic("not done")
+	addr := int(c.fetch())
+	return c.Ports.Read(addr)
 }
 
 func (c *CPU) outIndC(v uint8) {
-	// c.Ports.Store(uint16(c.C), v)
-	panic("not done")
+	c.Ports.Write(int(c.C), v)
 }
 
 func (c *CPU) inIndC() uint8 {
-	// return c.Ports.Load(uint16(c.C))
-	panic("not done")
+	return c.Ports.Read(int(c.C))
 }
