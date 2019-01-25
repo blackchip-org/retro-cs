@@ -289,7 +289,7 @@ func TestFetchLE(t *testing.T) {
 	p.Addr = 4
 
 	have := p.FetchLE()
-	want := uint16(0x5544)
+	want := 0x5544
 	if have != want {
 		fmt.Printf("\n have: %04x \n want: %04x", have, want)
 	}

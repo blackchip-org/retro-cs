@@ -255,9 +255,9 @@ func (p *Pointer) Peek() uint8 {
 
 // FetchLE returns the next two bytes as a 16-bit value stored in little
 // endian format and advances the pointer by two.
-func (p *Pointer) FetchLE() uint16 {
-	lo := uint16(p.Fetch())
-	hi := uint16(p.Fetch())
+func (p *Pointer) FetchLE() int {
+	lo := int(p.Fetch())
+	hi := int(p.Fetch())
 	return hi<<8 + lo
 }
 

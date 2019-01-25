@@ -69,6 +69,10 @@ func Format(s Statement, options FormatOptions) string {
 	for _, b := range s.Bytes {
 		bytes = append(bytes, fmt.Sprintf("%02x", b))
 	}
-	sbytes := fmt.Sprintf(options.BytesFormat, strings.Join(bytes, " "))
+	format := options.BytesFormat
+	if format == "" {
+		format = "%v"
+	}
+	sbytes := fmt.Sprintf(format, strings.Join(bytes, " "))
 	return fmt.Sprintf("$%04x:  %s  %s", s.Addr, sbytes, s.Op)
 }
