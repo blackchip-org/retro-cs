@@ -16,15 +16,15 @@ import (
 
 var (
 	scale int
-	hscan int
-	vscan int
+	hscan bool
+	vscan bool
 )
 
 func init() {
 	flag.IntVar(&scale, "scale", 1, "image `scale`")
 	flag.StringVar(&config.Home, "home", "", "set the RCS `home` directory")
-	flag.IntVar(&hscan, "hscan", 0, "add horizontal scan lines of this `width`")
-	flag.IntVar(&vscan, "vscan", 0, "add vertical scan lines of this `width`")
+	flag.BoolVar(&hscan, "hscan", false, "add horizontal scan lines")
+	flag.BoolVar(&vscan, "vscan", false, "add vertical scan lines")
 
 	flag.Usage = func() {
 		o := flag.CommandLine.Output()
@@ -111,14 +111,22 @@ func main() {
 	var scanlines *sdl.Texture
 	// Now that the window has been shown, the texture needs to be rerendered.
 	sheet, _ = v.render(r, roms)
-	/*
-		if vscan > 0 {
-			scanlines, err = video.ScanLines(r, winX, winY, int32(vscan))
-			if err != nil {
-				log.Fatal(err)
-			}
+	slwidth := int32(scale / 2)
+	if slwidth == 0 {
+		slwidth = 1
+	}
+	if hscan {
+		scanlines, err = rcs.NewScanLinesH(r, winX, winY, slwidth)
+		if err != nil {
+			log.Fatal(err)
 		}
-	*/
+	}
+	if vscan {
+		scanlines, err = rcs.NewScanLinesV(r, winX, winY, slwidth)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
 
 	for {
 		for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent() {
