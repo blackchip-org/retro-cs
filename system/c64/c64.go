@@ -13,7 +13,7 @@ var ROMS = []rcs.ROM{
 }
 
 func New() (*rcs.Mach, error) {
-	roms, err := rcs.LoadROMs(config.ROMPath, ROMS)
+	roms, err := rcs.LoadROMs(config.DataDir, ROMS)
 	if err != nil {
 		return nil, err
 	}

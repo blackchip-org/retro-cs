@@ -9,7 +9,7 @@ import (
 
 var (
 	Home    string
-	ROMPath string
+	DataDir string
 )
 
 // Root returns the root directory where RCS data can be found. Locations
