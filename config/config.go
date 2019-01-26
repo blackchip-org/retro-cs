@@ -15,7 +15,7 @@ var (
 // Root returns the root directory where RCS data can be found. Locations
 // for the root directory are checked in this order: 1) The value of the
 // Home variable in the configuration, 2) The value of the RCS_HOME
-// environmental variable, 3) The "rcs" directory in the user's home
+// environmental variable, 3) The "retro-cs" directory in the user's home
 // directory.
 func Root() string {
 	userHome := "."
@@ -31,7 +31,7 @@ func Root() string {
 		root = os.Getenv("RCS_HOME")
 	}
 	if root == "" {
-		root = filepath.Join(userHome, "rcs")
+		root = filepath.Join(userHome, "retro-cs")
 	}
 	return root
 }

@@ -44,7 +44,7 @@ func init() {
 type view struct {
 	system string
 	roms   []rcs.ROM
-	render func(*sdl.Renderer, map[string]*rcs.Memory) (rcs.TileSheet, error)
+	render func(*sdl.Renderer, map[string][]byte) (rcs.TileSheet, error)
 }
 
 func main() {
@@ -62,16 +62,15 @@ func main() {
 		log.Fatalln("no such view")
 	}
 
-	/*
-		var roms map[string]*rcs.Memory
-		if v.roms != nil {
-			r, err := rcs.LoadROMs(config.DataDir, v.roms)
-			if err != nil {
-				log.Fatalf("unable to load roms:\n%v\n", err)
-			}
-			roms = r
+	var roms map[string][]byte
+	if v.roms != nil {
+		dir := filepath.Join(config.DataDir, v.system)
+		r, err := rcs.LoadROMs(dir, v.roms)
+		if err != nil {
+			log.Fatalf("unable to load roms:\n%v\n", err)
 		}
-	*/
+		roms = r
+	}
 
 	if err := sdl.Init(sdl.INIT_EVERYTHING); err != nil {
 		fmt.Fprintf(os.Stderr, "unable to initialize sdl: %v\n", err)
@@ -100,7 +99,7 @@ func main() {
 		fmt.Printf("unable to set swap interval: %v\n", err)
 	}
 
-	sheet, err := v.render(r, nil)
+	sheet, err := v.render(r, roms)
 	if err != nil {
 		log.Fatalf("unable to create sheet: %v", err)
 	}
@@ -111,7 +110,7 @@ func main() {
 
 	var scanlines *sdl.Texture
 	// Now that the window has been shown, the texture needs to be rerendered.
-	sheet, _ = v.render(r, nil)
+	sheet, _ = v.render(r, roms)
 	/*
 		if vscan > 0 {
 			scanlines, err = video.ScanLines(r, winX, winY, int32(vscan))
