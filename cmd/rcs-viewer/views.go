@@ -6,6 +6,7 @@ import (
 	"github.com/blackchip-org/retro-cs/rcs"
 	"github.com/blackchip-org/retro-cs/rcs/namco"
 	"github.com/blackchip-org/retro-cs/system/c64"
+	"github.com/blackchip-org/retro-cs/system/galaga"
 	"github.com/blackchip-org/retro-cs/system/pacman"
 	"github.com/veandco/go-sdl2/sdl"
 )
@@ -23,6 +24,22 @@ var views = map[string]view{
 		render: func(r *sdl.Renderer, _ map[string][]byte) (rcs.TileSheet, error) {
 			palettes := [][]color.RGBA{c64.Palette}
 			return rcs.NewColorSheet(r, palettes)
+		},
+	},
+	"galaga:sprites": view{
+		system: "galaga",
+		roms:   galaga.ROM["galaga"],
+		render: func(r *sdl.Renderer, d map[string][]byte) (rcs.TileSheet, error) {
+			return namco.NewTileSheet(r, d["sprite"],
+				galaga.VideoConfig.SpriteLayout, namco.ViewerPalette)
+		},
+	},
+	"galaga:tiles": view{
+		system: "galaga",
+		roms:   galaga.ROM["galaga"],
+		render: func(r *sdl.Renderer, d map[string][]byte) (rcs.TileSheet, error) {
+			return namco.NewTileSheet(r, d["tile"],
+				galaga.VideoConfig.TileLayout, namco.ViewerPalette)
 		},
 	},
 	"mspacman:sprites": view{
