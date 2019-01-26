@@ -3,6 +3,7 @@ package rcs
 import (
 	"fmt"
 	"image/color"
+	"math"
 
 	"github.com/veandco/go-sdl2/sdl"
 )
@@ -18,8 +19,12 @@ type TileSheet struct {
 func NewColorSheet(r *sdl.Renderer, palettes [][]color.RGBA) (TileSheet, error) {
 	tileW := int32(32)
 	tileH := int32(32)
-	texW := 16 * tileW
-	texH := 16 * tileH
+
+	colorN := len(palettes) * len(palettes[0])
+	per := int32(math.Sqrt(float64(colorN)))
+
+	texW := per * tileW
+	texH := per * tileH
 
 	t, err := r.CreateTexture(sdl.PIXELFORMAT_RGBA8888,
 		sdl.TEXTUREACCESS_TARGET, texW, texH)

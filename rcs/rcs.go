@@ -93,3 +93,14 @@ func Parity(v uint8) bool {
 	p := bits.OnesCount8(v)
 	return p == 0 || p == 2 || p == 4 || p == 6 || p == 8
 }
+
+func BitPlane(n uint8, planes []int, offset int) uint8 {
+	result := 0
+	for i, start := range planes {
+		checkBit := uint8(1) << uint(start+offset)
+		if n&checkBit != 0 {
+			result += 1 << uint(i)
+		}
+	}
+	return uint8(result)
+}

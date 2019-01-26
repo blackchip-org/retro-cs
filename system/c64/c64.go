@@ -6,14 +6,8 @@ import (
 	"github.com/blackchip-org/retro-cs/rcs/m6502"
 )
 
-var ROMS = []rcs.ROM{
-	rcs.NewROM("basic  ", "basic  ", "79015323128650c742a3694c9429aa91f355905e"),
-	rcs.NewROM("chargen", "chargen", "adc7c31e18c7c7413d54802ef2f4193da14711aa"),
-	rcs.NewROM("kernal ", "kernal ", "1d503e56df85a62fee696e7618dc5b4e781df1bb"),
-}
-
 func New() (*rcs.Mach, error) {
-	roms, err := rcs.LoadROMs(config.DataDir, ROMS)
+	roms, err := rcs.LoadROMs(config.DataDir, SystemROM)
 	if err != nil {
 		return nil, err
 	}

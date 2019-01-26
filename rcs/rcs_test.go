@@ -57,3 +57,24 @@ func ExampleSliceBits() {
 	fmt.Printf("%03b", SliceBits(value, 3, 5))
 	// Output: 111
 }
+
+func TestBitPlane(t *testing.T) {
+	b := ParseBits
+	p := []int{0, 4}
+	tests := []struct {
+		offset int
+		in     uint8
+		out    uint8
+	}{
+		{0, b("00010001"), b("11")},
+		{1, b("00100010"), b("11")},
+		{2, b("01000100"), b("11")},
+		{3, b("10001000"), b("11")},
+	}
+	for _, test := range tests {
+		out := BitPlane(test.in, p, test.offset)
+		if out != test.out {
+			t.Errorf("\n have: %08b \n want: %08b", out, test.out)
+		}
+	}
+}
