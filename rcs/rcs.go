@@ -1,8 +1,14 @@
 package rcs
 
 import (
+	"log"
 	"math/bits"
+	"os"
+	"os/user"
+	"path/filepath"
 	"strconv"
+
+	"github.com/blackchip-org/retro-cs/config"
 )
 
 // Load8 is a function which loads an unsigned 8-bit value
@@ -84,4 +90,23 @@ func Sub(in0, in1 uint8, borrow bool) (out uint8, fc, fh, fv bool) {
 func Parity8(v uint8) bool {
 	p := bits.OnesCount8(v)
 	return p == 0 || p == 2 || p == 4 || p == 6 || p == 8
+}
+
+func Home() string {
+	userHome := "."
+	u, err := user.Current()
+	if err != nil {
+		log.Printf("unable to find home directory: %v", err)
+	} else {
+		userHome = u.HomeDir
+	}
+
+	home := config.Home
+	if home == "" {
+		home = os.Getenv("RCS_HOME")
+	}
+	if home == "" {
+		home = filepath.Join(userHome, "rcs")
+	}
+	return home
 }

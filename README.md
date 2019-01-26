@@ -12,6 +12,7 @@ emulator from pac8 into one.
 ## References
 
 - Avery, Jeff, "Using Z80 Instruction Exerciser (Zexall/ /Zexdoc)", http://jeffavery.ca/computers/macintosh_z80exerciser.html
+- "Bank Switching", https://www.c64-wiki.com/wiki/Bank_Switching
 - Butterfield, Jim, "Machine Language for the Commodore 64, 128, and Other Commodore Computers. Revised and Expanded Edition"
 - Cantrell, Christopher, "Galaga", http://www.computerarcheology.com/Arcade/Galaga/
 - Cringle, Frank D., "Z80 Instruction Exerciser",

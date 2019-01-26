@@ -3,6 +3,7 @@ package rcs
 import (
 	"bytes"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 	"reflect"
@@ -137,6 +138,47 @@ func TestMemoryMapFunc(t *testing.T) {
 	}
 	if writes != 5 {
 		t.Errorf("expected 5 writes, got %v", writes)
+	}
+}
+
+func TestMemoryMap(t *testing.T) {
+	main := NewMemory(1, 15)
+	mem := NewMemory(1, 5)
+	mem.MapRAM(0, make([]uint8, 5, 5))
+	main.Map(0, mem)
+	main.Map(5, mem)
+
+	main.Write(1, 22)
+	have := main.Read(6)
+	want := uint8(22)
+	if have != want {
+		t.Errorf("\n have: %04x \n want: %04x", have, want)
+	}
+}
+
+func TestMemoryUnmap(t *testing.T) {
+	var buf bytes.Buffer
+	log.SetFlags(0)
+	log.SetOutput(&buf)
+	defer func() {
+		log.SetFlags(log.LstdFlags)
+		log.SetOutput(os.Stderr)
+	}()
+
+	mem := NewMemory(1, 10)
+	mem.MapRAM(0, make([]uint8, 10, 10))
+	mem.Write(7, 44)
+	mem.Unmap(5, 9)
+	mem.Read(7)
+
+	msg := []string{
+		"unmapped memory read, bank 0, addr 0x7",
+		"",
+	}
+	have := buf.String()
+	want := strings.Join(msg, "\n")
+	if have != want {
+		t.Errorf("\n have: \n%v \n want: \n%v", have, want)
 	}
 }
 
@@ -307,5 +349,80 @@ func TestPutN(t *testing.T) {
 	want := []uint8{1, 2, 3, 4, 5}
 	if !reflect.DeepEqual(ram, want) {
 		fmt.Printf("\n have: %04x \n want: %04x", ram, want)
+	}
+}
+
+func TestLoadROMs(t *testing.T) {
+	data0 := []byte{1, 2}
+	data1 := []byte{3, 4}
+	readFile = func(filename string) ([]byte, error) {
+		switch filename {
+		case "/data0":
+			return data0, nil
+		case "/data1":
+			return data1, nil
+		}
+		return nil, fmt.Errorf("invalid file")
+	}
+	defer func() { readFile = ioutil.ReadFile }()
+
+	rom0 := NewROM(" data0 ", " data0 ", "0ca623e2855f2c75c842ad302fe820e41b4d197d")
+	rom1 := NewROM(" data1 ", " data1 ", "c512123626a98914cb55a769db20808db3df3af7")
+	chunks, err := LoadROMs("/", []ROM{rom0, rom1})
+	if err != nil {
+		t.Error(err)
+	}
+	want := map[string][]byte{
+		"data0": data0,
+		"data1": data1,
+	}
+	if !reflect.DeepEqual(chunks, want) {
+		t.Errorf("\n have: %+v \n want: %+v", chunks, want)
+	}
+}
+
+func TestLoadROMsCombine(t *testing.T) {
+	data0 := []byte{1, 2}
+	data1 := []byte{3, 4}
+	readFile = func(filename string) ([]byte, error) {
+		switch filename {
+		case "/data0":
+			return data0, nil
+		case "/data1":
+			return data1, nil
+		}
+		return nil, fmt.Errorf("invalid file")
+	}
+	defer func() { readFile = ioutil.ReadFile }()
+
+	rom0 := NewROM(" data ", " data0 ", "0ca623e2855f2c75c842ad302fe820e41b4d197d")
+	rom1 := NewROM(" data ", " data1 ", "c512123626a98914cb55a769db20808db3df3af7")
+	chunks, err := LoadROMs("/", []ROM{rom0, rom1})
+	if err != nil {
+		t.Error(err)
+	}
+	want := map[string][]byte{
+		"data": []byte{1, 2, 3, 4},
+	}
+	if !reflect.DeepEqual(chunks, want) {
+		t.Errorf("\n have: %+v \n want: %+v", chunks, want)
+	}
+}
+
+func TestLoadROMsChecksumError(t *testing.T) {
+	data0 := []byte{1, 2}
+	readFile = func(filename string) ([]byte, error) {
+		switch filename {
+		case "/data0":
+			return data0, nil
+		}
+		return nil, fmt.Errorf("invalid file")
+	}
+	defer func() { readFile = ioutil.ReadFile }()
+
+	rom0 := NewROM("data0", "data0", "xx")
+	_, err := LoadROMs("/", []ROM{rom0})
+	if err == nil {
+		t.Errorf("expected error")
 	}
 }

@@ -1,2 +1,4 @@
 ext
 .DS_Store
+data/*/*
+!data/*/*.state

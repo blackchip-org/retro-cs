@@ -5,6 +5,16 @@ import (
 	"strings"
 )
 
+type Proc interface {
+	Next()
+}
+
+type CPU interface {
+	Next()
+	PC() int
+	SetPC(int)
+}
+
 type Statement struct {
 	Addr    int
 	Label   string

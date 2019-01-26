@@ -1,7 +1,14 @@
 package rcs
 
 import (
+	"bytes"
+	"crypto/sha1"
+	"errors"
+	"fmt"
+	"io/ioutil"
 	"log"
+	"path/filepath"
+	"strings"
 )
 
 /*
@@ -160,7 +167,11 @@ func (m *Memory) MapRAM(addr int, ram []uint8) {
 
 // MapROM adds read maps to all of the 8-bit values in rom starting at
 // addr. Any existing read maps are replaced but write maps are not altered.
+// If the rom passed in is nil, no mappings are changed.
 func (m *Memory) MapROM(addr int, rom []uint8) {
+	if rom == nil {
+		return
+	}
 	for i := 0; i < len(rom); i++ {
 		j := i
 		m.read[addr+i] = func() uint8 { return rom[j] }
@@ -200,6 +211,23 @@ func (m *Memory) MapLoad(addr int, load Load8) {
 // are not altered.
 func (m *Memory) MapStore(addr int, store Store8) {
 	m.write[addr] = store
+}
+
+func (m *Memory) Map(startAddr int, m1 *Memory) {
+	endAddr := startAddr + len(m1.read)
+	for i, addr := 0, startAddr; addr < endAddr; i, addr = i+1, addr+1 {
+		m.read[addr] = m1.read[i]
+		m.write[addr] = m1.write[i]
+	}
+}
+
+func (m *Memory) Unmap(startAddr int, endAddr int) {
+	for i := startAddr; i <= endAddr; i++ {
+		b := m.bank
+		j := i
+		m.read[i] = warnUnmappedRead(b, j)
+		m.write[i] = warnUnmappedWrite(b, j)
+	}
 }
 
 // Bank returns the number of the selected bank. Banks are numbered starting
@@ -272,4 +300,49 @@ func (p *Pointer) PutN(values ...uint8) {
 	for _, value := range values {
 		p.Put(value)
 	}
+}
+
+type ROM struct {
+	Name     string
+	File     string
+	Checksum string
+}
+
+func NewROM(name string, file string, checksum string) ROM {
+	return ROM{
+		Name:     strings.TrimSpace(name),
+		File:     strings.TrimSpace(file),
+		Checksum: checksum,
+	}
+}
+
+var readFile = ioutil.ReadFile
+
+func LoadROMs(dir string, roms []ROM) (map[string][]byte, error) {
+	buffers := make(map[string]bytes.Buffer)
+	e := make([]string, 0, 0)
+	for _, rom := range roms {
+		buf := buffers[rom.Name]
+		path := filepath.Join(dir, rom.File)
+		data, err := readFile(path)
+		if err != nil {
+			e = append(e, err.Error())
+			continue
+		}
+		checksum := fmt.Sprintf("%040x", sha1.Sum(data))
+		if checksum != rom.Checksum {
+			e = append(e, fmt.Sprintf("%v: invalid checksum", path))
+			continue
+		}
+		buf.Write(data)
+		buffers[rom.Name] = buf
+	}
+	if len(e) > 0 {
+		return nil, errors.New(strings.Join(e, "\n"))
+	}
+	chunks := make(map[string][]byte)
+	for name, buf := range buffers {
+		chunks[name] = buf.Bytes()
+	}
+	return chunks, nil
 }
