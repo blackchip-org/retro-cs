@@ -7,14 +7,14 @@ import (
 	"github.com/blackchip-org/retro-cs/rcs"
 )
 
-func Reader(e rcs.Eval) rcs.Statement {
+func Reader(e rcs.Eval) {
 	e.Stmt.Addr = e.Ptr.Addr
 	opcode := e.Ptr.Fetch()
 	e.Stmt.Bytes = append(e.Stmt.Bytes, opcode)
 	op, ok := dasmTable[opcode]
 	if !ok {
 		e.Stmt.Op = fmt.Sprintf("?%02x", opcode)
-		return *e.Stmt
+		return
 	}
 
 	len := operandLengths[op.mode]
@@ -28,15 +28,15 @@ func Reader(e rcs.Eval) rcs.Statement {
 		e.Stmt.Bytes = append(e.Stmt.Bytes, uint8(operand), uint8(operand>>8))
 	}
 	e.Stmt.Op = op.inst + formatOp(op, operand, e.Stmt.Addr)
-	return *e.Stmt
+	return
 }
 
 func Formatter() rcs.CodeFormatter {
 	options := rcs.FormatOptions{
 		BytesFormat: "%-8s",
 	}
-	return func(s rcs.Statement) string {
-		return rcs.Format(s, options)
+	return func(s rcs.Stmt) string {
+		return rcs.FormatStmt(s, options)
 	}
 }
 

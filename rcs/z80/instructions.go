@@ -133,7 +133,7 @@ func and(cpu *CPU, load rcs.Load8) {
 		cpu.F |= FlagZ
 	}
 	cpu.F |= FlagH
-	if rcs.Parity8(out) {
+	if rcs.Parity(out) {
 		cpu.F |= FlagP
 	}
 	if out&(1<<5) != 0 {
@@ -343,7 +343,7 @@ func daa(cpu *CPU) {
 	if half {
 		cpu.F |= FlagH
 	}
-	if rcs.Parity8(out) {
+	if rcs.Parity(out) {
 		cpu.F |= FlagP
 	}
 	if cpu.A > 0x99 {
@@ -452,7 +452,7 @@ func in(cpu *CPU, store rcs.Store8, load rcs.Load8) {
 	if out == 0 {
 		cpu.F |= FlagZ
 	}
-	if rcs.Parity8(out) {
+	if rcs.Parity(out) {
 		cpu.F |= FlagP
 	}
 	if out&(1<<5) != 0 {
@@ -522,7 +522,7 @@ func inx(cpu *CPU, increment int) {
 	if halfAndCarry {
 		cpu.F |= FlagH
 	}
-	if rcs.Parity8(p) {
+	if rcs.Parity(p) {
 		cpu.F |= FlagP
 	}
 	if in&(1<<7) != 0 {
@@ -669,7 +669,7 @@ func or(cpu *CPU, load rcs.Load8) {
 	if out == 0 {
 		cpu.F |= FlagZ
 	}
-	if rcs.Parity8(out) {
+	if rcs.Parity(out) {
 		cpu.F |= FlagP
 	}
 	if out&(1<<5) != 0 {
@@ -704,7 +704,7 @@ func outx(cpu *CPU, increment int) {
 	if halfAndCarry {
 		cpu.F |= FlagH
 	}
-	if rcs.Parity8(p) {
+	if rcs.Parity(p) {
 		cpu.F |= FlagP
 	}
 	if in&(1<<7) != 0 {
@@ -792,7 +792,7 @@ func rl(cpu *CPU, store rcs.Store8, load rcs.Load8) {
 	if out == 0 {
 		cpu.F |= FlagZ
 	}
-	if rcs.Parity8(out) {
+	if rcs.Parity(out) {
 		cpu.F |= FlagP
 	}
 	if carryOut {
@@ -865,7 +865,7 @@ func rlc(cpu *CPU, store rcs.Store8, load rcs.Load8) {
 	if out == 0 {
 		cpu.F |= FlagZ
 	}
-	if rcs.Parity8(out) {
+	if rcs.Parity(out) {
 		cpu.F |= FlagP
 	}
 	if carryOut {
@@ -898,7 +898,7 @@ func rld(cpu *CPU) {
 	if out == 0 {
 		cpu.F |= FlagZ
 	}
-	if rcs.Parity8(out) {
+	if rcs.Parity(out) {
 		cpu.F |= FlagP
 	}
 	if cpu.A&(1<<5) != 0 {
@@ -925,7 +925,7 @@ func rr(cpu *CPU, store rcs.Store8, load rcs.Load8) {
 	if out == 0 {
 		cpu.F |= FlagZ
 	}
-	if rcs.Parity8(out) {
+	if rcs.Parity(out) {
 		cpu.F |= FlagP
 	}
 	if carryOut {
@@ -977,7 +977,7 @@ func rrc(cpu *CPU, store rcs.Store8, load rcs.Load8) {
 	if out == 0 {
 		cpu.F |= FlagZ
 	}
-	if rcs.Parity8(out) {
+	if rcs.Parity(out) {
 		cpu.F |= FlagP
 	}
 	if carryOut {
@@ -1032,7 +1032,7 @@ func rrd(cpu *CPU) {
 	if out == 0 {
 		cpu.F |= FlagZ
 	}
-	if rcs.Parity8(out) {
+	if rcs.Parity(out) {
 		cpu.F |= FlagP
 	}
 	if cpu.A&(1<<5) != 0 {
@@ -1081,7 +1081,7 @@ func sla(cpu *CPU, store rcs.Store8, load rcs.Load8) {
 	if out == 0 {
 		cpu.F |= FlagZ
 	}
-	if rcs.Parity8(out) {
+	if rcs.Parity(out) {
 		cpu.F |= FlagV
 	}
 	if carryOut {
@@ -1113,7 +1113,7 @@ func sra(cpu *CPU, store rcs.Store8, load rcs.Load8) {
 	if out == 0 {
 		cpu.F |= FlagZ
 	}
-	if rcs.Parity8(out) {
+	if rcs.Parity(out) {
 		cpu.F |= FlagV
 	}
 	if carryOut {
@@ -1141,7 +1141,7 @@ func sll(cpu *CPU, store rcs.Store8, load rcs.Load8) {
 	if out == 0 {
 		cpu.F |= FlagZ
 	}
-	if rcs.Parity8(out) {
+	if rcs.Parity(out) {
 		cpu.F |= FlagV
 	}
 	if carryOut {
@@ -1169,7 +1169,7 @@ func srl(cpu *CPU, store rcs.Store8, load rcs.Load8) {
 	if out == 0 {
 		cpu.F |= FlagZ
 	}
-	if rcs.Parity8(out) {
+	if rcs.Parity(out) {
 		cpu.F |= FlagV
 	}
 	if carryOut {
@@ -1289,7 +1289,7 @@ func xor(cpu *CPU, load rcs.Load8) {
 	if out == 0 {
 		cpu.F |= FlagZ
 	}
-	if rcs.Parity8(out) {
+	if rcs.Parity(out) {
 		cpu.F |= FlagP
 	}
 	if out&(1<<5) != 0 {

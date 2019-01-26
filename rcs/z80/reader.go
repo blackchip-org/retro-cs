@@ -7,20 +7,19 @@ import (
 	"github.com/blackchip-org/retro-cs/rcs"
 )
 
-func Reader(e rcs.Eval) rcs.Statement {
+func Reader(e rcs.Eval) {
 	e.Stmt.Addr = e.Ptr.Addr
 	opcode := e.Ptr.Fetch()
-	e.Stmt.Bytes = append(e.Stmt.Bytes, opcode)
+	e.Stmt.Bytes = []uint8{opcode}
 	dasmTable[opcode](e)
-	return *e.Stmt
 }
 
 func Formatter() rcs.CodeFormatter {
 	options := rcs.FormatOptions{
 		BytesFormat: "%-11s",
 	}
-	return func(s rcs.Statement) string {
-		return rcs.Format(s, options)
+	return func(s rcs.Stmt) string {
+		return rcs.FormatStmt(s, options)
 	}
 }
 

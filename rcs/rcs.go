@@ -1,14 +1,8 @@
 package rcs
 
 import (
-	"log"
 	"math/bits"
-	"os"
-	"os/user"
-	"path/filepath"
 	"strconv"
-
-	"github.com/blackchip-org/retro-cs/config"
 )
 
 // Load8 is a function which loads an unsigned 8-bit value
@@ -56,6 +50,9 @@ func SliceBits(value uint8, lo int, hi int) uint8 {
 	return value & mask
 }
 
+// Add performs addition on in0 and in1 with a carry and returns the result
+// along with the new values for the carry, half-carry, and overflow
+// flags.
 func Add(in0, in1 uint8, carry bool) (out uint8, c, h, v bool) {
 	// https://stackoverflow.com/questions/8034566/overflow-and-carry-flags-on-z80/8037485#8037485
 	var carryOut uint8
@@ -79,6 +76,9 @@ func Add(in0, in1 uint8, carry bool) (out uint8, c, h, v bool) {
 	return
 }
 
+// Sub performs subtraction of in1 from in0 with a borrow and returns the result
+// along with the new values for the borrow, half-borrow, and overflow
+// flags.
 func Sub(in0, in1 uint8, borrow bool) (out uint8, fc, fh, fv bool) {
 	fc = !borrow
 	out, fc, fh, fv = Add(in0, ^in1, fc)
@@ -87,26 +87,9 @@ func Sub(in0, in1 uint8, borrow bool) (out uint8, fc, fh, fv bool) {
 	return
 }
 
-func Parity8(v uint8) bool {
+// Parity returns true if there are an even number of bits set in the
+// given value.
+func Parity(v uint8) bool {
 	p := bits.OnesCount8(v)
 	return p == 0 || p == 2 || p == 4 || p == 6 || p == 8
-}
-
-func Home() string {
-	userHome := "."
-	u, err := user.Current()
-	if err != nil {
-		log.Printf("unable to find home directory: %v", err)
-	} else {
-		userHome = u.HomeDir
-	}
-
-	home := config.Home
-	if home == "" {
-		home = os.Getenv("RCS_HOME")
-	}
-	if home == "" {
-		home = filepath.Join(userHome, "rcs")
-	}
-	return home
 }

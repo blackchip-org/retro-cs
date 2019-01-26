@@ -15,20 +15,17 @@ type CPU interface {
 	SetPC(int)
 }
 
-type Statement struct {
-	Addr    int
-	Label   string
-	Op      string
-	Bytes   []uint8
-	Comment string
+// Stmt represents a single statement in a disassembly.
+type Stmt struct {
+	Addr    int     // Address of the instruction
+	Label   string  // Jump label
+	Op      string  // Formated operation, "lda #$40"
+	Bytes   []uint8 // Bytes that represent this instruction
+	Comment string  // Any notes from the source code
 }
 
-func NewStatement() *Statement {
-	return &Statement{Bytes: make([]uint8, 0, 0)}
-}
-
-type CodeReader func(Eval) Statement
-type CodeFormatter func(Statement) string
+type CodeReader func(Eval)
+type CodeFormatter func(Stmt) string
 
 type Disassembler struct {
 	mem    *Memory
@@ -39,7 +36,7 @@ type Disassembler struct {
 
 type Eval struct {
 	Ptr  *Pointer
-	Stmt *Statement
+	Stmt *Stmt
 }
 
 func NewDisassembler(mem *Memory, r CodeReader, f CodeFormatter) *Disassembler {
@@ -51,15 +48,19 @@ func NewDisassembler(mem *Memory, r CodeReader, f CodeFormatter) *Disassembler {
 	}
 }
 
-func (d *Disassembler) NextStatement() Statement {
-	return d.read(Eval{
-		Ptr:  d.ptr,
-		Stmt: NewStatement(),
-	})
+func (d *Disassembler) NextStmt() Stmt {
+	eval := Eval{
+		Ptr: d.ptr,
+		Stmt: &Stmt{
+			Bytes: make([]byte, 0, 0),
+		},
+	}
+	d.read(eval)
+	return *eval.Stmt
 }
 
 func (d *Disassembler) Next() string {
-	return d.format(d.NextStatement())
+	return d.format(d.NextStmt())
 }
 
 func (d *Disassembler) SetPC(addr int) {
@@ -74,7 +75,7 @@ type FormatOptions struct {
 	BytesFormat string
 }
 
-func Format(s Statement, options FormatOptions) string {
+func FormatStmt(s Stmt, options FormatOptions) string {
 	bytes := []string{}
 	for _, b := range s.Bytes {
 		bytes = append(bytes, fmt.Sprintf("%02x", b))
