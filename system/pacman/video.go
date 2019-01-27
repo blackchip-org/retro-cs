@@ -68,5 +68,5 @@ var tilePixels = [][]int{
 func pixelReader(d []byte, base int, pixel int) uint8 {
 	addr := base + int(pixel/4)
 	offset := pixel % 4
-	return rcs.BitPlane(d[addr], []int{0, 4}, offset)
+	return rcs.BitPlane4(d[addr], offset)
 }

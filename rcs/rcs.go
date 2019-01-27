@@ -94,11 +94,13 @@ func Parity(v uint8) bool {
 	return p == 0 || p == 2 || p == 4 || p == 6 || p == 8
 }
 
-func BitPlane(n uint8, planes []int, offset int) uint8 {
+// BitPlane4 returns the nth 2-bit value stored in 4-bit planes found in v.
+// If n is 0, returns bits 0 and 4. If n is 1, returns bits 1 and 5, etc.
+func BitPlane4(v uint8, n int) uint8 {
 	result := 0
-	for i, start := range planes {
-		checkBit := uint8(1) << uint(start+offset)
-		if n&checkBit != 0 {
+	for i, start := range []int{0, 4} {
+		checkBit := uint8(1) << uint(start+n)
+		if v&checkBit != 0 {
 			result += 1 << uint(i)
 		}
 	}

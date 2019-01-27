@@ -60,7 +60,6 @@ func ExampleSliceBits() {
 
 func TestBitPlane(t *testing.T) {
 	b := ParseBits
-	p := []int{0, 4}
 	tests := []struct {
 		offset int
 		in     uint8
@@ -72,7 +71,7 @@ func TestBitPlane(t *testing.T) {
 		{3, b("10001000"), b("11")},
 	}
 	for _, test := range tests {
-		out := BitPlane(test.in, p, test.offset)
+		out := BitPlane4(test.in, test.offset)
 		if out != test.out {
 			t.Errorf("\n have: %08b \n want: %08b", out, test.out)
 		}

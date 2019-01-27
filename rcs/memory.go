@@ -302,12 +302,31 @@ func (p *Pointer) PutN(values ...uint8) {
 	}
 }
 
+/*
+ROM represents a dump of read-only memory data found on disk.
+
+To load in a set of ROMs, define a slice of ROM definitions each with
+the "name" of the ROM, the filename found on disk, and its SHA1
+checksum as a string of hexadecimal values.
+
+	roms := []rcs.ROM{
+		NewROM("code"  ", "chip1.rom  ", "da39a3ee5e6b4b0d3255bfef95601890afd80709"),
+		NewROM("code   ", "chip2.rom  ", "342d21fb707e89a6d407117c810795abcc481c52"),
+		NewROM("sprites", "chip3az.rom", "38dc6d5fe1a085f2e885748a00fbe5b7b3b8b1a6"),
+	}
+
+Then call LoadROMs to return a map of names to byte slices:
+
+	data, err := LoadROMs("/path/to/roms", roms)
+
+*/
 type ROM struct {
 	Name     string
 	File     string
 	Checksum string
 }
 
+// NewROM creates a new ROM definition.
 func NewROM(name string, file string, checksum string) ROM {
 	return ROM{
 		Name:     strings.TrimSpace(name),
@@ -318,6 +337,16 @@ func NewROM(name string, file string, checksum string) ROM {
 
 var readFile = ioutil.ReadFile
 
+/*
+LoadROMs loads all ROMs in the given slice of definitions. An attempt will be
+made to load each ROM. Any errors encountered during the attempts are be
+combined into a single error.
+
+The returned map will contain a byte slice for each ROM identified by its name.
+ROMS that are given the same name are concatenated together. Extra whitespace
+found at the beginning or ending of the name or filename are removed and
+is useful for aligning the ROM definitions in the source code.
+*/
 func LoadROMs(dir string, roms []ROM) (map[string][]byte, error) {
 	buffers := make(map[string]bytes.Buffer)
 	e := make([]string, 0, 0)
