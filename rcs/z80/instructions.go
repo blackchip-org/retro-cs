@@ -254,6 +254,7 @@ func cpl(cpu *CPU) {
 }
 
 func cpx(cpu *CPU, increment int) {
+	carry := cpu.F&FlagC != 0
 	out, _, fh, _ := rcs.Sub(cpu.A, cpu.loadIndHL(), false)
 
 	cpu.storeHL(cpu.loadHL() + int(increment))
@@ -261,9 +262,9 @@ func cpx(cpu *CPU, increment int) {
 
 	dresult := out
 	if fh {
-		dresult--
+		//dresult--
 	}
-	cpu.F &^= FlagS | FlagZ | FlagH | FlagV | Flag5 | Flag3
+	cpu.F = 0
 	if out&(1<<7) != 0 {
 		cpu.F |= FlagS
 	}
@@ -277,6 +278,9 @@ func cpx(cpu *CPU, increment int) {
 		cpu.F |= FlagV
 	}
 	cpu.F |= FlagN
+	if carry {
+		cpu.F |= FlagC
+	}
 	if dresult&(1<<1) != 0 { // yes, one
 		cpu.F |= Flag5
 	}
@@ -287,18 +291,13 @@ func cpx(cpu *CPU, increment int) {
 
 func cpxr(cpu *CPU, increment int) {
 	cpx(cpu, increment)
-	for {
-		if cpu.B == 0 && cpu.C == 0 {
-			break
-		}
-		addr := int(cpu.H)<<8 | int(cpu.L)
-		if cpu.A == cpu.mem.Read(addr-1) {
-			break
-		}
-		cpu.refreshR()
-		cpu.refreshR()
-		cpx(cpu, increment)
+	if cpu.B == 0 && cpu.C == 0 {
+		return
 	}
+	if cpu.F&FlagZ != 0 {
+		return
+	}
+	cpu.SetPC(cpu.PC() - 2)
 }
 
 // decimal adjust in a
@@ -310,6 +309,7 @@ func cpxr(cpu *CPU, increment int) {
 // Eventually ported directly from the MAME source code.
 func daa(cpu *CPU) {
 	out := cpu.A
+	carry := false
 	half := false
 	if cpu.F&FlagN != 0 {
 		if cpu.F&FlagH != 0 || cpu.A&0xf > 9 {
@@ -317,6 +317,7 @@ func daa(cpu *CPU) {
 		}
 		if cpu.F&FlagC != 0 || cpu.A > 0x99 {
 			out -= 0x60
+			carry = true
 		}
 		if cpu.F&FlagH != 0 && cpu.A&0xf <= 0x5 {
 			half = true
@@ -327,6 +328,7 @@ func daa(cpu *CPU) {
 		}
 		if cpu.F&FlagC != 0 || cpu.A > 0x99 {
 			out += 0x60
+			carry = true
 		}
 		if cpu.A&0xf > 0x9 {
 			half = true
@@ -346,7 +348,12 @@ func daa(cpu *CPU) {
 	if rcs.Parity(out) {
 		cpu.F |= FlagP
 	}
-	if cpu.A > 0x99 {
+	/*
+		if cpu.A > 0x99 {
+			cpu.F |= FlagC
+		}
+	*/
+	if carry {
 		cpu.F |= FlagC
 	}
 	if out&(1<<5) != 0 {
@@ -811,7 +818,7 @@ func rl(cpu *CPU, store rcs.Store8, load rcs.Load8) {
 func rla(cpu *CPU) {
 	carryOut := cpu.A&(1<<7) != 0
 	out := cpu.A << 1
-	if cpu.F|FlagC != 0 {
+	if cpu.F&FlagC != 0 {
 		out++
 	}
 

@@ -22,6 +22,7 @@ http://mdfs.net/Software/Z80/Exerciser/
 - "Free Unix Spectrum Emulator", https://github.com/FuseEmulator/fuse-emulator-svn/tree/master/fuse/z80/tests
 - Frunze, Alexey, "Overflow and Carry flags on Z80", https://stackoverflow.com/questions/8034566/overflow-and-carry-flags-on-z80/8037485#8037485
 - Harston, J.G., "Full Z80 Opcode List Including Undocumented Opcodes", http://www.z80.info/z80oplist.txt
+- Ke-Fong, Lin, "z80emu", https://github.com/anotherlin/z80emu
 - Lomont, Chris, "Pac-Man Emulation Guide v0.1, Oct 2008", https://www.lomont.org/Software/Games/PacMan/PacmanEmulation.pdf
 - Pickens, John, et al. "NMOS 6502 Opcodes", http://www.6502.org/tutorials/6502opcodes.html
 - Salmoria, Nicola, et al, "Namco PuckMan", https://github.com/mamedev/mame/blob/master/src/mame/drivers/pacman.cpp

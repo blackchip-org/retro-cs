@@ -1,4 +1,6 @@
-# zex
+# z80
+
+## zex_test.go
 
 The Z80 Instruction Exerciser written by Frank D. Cringle.
 
@@ -25,11 +27,6 @@ Run the functional test with:
 ```bash
 go test -v -tags=long -timeout 60m
 ```
-
-The following tests are currently failing:
-
-- TestZexdoc/cpd1: `cpd<r>`
-- TestZexdoc/rot8080: `<rlca,rrca,rla,rra>`
 
 Run the benchmarks with:
 
