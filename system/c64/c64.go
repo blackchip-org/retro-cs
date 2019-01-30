@@ -7,7 +7,7 @@ import (
 )
 
 func New() (*rcs.Mach, error) {
-	roms, err := rcs.LoadROMs(config.DataDir, SystemROM)
+	roms, err := rcs.LoadROMs(config.ROMDir, SystemROM)
 	if err != nil {
 		return nil, err
 	}
