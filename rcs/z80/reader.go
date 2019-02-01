@@ -8,7 +8,7 @@ import (
 )
 
 func Reader(e rcs.Eval) {
-	e.Stmt.Addr = e.Ptr.Addr
+	e.Stmt.Addr = e.Ptr.Addr()
 	opcode := e.Ptr.Fetch()
 	e.Stmt.Bytes = []uint8{opcode}
 	dasmTable[opcode](e)

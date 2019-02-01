@@ -106,3 +106,10 @@ func BitPlane4(v uint8, n int) uint8 {
 	}
 	return uint8(result)
 }
+
+type CharDecoder func(uint8) (rune, bool)
+
+type Value struct {
+	Get interface{}
+	Put interface{}
+}

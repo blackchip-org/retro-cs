@@ -21,9 +21,9 @@ func TestDasm(t *testing.T) {
 			ptr := rcs.NewPointer(mock.TestMemory)
 			dasm := NewDisassembler(mock.TestMemory)
 			dasm.SetPC(0x10)
-			ptr.Addr = 0x10
+			ptr.SetAddr(0x10)
 			ptr.PutN(test.Bytes...)
-			ptr.Addr = 0x10
+			ptr.SetAddr(0x10)
 			s := dasm.NextStmt()
 			if s.Op != test.Op {
 				t.Errorf("\n have: %v \n want: %v", s.Op, test.Op)

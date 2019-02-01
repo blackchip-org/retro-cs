@@ -279,7 +279,7 @@ func TestPointerFetch(t *testing.T) {
 
 	mem.Write(4, 44)
 	p := NewPointer(mem)
-	p.Addr = 4
+	p.SetAddr(4)
 
 	have := p.Fetch()
 	want := uint8(44)
@@ -295,7 +295,7 @@ func TestPointerFetch2(t *testing.T) {
 	mem.Write(4, 44)
 	mem.Write(5, 55)
 	p := NewPointer(mem)
-	p.Addr = 4
+	p.SetAddr(4)
 
 	p.Fetch()
 	have := p.Fetch()
@@ -311,7 +311,7 @@ func TestPeek(t *testing.T) {
 
 	mem.Write(4, 44)
 	p := NewPointer(mem)
-	p.Addr = 4
+	p.SetAddr(4)
 
 	p.Peek()
 	have := p.Peek()
@@ -328,7 +328,7 @@ func TestFetchLE(t *testing.T) {
 	mem.Write(4, 0x44)
 	mem.Write(5, 0x55)
 	p := NewPointer(mem)
-	p.Addr = 4
+	p.SetAddr(4)
 
 	have := p.FetchLE()
 	want := 0x5544

@@ -5,14 +5,15 @@ import (
 	"strings"
 )
 
-type Proc interface {
-	Next()
-}
-
 type CPU interface {
 	Next()
 	PC() int
 	SetPC(int)
+}
+
+type CPUEditor interface {
+	Registers() map[string]Value
+	Flags() map[string]Value
 }
 
 // Stmt represents a single statement in a disassembly.
@@ -64,11 +65,11 @@ func (d *Disassembler) Next() string {
 }
 
 func (d *Disassembler) SetPC(addr int) {
-	d.ptr.Addr = addr
+	d.ptr.SetAddr(addr)
 }
 
 func (d *Disassembler) PC() int {
-	return d.ptr.Addr
+	return d.ptr.Addr()
 }
 
 type FormatOptions struct {

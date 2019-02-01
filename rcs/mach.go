@@ -31,9 +31,8 @@ func (s Status) String() string {
 }
 
 type Mach struct {
-	Mem  []*Memory
-	CPU  []CPU
-	Proc []Proc
+	Mem []*Memory
+	CPU []CPU
 
 	Status        Status
 	EventCallback func(EventType, interface{})
@@ -54,15 +53,22 @@ const (
 	ErrorEvent
 )
 
-func (m *Mach) Run() {
-	m.Status = Pause
+func (m *Mach) init() {
 	m.quit = false
 	if m.EventCallback == nil {
 		m.EventCallback = func(EventType, interface{}) {}
 	}
-	ticker := time.NewTicker(vblank)
 	m.cmd = make(chan interface{}, 1)
+	cores := len(m.CPU)
+	m.Breakpoints = make([]map[int]struct{}, cores, cores)
+	for i := 0; i < cores; i++ {
+		m.Breakpoints[i] = make(map[int]struct{})
+	}
+}
 
+func (m *Mach) Run() {
+	m.init()
+	ticker := time.NewTicker(vblank)
 	for {
 		select {
 		case c := <-m.cmd:
@@ -84,6 +90,7 @@ func (m *Mach) jiffy() {
 	if m.Status == Run {
 		m.execute()
 	}
+	time.Sleep(100 * time.Millisecond) // until vsync gets in
 }
 
 func (m *Mach) execute() {

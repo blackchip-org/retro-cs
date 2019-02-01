@@ -8,17 +8,7 @@ import (
 )
 
 var (
-	Home      string // use this as the home directory
-	Monitor   bool   // enable the machine monitor
-	NoVideo   bool   // disable video
-	NoAudio   bool   // disable audio
-	ProfC     bool   // enable CPU profiling
-	Restore   bool   // restore from last export
-	System    string // name of the system running
-	Trace     bool   // enable tracing on start
-	SlowStart bool   // skip any POST bypass
-	Wait      bool   // wait for go command
-
+	Home    string // use this as the home directory
 	DataDir string // data directory
 	ROMDir  string // ROM directory
 )

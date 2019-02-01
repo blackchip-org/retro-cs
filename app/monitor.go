@@ -1,6 +1,7 @@
 package app
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"io"
@@ -8,7 +9,9 @@ import (
 	"os"
 	"os/user"
 	"path/filepath"
+	"reflect"
 	"runtime"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -16,25 +19,14 @@ import (
 	"github.com/chzyer/readline"
 )
 
-const (
-	CmdBreakpoint  = "b"
-	CmdCore        = "c"
-	CmdDisassemble = "d"
-	CmdFill        = "f"
-	CmdGo          = "g"
-	CmdHalt        = "h"
-	CmdHelp        = "?"
-	CmdMemory      = "m"
-	CmdNext        = "n"
-	CmdPokePeek    = "p"
-	CmdRegisters   = "r"
-	CmdStep        = "s"
-	CmdRestore     = "si"
-	CmdSave        = "so"
-	CmdTrace       = "t"
-	CmdQuit        = "q"
-	CmdQuitLong    = "quit"
-)
+var cmds = map[string]func(*Monitor, []string) error{
+	"cpu":  monCPU,
+	"m":    monMemory,
+	"mem":  monMemory,
+	"r":    monRegisters,
+	"q":    monQuit,
+	"quit": monQuit,
+}
 
 const (
 	memPageLen  = 0x100
@@ -51,19 +43,23 @@ type Monitor struct {
 	in          io.ReadCloser
 	out         *log.Logger
 	rl          *readline.Instance
-	lastCmd     string
-	memPtr      uint16
-	dasmPtr     uint16
+	charDecoder rcs.CharDecoder
+	lastCmd     func(*Monitor, []string) error
+	memPtr      *rcs.Pointer
+	dasmPtr     *rcs.Pointer
 	coreSel     int // selected core
 }
 
 func NewMonitor(mach *rcs.Mach) *Monitor {
 	m := &Monitor{
-		mach: mach,
-		in:   readline.NewCancelableStdin(os.Stdin),
-		out:  log.New(os.Stdout, "", 0),
+		mach:    mach,
+		in:      readline.NewCancelableStdin(os.Stdin),
+		out:     log.New(os.Stdout, "", 0),
+		memPtr:  rcs.NewPointer(nil), // will be set on core command
+		dasmPtr: rcs.NewPointer(nil),
 	}
 	mach.EventCallback = m.handleEvent
+	m.charDecoder = AsciiDecoder
 	return m
 }
 
@@ -73,9 +69,10 @@ func (m *Monitor) Run() error {
 		return err
 	}
 	rl, err := readline.NewEx(&readline.Config{
-		Prompt:      m.getPrompt(),
-		HistoryFile: filepath.Join(usr.HomeDir, ".retro-cs-history"),
-		Stdin:       m.in,
+		Prompt:       m.getPrompt(),
+		HistoryFile:  filepath.Join(usr.HomeDir, ".retro-cs-history"),
+		Stdin:        m.in,
+		AutoComplete: newCompleter(m),
 	})
 	if err != nil {
 		return err
@@ -96,38 +93,26 @@ func (m *Monitor) Run() error {
 
 func (m *Monitor) parse(line string) {
 	line = strings.TrimSpace(line)
-	if line == "" {
-		if m.lastCmd != CmdStep && m.lastCmd != CmdGo && m.lastCmd != CmdMemory {
-			return
-		}
-		line = m.lastCmd
-	}
-	fields := strings.Split(line, " ")
-
-	if len(fields) == 0 {
+	if line == "" && m.lastCmd != nil {
+		m.lastCmd(m, []string{})
 		return
 	}
 
-	cmd := fields[0]
-	args := fields[1:]
-	var err error
-	switch cmd {
-	case CmdRegisters:
-		err = m.registers(args)
-	case CmdQuit, CmdQuitLong:
-		m.rl.Close()
-		m.mach.Command(rcs.MachQuit{})
-		runtime.Goexit()
-	default:
-		err = fmt.Errorf("unknown command: %v", cmd)
+	m.lastCmd = nil
+	fields := strings.Split(line, " ")
+	cmd, ok := cmds[fields[0]]
+	if !ok {
+		m.out.Printf("unknown command: %v", fields[0])
+		return
 	}
-
-	if err != nil {
+	if err := cmd(m, fields[1:]); err != nil {
 		m.out.Println(err)
-	} else {
-		m.lastCmd = cmd
+		return
 	}
 }
+
+//============================================================================
+// commands
 
 func (m *Monitor) core(args []string) error {
 	if err := checkLen(args, 1, 1); err != nil {
@@ -144,59 +129,210 @@ func (m *Monitor) core(args []string) error {
 	m.coreSel = int(n)
 	m.cpu = m.mach.CPU[n]
 	m.mem = m.mach.Mem[n]
+	m.memPtr.Mem = m.mem
+	m.dasmPtr.Mem = m.mem
 	m.rl.SetPrompt(m.getPrompt())
 	return nil
 }
 
-func (m *Monitor) registers(args []string) error {
-	if err := checkLen(args, 0, 2); err != nil {
-		return err
-	}
-
-	// Print all registers
+func monCPU(m *Monitor, args []string) error {
 	if len(args) == 0 {
 		m.out.Printf("[%v]\n", m.mach.Status)
 		m.out.Printf("%v\n", m.cpu)
 		return nil
 	}
-	/*
-		name := strings.ToUpper(args[0])
-		reg, ok := m.cpu.Info().Registers[name]
-		if !ok {
-			return errors.New("no such register")
-		}
+	cmd := args[0]
+	switch cmd {
+	case "reg":
+		return monCPUReg(m, args[1:])
+	case "flag":
+		return monCPUFlag(m, args[1:])
+	}
+	return fmt.Errorf("unknown command: %v", cmd)
+}
 
-		// Get value of register
-		if len(args) == 1 {
-			switch get := reg.Get.(type) {
-			case func() uint8:
-				m.out.Println(formatValue(get()))
-			case func() uint16:
-				m.out.Println(formatValue16(get()))
-			default:
-				panic("unexpected type")
-			}
-			return nil
-		}
+func monCPUReg(m *Monitor, args []string) error {
+	if err := checkLen(args, 0, 2); err != nil {
+		return err
+	}
+	editor, ok := m.cpu.(rcs.CPUEditor)
+	if !ok {
+		m.out.Printf("no registers")
+	}
+	if len(args) == 0 {
+		return monCPURegList(m, editor)
+	}
+	if len(args) == 1 {
+		return monCPURegGet(m, editor, args[0])
+	}
+	return monCPURegPut(m, editor, args[0], args[1])
+}
 
-		// Set value of register
-			switch put := reg.Put.(type) {
-			case func(uint8):
-				v, err := parseValue(args[1])
-				if err != nil {
-					return nil
-				}
-				put(v)
-			case func(uint16):
-				v, err := parseValue16(args[1])
-				if err != nil {
-					return nil
-				}
-				put(v)
-			}
-	*/
+func monCPURegList(m *Monitor, editor rcs.CPUEditor) error {
+	names := []string{}
+	for k := range editor.Registers() {
+		names = append(names, k)
+	}
+	sort.Strings(names)
+	m.out.Printf(strings.Join(names, "\n"))
 	return nil
 }
+
+func monCPURegGet(m *Monitor, editor rcs.CPUEditor, name string) error {
+	reg, ok := editor.Registers()[name]
+	if !ok {
+		m.out.Printf("no such register")
+	}
+	return formatGet(m, reg)
+}
+
+func monCPURegPut(m *Monitor, editor rcs.CPUEditor, name string, val string) error {
+	reg, ok := editor.Registers()[name]
+	if !ok {
+		m.out.Printf("no such register")
+	}
+	return parsePut(m, val, reg)
+}
+
+func monCPUFlag(m *Monitor, args []string) error {
+	if err := checkLen(args, 0, 2); err != nil {
+		return err
+	}
+	editor, ok := m.cpu.(rcs.CPUEditor)
+	if !ok {
+		m.out.Printf("no registers")
+	}
+	if len(args) == 0 {
+		return monCPUFlagList(m, editor)
+	}
+	if len(args) == 1 {
+		return monCPUFlagGet(m, editor, args[0])
+	}
+	return monCPUFlagPut(m, editor, args[0], args[1])
+}
+
+func monCPUFlagList(m *Monitor, editor rcs.CPUEditor) error {
+	names := []string{}
+	for k := range editor.Flags() {
+		names = append(names, k)
+	}
+	sort.Strings(names)
+	m.out.Printf(strings.Join(names, "\n"))
+	return nil
+}
+
+func monCPUFlagGet(m *Monitor, editor rcs.CPUEditor, name string) error {
+	reg, ok := editor.Flags()[name]
+	if !ok {
+		m.out.Printf("no such flag")
+	}
+	return formatGet(m, reg)
+}
+
+func monCPUFlagPut(m *Monitor, editor rcs.CPUEditor, name string, val string) error {
+	reg, ok := editor.Flags()[name]
+	if !ok {
+		m.out.Printf("no such flag")
+	}
+	return parsePut(m, val, reg)
+}
+
+func monMemory(m *Monitor, args []string) error {
+	if err := checkLen(args, 0, 2); err != nil {
+		return err
+	}
+	addrStart := m.cpu.PC()
+	if len(args) == 0 {
+		addrStart = m.memPtr.Addr()
+	}
+	if len(args) > 0 {
+		addr, err := parseAddress(args[0])
+		if err != nil {
+			return err
+		}
+		addrStart = addr
+	}
+	addrEnd := addrStart + memPageLen
+	if len(args) > 1 {
+		addr, err := parseAddress(args[1])
+		if err != nil {
+			return err
+		}
+		addrEnd = addr
+	}
+	m.out.Println(dump(m.mem, addrStart, addrEnd, m.charDecoder))
+	m.memPtr.SetAddr(addrEnd)
+	m.lastCmd = monMemory
+	return nil
+}
+
+func monRegisters(m *Monitor, args []string) error {
+	if err := checkLen(args, 0, 0); err != nil {
+		return err
+	}
+	return monCPU(m, args)
+}
+
+func monQuit(m *Monitor, args []string) error {
+	m.rl.Close()
+	m.mach.Command(rcs.MachQuit{})
+	runtime.Goexit()
+	return nil
+}
+
+//============================================================================
+// autocomplete
+
+func newCompleter(m *Monitor) *readline.PrefixCompleter {
+	return readline.NewPrefixCompleter(
+		readline.PcItem("cpu",
+			readline.PcItem("reg",
+				readline.PcItemDynamic(acRegisters(m)),
+			),
+			readline.PcItem("flag",
+				readline.PcItemDynamic(acFlags(m)),
+			),
+		),
+		readline.PcItem("m"),
+		readline.PcItem("mem"),
+		readline.PcItem("r"),
+		readline.PcItem("q"),
+		readline.PcItem("quit"),
+	)
+}
+
+func acRegisters(m *Monitor) func(string) []string {
+	return func(line string) []string {
+		cpu, ok := m.cpu.(rcs.CPUEditor)
+		if !ok {
+			return []string{}
+		}
+		names := make([]string, 0)
+		for k := range cpu.Registers() {
+			names = append(names, k)
+		}
+		sort.Strings(names)
+		return names
+	}
+}
+
+func acFlags(m *Monitor) func(string) []string {
+	return func(line string) []string {
+		cpu, ok := m.cpu.(rcs.CPUEditor)
+		if !ok {
+			return []string{}
+		}
+		names := make([]string, 0)
+		for k := range cpu.Flags() {
+			names = append(names, k)
+		}
+		sort.Strings(names)
+		return names
+	}
+}
+
+//=============================================================================
+// aux
 
 func (m *Monitor) Close() {
 	m.in.Close()
@@ -238,15 +374,23 @@ func parseUint(str string, bitSize int) (uint64, error) {
 	return strconv.ParseUint(str, base, bitSize)
 }
 
-func parseAddress(str string) (uint16, error) {
-	value, err := parseUint(str, 16)
+func parseAddress(str string) (int, error) {
+	value, err := parseUint(str, 64)
 	if err != nil {
 		return 0, fmt.Errorf("invalid address: %v", str)
 	}
-	return uint16(value), nil
+	return int(value), nil
 }
 
-func parseValue(str string) (uint8, error) {
+func parseValue(str string) (int, error) {
+	value, err := parseUint(str, 64)
+	if err != nil {
+		return 0, fmt.Errorf("invalid value: %v", str)
+	}
+	return int(value), nil
+}
+
+func parseValue8(str string) (uint8, error) {
 	value, err := parseUint(str, 8)
 	if err != nil {
 		return 0, fmt.Errorf("invalid value: %v", str)
@@ -262,12 +406,102 @@ func parseValue16(str string) (uint16, error) {
 	return uint16(value), nil
 }
 
-func formatValue(v uint8) string {
-	return fmt.Sprintf("$%02x +%d", v, v)
+func parseBool(str string) (bool, error) {
+	switch str {
+	case "true", "1", "yes", "on":
+		return true, nil
+	case "false", "0", "no", "off":
+		return false, nil
+	}
+	return false, fmt.Errorf("invalid value: %v", str)
+}
+
+func formatValue8(v uint8) string {
+	return fmt.Sprintf("$%02x +%d %%%08b", v, v, v)
 }
 
 func formatValue16(v uint16) string {
 	return fmt.Sprintf("$%04x +%d", v, v)
+}
+
+func formatGet(m *Monitor, val rcs.Value) error {
+	switch get := val.Get.(type) {
+	case func() uint8:
+		m.out.Print(formatValue8(get()))
+	case func() uint16:
+		m.out.Print(formatValue16(get()))
+	case func() bool:
+		m.out.Printf("%v", get())
+	default:
+		return fmt.Errorf("unknown type: %v", reflect.TypeOf(val.Get))
+	}
+	return nil
+}
+
+func parsePut(m *Monitor, in string, val rcs.Value) error {
+	switch put := val.Put.(type) {
+	case func(uint8):
+		v, err := parseValue8(in)
+		if err != nil {
+			return err
+		}
+		put(v)
+	case func(uint16):
+		v, err := parseValue16(in)
+		if err != nil {
+			return err
+		}
+		put(v)
+	case func(bool):
+		v, err := parseBool(in)
+		if err != nil {
+			return err
+		}
+		put(v)
+	default:
+		return fmt.Errorf("unknown type: %v", reflect.TypeOf(val.Put))
+	}
+	return nil
+}
+
+func dump(m *rcs.Memory, start int, end int, decode rcs.CharDecoder) string {
+	var buf bytes.Buffer
+	var chars bytes.Buffer
+
+	a0 := start / 0x10 * 0x10
+	a1 := end / 0x10 * 0x10
+	if a1 != end {
+		a1 += 0x10
+	}
+	for addr := a0; addr < a1; addr++ {
+		if addr%0x10 == 0 {
+			buf.WriteString(fmt.Sprintf("$%04x ", addr))
+			chars.Reset()
+		}
+		if addr < start || addr > end {
+			buf.WriteString("   ")
+			chars.WriteString(" ")
+		} else {
+			value := m.Read(addr)
+			buf.WriteString(fmt.Sprintf(" %02x", value))
+			ch, printable := decode(value)
+			if printable {
+				chars.WriteString(fmt.Sprintf("%c", ch))
+			} else {
+				chars.WriteString(".")
+			}
+		}
+		if addr%0x10 == 7 {
+			buf.WriteString(" ")
+		}
+		if addr%0x10 == 0x0f {
+			buf.WriteString("  " + chars.String())
+			if addr < end-1 {
+				buf.WriteString("\n")
+			}
+		}
+	}
+	return buf.String()
 }
 
 var AsciiDecoder = func(code uint8) (rune, bool) {

@@ -39,6 +39,10 @@ func (c *CPU) loadSP() uint8 {
 	return c.SP
 }
 
+func (c *CPU) loadSR() uint8 {
+	return c.SR | (1 << 5)
+}
+
 func (c *CPU) loadImmediate() uint8 {
 	return c.fetch()
 }
@@ -121,6 +125,10 @@ func (c *CPU) storeY(v uint8) {
 
 func (c *CPU) storeSP(v uint8) {
 	c.SP = v
+}
+
+func (c *CPU) storeSR(v uint8) {
+	c.SR = v
 }
 
 func (c *CPU) storeBack(v uint8) {

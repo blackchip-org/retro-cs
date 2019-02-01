@@ -258,27 +258,36 @@ func warnUnmappedWrite(bank int, addr int) Store8 {
 
 // Pointer points to a location in memory.
 type Pointer struct {
-	Addr int // Current position.
-	mem  *Memory
+	addr int     // Current position.
+	Mask int     // Address mask
+	Mem  *Memory // Memory view
 }
 
 // NewPointer creates pointer at address zero on the provided memory.
 func NewPointer(mem *Memory) *Pointer {
-	return &Pointer{mem: mem}
+	return &Pointer{Mem: mem, Mask: 0xffff}
+}
+
+func (p *Pointer) Addr() int {
+	return p.addr
+}
+
+func (p *Pointer) SetAddr(addr int) {
+	p.addr = addr & p.Mask
 }
 
 // Fetch returns the byte at current position as an 8-bit value and advances
 // the pointer by one.
 func (p *Pointer) Fetch() uint8 {
-	value := p.mem.Read(p.Addr)
-	p.Addr++
+	value := p.Mem.Read(p.addr)
+	p.addr = (p.addr + 1) & p.Mask
 	return value
 }
 
 // Peek returns the byte at the current position as an 8-bit value. The
 // pointer is not moved.
 func (p *Pointer) Peek() uint8 {
-	return p.mem.Read(p.Addr)
+	return p.Mem.Read(p.addr)
 }
 
 // FetchLE returns the next two bytes as a 16-bit value stored in little
@@ -291,8 +300,8 @@ func (p *Pointer) FetchLE() int {
 
 // Put sets the value at the current address and advances the pointer by one.
 func (p *Pointer) Put(value uint8) {
-	p.mem.Write(p.Addr, value)
-	p.Addr++
+	p.Mem.Write(p.addr, value)
+	p.addr = (p.addr + 1) & p.Mask
 }
 
 // PutN calls Put for each value.
