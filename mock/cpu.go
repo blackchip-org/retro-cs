@@ -28,11 +28,14 @@ func (c *CPU) SetPC(addr int) {
 }
 
 // Next reads the next byte at the program counter as the "opcode". The high
-// nibble is the number of "arguments" it will fetch.
+// nibble is the number of "arguments" it will fetch (max two).
 func (c *CPU) Next() {
 	opcode := c.mem.Read(int(c.pc))
 	c.pc++
 	narg := int(opcode) >> 4
+	if narg > 2 {
+		narg = 2
+	}
 	c.pc += uint16(narg)
 }
 
@@ -68,4 +71,39 @@ func (c *CPU) Flags() map[string]rcs.Value {
 			Put: func(v bool) { c.z = v },
 		},
 	}
+}
+
+func reader(e rcs.Eval) {
+	e.Stmt.Addr = e.Ptr.Addr()
+	opcode := e.Ptr.Fetch()
+	e.Stmt.Bytes = append(e.Stmt.Bytes, opcode)
+	argN := opcode >> 4
+	switch argN {
+	case 0:
+		e.Stmt.Op = fmt.Sprintf("i%02x", opcode)
+	case 1:
+		value := e.Ptr.Fetch()
+		e.Stmt.Bytes = append(e.Stmt.Bytes, value)
+		e.Stmt.Op = fmt.Sprintf("i%02x $%02x", opcode, value)
+	case 2:
+		value := e.Ptr.FetchLE()
+		e.Stmt.Bytes = append(e.Stmt.Bytes, uint8(value&0xff))
+		e.Stmt.Bytes = append(e.Stmt.Bytes, uint8(value>>8))
+		e.Stmt.Op = fmt.Sprintf("i%02x $%04x", opcode, value)
+	default:
+		e.Stmt.Op = fmt.Sprintf("?%02x", opcode)
+	}
+}
+
+func formatter() rcs.CodeFormatter {
+	options := rcs.FormatOptions{
+		BytesFormat: "%-8s",
+	}
+	return func(s rcs.Stmt) string {
+		return rcs.FormatStmt(s, options)
+	}
+}
+
+func (c *CPU) NewDisassembler() *rcs.Disassembler {
+	return rcs.NewDisassembler(c.mem, reader, formatter())
 }

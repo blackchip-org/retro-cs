@@ -81,6 +81,10 @@ func (c *CPU) SetPC(addr int) {
 	c.pc = uint16(addr)
 }
 
+func (c *CPU) NewDisassembler() *rcs.Disassembler {
+	return rcs.NewDisassembler(c.mem, Reader, Formatter())
+}
+
 // String returns the status of the CPU in the form of:
 // 		 pc  sr ac xr yr sp  n v - b d i z c
 // 		1234 20 00 00 00 ff  . . * . . . . .

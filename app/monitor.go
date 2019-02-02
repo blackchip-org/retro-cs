@@ -21,23 +21,26 @@ import (
 
 var cmds = map[string]func(*Monitor, []string) error{
 	"cpu":  monCPU,
+	"d":    monDasmList,
+	"dasm": monDasm,
 	"m":    monMemoryDump,
 	"mem":  monMemory,
+	"poke": monPoke,
 	"r":    monRegisters,
 	"q":    monQuit,
 	"quit": monQuit,
 }
 
 const (
-	dasmPageLen = 0x3f
-	maxArgs     = 0x100
+	maxArgs = 0x100
 )
 
 type Monitor struct {
-	dasm        *rcs.Disassembler
 	mach        *rcs.Mach
 	cpu         rcs.CPU
 	mem         *rcs.Memory
+	dasms       []*rcs.Disassembler // for each core
+	dasm        *rcs.Disassembler   // for selected core
 	breakpoints map[uint16]struct{}
 	in          io.ReadCloser
 	out         *log.Logger
@@ -45,19 +48,25 @@ type Monitor struct {
 	charDecoder rcs.CharDecoder
 	lastCmd     func(*Monitor, []string) error
 	memPtr      *rcs.Pointer
-	dasmPtr     *rcs.Pointer
 	coreSel     int // selected core
 	memLines    int
+	dasmLines   int
 }
 
 func NewMonitor(mach *rcs.Mach) *Monitor {
 	m := &Monitor{
 		mach:     mach,
 		in:       readline.NewCancelableStdin(os.Stdin),
+		dasms:    make([]*rcs.Disassembler, len(mach.CPU), len(mach.CPU)),
 		out:      log.New(os.Stdout, "", 0),
 		memPtr:   rcs.NewPointer(nil), // will be set on core command
-		dasmPtr:  rcs.NewPointer(nil),
-		memLines: 16, // show a full page on "m" command
+		memLines: 16,                  // show a full page on "m" command
+	}
+	for i, cpu := range mach.CPU {
+		lister, ok := cpu.(rcs.CodeLister)
+		if ok {
+			m.dasms[i] = lister.NewDisassembler()
+		}
 	}
 	mach.EventCallback = m.handleEvent
 	m.charDecoder = AsciiDecoder
@@ -130,8 +139,8 @@ func (m *Monitor) core(args []string) error {
 	m.coreSel = int(n)
 	m.cpu = m.mach.CPU[n]
 	m.mem = m.mach.Mem[n]
+	m.dasm = m.dasms[n]
 	m.memPtr.Mem = m.mem
-	m.dasmPtr.Mem = m.mem
 	m.rl.SetPrompt(m.getPrompt())
 	return nil
 }
@@ -237,6 +246,82 @@ func monCPUFlagPut(m *Monitor, editor rcs.CPUEditor, name string, val string) er
 	return parsePut(m, val, reg)
 }
 
+func monDasm(m *Monitor, args []string) error {
+	if err := checkLen(args, 1, maxArgs); err != nil {
+		return err
+	}
+	switch args[0] {
+	case "list":
+		return monDasmList(m, args[1:])
+	case "lines":
+		return monDasmLines(m, args[1:])
+	}
+	return fmt.Errorf("unknown command: %v", args[0])
+}
+
+func monDasmList(m *Monitor, args []string) error {
+	if err := checkLen(args, 0, 2); err != nil {
+		return err
+	}
+	if m.dasm == nil {
+		return fmt.Errorf("cannot disassemble this processor")
+	}
+	if len(args) > 0 {
+		addr, err := parseAddress(args[0])
+		if err != nil {
+			return err
+		}
+		m.dasm.SetPC(addr)
+	}
+	if len(args) > 1 {
+		// list until at ending address
+		addrEnd, err := parseAddress(args[1])
+		if err != nil {
+			return err
+		}
+		for m.dasm.PC() <= addrEnd {
+			m.out.Println(m.dasm.Next())
+		}
+	} else {
+		// list number of lines
+		lines := m.dasmLines
+		if lines == 0 {
+			_, h, err := readline.GetSize(0)
+			if err != nil {
+				return err
+			}
+			lines = h - 1
+			if lines <= 0 {
+				lines = 1
+			}
+		}
+		for i := 0; i < lines; i++ {
+			m.out.Println(m.dasm.Next())
+		}
+	}
+	m.lastCmd = monDasmList
+	return nil
+}
+
+func monDasmLines(m *Monitor, args []string) error {
+	if err := checkLen(args, 0, 1); err != nil {
+		return err
+	}
+	if len(args) == 0 {
+		m.out.Println(m.dasmLines)
+		return nil
+	}
+	lines, err := parseValue(args[0])
+	if err != nil {
+		return err
+	}
+	if lines < 0 {
+		m.out.Printf("invalid value: %v", args[0])
+	}
+	m.dasmLines = lines
+	return nil
+}
+
 func monMemory(m *Monitor, args []string) error {
 	if err := checkLen(args, 1, maxArgs); err != nil {
 		return err
@@ -298,6 +383,26 @@ func monMemoryLines(m *Monitor, args []string) error {
 	return nil
 }
 
+func monPoke(m *Monitor, args []string) error {
+	if err := checkLen(args, 1, maxArgs); err != nil {
+		return err
+	}
+	addr, err := parseAddress(args[0])
+	if err != nil {
+		return err
+	}
+	values := []uint8{}
+	for _, str := range args[1:] {
+		v, err := parseValue8(str)
+		if err != nil {
+			return err
+		}
+		values = append(values, v)
+	}
+	m.mem.WriteN(addr, values...)
+	return nil
+}
+
 func monRegisters(m *Monitor, args []string) error {
 	if err := checkLen(args, 0, 0); err != nil {
 		return err
@@ -325,11 +430,17 @@ func newCompleter(m *Monitor) *readline.PrefixCompleter {
 				readline.PcItemDynamic(acFlags(m)),
 			),
 		),
+		readline.PcItem("d"),
+		readline.PcItem("dasm",
+			readline.PcItem("lines"),
+			readline.PcItem("list"),
+		),
 		readline.PcItem("m"),
 		readline.PcItem("mem",
 			readline.PcItem("dump"),
 			readline.PcItem("lines"),
 		),
+		readline.PcItem("poke"),
 		readline.PcItem("r"),
 		readline.PcItem("q"),
 		readline.PcItem("quit"),

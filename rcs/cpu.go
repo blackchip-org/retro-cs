@@ -16,6 +16,10 @@ type CPUEditor interface {
 	Flags() map[string]Value
 }
 
+type CodeLister interface {
+	NewDisassembler() *Disassembler
+}
+
 // Stmt represents a single statement in a disassembly.
 type Stmt struct {
 	Addr    int     // Address of the instruction

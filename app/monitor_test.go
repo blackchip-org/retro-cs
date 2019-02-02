@@ -52,6 +52,56 @@ var monitorTests = []struct {
 	want string
 }{
 	{
+		"dasm",
+		[]string{
+			"dasm lines 4",
+			"poke 10 09",
+			"poke 11 19 ab",
+			"poke 13 29 cd ab",
+			"poke 16 27 cd ab",
+			"d 10",
+			"q",
+		},
+		`
+$0010:  09        i09
+$0011:  19 ab     i19 $ab
+$0013:  29 cd ab  i29 $abcd
+$0016:  27 cd ab  i27 $abcd
+`,
+	}, {
+		"dasm continue",
+		[]string{
+			"dasm lines 1",
+			"poke 0 09",
+			"poke 1 19 ab",
+			"poke 3 29 cd ab",
+			"poke 6 27 cd ab",
+			"d",
+			"d",
+			"",
+			"q",
+		},
+		`
+$0000:  09        i09
+$0001:  19 ab     i19 $ab
+$0003:  29 cd ab  i29 $abcd
+		`,
+	}, {
+		"dasm range",
+		[]string{
+			"dasm lines 4",
+			"poke 10 09",
+			"poke 11 19 ab",
+			"poke 13 29 cd ab",
+			"poke 16 27 cd ab",
+			"d 11 14",
+			"q",
+		},
+		`
+$0011:  19 ab     i19 $ab
+$0013:  29 cd ab  i29 $abcd
+		`,
+	}, {
 		"memory",
 		[]string{"mem lines 2", "m", "q"},
 		`
