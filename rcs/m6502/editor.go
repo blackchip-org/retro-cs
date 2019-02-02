@@ -5,12 +5,8 @@ import "github.com/blackchip-org/retro-cs/rcs"
 func (c *CPU) Registers() map[string]rcs.Value {
 	return map[string]rcs.Value{
 		"pc": rcs.Value{
-			Get: func() uint16 {
-				return c.pc
-			},
-			Put: func(addr uint16) {
-				c.pc = addr
-			},
+			Get: func() uint16 { return c.pc },
+			Put: func(addr uint16) { c.pc = addr },
 		},
 		"sr": rcs.Value{Get: c.loadSR, Put: c.storeSR},
 		"a":  rcs.Value{Get: c.loadA, Put: c.storeA},

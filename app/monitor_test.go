@@ -31,88 +31,121 @@ func testMonitorRun(mon *Monitor) {
 	mon.mach.Run()
 }
 
-func TestMemoryFirstLine(t *testing.T) {
-	f := newMonitorFixture()
-	f.mon.in = testMonitorInput("m \n q")
-	testMonitorRun(f.mon)
-	lines := strings.Split(f.out.String(), "\n")
-	have := lines[0]
-	want := "$0000  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................"
-	if have != want {
-		t.Errorf("\n have: %v \n want: %v", lines[0], want)
+func TestMonitor(t *testing.T) {
+	for _, test := range monitorTests {
+		t.Run(test.name, func(t *testing.T) {
+			f := newMonitorFixture()
+			f.mon.in = testMonitorInput(strings.Join(test.in, "\n"))
+			testMonitorRun(f.mon)
+			have := strings.TrimSpace(f.out.String())
+			want := strings.TrimSpace(test.want)
+			if have != want {
+				t.Errorf("\n have: \n%v \n want: \n%v", have, want)
+			}
+		})
 	}
 }
 
-func TestMemoryLastLine(t *testing.T) {
-	f := newMonitorFixture()
-	f.mon.in = testMonitorInput("m \n q")
-	testMonitorRun(f.mon)
-	lines := strings.Split(strings.TrimSpace(f.out.String()), "\n")
-	have := lines[len(lines)-1]
-	want := "$00f0  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................"
-	if have != want {
-		t.Errorf("\n have: %v \n want: %v", have, want)
-	}
-}
-
-func TestMemoryPage(t *testing.T) {
-	f := newMonitorFixture()
-	f.mon.in = testMonitorInput("m 0100 \n q")
-	testMonitorRun(f.mon)
-	lines := strings.Split(strings.TrimSpace(f.out.String()), "\n")
-	have := lines[len(lines)-1]
-	want := "$01f0  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................"
-	if have != want {
-		t.Errorf("\n have: %v \n want: %v", have, want)
-	}
-}
-
-func TestMemoryNextPage(t *testing.T) {
-	f := newMonitorFixture()
-	f.mon.in = testMonitorInput("m 0100 \n m \n q")
-	testMonitorRun(f.mon)
-	lines := strings.Split(strings.TrimSpace(f.out.String()), "\n")
-	have := lines[len(lines)-1]
-	want := "$02f0  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................"
-	if have != want {
-		t.Errorf("\n have: %v \n want: %v", have, want)
-	}
-}
-
-func TestMemoryNextPageRepeat(t *testing.T) {
-	f := newMonitorFixture()
-	f.mon.in = testMonitorInput("m 0100 \n m \n \n q")
-	testMonitorRun(f.mon)
-	lines := strings.Split(strings.TrimSpace(f.out.String()), "\n")
-	have := lines[len(lines)-1]
-	want := "$03f0  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................"
-	if have != want {
-		t.Errorf("\n have: %v \n want: %v", have, want)
-	}
-}
-
-func TestMemoryRange(t *testing.T) {
-	f := newMonitorFixture()
-	f.mon.in = testMonitorInput("m 0100 018f \n q")
-	testMonitorRun(f.mon)
-	lines := strings.Split(strings.TrimSpace(f.out.String()), "\n")
-	have := lines[len(lines)-1]
-	want := "$0180  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................"
-	if have != want {
-		t.Errorf("\n have: %v \n want: %v", have, want)
-	}
-}
-
-func TestRegisters(t *testing.T) {
-	f := newMonitorFixture()
-	f.mon.in = testMonitorInput("r \n q")
-	testMonitorRun(f.mon)
-	// := strings.Split(strings.TrimSpace(f.out.String()), "\n")
-	have := f.out.String()
-	want := "[pause]\ncpu status registers\n"
-	if have != want {
-		t.Errorf("\n have: \n%v \n want: \n%v \n", have, want)
-	}
+var monitorTests = []struct {
+	name string
+	in   []string
+	want string
+}{
+	{
+		"memory",
+		[]string{"mem lines 2", "m", "q"},
+		`
+$0000  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
+$0010  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
+	`,
+	}, {
+		"memory page 1",
+		[]string{"mem lines 2", "m $100", "q"},
+		`
+$0100  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
+$0110  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
+	`,
+	}, {
+		"memory next page",
+		[]string{"mem lines 2", "m $100", "m", "q"},
+		`
+$0100  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
+$0110  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
+$0120  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
+$0130  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
+`,
+	}, {
+		"memory next page repeat",
+		[]string{"mem lines 2", "m $100", "", "q"},
+		`
+$0100  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
+$0110  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
+$0120  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
+$0130  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
+`,
+	}, {
+		"memory range",
+		[]string{"m $140 $15f", "q"},
+		`
+$0140  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
+$0150  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
+`,
+	}, {
+		"memory lines",
+		[]string{"mem lines 3", "mem lines", "m", "q"},
+		`
+3
+$0000  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
+$0010  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
+$0020  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
+`,
+	}, {
+		"registers and flags set",
+		[]string{
+			"r",
+			"cpu reg pc 1234",
+			"cpu reg a 56",
+			"cpu reg c ff",
+			"cpu flag q on",
+			"cpu flag a on",
+			"r",
+			"q",
+		},
+		`
+[pause]
+pc:0000 a:00 b:00 q:false z:false
+no such register: c
+no such flag: a
+[pause]
+pc:1234 a:56 b:00 q:true z:false
+		`,
+	}, {
+		"registers and flags list",
+		[]string{"cpu reg", "cpu flag", "q"},
+		`
+a
+b
+pc
+q
+z
+		`,
+	}, {
+		"registers and flags set",
+		[]string{
+			"cpu reg a 56",
+			"cpu flag q on",
+			"cpu reg a",
+			"cpu reg c",
+			"cpu flag q",
+			"cpu flag a",
+			"q"},
+		`
+$56 +86 %01010110
+no such register: c
+true
+no such flag: a
+		`,
+	},
 }
 
 func TestDump(t *testing.T) {

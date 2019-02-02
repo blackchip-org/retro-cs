@@ -21,7 +21,7 @@ import (
 
 var cmds = map[string]func(*Monitor, []string) error{
 	"cpu":  monCPU,
-	"m":    monMemory,
+	"m":    monMemoryDump,
 	"mem":  monMemory,
 	"r":    monRegisters,
 	"q":    monQuit,
@@ -29,7 +29,6 @@ var cmds = map[string]func(*Monitor, []string) error{
 }
 
 const (
-	memPageLen  = 0x100
 	dasmPageLen = 0x3f
 	maxArgs     = 0x100
 )
@@ -48,15 +47,17 @@ type Monitor struct {
 	memPtr      *rcs.Pointer
 	dasmPtr     *rcs.Pointer
 	coreSel     int // selected core
+	memLines    int
 }
 
 func NewMonitor(mach *rcs.Mach) *Monitor {
 	m := &Monitor{
-		mach:    mach,
-		in:      readline.NewCancelableStdin(os.Stdin),
-		out:     log.New(os.Stdout, "", 0),
-		memPtr:  rcs.NewPointer(nil), // will be set on core command
-		dasmPtr: rcs.NewPointer(nil),
+		mach:     mach,
+		in:       readline.NewCancelableStdin(os.Stdin),
+		out:      log.New(os.Stdout, "", 0),
+		memPtr:   rcs.NewPointer(nil), // will be set on core command
+		dasmPtr:  rcs.NewPointer(nil),
+		memLines: 16, // show a full page on "m" command
 	}
 	mach.EventCallback = m.handleEvent
 	m.charDecoder = AsciiDecoder
@@ -141,14 +142,13 @@ func monCPU(m *Monitor, args []string) error {
 		m.out.Printf("%v\n", m.cpu)
 		return nil
 	}
-	cmd := args[0]
-	switch cmd {
+	switch args[0] {
 	case "reg":
 		return monCPUReg(m, args[1:])
 	case "flag":
 		return monCPUFlag(m, args[1:])
 	}
-	return fmt.Errorf("unknown command: %v", cmd)
+	return fmt.Errorf("unknown command: %v", args[0])
 }
 
 func monCPUReg(m *Monitor, args []string) error {
@@ -181,7 +181,7 @@ func monCPURegList(m *Monitor, editor rcs.CPUEditor) error {
 func monCPURegGet(m *Monitor, editor rcs.CPUEditor, name string) error {
 	reg, ok := editor.Registers()[name]
 	if !ok {
-		m.out.Printf("no such register")
+		return fmt.Errorf("no such register: %v", name)
 	}
 	return formatGet(m, reg)
 }
@@ -189,7 +189,7 @@ func monCPURegGet(m *Monitor, editor rcs.CPUEditor, name string) error {
 func monCPURegPut(m *Monitor, editor rcs.CPUEditor, name string, val string) error {
 	reg, ok := editor.Registers()[name]
 	if !ok {
-		m.out.Printf("no such register")
+		return fmt.Errorf("no such register: %v", name)
 	}
 	return parsePut(m, val, reg)
 }
@@ -200,7 +200,7 @@ func monCPUFlag(m *Monitor, args []string) error {
 	}
 	editor, ok := m.cpu.(rcs.CPUEditor)
 	if !ok {
-		m.out.Printf("no registers")
+		return fmt.Errorf("no registers")
 	}
 	if len(args) == 0 {
 		return monCPUFlagList(m, editor)
@@ -224,7 +224,7 @@ func monCPUFlagList(m *Monitor, editor rcs.CPUEditor) error {
 func monCPUFlagGet(m *Monitor, editor rcs.CPUEditor, name string) error {
 	reg, ok := editor.Flags()[name]
 	if !ok {
-		m.out.Printf("no such flag")
+		return fmt.Errorf("no such flag: %v", name)
 	}
 	return formatGet(m, reg)
 }
@@ -232,12 +232,25 @@ func monCPUFlagGet(m *Monitor, editor rcs.CPUEditor, name string) error {
 func monCPUFlagPut(m *Monitor, editor rcs.CPUEditor, name string, val string) error {
 	reg, ok := editor.Flags()[name]
 	if !ok {
-		m.out.Printf("no such flag")
+		return fmt.Errorf("no such flag: %v", name)
 	}
 	return parsePut(m, val, reg)
 }
 
 func monMemory(m *Monitor, args []string) error {
+	if err := checkLen(args, 1, maxArgs); err != nil {
+		return err
+	}
+	switch args[0] {
+	case "dump":
+		return monMemoryDump(m, args[1:])
+	case "lines":
+		return monMemoryLines(m, args[1:])
+	}
+	return fmt.Errorf("unknown command: %v", args[0])
+}
+
+func monMemoryDump(m *Monitor, args []string) error {
 	if err := checkLen(args, 0, 2); err != nil {
 		return err
 	}
@@ -252,7 +265,7 @@ func monMemory(m *Monitor, args []string) error {
 		}
 		addrStart = addr
 	}
-	addrEnd := addrStart + memPageLen
+	addrEnd := addrStart + (m.memLines * 16)
 	if len(args) > 1 {
 		addr, err := parseAddress(args[1])
 		if err != nil {
@@ -262,7 +275,26 @@ func monMemory(m *Monitor, args []string) error {
 	}
 	m.out.Println(dump(m.mem, addrStart, addrEnd, m.charDecoder))
 	m.memPtr.SetAddr(addrEnd)
-	m.lastCmd = monMemory
+	m.lastCmd = monMemoryDump
+	return nil
+}
+
+func monMemoryLines(m *Monitor, args []string) error {
+	if err := checkLen(args, 0, 1); err != nil {
+		return err
+	}
+	if len(args) == 0 {
+		m.out.Println(m.memLines)
+		return nil
+	}
+	lines, err := parseValue(args[0])
+	if err != nil {
+		return err
+	}
+	if lines <= 0 {
+		m.out.Printf("invalid value: %v", args[0])
+	}
+	m.memLines = lines
 	return nil
 }
 
@@ -294,7 +326,10 @@ func newCompleter(m *Monitor) *readline.PrefixCompleter {
 			),
 		),
 		readline.PcItem("m"),
-		readline.PcItem("mem"),
+		readline.PcItem("mem",
+			readline.PcItem("dump"),
+			readline.PcItem("lines"),
+		),
 		readline.PcItem("r"),
 		readline.PcItem("q"),
 		readline.PcItem("quit"),
