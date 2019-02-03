@@ -29,6 +29,7 @@ http://mdfs.net/Software/Z80/Exerciser/
 - Salmoria, Nicola, et al, "Galaga", https://github.com/mamedev/mame/blob/master/src/mame/drivers/galaga.cpp
 - Severini, Palao, "Galaga: an Arcade machine emulator for Windows and HTML5", https://paoloseverini.wordpress.com/2016/02/13/galaga-an-arcade-machine-emulator-for-windows-and-html5/
 - "Status Flags", https://wiki.nesdev.com/w/index.php/Status_flags
+- Turner, Rebecca, "Unicode-PETSCII", https://github.com/9999years/Unicode-PETSCII
 - Weissflog, Andre, "Z80 emulation in Rust, Milestone 1", https://floooh.github.io/2016/07/12/z80-rust-ms1.html
 - Young, Sean, "The Undocumented Z80 Documented", http://datasheets.chipdb.org/Zilog/Z80/z80-documented-0.90.pdf
 - Young, Sean, et al. "Z80 Flag Affection", http://www.z80.info/z80sflag.htm
