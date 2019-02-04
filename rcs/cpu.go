@@ -33,10 +33,11 @@ type CodeReader func(Eval)
 type CodeFormatter func(Stmt) string
 
 type Disassembler struct {
-	mem    *Memory
-	ptr    *Pointer
-	read   CodeReader
-	format CodeFormatter
+	OffsetPC int
+	mem      *Memory
+	ptr      *Pointer
+	read     CodeReader
+	format   CodeFormatter
 }
 
 type Eval struct {

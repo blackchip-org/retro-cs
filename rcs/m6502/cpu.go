@@ -87,7 +87,9 @@ func (c *CPU) SetPC(addr int) {
 }
 
 func (c *CPU) NewDisassembler() *rcs.Disassembler {
-	return rcs.NewDisassembler(c.mem, Reader, Formatter())
+	dasm := rcs.NewDisassembler(c.mem, Reader, Formatter())
+	dasm.OffsetPC = 1
+	return dasm
 }
 
 // String returns the status of the CPU in the form of:

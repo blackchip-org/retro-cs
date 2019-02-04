@@ -26,40 +26,59 @@ const (
 	maxArgs = 0x100
 )
 
+type core struct {
+	id     int
+	cpu    rcs.CPU
+	mem    *rcs.Memory
+	ptr    *rcs.Pointer
+	dasm   *rcs.Disassembler
+	tracer *rcs.Disassembler
+	brkpts map[int]struct{}
+}
+
 type Monitor struct {
-	mach        *rcs.Mach
-	cpu         rcs.CPU
-	mem         *rcs.Memory
-	dasms       []*rcs.Disassembler // for each core
-	dasm        *rcs.Disassembler   // for selected core
-	breakpoints map[int]struct{}
-	in          io.ReadCloser
-	out         *log.Logger
-	rl          *readline.Instance
-	encoding    string
-	lastCmd     func([]string) error
-	memPtr      *rcs.Pointer
-	coreSel     int // selected core
-	memLines    int
-	dasmLines   int
+	mach      *rcs.Mach
+	core      *core
+	cores     []core
+	in        io.ReadCloser
+	out       *log.Logger
+	rl        *readline.Instance
+	encoding  string
+	lastCmd   func([]string) error
+	memLines  int
+	dasmLines int
 }
 
 func NewMonitor(mach *rcs.Mach) *Monitor {
+	mach.Init()
 	m := &Monitor{
 		mach:     mach,
 		in:       readline.NewCancelableStdin(os.Stdin),
-		dasms:    make([]*rcs.Disassembler, len(mach.CPU), len(mach.CPU)),
+		cores:    make([]core, len(mach.CPU), len(mach.CPU)),
 		out:      log.New(os.Stdout, "", 0),
-		memPtr:   rcs.NewPointer(nil), // will be set on core command
-		memLines: 16,                  // show a full page on "m" command
+		memLines: 16, // show a full page on "m" command
 	}
 	for i, cpu := range mach.CPU {
+		var dasm *rcs.Disassembler
+		var tracer *rcs.Disassembler
 		lister, ok := cpu.(rcs.CodeLister)
 		if ok {
-			m.dasms[i] = lister.NewDisassembler()
+			dasm = lister.NewDisassembler()
+			tracer = lister.NewDisassembler()
 		}
+		c := core{
+			id:     i,
+			cpu:    cpu,
+			mem:    mach.Mem[i],
+			ptr:    rcs.NewPointer(mach.Mem[i]),
+			dasm:   dasm,
+			tracer: tracer,
+			brkpts: mach.Breakpoints[i],
+		}
+		m.cores[i] = c
 	}
-	mach.Reply = m.handleReply
+	m.core = &m.cores[0]
+	mach.Callback = m.eventCallback
 	if mach.DefaultEncoding != "" {
 		m.encoding = mach.DefaultEncoding
 	} else {
@@ -86,7 +105,7 @@ func (m *Monitor) Run() error {
 		return err
 	}
 	m.rl = rl
-	m.core([]string{"1"})
+	m.rl.SetPrompt(m.getPrompt())
 	for {
 		line, err := rl.Readline()
 		if err == io.EOF {
@@ -142,34 +161,14 @@ func (m *Monitor) cmd(args []string) error {
 		return m.cmdPoke(args[1:])
 	case "r":
 		return m.cmdCPU([]string{})
+	case "t", "trace":
+		return m.cmdTrace(args[1:])
 	case "q", "quit":
 		return m.cmdQuit(args[1:])
 	case "_yield":
 		return m.cmdYield()
 	}
 	return fmt.Errorf("no such command: %v", args[0])
-}
-
-func (m *Monitor) core(args []string) error {
-	if err := checkLen(args, 1, 1); err != nil {
-		return err
-	}
-	n, err := parseValue(args[0])
-	if err != nil {
-		return err
-	}
-	if n < 1 || int(n) > len(m.mach.CPU) {
-		return fmt.Errorf("invalid core")
-	}
-	n = n - 1
-	m.coreSel = int(n)
-	m.cpu = m.mach.CPU[n]
-	m.breakpoints = m.mach.Breakpoints[n]
-	m.mem = m.mach.Mem[n]
-	m.dasm = m.dasms[n]
-	m.memPtr.Mem = m.mem
-	m.rl.SetPrompt(m.getPrompt())
-	return nil
 }
 
 func (m *Monitor) cmdBreak(args []string) error {
@@ -200,23 +199,23 @@ func (m *Monitor) cmdBreakClear(args []string) error {
 	if err != nil {
 		return err
 	}
-	delete(m.breakpoints, addr)
+	delete(m.core.brkpts, addr)
 	return nil
 }
 
 func (m *Monitor) cmdBreakClearAll() error {
-	for k := range m.breakpoints {
-		delete(m.breakpoints, k)
+	for k := range m.core.brkpts {
+		delete(m.core.brkpts, k)
 	}
 	return nil
 }
 
 func (m *Monitor) cmdBreakList() error {
-	if len(m.breakpoints) == 0 {
+	if len(m.core.brkpts) == 0 {
 		return nil
 	}
 	addrs := make([]string, 0, 0)
-	for k := range m.breakpoints {
+	for k := range m.core.brkpts {
 		// FIXME: Hard-coded format
 		addrs = append(addrs, fmt.Sprintf("$%04x", k))
 	}
@@ -233,14 +232,14 @@ func (m *Monitor) cmdBreakSet(args []string) error {
 	if err != nil {
 		return err
 	}
-	m.breakpoints[addr] = struct{}{}
+	m.core.brkpts[addr] = struct{}{}
 	return nil
 }
 
 func (m *Monitor) cmdCPU(args []string) error {
 	if len(args) == 0 {
 		m.out.Printf("[%v]\n", m.mach.Status)
-		m.out.Printf("%v\n", m.cpu)
+		m.out.Printf("%v\n", m.core.cpu)
 		return nil
 	}
 	switch args[0] {
@@ -256,7 +255,7 @@ func (m *Monitor) cmdCPUReg(args []string) error {
 	if err := checkLen(args, 0, 2); err != nil {
 		return err
 	}
-	editor, ok := m.cpu.(rcs.CPUEditor)
+	editor, ok := m.core.cpu.(rcs.CPUEditor)
 	if !ok {
 		m.out.Printf("no registers")
 	}
@@ -299,7 +298,7 @@ func (m *Monitor) cmdCPUFlag(args []string) error {
 	if err := checkLen(args, 0, 2); err != nil {
 		return err
 	}
-	editor, ok := m.cpu.(rcs.CPUEditor)
+	editor, ok := m.core.cpu.(rcs.CPUEditor)
 	if !ok {
 		return fmt.Errorf("no registers")
 	}
@@ -355,7 +354,7 @@ func (m *Monitor) cmdDasmList(args []string) error {
 	if err := checkLen(args, 0, 2); err != nil {
 		return err
 	}
-	if m.dasm == nil {
+	if m.core.dasm == nil {
 		return fmt.Errorf("cannot disassemble this processor")
 	}
 	if len(args) > 0 {
@@ -363,7 +362,7 @@ func (m *Monitor) cmdDasmList(args []string) error {
 		if err != nil {
 			return err
 		}
-		m.dasm.SetPC(addr)
+		m.core.dasm.SetPC(addr)
 	}
 	if len(args) > 1 {
 		// list until at ending address
@@ -371,8 +370,8 @@ func (m *Monitor) cmdDasmList(args []string) error {
 		if err != nil {
 			return err
 		}
-		for m.dasm.PC() <= addrEnd {
-			m.out.Println(m.dasm.Next())
+		for m.core.dasm.PC() <= addrEnd {
+			m.out.Println(m.core.dasm.Next())
 		}
 	} else {
 		// list number of lines
@@ -388,7 +387,7 @@ func (m *Monitor) cmdDasmList(args []string) error {
 			}
 		}
 		for i := 0; i < lines; i++ {
-			m.out.Println(m.dasm.Next())
+			m.out.Println(m.core.dasm.Next())
 		}
 	}
 	m.lastCmd = m.cmdDasmList
@@ -415,19 +414,10 @@ func (m *Monitor) cmdDasmLines(args []string) error {
 }
 
 func (m *Monitor) cmdGo(args []string) error {
-	if err := checkLen(args, 0, 1); err != nil {
+	if err := checkLen(args, 0, 0); err != nil {
 		return err
 	}
-	cmd := rcs.MachStart{Core: m.coreSel}
-	if len(args) == 1 {
-		addr, err := m.parseAddress(args[0])
-		if err != nil {
-			return err
-		}
-		cmd.At = true
-		cmd.Addr = addr
-	}
-	m.mach.Command(cmd)
+	m.mach.Command(rcs.MachStart)
 	return nil
 }
 
@@ -450,9 +440,9 @@ func (m *Monitor) cmdMemoryDump(args []string) error {
 	if err := checkLen(args, 0, 2); err != nil {
 		return err
 	}
-	addrStart := m.cpu.PC()
+	addrStart := m.core.cpu.PC()
 	if len(args) == 0 {
-		addrStart = m.memPtr.Addr()
+		addrStart = m.core.ptr.Addr()
 	}
 	if len(args) > 0 {
 		addr, err := m.parseAddress(args[0])
@@ -473,8 +463,8 @@ func (m *Monitor) cmdMemoryDump(args []string) error {
 	if !ok {
 		return fmt.Errorf("invalid encoding: %v", m.encoding)
 	}
-	m.out.Println(dump(m.mem, addrStart, addrEnd, decoder))
-	m.memPtr.SetAddr(addrEnd)
+	m.out.Println(dump(m.core.mem, addrStart, addrEnd, decoder))
+	m.core.ptr.SetAddr(addrEnd)
 	m.lastCmd = m.cmdMemoryDump
 	return nil
 }
@@ -538,7 +528,7 @@ func (m *Monitor) cmdPause(args []string) error {
 	if err := checkLen(args, 0, 0); err != nil {
 		return err
 	}
-	m.mach.Command(rcs.MachPause{})
+	m.mach.Command(rcs.MachPause)
 	return nil
 }
 
@@ -558,13 +548,21 @@ func (m *Monitor) cmdPoke(args []string) error {
 		}
 		values = append(values, v)
 	}
-	m.mem.WriteN(addr, values...)
+	m.core.mem.WriteN(addr, values...)
+	return nil
+}
+
+func (m *Monitor) cmdTrace(args []string) error {
+	if err := checkLen(args, 0, 0); err != nil {
+		return err
+	}
+	m.mach.Command(rcs.MachTrace)
 	return nil
 }
 
 func (m *Monitor) cmdQuit(args []string) error {
 	m.rl.Close()
-	m.mach.Command(rcs.MachQuit{})
+	m.mach.Command(rcs.MachQuit)
 	runtime.Goexit()
 	return nil
 }
@@ -613,6 +611,8 @@ func newCompleter(m *Monitor) *readline.PrefixCompleter {
 		readline.PcItem("pause"),
 		readline.PcItem("poke"),
 		readline.PcItem("r"),
+		readline.PcItem("t"),
+		readline.PcItem("trace"),
 		readline.PcItem("q"),
 		readline.PcItem("quit"),
 	)
@@ -620,7 +620,7 @@ func newCompleter(m *Monitor) *readline.PrefixCompleter {
 
 func acRegisters(m *Monitor) func(string) []string {
 	return func(line string) []string {
-		cpu, ok := m.cpu.(rcs.CPUEditor)
+		cpu, ok := m.core.cpu.(rcs.CPUEditor)
 		if !ok {
 			return []string{}
 		}
@@ -635,7 +635,7 @@ func acRegisters(m *Monitor) func(string) []string {
 
 func acFlags(m *Monitor) func(string) []string {
 	return func(line string) []string {
-		cpu, ok := m.cpu.(rcs.CPUEditor)
+		cpu, ok := m.core.cpu.(rcs.CPUEditor)
 		if !ok {
 			return []string{}
 		}
@@ -669,13 +669,23 @@ func (m *Monitor) Close() {
 func (m *Monitor) getPrompt() string {
 	c := ""
 	if len(m.mach.CPU) > 1 {
-		c = fmt.Sprintf(":%v", m.coreSel+1)
+		c = fmt.Sprintf(":%v", m.core.id+1)
 	}
 	return fmt.Sprintf("monitor%v> ", c)
 }
 
-func (m *Monitor) handleReply(reply interface{}) {
-	log.Printf("reply: %v", reply)
+func (m *Monitor) eventCallback(evt rcs.MachEvent, args ...interface{}) {
+	switch evt {
+	case rcs.TraceEvent:
+		core := args[0].(int)
+		pc := args[1].(int)
+		if core == m.core.id {
+			m.core.dasm.SetPC(pc + m.core.dasm.OffsetPC)
+			m.out.Printf("%v", m.core.dasm.Next())
+		}
+	case rcs.ErrorEvent:
+		m.out.Println(args[0])
+	}
 }
 
 func checkLen(args []string, min int, max int) error {
@@ -704,7 +714,7 @@ func parseUint(str string, bitSize int) (uint64, error) {
 
 func (m *Monitor) parseAddress(str string) (int, error) {
 	value, err := parseUint(str, 64)
-	if err != nil || int(value) > m.mem.MaxAddr {
+	if err != nil || int(value) > m.core.mem.MaxAddr {
 		return 0, fmt.Errorf("invalid address: %v", str)
 	}
 	return int(value), nil

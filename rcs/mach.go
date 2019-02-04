@@ -2,7 +2,6 @@ package rcs
 
 import (
 	"fmt"
-	"reflect"
 	"time"
 )
 
@@ -31,6 +30,28 @@ func (s Status) String() string {
 	return "???"
 }
 
+type MachCmd int
+
+const (
+	MachPause MachCmd = iota
+	MachStart
+	MachTrace
+	MachQuit
+)
+
+type message struct {
+	Cmd  MachCmd
+	Args []interface{}
+}
+
+type MachEvent int
+
+const (
+	StatusEvent MachEvent = iota
+	TraceEvent
+	ErrorEvent
+)
+
 type Mach struct {
 	Mem             []*Memory
 	CPU             []CPU
@@ -38,20 +59,14 @@ type Mach struct {
 	DefaultEncoding string
 
 	Status      Status
-	Reply       func(interface{})
+	Callback    func(MachEvent, ...interface{})
 	Breakpoints []map[int]struct{}
 
-	quit bool
-	cmd  chan interface{}
+	init    bool
+	tracing bool
+	quit    bool
+	cmd     chan message
 }
-
-type MachStart struct {
-	At   bool
-	Core int
-	Addr int
-}
-type MachPause struct{}
-type MachQuit struct{}
 
 type StatusReply struct {
 	Status Status
@@ -61,7 +76,10 @@ type ErrorReply struct {
 	Err error
 }
 
-func (m *Mach) init() {
+func (m *Mach) Init() {
+	if m.init {
+		return
+	}
 	m.quit = false
 	if m.CharDecoders == nil {
 		m.CharDecoders = map[string]CharDecoder{
@@ -69,24 +87,22 @@ func (m *Mach) init() {
 		}
 		m.DefaultEncoding = "ascii"
 	}
-	if m.Reply == nil {
-		m.Reply = func(interface{}) {}
-	}
-	m.cmd = make(chan interface{}, 1)
+	m.cmd = make(chan message, 1)
 	cores := len(m.CPU)
 	m.Breakpoints = make([]map[int]struct{}, cores, cores)
 	for i := 0; i < cores; i++ {
 		m.Breakpoints[i] = make(map[int]struct{})
 	}
+	m.init = true
 }
 
 func (m *Mach) Run() {
-	m.init()
+	m.Init()
 	ticker := time.NewTicker(vblank)
 	for {
 		select {
 		case c := <-m.cmd:
-			m.command(c)
+			m.handleCommand(c)
 		case <-ticker.C:
 			m.jiffy()
 		}
@@ -96,8 +112,8 @@ func (m *Mach) Run() {
 	}
 }
 
-func (m *Mach) Command(c interface{}) {
-	m.cmd <- c
+func (m *Mach) Command(cmd MachCmd, args ...interface{}) {
+	m.cmd <- message{Cmd: cmd, Args: args}
 }
 
 func (m *Mach) jiffy() {
@@ -108,7 +124,7 @@ func (m *Mach) jiffy() {
 }
 
 func (m *Mach) execute() {
-	for i, cpu := range m.CPU {
+	for core, cpu := range m.CPU {
 		for t := 0; t < perJiffy; t++ {
 			ppc := cpu.PC()
 			cpu.Next()
@@ -116,10 +132,13 @@ func (m *Mach) execute() {
 			// in an infinite loop or not advancing due to a halt-like
 			// instruction
 			stuck := ppc == cpu.PC()
+			if m.tracing && !stuck {
+				m.event(TraceEvent, core, ppc)
+			}
 			// at a breakpoint? only honor it if the processor is not stuck.
 			// when at a halt-like instruction, this causes a break once
 			// instead of each time.
-			if _, yes := m.Breakpoints[i][cpu.PC()]; yes && !stuck {
+			if _, yes := m.Breakpoints[core][cpu.PC()]; yes && !stuck {
 				m.setStatus(Break)
 				break // allow other CPUs to be serviced
 			}
@@ -127,27 +146,31 @@ func (m *Mach) execute() {
 	}
 }
 
-func (m *Mach) command(c interface{}) {
-	switch cmd := c.(type) {
+func (m *Mach) handleCommand(msg message) {
+	switch msg.Cmd {
 	case MachPause:
 		m.setStatus(Pause)
 	case MachStart:
-		if cmd.At {
-			m.CPU[cmd.Core].SetPC(cmd.Addr)
-		}
 		m.setStatus(Run)
+	case MachTrace:
+		m.tracing = !m.tracing
 	case MachQuit:
 		m.quit = true
 	default:
-		m.Reply(ErrorReply{
-			Err: fmt.Errorf("unknown command: %v", reflect.TypeOf(c)),
-		})
+		m.event(ErrorEvent, fmt.Errorf("unknown command: %v", msg.Cmd))
 	}
+}
+
+func (m *Mach) event(evt MachEvent, args ...interface{}) {
+	if m.Callback == nil {
+		return
+	}
+	m.Callback(evt, args...)
 }
 
 func (m *Mach) setStatus(s Status) {
 	m.Status = s
-	m.Reply(StatusReply{Status: s})
+	m.event(StatusEvent, s)
 }
 
 var AsciiDecoder = func(code uint8) (rune, bool) {

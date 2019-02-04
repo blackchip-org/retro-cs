@@ -13,7 +13,7 @@ emulator from pac8 into one.
 
 - Avery, Jeff, "Using Z80 Instruction Exerciser (Zexall/ /Zexdoc)", http://jeffavery.ca/computers/macintosh_z80exerciser.html
 - "Bank Switching", https://www.c64-wiki.com/wiki/Bank_Switching
-- Butterfield, Jim, "Machine Language for the Commodore 64, 128, and Other Commodore Computers. Revised and Expanded Edition"
+- Butterfield, Jim, "Machine Language for the Commodore 64, 128, and Other Commodore Computers. Revised and Expanded Edition", https://archive.org/details/Machine_Language_for_the_Commodore_Revised_and_Expanded_Edition
 - Cantrell, Christopher, "Galaga", http://www.computerarcheology.com/Arcade/Galaga/
 - Cringle, Frank D., "Z80 Instruction Exerciser",
 http://mdfs.net/Software/Z80/Exerciser/
@@ -24,6 +24,7 @@ http://mdfs.net/Software/Z80/Exerciser/
 - Frunze, Alexey, "Overflow and Carry flags on Z80", https://stackoverflow.com/questions/8034566/overflow-and-carry-flags-on-z80/8037485#8037485
 - Harston, J.G., "Full Z80 Opcode List Including Undocumented Opcodes", http://www.z80.info/z80oplist.txt
 - Ke-Fong, Lin, "z80emu", https://github.com/anotherlin/z80emu
+- Leemon, Sheldon, "Mapping the Commodore 64", https://archive.org/details/Compute_s_Mapping_the_Commodore_64
 - Lomont, Chris, "Pac-Man Emulation Guide v0.1, Oct 2008", https://www.lomont.org/Software/Games/PacMan/PacmanEmulation.pdf
 - Pickens, John, et al. "NMOS 6502 Opcodes", http://www.6502.org/tutorials/6502opcodes.html
 - Salmoria, Nicola, et al, "Namco PuckMan", https://github.com/mamedev/mame/blob/master/src/mame/drivers/pacman.cpp

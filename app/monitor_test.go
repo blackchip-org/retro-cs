@@ -131,22 +131,6 @@ $0013:  29 cd ab  i29 $abcd
 $0010 +16
 		`,
 	}, {
-		"go continued",
-		[]string{
-			"break set 10",
-			"break set 20",
-			"break set 30",
-			"g",
-			"_yield",
-			"g",
-			"_yield",
-			"cpu reg pc",
-			"q",
-		},
-		`
-$0020 +32
-		`,
-	}, {
 		"memory",
 		[]string{"mem lines 2", "m", "q"},
 		`
@@ -257,6 +241,22 @@ $56 +86 %01010110
 no such register: c
 true
 no such flag: a
+		`,
+	}, {
+		"trace",
+		[]string{
+			"poke 0 a b c",
+			"trace",
+			"break set 1",
+			"break set 2",
+			"go",
+			"_yield",
+			"trace",
+			"go",
+			"quit",
+		},
+		`
+$0000:  0a        i0a
 		`,
 	},
 }
