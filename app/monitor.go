@@ -14,6 +14,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/blackchip-org/retro-cs/rcs"
 	"github.com/chzyer/readline"
@@ -31,7 +32,7 @@ type Monitor struct {
 	mem         *rcs.Memory
 	dasms       []*rcs.Disassembler // for each core
 	dasm        *rcs.Disassembler   // for selected core
-	breakpoints map[uint16]struct{}
+	breakpoints map[int]struct{}
 	in          io.ReadCloser
 	out         *log.Logger
 	rl          *readline.Instance
@@ -121,6 +122,8 @@ func (m *Monitor) parse(line string) {
 
 func (m *Monitor) cmd(args []string) error {
 	switch args[0] {
+	case "b", "break":
+		return m.cmdBreak(args[1:])
 	case "cpu":
 		return m.cmdCPU(args[1:])
 	case "d":
@@ -141,6 +144,8 @@ func (m *Monitor) cmd(args []string) error {
 		return m.cmdCPU([]string{})
 	case "q", "quit":
 		return m.cmdQuit(args[1:])
+	case "_yield":
+		return m.cmdYield()
 	}
 	return fmt.Errorf("no such command: %v", args[0])
 }
@@ -159,10 +164,76 @@ func (m *Monitor) core(args []string) error {
 	n = n - 1
 	m.coreSel = int(n)
 	m.cpu = m.mach.CPU[n]
+	m.breakpoints = m.mach.Breakpoints[n]
 	m.mem = m.mach.Mem[n]
 	m.dasm = m.dasms[n]
 	m.memPtr.Mem = m.mem
 	m.rl.SetPrompt(m.getPrompt())
+	return nil
+}
+
+func (m *Monitor) cmdBreak(args []string) error {
+	if err := checkLen(args, 0, maxArgs); err != nil {
+		return err
+	}
+	if len(args) == 0 {
+		return m.cmdBreakList()
+	}
+	switch args[0] {
+	case "clear":
+		return m.cmdBreakClear(args[1:])
+	case "clear-all":
+		return m.cmdBreakClearAll()
+	case "list":
+		return m.cmdBreakList()
+	case "set":
+		return m.cmdBreakSet(args[1:])
+	}
+	return fmt.Errorf("no such command: %v", args[0])
+}
+
+func (m *Monitor) cmdBreakClear(args []string) error {
+	if err := checkLen(args, 1, 1); err != nil {
+		return err
+	}
+	addr, err := m.parseAddress(args[0])
+	if err != nil {
+		return err
+	}
+	delete(m.breakpoints, addr)
+	return nil
+}
+
+func (m *Monitor) cmdBreakClearAll() error {
+	for k := range m.breakpoints {
+		delete(m.breakpoints, k)
+	}
+	return nil
+}
+
+func (m *Monitor) cmdBreakList() error {
+	if len(m.breakpoints) == 0 {
+		return nil
+	}
+	addrs := make([]string, 0, 0)
+	for k := range m.breakpoints {
+		// FIXME: Hard-coded format
+		addrs = append(addrs, fmt.Sprintf("$%04x", k))
+	}
+	sort.Strings(addrs)
+	m.out.Printf(strings.Join(addrs, "\n"))
+	return nil
+}
+
+func (m *Monitor) cmdBreakSet(args []string) error {
+	if err := checkLen(args, 1, 1); err != nil {
+		return err
+	}
+	addr, err := m.parseAddress(args[0])
+	if err != nil {
+		return err
+	}
+	m.breakpoints[addr] = struct{}{}
 	return nil
 }
 
@@ -495,6 +566,12 @@ func (m *Monitor) cmdQuit(args []string) error {
 	m.rl.Close()
 	m.mach.Command(rcs.MachQuit{})
 	runtime.Goexit()
+	return nil
+}
+
+func (m *Monitor) cmdYield() error {
+	runtime.Gosched()
+	time.Sleep(100 * time.Millisecond)
 	return nil
 }
 

@@ -53,6 +53,28 @@ var monitorTests = []struct {
 	want string
 }{
 	{
+		"break",
+		[]string{
+			"b set 3456",
+			"b set 2345",
+			"b set 1234",
+			"b",
+			"b clear 2345",
+			"b",
+			"b clear-all",
+			"b",
+			"b set 123456",
+			"q",
+		},
+		`
+$1234
+$2345
+$3456
+$1234
+$3456
+invalid address: 123456
+		`,
+	}, {
 		"dasm",
 		[]string{
 			"dasm lines 4",
@@ -101,6 +123,28 @@ $0003:  29 cd ab  i29 $abcd
 		`
 $0011:  19 ab     i19 $ab
 $0013:  29 cd ab  i29 $abcd
+		`,
+	}, {
+		"go",
+		[]string{"break set 10", "g", "_yield", "cpu reg pc", "q"},
+		`
+$0010 +16
+		`,
+	}, {
+		"go continued",
+		[]string{
+			"break set 10",
+			"break set 20",
+			"break set 30",
+			"g",
+			"_yield",
+			"g",
+			"_yield",
+			"cpu reg pc",
+			"q",
+		},
+		`
+$0020 +32
 		`,
 	}, {
 		"memory",

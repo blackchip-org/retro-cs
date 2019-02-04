@@ -121,7 +121,7 @@ func (m *Mach) execute() {
 			// instead of each time.
 			if _, yes := m.Breakpoints[i][cpu.PC()]; yes && !stuck {
 				m.setStatus(Break)
-				continue // allow other CPUs to be serviced
+				break // allow other CPUs to be serviced
 			}
 		}
 	}
