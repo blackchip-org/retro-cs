@@ -11,6 +11,7 @@ import (
 
 const (
 	addrStack = 0x0100 // starting address of the stack
+	addrReset = 0xfffc // reset vector
 )
 
 // CPU is the MOS Technology 6502 series processor.
@@ -55,7 +56,11 @@ const (
 
 // New creates a new CPU with a view of the provided memory.
 func New(mem *rcs.Memory) *CPU {
-	return &CPU{mem: mem, ops: opcodes}
+	return &CPU{
+		mem: mem,
+		pc:  uint16(mem.ReadLE(addrReset) - 1), // reset vector
+		ops: opcodes,
+	}
 }
 
 // Next executes the next instruction.

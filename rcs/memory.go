@@ -84,6 +84,8 @@ in bank 0 and full access to the RAM in bank 1:
 	mem.MapRAM(0x0000, ram)
 */
 type Memory struct {
+	MaxAddr int // maximum valid address
+
 	// read and write functions for each bank
 	reads  [][]Load8
 	writes [][]Store8
@@ -105,8 +107,9 @@ func NewMemory(banks int, size int) *Memory {
 		banks = 1
 	}
 	mem := &Memory{
-		reads:  make([][]Load8, banks, banks),
-		writes: make([][]Store8, banks, banks),
+		MaxAddr: size - 1,
+		reads:   make([][]Load8, banks, banks),
+		writes:  make([][]Store8, banks, banks),
 	}
 	for b := 0; b < banks; b++ {
 		mem.reads[b] = make([]Load8, size, size)

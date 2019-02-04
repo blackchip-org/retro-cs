@@ -19,17 +19,7 @@ import (
 	"github.com/chzyer/readline"
 )
 
-var cmds = map[string]func(*Monitor, []string) error{
-	"cpu":  monCPU,
-	"d":    monDasmList,
-	"dasm": monDasm,
-	"m":    monMemoryDump,
-	"mem":  monMemory,
-	"poke": monPoke,
-	"r":    monRegisters,
-	"q":    monQuit,
-	"quit": monQuit,
-}
+var cmds = map[string]func(*Monitor, []string) error{}
 
 const (
 	maxArgs = 0x100
@@ -46,7 +36,7 @@ type Monitor struct {
 	out         *log.Logger
 	rl          *readline.Instance
 	encoding    string
-	lastCmd     func(*Monitor, []string) error
+	lastCmd     func([]string) error
 	memPtr      *rcs.Pointer
 	coreSel     int // selected core
 	memLines    int
@@ -68,7 +58,7 @@ func NewMonitor(mach *rcs.Mach) *Monitor {
 			m.dasms[i] = lister.NewDisassembler()
 		}
 	}
-	mach.EventCallback = m.handleEvent
+	mach.Reply = m.handleReply
 	if mach.DefaultEncoding != "" {
 		m.encoding = mach.DefaultEncoding
 	} else {
@@ -111,25 +101,49 @@ func (m *Monitor) Run() error {
 func (m *Monitor) parse(line string) {
 	line = strings.TrimSpace(line)
 	if line == "" && m.lastCmd != nil {
-		m.lastCmd(m, []string{})
+		m.lastCmd([]string{})
 		return
 	}
-
+	if line == "" {
+		return
+	}
 	m.lastCmd = nil
-	fields := strings.Split(line, " ")
-	cmd, ok := cmds[fields[0]]
-	if !ok {
-		m.out.Printf("unknown command: %v", fields[0])
-		return
-	}
-	if err := cmd(m, fields[1:]); err != nil {
-		m.out.Println(err)
+	args := strings.Split(line, " ")
+	err := m.cmd(args)
+	if err != nil {
+		m.out.Printf("%v", err)
 		return
 	}
 }
 
 //============================================================================
 // commands
+
+func (m *Monitor) cmd(args []string) error {
+	switch args[0] {
+	case "cpu":
+		return m.cmdCPU(args[1:])
+	case "d":
+		return m.cmdDasmList(args[1:])
+	case "dasm":
+		return m.cmdDasm(args[1:])
+	case "g", "go":
+		return m.cmdGo(args[1:])
+	case "m":
+		return m.cmdMemoryDump(args[1:])
+	case "mem":
+		return m.cmdMemory(args[1:])
+	case "p", "pause":
+		return m.cmdPause(args[1:])
+	case "poke":
+		return m.cmdPoke(args[1:])
+	case "r":
+		return m.cmdCPU([]string{})
+	case "q", "quit":
+		return m.cmdQuit(args[1:])
+	}
+	return fmt.Errorf("no such command: %v", args[0])
+}
 
 func (m *Monitor) core(args []string) error {
 	if err := checkLen(args, 1, 1); err != nil {
@@ -152,7 +166,7 @@ func (m *Monitor) core(args []string) error {
 	return nil
 }
 
-func monCPU(m *Monitor, args []string) error {
+func (m *Monitor) cmdCPU(args []string) error {
 	if len(args) == 0 {
 		m.out.Printf("[%v]\n", m.mach.Status)
 		m.out.Printf("%v\n", m.cpu)
@@ -160,14 +174,14 @@ func monCPU(m *Monitor, args []string) error {
 	}
 	switch args[0] {
 	case "reg":
-		return monCPUReg(m, args[1:])
+		return m.cmdCPUReg(args[1:])
 	case "flag":
-		return monCPUFlag(m, args[1:])
+		return m.cmdCPUFlag(args[1:])
 	}
 	return fmt.Errorf("unknown command: %v", args[0])
 }
 
-func monCPUReg(m *Monitor, args []string) error {
+func (m *Monitor) cmdCPUReg(args []string) error {
 	if err := checkLen(args, 0, 2); err != nil {
 		return err
 	}
@@ -176,15 +190,15 @@ func monCPUReg(m *Monitor, args []string) error {
 		m.out.Printf("no registers")
 	}
 	if len(args) == 0 {
-		return monCPURegList(m, editor)
+		return m.cmdCPURegList(editor)
 	}
 	if len(args) == 1 {
-		return monCPURegGet(m, editor, args[0])
+		return m.cmdCPURegGet(editor, args[0])
 	}
-	return monCPURegPut(m, editor, args[0], args[1])
+	return m.cmdCPURegPut(editor, args[0], args[1])
 }
 
-func monCPURegList(m *Monitor, editor rcs.CPUEditor) error {
+func (m *Monitor) cmdCPURegList(editor rcs.CPUEditor) error {
 	names := []string{}
 	for k := range editor.Registers() {
 		names = append(names, k)
@@ -194,7 +208,7 @@ func monCPURegList(m *Monitor, editor rcs.CPUEditor) error {
 	return nil
 }
 
-func monCPURegGet(m *Monitor, editor rcs.CPUEditor, name string) error {
+func (m *Monitor) cmdCPURegGet(editor rcs.CPUEditor, name string) error {
 	reg, ok := editor.Registers()[name]
 	if !ok {
 		return fmt.Errorf("no such register: %v", name)
@@ -202,7 +216,7 @@ func monCPURegGet(m *Monitor, editor rcs.CPUEditor, name string) error {
 	return formatGet(m, reg)
 }
 
-func monCPURegPut(m *Monitor, editor rcs.CPUEditor, name string, val string) error {
+func (m *Monitor) cmdCPURegPut(editor rcs.CPUEditor, name string, val string) error {
 	reg, ok := editor.Registers()[name]
 	if !ok {
 		return fmt.Errorf("no such register: %v", name)
@@ -210,7 +224,7 @@ func monCPURegPut(m *Monitor, editor rcs.CPUEditor, name string, val string) err
 	return parsePut(m, val, reg)
 }
 
-func monCPUFlag(m *Monitor, args []string) error {
+func (m *Monitor) cmdCPUFlag(args []string) error {
 	if err := checkLen(args, 0, 2); err != nil {
 		return err
 	}
@@ -218,16 +232,16 @@ func monCPUFlag(m *Monitor, args []string) error {
 	if !ok {
 		return fmt.Errorf("no registers")
 	}
-	if len(args) == 0 {
-		return monCPUFlagList(m, editor)
+	switch len(args) {
+	case 1:
+		return m.cmdCPUFlagGet(editor, args[0])
+	case 2:
+		return m.cmdCPUFlagPut(editor, args[0], args[1])
 	}
-	if len(args) == 1 {
-		return monCPUFlagGet(m, editor, args[0])
-	}
-	return monCPUFlagPut(m, editor, args[0], args[1])
+	return m.cmdCPUFlagList(editor)
 }
 
-func monCPUFlagList(m *Monitor, editor rcs.CPUEditor) error {
+func (m *Monitor) cmdCPUFlagList(editor rcs.CPUEditor) error {
 	names := []string{}
 	for k := range editor.Flags() {
 		names = append(names, k)
@@ -237,7 +251,7 @@ func monCPUFlagList(m *Monitor, editor rcs.CPUEditor) error {
 	return nil
 }
 
-func monCPUFlagGet(m *Monitor, editor rcs.CPUEditor, name string) error {
+func (m *Monitor) cmdCPUFlagGet(editor rcs.CPUEditor, name string) error {
 	reg, ok := editor.Flags()[name]
 	if !ok {
 		return fmt.Errorf("no such flag: %v", name)
@@ -245,7 +259,7 @@ func monCPUFlagGet(m *Monitor, editor rcs.CPUEditor, name string) error {
 	return formatGet(m, reg)
 }
 
-func monCPUFlagPut(m *Monitor, editor rcs.CPUEditor, name string, val string) error {
+func (m *Monitor) cmdCPUFlagPut(editor rcs.CPUEditor, name string, val string) error {
 	reg, ok := editor.Flags()[name]
 	if !ok {
 		return fmt.Errorf("no such flag: %v", name)
@@ -253,20 +267,20 @@ func monCPUFlagPut(m *Monitor, editor rcs.CPUEditor, name string, val string) er
 	return parsePut(m, val, reg)
 }
 
-func monDasm(m *Monitor, args []string) error {
+func (m *Monitor) cmdDasm(args []string) error {
 	if err := checkLen(args, 1, maxArgs); err != nil {
 		return err
 	}
 	switch args[0] {
 	case "list":
-		return monDasmList(m, args[1:])
+		return m.cmdDasmList(args[1:])
 	case "lines":
-		return monDasmLines(m, args[1:])
+		return m.cmdDasmLines(args[1:])
 	}
 	return fmt.Errorf("unknown command: %v", args[0])
 }
 
-func monDasmList(m *Monitor, args []string) error {
+func (m *Monitor) cmdDasmList(args []string) error {
 	if err := checkLen(args, 0, 2); err != nil {
 		return err
 	}
@@ -274,7 +288,7 @@ func monDasmList(m *Monitor, args []string) error {
 		return fmt.Errorf("cannot disassemble this processor")
 	}
 	if len(args) > 0 {
-		addr, err := parseAddress(args[0])
+		addr, err := m.parseAddress(args[0])
 		if err != nil {
 			return err
 		}
@@ -282,7 +296,7 @@ func monDasmList(m *Monitor, args []string) error {
 	}
 	if len(args) > 1 {
 		// list until at ending address
-		addrEnd, err := parseAddress(args[1])
+		addrEnd, err := m.parseAddress(args[1])
 		if err != nil {
 			return err
 		}
@@ -306,11 +320,11 @@ func monDasmList(m *Monitor, args []string) error {
 			m.out.Println(m.dasm.Next())
 		}
 	}
-	m.lastCmd = monDasmList
+	m.lastCmd = m.cmdDasmList
 	return nil
 }
 
-func monDasmLines(m *Monitor, args []string) error {
+func (m *Monitor) cmdDasmLines(args []string) error {
 	if err := checkLen(args, 0, 1); err != nil {
 		return err
 	}
@@ -329,22 +343,39 @@ func monDasmLines(m *Monitor, args []string) error {
 	return nil
 }
 
-func monMemory(m *Monitor, args []string) error {
+func (m *Monitor) cmdGo(args []string) error {
+	if err := checkLen(args, 0, 1); err != nil {
+		return err
+	}
+	cmd := rcs.MachStart{Core: m.coreSel}
+	if len(args) == 1 {
+		addr, err := m.parseAddress(args[0])
+		if err != nil {
+			return err
+		}
+		cmd.At = true
+		cmd.Addr = addr
+	}
+	m.mach.Command(cmd)
+	return nil
+}
+
+func (m *Monitor) cmdMemory(args []string) error {
 	if err := checkLen(args, 1, maxArgs); err != nil {
 		return err
 	}
 	switch args[0] {
 	case "dump":
-		return monMemoryDump(m, args[1:])
+		return m.cmdMemoryDump(args[1:])
 	case "encoding":
-		return monMemoryEncoding(m, args[1:])
+		return m.cmdMemoryEncoding(args[1:])
 	case "lines":
-		return monMemoryLines(m, args[1:])
+		return m.cmdMemoryLines(args[1:])
 	}
 	return fmt.Errorf("unknown command: %v", args[0])
 }
 
-func monMemoryDump(m *Monitor, args []string) error {
+func (m *Monitor) cmdMemoryDump(args []string) error {
 	if err := checkLen(args, 0, 2); err != nil {
 		return err
 	}
@@ -353,7 +384,7 @@ func monMemoryDump(m *Monitor, args []string) error {
 		addrStart = m.memPtr.Addr()
 	}
 	if len(args) > 0 {
-		addr, err := parseAddress(args[0])
+		addr, err := m.parseAddress(args[0])
 		if err != nil {
 			return err
 		}
@@ -361,7 +392,7 @@ func monMemoryDump(m *Monitor, args []string) error {
 	}
 	addrEnd := addrStart + (m.memLines * 16)
 	if len(args) > 1 {
-		addr, err := parseAddress(args[1])
+		addr, err := m.parseAddress(args[1])
 		if err != nil {
 			return err
 		}
@@ -373,21 +404,21 @@ func monMemoryDump(m *Monitor, args []string) error {
 	}
 	m.out.Println(dump(m.mem, addrStart, addrEnd, decoder))
 	m.memPtr.SetAddr(addrEnd)
-	m.lastCmd = monMemoryDump
+	m.lastCmd = m.cmdMemoryDump
 	return nil
 }
 
-func monMemoryEncoding(m *Monitor, args []string) error {
+func (m *Monitor) cmdMemoryEncoding(args []string) error {
 	if err := checkLen(args, 0, 1); err != nil {
 		return err
 	}
 	if len(args) == 0 {
-		return monMemoryEncodingList(m)
+		return m.cmdMemoryEncodingList()
 	}
-	return monMemoryEncodingSet(m, args[0])
+	return m.cmdMemoryEncodingSet(args[0])
 }
 
-func monMemoryEncodingList(m *Monitor) error {
+func (m *Monitor) cmdMemoryEncodingList() error {
 	names := make([]string, 0, 0)
 	for k := range m.mach.CharDecoders {
 		names = append(names, k)
@@ -404,7 +435,7 @@ func monMemoryEncodingList(m *Monitor) error {
 	return nil
 }
 
-func monMemoryEncodingSet(m *Monitor, enc string) error {
+func (m *Monitor) cmdMemoryEncodingSet(enc string) error {
 	_, ok := m.mach.CharDecoders[enc]
 	if !ok {
 		return fmt.Errorf("no such encoding: %v", enc)
@@ -413,7 +444,7 @@ func monMemoryEncodingSet(m *Monitor, enc string) error {
 	return nil
 }
 
-func monMemoryLines(m *Monitor, args []string) error {
+func (m *Monitor) cmdMemoryLines(args []string) error {
 	if err := checkLen(args, 0, 1); err != nil {
 		return err
 	}
@@ -432,11 +463,19 @@ func monMemoryLines(m *Monitor, args []string) error {
 	return nil
 }
 
-func monPoke(m *Monitor, args []string) error {
+func (m *Monitor) cmdPause(args []string) error {
+	if err := checkLen(args, 0, 0); err != nil {
+		return err
+	}
+	m.mach.Command(rcs.MachPause{})
+	return nil
+}
+
+func (m *Monitor) cmdPoke(args []string) error {
 	if err := checkLen(args, 1, maxArgs); err != nil {
 		return err
 	}
-	addr, err := parseAddress(args[0])
+	addr, err := m.parseAddress(args[0])
 	if err != nil {
 		return err
 	}
@@ -452,14 +491,7 @@ func monPoke(m *Monitor, args []string) error {
 	return nil
 }
 
-func monRegisters(m *Monitor, args []string) error {
-	if err := checkLen(args, 0, 0); err != nil {
-		return err
-	}
-	return monCPU(m, args)
-}
-
-func monQuit(m *Monitor, args []string) error {
+func (m *Monitor) cmdQuit(args []string) error {
 	m.rl.Close()
 	m.mach.Command(rcs.MachQuit{})
 	runtime.Goexit()
@@ -471,6 +503,12 @@ func monQuit(m *Monitor, args []string) error {
 
 func newCompleter(m *Monitor) *readline.PrefixCompleter {
 	return readline.NewPrefixCompleter(
+		readline.PcItem("break",
+			readline.PcItem("clear"),
+			readline.PcItem("clear-all"),
+			readline.PcItem("list"),
+			readline.PcItem("set"),
+		),
 		readline.PcItem("cpu",
 			readline.PcItem("reg",
 				readline.PcItemDynamic(acRegisters(m)),
@@ -484,6 +522,8 @@ func newCompleter(m *Monitor) *readline.PrefixCompleter {
 			readline.PcItem("lines"),
 			readline.PcItem("list"),
 		),
+		readline.PcItem("g"),
+		readline.PcItem("go"),
 		readline.PcItem("m"),
 		readline.PcItem("mem",
 			readline.PcItem("dump"),
@@ -492,6 +532,8 @@ func newCompleter(m *Monitor) *readline.PrefixCompleter {
 			),
 			readline.PcItem("lines"),
 		),
+		readline.PcItem("p"),
+		readline.PcItem("pause"),
 		readline.PcItem("poke"),
 		readline.PcItem("r"),
 		readline.PcItem("q"),
@@ -555,8 +597,8 @@ func (m *Monitor) getPrompt() string {
 	return fmt.Sprintf("monitor%v> ", c)
 }
 
-func (m *Monitor) handleEvent(ty rcs.EventType, event interface{}) {
-	log.Printf("event: %v", event)
+func (m *Monitor) handleReply(reply interface{}) {
+	log.Printf("reply: %v", reply)
 }
 
 func checkLen(args []string, min int, max int) error {
@@ -583,9 +625,9 @@ func parseUint(str string, bitSize int) (uint64, error) {
 	return strconv.ParseUint(str, base, bitSize)
 }
 
-func parseAddress(str string) (int, error) {
+func (m *Monitor) parseAddress(str string) (int, error) {
 	value, err := parseUint(str, 64)
-	if err != nil {
+	if err != nil || int(value) > m.mem.MaxAddr {
 		return 0, fmt.Errorf("invalid address: %v", str)
 	}
 	return int(value), nil

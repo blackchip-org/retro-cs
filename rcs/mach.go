@@ -2,6 +2,7 @@ package rcs
 
 import (
 	"fmt"
+	"reflect"
 	"time"
 )
 
@@ -36,24 +37,29 @@ type Mach struct {
 	CharDecoders    map[string]CharDecoder
 	DefaultEncoding string
 
-	Status        Status
-	EventCallback func(EventType, interface{})
-	Breakpoints   []map[int]struct{}
+	Status      Status
+	Reply       func(interface{})
+	Breakpoints []map[int]struct{}
 
 	quit bool
 	cmd  chan interface{}
 }
 
-type MachStart struct{}
+type MachStart struct {
+	At   bool
+	Core int
+	Addr int
+}
+type MachPause struct{}
 type MachQuit struct{}
 
-type EventType int
+type StatusReply struct {
+	Status Status
+}
 
-const (
-	StatusEvent EventType = iota
-	TraceEvent
-	ErrorEvent
-)
+type ErrorReply struct {
+	Err error
+}
 
 func (m *Mach) init() {
 	m.quit = false
@@ -63,8 +69,8 @@ func (m *Mach) init() {
 		}
 		m.DefaultEncoding = "ascii"
 	}
-	if m.EventCallback == nil {
-		m.EventCallback = func(EventType, interface{}) {}
+	if m.Reply == nil {
+		m.Reply = func(interface{}) {}
 	}
 	m.cmd = make(chan interface{}, 1)
 	cores := len(m.CPU)
@@ -121,20 +127,27 @@ func (m *Mach) execute() {
 	}
 }
 
-func (m *Mach) command(mc interface{}) {
-	switch mc.(type) {
+func (m *Mach) command(c interface{}) {
+	switch cmd := c.(type) {
+	case MachPause:
+		m.setStatus(Pause)
 	case MachStart:
+		if cmd.At {
+			m.CPU[cmd.Core].SetPC(cmd.Addr)
+		}
 		m.setStatus(Run)
 	case MachQuit:
 		m.quit = true
 	default:
-		m.EventCallback(ErrorEvent, fmt.Errorf("invalid command: %v", mc))
+		m.Reply(ErrorReply{
+			Err: fmt.Errorf("unknown command: %v", reflect.TypeOf(c)),
+		})
 	}
 }
 
 func (m *Mach) setStatus(s Status) {
 	m.Status = s
-	m.EventCallback(StatusEvent, s)
+	m.Reply(StatusReply{Status: s})
 }
 
 var AsciiDecoder = func(code uint8) (rune, bool) {
