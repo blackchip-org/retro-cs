@@ -571,7 +571,7 @@ func (m *Monitor) cmdQuit(args []string) error {
 
 func (m *Monitor) cmdYield() error {
 	runtime.Gosched()
-	time.Sleep(100 * time.Millisecond)
+	time.Sleep(500 * time.Millisecond)
 	return nil
 }
 
