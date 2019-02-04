@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/blackchip-org/retro-cs/mock"
+	"github.com/blackchip-org/retro-cs/rcs"
 )
 
 type monitorFixture struct {
@@ -150,6 +151,24 @@ $0010  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
 $0020  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
 `,
 	}, {
+		"memory encoding",
+		[]string{
+			"mem encoding",
+			"poke 0 1 2 3 41 42 43",
+			"m 00 0f",
+			"mem encoding az26",
+			"m 00 0f",
+			"mem encoding ebcdic",
+			"q",
+		},
+		`
+* ascii
+  az26
+$0000  01 02 03 41 42 43 00 00  00 00 00 00 00 00 00 00  ...ABC..........
+$0000  01 02 03 41 42 43 00 00  00 00 00 00 00 00 00 00  ABC.............
+no such encoding: ebcdic
+		`,
+	}, {
 		"registers and flags set",
 		[]string{
 			"r",
@@ -259,7 +278,7 @@ func TestDump(t *testing.T) {
 			for i, value := range test.data() {
 				m.Write(test.start+i, uint8(value))
 			}
-			have := dump(m, test.showFrom, test.showTo, AsciiDecoder)
+			have := dump(m, test.showFrom, test.showTo, rcs.AsciiDecoder)
 			have = strings.TrimSpace(have)
 			if have != test.want {
 				t.Errorf("\n have: \n%v \n want: \n%v \n", have, test.want)

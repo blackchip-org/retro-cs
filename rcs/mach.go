@@ -31,8 +31,10 @@ func (s Status) String() string {
 }
 
 type Mach struct {
-	Mem []*Memory
-	CPU []CPU
+	Mem             []*Memory
+	CPU             []CPU
+	CharDecoders    map[string]CharDecoder
+	DefaultEncoding string
 
 	Status        Status
 	EventCallback func(EventType, interface{})
@@ -55,6 +57,12 @@ const (
 
 func (m *Mach) init() {
 	m.quit = false
+	if m.CharDecoders == nil {
+		m.CharDecoders = map[string]CharDecoder{
+			"ascii": AsciiDecoder,
+		}
+		m.DefaultEncoding = "ascii"
+	}
 	if m.EventCallback == nil {
 		m.EventCallback = func(EventType, interface{}) {}
 	}
@@ -127,4 +135,9 @@ func (m *Mach) command(mc interface{}) {
 func (m *Mach) setStatus(s Status) {
 	m.Status = s
 	m.EventCallback(StatusEvent, s)
+}
+
+var AsciiDecoder = func(code uint8) (rune, bool) {
+	printable := code >= 32 && code < 128
+	return rune(code), printable
 }

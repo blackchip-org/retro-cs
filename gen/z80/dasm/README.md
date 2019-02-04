@@ -1,7 +1,7 @@
 # dasm
 
 Generates the disassembly table using the "Full Z80 Opcode List Including
-Undocumented Opcodes" written by J.G. Harston. This source used to generate the table and tess are not found in this repository. Downlaod and palce in the following location, relatvie to the repository root:
+Undocumented Opcodes" written by J.G. Harston. This source used to generate the table and tests are not found in this repository. Download and place in the following location, relative to the repository root:
 
 - ext/harston/z80oplist.txt
 

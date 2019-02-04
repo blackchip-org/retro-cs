@@ -45,7 +45,7 @@ type Monitor struct {
 	in          io.ReadCloser
 	out         *log.Logger
 	rl          *readline.Instance
-	charDecoder rcs.CharDecoder
+	encoding    string
 	lastCmd     func(*Monitor, []string) error
 	memPtr      *rcs.Pointer
 	coreSel     int // selected core
@@ -69,7 +69,14 @@ func NewMonitor(mach *rcs.Mach) *Monitor {
 		}
 	}
 	mach.EventCallback = m.handleEvent
-	m.charDecoder = AsciiDecoder
+	if mach.DefaultEncoding != "" {
+		m.encoding = mach.DefaultEncoding
+	} else {
+		for name := range mach.CharDecoders {
+			m.encoding = name
+			break
+		}
+	}
 	return m
 }
 
@@ -329,6 +336,8 @@ func monMemory(m *Monitor, args []string) error {
 	switch args[0] {
 	case "dump":
 		return monMemoryDump(m, args[1:])
+	case "encoding":
+		return monMemoryEncoding(m, args[1:])
 	case "lines":
 		return monMemoryLines(m, args[1:])
 	}
@@ -358,9 +367,49 @@ func monMemoryDump(m *Monitor, args []string) error {
 		}
 		addrEnd = addr
 	}
-	m.out.Println(dump(m.mem, addrStart, addrEnd, m.charDecoder))
+	decoder, ok := m.mach.CharDecoders[m.encoding]
+	if !ok {
+		return fmt.Errorf("invalid encoding: %v", m.encoding)
+	}
+	m.out.Println(dump(m.mem, addrStart, addrEnd, decoder))
 	m.memPtr.SetAddr(addrEnd)
 	m.lastCmd = monMemoryDump
+	return nil
+}
+
+func monMemoryEncoding(m *Monitor, args []string) error {
+	if err := checkLen(args, 0, 1); err != nil {
+		return err
+	}
+	if len(args) == 0 {
+		return monMemoryEncodingList(m)
+	}
+	return monMemoryEncodingSet(m, args[0])
+}
+
+func monMemoryEncodingList(m *Monitor) error {
+	names := make([]string, 0, 0)
+	for k := range m.mach.CharDecoders {
+		names = append(names, k)
+	}
+	sort.Strings(names)
+	for i := 0; i < len(names); i++ {
+		if names[i] == m.encoding {
+			names[i] = "* " + names[i]
+		} else {
+			names[i] = "  " + names[i]
+		}
+	}
+	m.out.Println(strings.Join(names, "\n"))
+	return nil
+}
+
+func monMemoryEncodingSet(m *Monitor, enc string) error {
+	_, ok := m.mach.CharDecoders[enc]
+	if !ok {
+		return fmt.Errorf("no such encoding: %v", enc)
+	}
+	m.encoding = enc
 	return nil
 }
 
@@ -438,6 +487,9 @@ func newCompleter(m *Monitor) *readline.PrefixCompleter {
 		readline.PcItem("m"),
 		readline.PcItem("mem",
 			readline.PcItem("dump"),
+			readline.PcItem("encoding",
+				readline.PcItemDynamic(acEncodings(m)),
+			),
 			readline.PcItem("lines"),
 		),
 		readline.PcItem("poke"),
@@ -470,6 +522,17 @@ func acFlags(m *Monitor) func(string) []string {
 		}
 		names := make([]string, 0)
 		for k := range cpu.Flags() {
+			names = append(names, k)
+		}
+		sort.Strings(names)
+		return names
+	}
+}
+
+func acEncodings(m *Monitor) func(string) []string {
+	return func(line string) []string {
+		names := make([]string, 0)
+		for k := range m.mach.CharDecoders {
 			names = append(names, k)
 		}
 		sort.Strings(names)
@@ -648,9 +711,4 @@ func dump(m *rcs.Memory, start int, end int, decode rcs.CharDecoder) string {
 		}
 	}
 	return buf.String()
-}
-
-var AsciiDecoder = func(code uint8) (rune, bool) {
-	printable := code >= 32 && code < 128
-	return rune(code), printable
 }

@@ -1,7 +1,7 @@
 package main
 
 //go:generate go run .
-//go:generate go fmt ../../../rcs/cbm/petscii.go
+//go:generate go fmt ../../../rcs/cbm/petscii_table.go
 
 import (
 	"bufio"
@@ -97,23 +97,7 @@ func main() {
 		}
 	}
 	out.WriteString("}\n")
-	out.WriteString(`
-
-// PetsciiDecoder converts byte values to PETSCII equivilents in
-// Unicode.
-var PetsciiDecoder = func(code uint8) (rune, bool) {
-	ch, printable := petsciiUnshifted[code]
-	return ch, printable
-}
-
-// PetsciiShiftedDecoder converts byte values to PETSCII equivilents in
-// Unicode.
-var PetsciiShiftedDecoder = func(code uint8) (rune, bool) {
-	ch, printable := petsciiShifted[code]
-	return ch, printable
-}
-	`)
-	outfile := filepath.Join(targetDir, "petscii.go")
+	outfile := filepath.Join(targetDir, "petscii_table.go")
 	err = ioutil.WriteFile(outfile, out.Bytes(), 0644)
 	if err != nil {
 		log.Fatalln(err)

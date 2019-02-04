@@ -7,5 +7,17 @@ func NewMach() *rcs.Mach {
 	return &rcs.Mach{
 		Mem: []*rcs.Memory{TestMemory},
 		CPU: []rcs.CPU{NewCPU(TestMemory)},
+		CharDecoders: map[string]rcs.CharDecoder{
+			"ascii": rcs.AsciiDecoder,
+			"az26":  AZ26Decoder,
+		},
+		DefaultEncoding: "ascii",
 	}
+}
+
+var AZ26Decoder = func(code uint8) (rune, bool) {
+	if code < 1 || code > 26 {
+		return 0, false
+	}
+	return rune(64 + code), true
 }

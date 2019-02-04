@@ -3,6 +3,7 @@ package c64
 import (
 	"github.com/blackchip-org/retro-cs/config"
 	"github.com/blackchip-org/retro-cs/rcs"
+	"github.com/blackchip-org/retro-cs/rcs/cbm"
 	"github.com/blackchip-org/retro-cs/rcs/m6502"
 )
 
@@ -18,5 +19,12 @@ func New() (*rcs.Mach, error) {
 	return &rcs.Mach{
 		Mem: []*rcs.Memory{mem},
 		CPU: []rcs.CPU{cpu},
+		CharDecoders: map[string]rcs.CharDecoder{
+			"petscii":         cbm.PetsciiDecoder,
+			"petscii-shifted": cbm.PetsciiShiftedDecoder,
+			"screen":          cbm.ScreenDecoder,
+			"screen-shifted":  cbm.ScreenShiftedDecoder,
+		},
+		DefaultEncoding: "petscii",
 	}, nil
 }
