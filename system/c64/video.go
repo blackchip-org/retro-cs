@@ -9,12 +9,14 @@ import (
 )
 
 const (
-	width   = 320
-	height  = 200
-	screenW = 404 // actually 403?
-	screenH = 284
-	borderW = (screenW - width) / 2
-	borderH = (screenH - height) / 2
+	width      = 320
+	height     = 200
+	screenW    = 404 // actually 403?
+	screenH    = 284
+	borderW    = (screenW - width) / 2
+	borderH    = (screenH - height) / 2
+	charSheetW = 32
+	charSheetH = 16
 )
 
 type Video struct {
@@ -43,9 +45,12 @@ func NewVideo(r *sdl.Renderer, mem *rcs.Memory, charData []uint8) (*Video, error
 }
 
 func (v *Video) draw(r *sdl.Renderer) error {
+	v.mem.Write(0xd012, 00) // HACK: set raster line to zero
 	r.SetRenderTarget(v.texture)
+	r.SetDrawBlendMode(sdl.BLENDMODE_BLEND)
 	v.drawBorder(r)
 	v.drawBackground(r)
+	v.drawCharacters(r)
 	r.SetRenderTarget(nil)
 	return nil
 }
@@ -95,6 +100,35 @@ func (v *Video) drawBackground(r *sdl.Renderer) {
 	r.FillRect(&background)
 }
 
+func (v *Video) drawCharacters(r *sdl.Renderer) {
+	addrScreenMem := 0x0400
+	addrColorMem := 0xd800
+	baseX := 0
+	baseY := 0
+	for baseY < height {
+		ch := v.mem.Read(addrScreenMem)
+		clr := Palette[v.mem.Read(addrColorMem)&0x0f]
+		v.charSheet.Texture.SetColorMod(clr.R, clr.G, clr.B)
+		chx := int32(ch) % charSheetW * 8
+		chy := int32(ch) / charSheetW * 8
+		src := sdl.Rect{X: chx, Y: chy, W: 8, H: 8}
+		dest := sdl.Rect{
+			X: int32(baseX + borderW),
+			Y: int32(baseY + borderH),
+			W: 8,
+			H: 8,
+		}
+		r.Copy(v.charSheet.Texture, &src, &dest)
+		addrScreenMem++
+		addrColorMem++
+		baseX += 8
+		if baseX >= width {
+			baseX = 0
+			baseY += 8
+		}
+	}
+}
+
 var (
 	Palette = []color.RGBA{
 		color.RGBA{0x00, 0x00, 0x00, 0xff}, // black
@@ -126,7 +160,7 @@ func CharGen(r *sdl.Renderer, data []uint8) (rcs.TileSheet, error) {
 		return rcs.TileSheet{}, err
 	}
 	r.SetRenderTarget(t)
-	r.SetDrawColor(0, 0, 0, 0xff)
+	r.SetDrawColor(0, 0, 0, 0)
 	r.FillRect(nil)
 	r.SetDrawColor(0xff, 0xff, 0xff, 0xff)
 	baseX := int32(0)

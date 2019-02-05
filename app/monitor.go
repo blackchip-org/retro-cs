@@ -149,6 +149,8 @@ func (m *Monitor) cmd(args []string) error {
 		return m.cmdDasmList(args[1:])
 	case "dasm":
 		return m.cmdDasm(args[1:])
+	case "fill":
+		return m.cmdFill(args[1:])
 	case "g", "go":
 		return m.cmdGo(args[1:])
 	case "m":
@@ -413,6 +415,31 @@ func (m *Monitor) cmdDasmLines(args []string) error {
 	return nil
 }
 
+func (m *Monitor) cmdFill(args []string) error {
+	if err := checkLen(args, 3, 3); err != nil {
+		return err
+	}
+	startAddr, err := m.parseAddress(args[0])
+	if err != nil {
+		return err
+	}
+	endAddr, err := m.parseAddress(args[1])
+	if err != nil {
+		return err
+	}
+	value, err := parseValue8(args[2])
+	if err != nil {
+		return err
+	}
+	if startAddr > endAddr {
+		return nil
+	}
+	for addr := startAddr; addr <= endAddr; addr++ {
+		m.core.mem.Write(addr, value)
+	}
+	return nil
+}
+
 func (m *Monitor) cmdGo(args []string) error {
 	if err := checkLen(args, 0, 0); err != nil {
 		return err
@@ -597,6 +624,7 @@ func newCompleter(m *Monitor) *readline.PrefixCompleter {
 			readline.PcItem("lines"),
 			readline.PcItem("list"),
 		),
+		readline.PcItem("fill"),
 		readline.PcItem("g"),
 		readline.PcItem("go"),
 		readline.PcItem("m"),

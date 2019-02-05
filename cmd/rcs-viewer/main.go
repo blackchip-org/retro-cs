@@ -136,6 +136,7 @@ func main() {
 		}
 
 		r.SetRenderTarget(nil)
+		r.SetDrawColor(0, 0, 0, 0)
 		r.Clear()
 		r.Copy(sheet.Texture, nil, nil)
 		if scanlines != nil {

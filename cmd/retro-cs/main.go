@@ -72,7 +72,7 @@ func main() {
 			fullScreen = sdl.WINDOW_FULLSCREEN_DESKTOP
 		}
 		window, err := sdl.CreateWindow(
-			"pac8",
+			"retro-cs",
 			sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED,
 			defaultWidth, defaultHeight,
 			sdl.WINDOW_SHOWN|fullScreen,

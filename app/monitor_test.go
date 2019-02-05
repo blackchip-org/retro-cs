@@ -125,6 +125,20 @@ $0011:  19 ab     i19 $ab
 $0013:  29 cd ab  i29 $abcd
 		`,
 	}, {
+		"fill",
+		[]string{
+			"mem lines 1",
+			"fill 0004 000b ff",
+			"m 0",
+			"fill 000b 0004 aa",
+			"m 0",
+			"q",
+		},
+		`
+$0000  00 00 00 00 ff ff ff ff  ff ff ff ff 00 00 00 00  ................
+$0000  00 00 00 00 ff ff ff ff  ff ff ff ff 00 00 00 00  ................
+		`,
+	}, {
 		"go",
 		[]string{"break set 10", "g", "_yield", "cpu reg pc", "q"},
 		`

@@ -154,6 +154,7 @@ func (m *Mach) jiffy() {
 	} else {
 		time.Sleep(10 * time.Millisecond)
 	}
+	m.sdl()
 }
 
 func (m *Mach) execute() {
@@ -196,6 +197,14 @@ func (m *Mach) render() error {
 	}
 	r.Present()
 	return nil
+}
+
+func (m *Mach) sdl() {
+	for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent() {
+		if _, ok := event.(*sdl.QuitEvent); ok {
+			m.quit = true
+		}
+	}
 }
 
 func (m *Mach) handleCommand(msg message) {
