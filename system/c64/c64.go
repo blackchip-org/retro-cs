@@ -34,7 +34,7 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 	}
 
 	if ctx.Renderer != nil {
-		video, err := NewVideo(ctx.Renderer, mem, roms["chargen"])
+		video, err := newVideo(ctx.Renderer, mem, roms["chargen"])
 		if err != nil {
 			return nil, err
 		}
@@ -49,6 +49,12 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 		}
 		mach.Screen = screen
 	}
+
+	kb := newKeyboard()
+	mem.MapRW(0x0091, &kb.stkey) // stop key
+	mem.MapRW(0x00c6, &kb.ndx)   // buffer index
+	mem.MapRAM(0x277, kb.buf)
+	mach.Keyboard = kb.handle
 
 	return mach, nil
 }

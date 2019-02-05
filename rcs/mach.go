@@ -62,6 +62,7 @@ type Mach struct {
 	Ctx             SDLContext
 	Screen          Screen
 	VBlankFunc      func()
+	Keyboard        func(*sdl.KeyboardEvent) error
 
 	Status      Status
 	Callback    func(MachEvent, ...interface{})
@@ -101,6 +102,9 @@ func (m *Mach) Init() error {
 	}
 	if m.VBlankFunc == nil {
 		m.VBlankFunc = func() {}
+	}
+	if m.Keyboard == nil {
+		m.Keyboard = func(*sdl.KeyboardEvent) error { return nil }
 	}
 
 	if m.Ctx.Window != nil {
@@ -211,6 +215,8 @@ func (m *Mach) sdl() {
 		} else if e, ok := event.(*sdl.KeyboardEvent); ok {
 			if e.Keysym.Sym == sdl.K_ESCAPE {
 				m.quit = true
+			} else {
+				m.Keyboard(e)
 			}
 		}
 	}

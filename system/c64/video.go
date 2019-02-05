@@ -18,7 +18,7 @@ const (
 	charSheetH = 16
 )
 
-type Video struct {
+type video struct {
 	borderColor uint8
 	bgColor     uint8
 	texture     *sdl.Texture
@@ -26,7 +26,7 @@ type Video struct {
 	mem         *rcs.Memory
 }
 
-func NewVideo(r *sdl.Renderer, mem *rcs.Memory, charData []uint8) (*Video, error) {
+func newVideo(r *sdl.Renderer, mem *rcs.Memory, charData []uint8) (*video, error) {
 	t, err := r.CreateTexture(sdl.PIXELFORMAT_RGBA8888, sdl.TEXTUREACCESS_TARGET,
 		screenW, screenH)
 	if err != nil {
@@ -36,14 +36,14 @@ func NewVideo(r *sdl.Renderer, mem *rcs.Memory, charData []uint8) (*Video, error
 	if err != nil {
 		return nil, err
 	}
-	return &Video{
+	return &video{
 		texture:   t,
 		charSheet: charSheet,
 		mem:       mem,
 	}, nil
 }
 
-func (v *Video) draw(r *sdl.Renderer) error {
+func (v *video) draw(r *sdl.Renderer) error {
 	v.mem.Write(0xd012, 00) // HACK: set raster line to zero
 	r.SetRenderTarget(v.texture)
 	r.SetDrawBlendMode(sdl.BLENDMODE_BLEND)
@@ -54,7 +54,7 @@ func (v *Video) draw(r *sdl.Renderer) error {
 	return nil
 }
 
-func (v *Video) drawBorder(r *sdl.Renderer) {
+func (v *video) drawBorder(r *sdl.Renderer) {
 	c := Palette[v.borderColor&0x0f]
 	r.SetDrawColor(c.R, c.G, c.B, c.A)
 	topBorder := sdl.Rect{
@@ -87,7 +87,7 @@ func (v *Video) drawBorder(r *sdl.Renderer) {
 	r.FillRect(&rightBorder)
 }
 
-func (v *Video) drawBackground(r *sdl.Renderer) {
+func (v *video) drawBackground(r *sdl.Renderer) {
 	c := Palette[v.bgColor&0x0f]
 	r.SetDrawColor(c.R, c.G, c.B, c.A)
 	background := sdl.Rect{
@@ -99,7 +99,7 @@ func (v *Video) drawBackground(r *sdl.Renderer) {
 	r.FillRect(&background)
 }
 
-func (v *Video) drawCharacters(r *sdl.Renderer) {
+func (v *video) drawCharacters(r *sdl.Renderer) {
 	addrScreenMem := 0x0400
 	addrColorMem := 0xd800
 	baseX := 0
