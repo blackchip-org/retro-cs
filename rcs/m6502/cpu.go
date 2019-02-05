@@ -65,6 +65,18 @@ func New(mem *rcs.Memory) *CPU {
 
 // Next executes the next instruction.
 func (c *CPU) Next() {
+	if c.SR&FlagB != 0 {
+		c.SR &^= FlagB
+		c.SR |= FlagI
+		c.isr()
+	}
+	if c.IRQ {
+		c.IRQ = false
+		if c.SR&FlagI == 0 {
+			c.isr()
+		}
+	}
+
 	here := c.PC() + 1
 	c.pageCross = false
 	opcode := c.fetch()
@@ -74,6 +86,16 @@ func (c *CPU) Next() {
 		return
 	}
 	execute(c)
+}
+
+// interrupt service routine
+func (c *CPU) isr() {
+	// http://www.6502.org/tutorials/6502opcodes.html#RTI
+	// Note that unlike RTS, the return address on the stack is the
+	// actual address rather than the address-1.
+	c.push2(c.pc + 1)
+	c.push(c.SR)
+	c.pc = uint16(c.mem.ReadLE(0xfffe) - 1) // irq vector
 }
 
 // PC returns the value of the program counter.

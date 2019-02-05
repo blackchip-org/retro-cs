@@ -28,6 +28,9 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 		},
 		DefaultEncoding: "petscii",
 		Ctx:             ctx,
+		VBlankFunc: func() {
+			cpu.IRQ = true
+		},
 	}
 
 	if ctx.Renderer != nil {

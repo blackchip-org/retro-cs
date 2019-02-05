@@ -61,6 +61,7 @@ type Mach struct {
 	DefaultEncoding string
 	Ctx             SDLContext
 	Screen          Screen
+	VBlankFunc      func()
 
 	Status      Status
 	Callback    func(MachEvent, ...interface{})
@@ -97,6 +98,9 @@ func (m *Mach) Init() error {
 	m.Breakpoints = make([]map[int]struct{}, cores, cores)
 	for i := 0; i < cores; i++ {
 		m.Breakpoints[i] = make(map[int]struct{})
+	}
+	if m.VBlankFunc == nil {
+		m.VBlankFunc = func() {}
 	}
 
 	if m.Ctx.Window != nil {
@@ -155,6 +159,7 @@ func (m *Mach) jiffy() {
 		time.Sleep(10 * time.Millisecond)
 	}
 	m.sdl()
+	m.VBlankFunc()
 }
 
 func (m *Mach) execute() {
