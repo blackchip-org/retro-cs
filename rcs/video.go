@@ -16,6 +16,18 @@ type TileSheet struct {
 	Texture  *sdl.Texture
 }
 
+type Screen struct {
+	W         int32
+	H         int32
+	X         int32
+	Y         int32
+	Scale     int32
+	Texture   *sdl.Texture
+	ScanLineH bool
+	ScanLineV bool
+	Draw      func(*sdl.Renderer) error
+}
+
 func NewColorSheet(r *sdl.Renderer, palettes [][]color.RGBA) (TileSheet, error) {
 	tileW := int32(32)
 	tileH := int32(32)
@@ -109,4 +121,18 @@ func NewScanLinesH(r *sdl.Renderer, w int32, h int32, size int32) (*sdl.Texture,
 	tex.SetBlendMode(sdl.BLENDMODE_BLEND)
 	r.SetRenderTarget(nil)
 	return tex, nil
+}
+
+func FitInWindow(winW int32, winH int32, screen *Screen) {
+	deltaW, deltaH := winW-screen.W, winH-screen.H
+	scale := int32(1)
+	if deltaW < deltaH {
+		scale = winW / screen.W
+	} else {
+		scale = winH / screen.H
+	}
+	scaledW, scaledH := screen.W*scale, screen.H*scale
+	screen.X = (winW - scaledW) / 2
+	screen.Y = (winH - scaledH) / 2
+	screen.Scale = scale
 }

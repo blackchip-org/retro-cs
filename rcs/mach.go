@@ -3,6 +3,8 @@ package rcs
 import (
 	"fmt"
 	"time"
+
+	"github.com/veandco/go-sdl2/sdl"
 )
 
 type Status int
@@ -57,15 +59,18 @@ type Mach struct {
 	CPU             []CPU
 	CharDecoders    map[string]CharDecoder
 	DefaultEncoding string
+	Ctx             SDLContext
+	Screen          Screen
 
 	Status      Status
 	Callback    func(MachEvent, ...interface{})
 	Breakpoints []map[int]struct{}
 
-	init    bool
-	tracing bool
-	quit    bool
-	cmd     chan message
+	scanLines *sdl.Texture
+	init      bool
+	tracing   bool
+	quit      bool
+	cmd       chan message
 }
 
 type StatusReply struct {
@@ -76,9 +81,9 @@ type ErrorReply struct {
 	Err error
 }
 
-func (m *Mach) Init() {
+func (m *Mach) Init() error {
 	if m.init {
-		return
+		return nil
 	}
 	m.quit = false
 	if m.CharDecoders == nil {
@@ -93,11 +98,35 @@ func (m *Mach) Init() {
 	for i := 0; i < cores; i++ {
 		m.Breakpoints[i] = make(map[int]struct{})
 	}
+
+	if m.Ctx.Window != nil {
+		r := m.Ctx.Renderer
+		winx, winy := m.Ctx.Window.GetSize()
+		FitInWindow(winx, winy, &m.Screen)
+		drawW := m.Screen.W * m.Screen.Scale
+		drawH := m.Screen.H * m.Screen.Scale
+		if m.Screen.ScanLineH {
+			scanLines, err := NewScanLinesH(r, drawW, drawH, 2)
+			if err != nil {
+				return err
+			}
+			m.scanLines = scanLines
+		} else if m.Screen.ScanLineV {
+			scanLines, err := NewScanLinesV(r, drawW, drawH, 2)
+			if err != nil {
+				return err
+			}
+			m.scanLines = scanLines
+		}
+	}
 	m.init = true
+	return nil
 }
 
-func (m *Mach) Run() {
-	m.Init()
+func (m *Mach) Run() error {
+	if err := m.Init(); err != nil {
+		return err
+	}
 	ticker := time.NewTicker(vblank)
 	for {
 		select {
@@ -107,7 +136,7 @@ func (m *Mach) Run() {
 			m.jiffy()
 		}
 		if m.quit {
-			return
+			return nil
 		}
 	}
 }
@@ -120,7 +149,11 @@ func (m *Mach) jiffy() {
 	if m.Status == Run {
 		m.execute()
 	}
-	time.Sleep(100 * time.Millisecond) // until vsync gets in
+	if m.Ctx.Renderer != nil {
+		m.render()
+	} else {
+		time.Sleep(10 * time.Millisecond)
+	}
 }
 
 func (m *Mach) execute() {
@@ -144,6 +177,25 @@ func (m *Mach) execute() {
 			}
 		}
 	}
+}
+
+func (m *Mach) render() error {
+	r := m.Ctx.Renderer
+	if err := m.Screen.Draw(r); err != nil {
+		return err
+	}
+	dest := sdl.Rect{
+		X: m.Screen.X,
+		Y: m.Screen.Y,
+		W: m.Screen.W * m.Screen.Scale,
+		H: m.Screen.H * m.Screen.Scale,
+	}
+	r.Copy(m.Screen.Texture, nil, &dest)
+	if m.scanLines != nil {
+		r.Copy(m.scanLines, nil, &dest)
+	}
+	r.Present()
+	return nil
 }
 
 func (m *Mach) handleCommand(msg message) {

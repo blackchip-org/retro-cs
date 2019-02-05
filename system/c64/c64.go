@@ -7,7 +7,7 @@ import (
 	"github.com/blackchip-org/retro-cs/rcs/m6502"
 )
 
-func New() (*rcs.Mach, error) {
+func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 	roms, err := rcs.LoadROMs(config.ROMDir, SystemROM)
 	if err != nil {
 		return nil, err
@@ -16,7 +16,7 @@ func New() (*rcs.Mach, error) {
 	mem.SetBank(31)
 	cpu := m6502.New(mem)
 
-	return &rcs.Mach{
+	mach := &rcs.Mach{
 		Mem: []*rcs.Memory{mem},
 		CPU: []rcs.CPU{cpu},
 		CharDecoders: map[string]rcs.CharDecoder{
@@ -26,5 +26,25 @@ func New() (*rcs.Mach, error) {
 			"screen-shifted":  cbm.ScreenShiftedDecoder,
 		},
 		DefaultEncoding: "petscii",
-	}, nil
+		Ctx:             ctx,
+	}
+
+	if ctx.Renderer != nil {
+		video, err := NewVideo(ctx.Renderer, mem, roms["chargen"])
+		if err != nil {
+			return nil, err
+		}
+		mem.MapRW(0xd020, &video.borderColor)
+		mem.MapRW(0xd021, &video.bgColor)
+		screen := rcs.Screen{
+			W:         screenW,
+			H:         screenH,
+			Texture:   video.texture,
+			ScanLineH: true,
+			Draw:      video.draw,
+		}
+		mach.Screen = screen
+	}
+
+	return mach, nil
 }

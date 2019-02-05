@@ -3,6 +3,8 @@ package rcs
 import (
 	"math/bits"
 	"strconv"
+
+	"github.com/veandco/go-sdl2/sdl"
 )
 
 // Load8 is a function which loads an unsigned 8-bit value
@@ -112,4 +114,10 @@ type CharDecoder func(uint8) (rune, bool)
 type Value struct {
 	Get interface{}
 	Put interface{}
+}
+
+type SDLContext struct {
+	Window    *sdl.Window
+	Renderer  *sdl.Renderer
+	AudioSpec sdl.AudioSpec
 }

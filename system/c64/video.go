@@ -8,6 +8,93 @@ import (
 	"github.com/veandco/go-sdl2/sdl"
 )
 
+const (
+	width   = 320
+	height  = 200
+	screenW = 404 // actually 403?
+	screenH = 284
+	borderW = (screenW - width) / 2
+	borderH = (screenH - height) / 2
+)
+
+type Video struct {
+	borderColor uint8
+	bgColor     uint8
+	texture     *sdl.Texture
+	charSheet   rcs.TileSheet
+	mem         *rcs.Memory
+}
+
+func NewVideo(r *sdl.Renderer, mem *rcs.Memory, charData []uint8) (*Video, error) {
+	t, err := r.CreateTexture(sdl.PIXELFORMAT_RGBA8888, sdl.TEXTUREACCESS_TARGET,
+		screenW, screenH)
+	if err != nil {
+		return nil, err
+	}
+	charSheet, err := CharGen(r, charData)
+	if err != nil {
+		return nil, err
+	}
+	return &Video{
+		texture:   t,
+		charSheet: charSheet,
+		mem:       mem,
+	}, nil
+}
+
+func (v *Video) draw(r *sdl.Renderer) error {
+	r.SetRenderTarget(v.texture)
+	v.drawBorder(r)
+	v.drawBackground(r)
+	r.SetRenderTarget(nil)
+	return nil
+}
+
+func (v *Video) drawBorder(r *sdl.Renderer) {
+	c := Palette[v.borderColor&0x0f]
+	r.SetDrawColor(c.R, c.G, c.B, c.A)
+	topBorder := sdl.Rect{
+		X: 0,
+		Y: 0,
+		W: screenW,
+		H: borderH,
+	}
+	r.FillRect(&topBorder)
+	bottomBorder := sdl.Rect{
+		X: 0,
+		Y: borderH + height,
+		W: screenW,
+		H: borderH,
+	}
+	r.FillRect(&bottomBorder)
+	leftBorder := sdl.Rect{
+		X: 0,
+		Y: borderH,
+		W: borderW,
+		H: height,
+	}
+	r.FillRect(&leftBorder)
+	rightBorder := sdl.Rect{
+		X: borderW + width,
+		Y: borderH,
+		W: borderW,
+		H: height,
+	}
+	r.FillRect(&rightBorder)
+}
+
+func (v *Video) drawBackground(r *sdl.Renderer) {
+	c := Palette[v.bgColor&0x0f]
+	r.SetDrawColor(c.R, c.G, c.B, c.A)
+	background := sdl.Rect{
+		X: borderW,
+		Y: borderH,
+		W: width,
+		H: height,
+	}
+	r.FillRect(&background)
+}
+
 var (
 	Palette = []color.RGBA{
 		color.RGBA{0x00, 0x00, 0x00, 0xff}, // black
