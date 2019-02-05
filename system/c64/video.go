@@ -4,7 +4,6 @@ import (
 	"image/color"
 
 	"github.com/blackchip-org/retro-cs/rcs"
-
 	"github.com/veandco/go-sdl2/sdl"
 )
 

@@ -1,3 +1,4 @@
+// Package c64 is the Commodore 64.
 package c64
 
 import (

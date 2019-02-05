@@ -1,2 +1,2 @@
-// Package namco contains components from Namco systems.
+// Package namco contains components for Namco systems.
 package namco
