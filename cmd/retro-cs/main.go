@@ -24,13 +24,16 @@ var (
 	optSystem  string
 	optMonitor bool
 	optNoVideo bool
+	optTrace   bool
 	optWait    bool
 )
 
 func init() {
 	flag.BoolVar(&optProfC, "profc", false, "enable cpu profiling")
 	flag.BoolVar(&optNoVideo, "no-video", false, "disable video")
+	flag.BoolVar(&optMonitor, "m", false, "enable monitor")
 	flag.StringVar(&optSystem, "s", "c64", "start this system")
+	flag.BoolVar(&optTrace, "t", false, "enable tracing")
 	flag.BoolVar(&optWait, "w", false, "wait for go command")
 }
 
@@ -53,8 +56,9 @@ func main() {
 			log.Println("profile saved")
 		}()
 	}
-
-	optMonitor = true // always for now!
+	if optNoVideo || optTrace || optWait {
+		optMonitor = true
+	}
 
 	newMachine, ok := app.Systems[optSystem]
 	if !ok {
@@ -113,6 +117,9 @@ func main() {
 	mach.Status = rcs.Run
 	if optWait {
 		mach.Status = rcs.Pause
+	}
+	if optTrace {
+		mach.Command(rcs.MachTrace)
 	}
 	mach.Run()
 }

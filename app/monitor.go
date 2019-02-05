@@ -692,6 +692,7 @@ func acEncodings(m *Monitor) func(string) []string {
 
 func (m *Monitor) Close() {
 	m.in.Close()
+	m.rl.Close()
 }
 
 func (m *Monitor) getPrompt() string {

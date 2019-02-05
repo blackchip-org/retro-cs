@@ -203,6 +203,10 @@ func (m *Mach) sdl() {
 	for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent() {
 		if _, ok := event.(*sdl.QuitEvent); ok {
 			m.quit = true
+		} else if e, ok := event.(*sdl.KeyboardEvent); ok {
+			if e.Keysym.Sym == sdl.K_ESCAPE {
+				m.quit = true
+			}
 		}
 	}
 }
