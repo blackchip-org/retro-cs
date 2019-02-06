@@ -61,10 +61,10 @@ func NewMonitor(mach *rcs.Mach) *Monitor {
 	for i, cpu := range mach.CPU {
 		var dasm *rcs.Disassembler
 		var tracer *rcs.Disassembler
-		lister, ok := cpu.(rcs.CodeLister)
+		cpud, ok := cpu.(rcs.CPUDisassembler)
 		if ok {
-			dasm = lister.NewDisassembler()
-			tracer = lister.NewDisassembler()
+			dasm = cpud.NewDisassembler()
+			tracer = cpud.NewDisassembler()
 		}
 		c := core{
 			id:     i,
@@ -149,8 +149,6 @@ func (m *Monitor) cmd(args []string) error {
 		return m.cmdDasmList(args[1:])
 	case "dasm":
 		return m.cmdDasm(args[1:])
-	case "fill":
-		return m.cmdFill(args[1:])
 	case "g", "go":
 		return m.cmdGo(args[1:])
 	case "m":
@@ -415,31 +413,6 @@ func (m *Monitor) cmdDasmLines(args []string) error {
 	return nil
 }
 
-func (m *Monitor) cmdFill(args []string) error {
-	if err := checkLen(args, 3, 3); err != nil {
-		return err
-	}
-	startAddr, err := m.parseAddress(args[0])
-	if err != nil {
-		return err
-	}
-	endAddr, err := m.parseAddress(args[1])
-	if err != nil {
-		return err
-	}
-	value, err := parseValue8(args[2])
-	if err != nil {
-		return err
-	}
-	if startAddr > endAddr {
-		return nil
-	}
-	for addr := startAddr; addr <= endAddr; addr++ {
-		m.core.mem.Write(addr, value)
-	}
-	return nil
-}
-
 func (m *Monitor) cmdGo(args []string) error {
 	if err := checkLen(args, 0, 0); err != nil {
 		return err
@@ -455,6 +428,8 @@ func (m *Monitor) cmdMemory(args []string) error {
 	switch args[0] {
 	case "dump":
 		return m.cmdMemoryDump(args[1:])
+	case "fill":
+		return m.cmdMemoryFill(args[1:])
 	case "encoding":
 		return m.cmdMemoryEncoding(args[1:])
 	case "lines":
@@ -529,6 +504,31 @@ func (m *Monitor) cmdMemoryEncodingSet(enc string) error {
 		return fmt.Errorf("no such encoding: %v", enc)
 	}
 	m.encoding = enc
+	return nil
+}
+
+func (m *Monitor) cmdMemoryFill(args []string) error {
+	if err := checkLen(args, 3, 3); err != nil {
+		return err
+	}
+	startAddr, err := m.parseAddress(args[0])
+	if err != nil {
+		return err
+	}
+	endAddr, err := m.parseAddress(args[1])
+	if err != nil {
+		return err
+	}
+	value, err := parseValue8(args[2])
+	if err != nil {
+		return err
+	}
+	if startAddr > endAddr {
+		return nil
+	}
+	for addr := startAddr; addr <= endAddr; addr++ {
+		m.core.mem.Write(addr, value)
+	}
 	return nil
 }
 
@@ -624,7 +624,6 @@ func newCompleter(m *Monitor) *readline.PrefixCompleter {
 			readline.PcItem("lines"),
 			readline.PcItem("list"),
 		),
-		readline.PcItem("fill"),
 		readline.PcItem("g"),
 		readline.PcItem("go"),
 		readline.PcItem("m"),
@@ -633,6 +632,7 @@ func newCompleter(m *Monitor) *readline.PrefixCompleter {
 			readline.PcItem("encoding",
 				readline.PcItemDynamic(acEncodings(m)),
 			),
+			readline.PcItem("fill"),
 			readline.PcItem("lines"),
 		),
 		readline.PcItem("p"),
@@ -709,7 +709,7 @@ func (m *Monitor) eventCallback(evt rcs.MachEvent, args ...interface{}) {
 		core := args[0].(int)
 		pc := args[1].(int)
 		if core == m.core.id {
-			m.core.dasm.SetPC(pc + m.core.dasm.OffsetPC)
+			m.core.dasm.SetPC(pc + m.core.cpu.Offset())
 			m.out.Printf("%v", m.core.dasm.Next())
 		}
 	case rcs.ErrorEvent:

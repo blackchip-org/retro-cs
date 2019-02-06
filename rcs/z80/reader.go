@@ -7,7 +7,7 @@ import (
 	"github.com/blackchip-org/retro-cs/rcs"
 )
 
-func Reader(e rcs.Eval) {
+func Reader(e rcs.StmtEval) {
 	e.Stmt.Addr = e.Ptr.Addr()
 	opcode := e.Ptr.Fetch()
 	e.Stmt.Bytes = []uint8{opcode}
@@ -27,7 +27,7 @@ func NewDisassembler(mem *rcs.Memory) *rcs.Disassembler {
 	return rcs.NewDisassembler(mem, Reader, Formatter())
 }
 
-func op1(e rcs.Eval, parts ...string) {
+func op1(e rcs.StmtEval, parts ...string) {
 	var out strings.Builder
 	for i, part := range parts {
 		v := part
@@ -88,7 +88,7 @@ func op1(e rcs.Eval, parts ...string) {
 	e.Stmt.Op = strings.TrimSpace(out.String())
 }
 
-func op2(e rcs.Eval, parts ...string) {
+func op2(e rcs.StmtEval, parts ...string) {
 	var out strings.Builder
 	for i, part := range parts {
 		v := part
@@ -114,7 +114,7 @@ func op2(e rcs.Eval, parts ...string) {
 	e.Stmt.Op = strings.TrimSpace(out.String())
 }
 
-func opDD(e rcs.Eval) {
+func opDD(e rcs.StmtEval) {
 	next := e.Ptr.Peek()
 	if next == 0xdd || next == 0xed || next == 0xfd {
 		e.Stmt.Op = "?dd"
@@ -129,7 +129,7 @@ func opDD(e rcs.Eval) {
 	dasmTableDD[opcode](e)
 }
 
-func opFD(e rcs.Eval) {
+func opFD(e rcs.StmtEval) {
 	next := e.Ptr.Peek()
 	if next == 0xdd || next == 0xed || next == 0xfd {
 		e.Stmt.Op = "?fd"
@@ -144,19 +144,19 @@ func opFD(e rcs.Eval) {
 	dasmTableFD[opcode](e)
 }
 
-func opCB(e rcs.Eval) {
+func opCB(e rcs.StmtEval) {
 	opcode := e.Ptr.Fetch()
 	e.Stmt.Bytes = append(e.Stmt.Bytes, opcode)
 	dasmTableCB[opcode](e)
 }
 
-func opED(e rcs.Eval) {
+func opED(e rcs.StmtEval) {
 	opcode := e.Ptr.Fetch()
 	e.Stmt.Bytes = append(e.Stmt.Bytes, opcode)
 	dasmTableED[opcode](e)
 }
 
-func opFDCB(e rcs.Eval) {
+func opFDCB(e rcs.StmtEval) {
 	delta := e.Ptr.Fetch()
 	e.Stmt.Bytes = append(e.Stmt.Bytes, delta)
 	opcode := e.Ptr.Fetch()
@@ -164,7 +164,7 @@ func opFDCB(e rcs.Eval) {
 	dasmTableFDCB[opcode](e)
 }
 
-func opDDCB(e rcs.Eval) {
+func opDDCB(e rcs.StmtEval) {
 	delta := e.Ptr.Fetch()
 	e.Stmt.Bytes = append(e.Stmt.Bytes, delta)
 	opcode := e.Ptr.Fetch()

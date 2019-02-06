@@ -161,6 +161,13 @@ func (c *CPU) SetPC(pc int) {
 	c.pc = uint16(pc)
 }
 
+// Offset is the value to be added to the program counter to get the
+// address of the next instruction. The value is 0 for this CPU since
+// the program counter is incremented after fetching the opcode.
+func (c *CPU) Offset() int {
+	return 0
+}
+
 func (c *CPU) fetch() uint8 {
 	c.pc++
 	return c.mem.Read(int(c.pc - 1))

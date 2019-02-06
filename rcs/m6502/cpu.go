@@ -108,9 +108,17 @@ func (c *CPU) SetPC(addr int) {
 	c.pc = uint16(addr)
 }
 
+// Offset is the value to be added to the program counter to get the
+// address of the next instruction. The value is 1 for this CPU since
+// the program counter is incremented before fetching the opcode.
+func (c *CPU) Offset() int {
+	return 1
+}
+
+// NewDisassembler creates a disassembler that can handle 6502 machine
+// code.
 func (c *CPU) NewDisassembler() *rcs.Disassembler {
 	dasm := rcs.NewDisassembler(c.mem, Reader, Formatter())
-	dasm.OffsetPC = 1
 	return dasm
 }
 

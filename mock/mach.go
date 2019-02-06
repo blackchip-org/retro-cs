@@ -8,7 +8,7 @@ func NewMach() *rcs.Mach {
 		Mem: []*rcs.Memory{TestMemory},
 		CPU: []rcs.CPU{NewCPU(TestMemory)},
 		CharDecoders: map[string]rcs.CharDecoder{
-			"ascii": rcs.AsciiDecoder,
+			"ascii": rcs.ASCIIDecoder,
 			"az26":  AZ26Decoder,
 		},
 		DefaultEncoding: "ascii",

@@ -109,13 +109,26 @@ func BitPlane4(v uint8, n int) uint8 {
 	return uint8(result)
 }
 
-type CharDecoder func(uint8) (rune, bool)
+// CharDecoder converts a byte value to a unicode character and indicates
+// if this character is considered to be printable.
+type CharDecoder func(uint8) (ch rune, printable bool)
 
+// ASCIIDecoder is a pass through of byte values to unicode characters.
+// Values 32 to 128 are considered printable.
+var ASCIIDecoder = func(code uint8) (rune, bool) {
+	printable := code >= 32 && code < 128
+	return rune(code), printable
+}
+
+// Value is a function wrapper around an arbitrary value for changing
+// its contents.
 type Value struct {
 	Get interface{}
 	Put interface{}
 }
 
+// SDLContext contains the window for rendering and the audio specs
+// available for use.
 type SDLContext struct {
 	Window    *sdl.Window
 	Renderer  *sdl.Renderer

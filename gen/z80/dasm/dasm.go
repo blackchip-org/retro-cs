@@ -60,7 +60,7 @@ import "github.com/blackchip-org/retro-cs/rcs"
 	lines := strings.Split(string(data), "\n")
 
 	// unprefixed
-	out.WriteString("var dasmTable = map[uint8]func(rcs.Eval){\n")
+	out.WriteString("var dasmTable = map[uint8]func(rcs.StmtEval){\n")
 	for i := lineStart; i <= lineEnd; i++ {
 		line := lines[i]
 		parseTable(&out, line, 0, "")
@@ -68,7 +68,7 @@ import "github.com/blackchip-org/retro-cs/rcs"
 	out.WriteString("}\n")
 
 	// dd prefix
-	out.WriteString("var dasmTableDD = map[uint8]func(rcs.Eval){\n")
+	out.WriteString("var dasmTableDD = map[uint8]func(rcs.StmtEval){\n")
 	for i := lineStart; i <= lineEnd; i++ {
 		line := lines[i]
 		parseTable(&out, line, 2, "dd")
@@ -76,7 +76,7 @@ import "github.com/blackchip-org/retro-cs/rcs"
 	out.WriteString("}\n")
 
 	// fd prefix
-	out.WriteString("var dasmTableFD = map[uint8]func(rcs.Eval){\n")
+	out.WriteString("var dasmTableFD = map[uint8]func(rcs.StmtEval){\n")
 	for i := lineStart; i <= lineEnd; i++ {
 		line := lines[i]
 		parseTable(&out, line, 2, "fd")
@@ -84,7 +84,7 @@ import "github.com/blackchip-org/retro-cs/rcs"
 	out.WriteString("}\n")
 
 	// cb prefix
-	out.WriteString("var dasmTableCB = map[uint8]func(rcs.Eval){\n")
+	out.WriteString("var dasmTableCB = map[uint8]func(rcs.StmtEval){\n")
 	for i := lineStart; i <= lineEnd; i++ {
 		line := lines[i]
 		parseTable(&out, line, 4, "cb")
@@ -92,7 +92,7 @@ import "github.com/blackchip-org/retro-cs/rcs"
 	out.WriteString("}\n")
 
 	// fd cb prefix
-	out.WriteString("var dasmTableFDCB = map[uint8]func(rcs.Eval){\n")
+	out.WriteString("var dasmTableFDCB = map[uint8]func(rcs.StmtEval){\n")
 	for i := lineStart; i <= lineEnd; i++ {
 		line := lines[i]
 		parseTable(&out, line, 6, "fdcb")
@@ -100,7 +100,7 @@ import "github.com/blackchip-org/retro-cs/rcs"
 	out.WriteString("}\n")
 
 	// dd cb prefix
-	out.WriteString("var dasmTableDDCB = map[uint8]func(rcs.Eval){\n")
+	out.WriteString("var dasmTableDDCB = map[uint8]func(rcs.StmtEval){\n")
 	for i := lineStart; i <= lineEnd; i++ {
 		line := lines[i]
 		parseTable(&out, line, 6, "ddcb")
@@ -108,7 +108,7 @@ import "github.com/blackchip-org/retro-cs/rcs"
 	out.WriteString("}\n")
 
 	// ed prefix
-	out.WriteString("var dasmTableED = map[uint8]func(rcs.Eval){\n")
+	out.WriteString("var dasmTableED = map[uint8]func(rcs.StmtEval){\n")
 	for i := lineStart; i <= lineEnd; i++ {
 		line := lines[i]
 		parseTable(&out, line, 8, "ed")
@@ -137,16 +137,16 @@ func parseTable(out *bytes.Buffer, line string, firstBreak int, prefix string) {
 
 	switch {
 	case prefix == "" && opcode == 0xcb:
-		out.WriteString("0xcb: func(e rcs.Eval) { opCB(e) },\n")
+		out.WriteString("0xcb: func(e rcs.StmtEval) { opCB(e) },\n")
 		return
 	case prefix == "" && opcode == 0xdd:
-		out.WriteString("0xdd: func(e rcs.Eval) { opDD(e) },\n")
+		out.WriteString("0xdd: func(e rcs.StmtEval) { opDD(e) },\n")
 		return
 	case prefix == "" && opcode == 0xed:
-		out.WriteString("0xed: func(e rcs.Eval) { opED(e) },\n")
+		out.WriteString("0xed: func(e rcs.StmtEval) { opED(e) },\n")
 		return
 	case prefix == "" && opcode == 0xfd:
-		out.WriteString("0xfd: func(e rcs.Eval) { opFD(e) },\n")
+		out.WriteString("0xfd: func(e rcs.StmtEval) { opFD(e) },\n")
 		return
 	case
 		prefix == "dd" && opcode == 0xcb,
@@ -163,9 +163,9 @@ func parseTable(out *bytes.Buffer, line string, firstBreak int, prefix string) {
 	out.WriteString("0x")
 	out.WriteString(fmt.Sprintf("%02x", opcode))
 	if prefix == "ddcb" || prefix == "fdcb" {
-		out.WriteString(": func(e rcs.Eval) { op2(e, ")
+		out.WriteString(": func(e rcs.StmtEval) { op2(e, ")
 	} else {
-		out.WriteString(": func(e rcs.Eval) { op1(e, ")
+		out.WriteString(": func(e rcs.StmtEval) { op1(e, ")
 	}
 
 	args := make([]string, 1)

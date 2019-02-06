@@ -12,13 +12,18 @@ import (
 )
 
 type monitorFixture struct {
+	cpu *mock.CPU
 	out bytes.Buffer
 	mon *Monitor
 }
 
 func newMonitorFixture() *monitorFixture {
 	mach := mock.NewMach()
-	f := &monitorFixture{mon: NewMonitor(mach)}
+	cpu := mach.CPU[0].(*mock.CPU)
+	f := &monitorFixture{
+		mon: NewMonitor(mach),
+		cpu: cpu,
+	}
 	f.mon.out.SetOutput(&f.out)
 	return f
 }
@@ -125,20 +130,6 @@ $0011:  19 ab     i19 $ab
 $0013:  29 cd ab  i29 $abcd
 		`,
 	}, {
-		"fill",
-		[]string{
-			"mem lines 1",
-			"fill 0004 000b ff",
-			"m 0",
-			"fill 000b 0004 aa",
-			"m 0",
-			"q",
-		},
-		`
-$0000  00 00 00 00 ff ff ff ff  ff ff ff ff 00 00 00 00  ................
-$0000  00 00 00 00 ff ff ff ff  ff ff ff ff 00 00 00 00  ................
-		`,
-	}, {
 		"go",
 		[]string{"break set 10", "g", "_yield", "cpu reg pc", "q"},
 		`
@@ -211,6 +202,20 @@ $0000  01 02 03 41 42 43 00 00  00 00 00 00 00 00 00 00  ABC.............
 no such encoding: ebcdic
 		`,
 	}, {
+		"memory fill",
+		[]string{
+			"mem lines 1",
+			"mem fill 0004 000b ff",
+			"m 0",
+			"mem fill 000b 0004 aa",
+			"m 0",
+			"q",
+		},
+		`
+$0000  00 00 00 00 ff ff ff ff  ff ff ff ff 00 00 00 00  ................
+$0000  00 00 00 00 ff ff ff ff  ff ff ff ff 00 00 00 00  ................
+		`,
+	}, {
 		"registers and flags set",
 		[]string{
 			"r",
@@ -275,6 +280,25 @@ $0000:  0a        i0a
 	},
 }
 
+func TestBreakpointOffset(t *testing.T) {
+	f := newMonitorFixture()
+	f.cpu.OffsetPC = 1
+	cmds := `
+b set 10
+g
+_yield
+cpu reg pc
+q
+	`
+	f.mon.in = testMonitorInput(cmds)
+	testMonitorRun(f.mon)
+	have := strings.TrimSpace(f.out.String())
+	want := "$000f +15"
+	if have != want {
+		t.Errorf("\n have: \n%v \n want: \n%v", have, want)
+	}
+}
+
 func TestDump(t *testing.T) {
 	var dumpTests = []struct {
 		name     string
@@ -336,7 +360,7 @@ func TestDump(t *testing.T) {
 			for i, value := range test.data() {
 				m.Write(test.start+i, uint8(value))
 			}
-			have := dump(m, test.showFrom, test.showTo, rcs.AsciiDecoder)
+			have := dump(m, test.showFrom, test.showTo, rcs.ASCIIDecoder)
 			have = strings.TrimSpace(have)
 			if have != test.want {
 				t.Errorf("\n have: \n%v \n want: \n%v \n", have, test.want)

@@ -9,10 +9,14 @@ import (
 type CPU struct {
 	mem *rcs.Memory
 	pc  uint16
-	a   uint8
-	b   uint8
-	q   bool
-	z   bool
+	A   uint8 // sample register
+	B   uint8 // sample register
+	Q   bool  // sample flag
+	Z   bool  // sample flag
+
+	// Offset to be added to the program counter to get the address of the
+	// next instruction.
+	OffsetPC int
 }
 
 func NewCPU(mem *rcs.Memory) *CPU {
@@ -27,11 +31,20 @@ func (c *CPU) SetPC(addr int) {
 	c.pc = uint16(addr)
 }
 
+func (c *CPU) Offset() int {
+	return c.OffsetPC
+}
+
 // Next reads the next byte at the program counter as the "opcode". The high
 // nibble is the number of "arguments" it will fetch (max two).
 func (c *CPU) Next() {
+	if c.OffsetPC == 1 {
+		c.pc++
+	}
 	opcode := c.mem.Read(int(c.pc))
-	c.pc++
+	if c.OffsetPC == 0 {
+		c.pc++
+	}
 	narg := int(opcode) >> 4
 	if narg > 2 {
 		narg = 2
@@ -40,7 +53,7 @@ func (c *CPU) Next() {
 }
 
 func (c *CPU) String() string {
-	return fmt.Sprintf("pc:%04x a:%02x b:%02x q:%v z:%v", c.pc, c.a, c.b, c.q, c.z)
+	return fmt.Sprintf("pc:%04x a:%02x b:%02x q:%v z:%v", c.pc, c.A, c.B, c.Q, c.Z)
 }
 
 func (c *CPU) Registers() map[string]rcs.Value {
@@ -50,12 +63,12 @@ func (c *CPU) Registers() map[string]rcs.Value {
 			Put: func(addr uint16) { c.pc = addr },
 		},
 		"a": rcs.Value{
-			Get: func() uint8 { return c.a },
-			Put: func(v uint8) { c.a = v },
+			Get: func() uint8 { return c.A },
+			Put: func(v uint8) { c.A = v },
 		},
 		"b": rcs.Value{
-			Get: func() uint8 { return c.b },
-			Put: func(v uint8) { c.b = v },
+			Get: func() uint8 { return c.B },
+			Put: func(v uint8) { c.B = v },
 		},
 	}
 }
@@ -63,17 +76,17 @@ func (c *CPU) Registers() map[string]rcs.Value {
 func (c *CPU) Flags() map[string]rcs.Value {
 	return map[string]rcs.Value{
 		"q": rcs.Value{
-			Get: func() bool { return c.q },
-			Put: func(v bool) { c.q = v },
+			Get: func() bool { return c.Q },
+			Put: func(v bool) { c.Q = v },
 		},
 		"z": rcs.Value{
-			Get: func() bool { return c.z },
-			Put: func(v bool) { c.z = v },
+			Get: func() bool { return c.Z },
+			Put: func(v bool) { c.Z = v },
 		},
 	}
 }
 
-func reader(e rcs.Eval) {
+func reader(e rcs.StmtEval) {
 	e.Stmt.Addr = e.Ptr.Addr()
 	opcode := e.Ptr.Fetch()
 	e.Stmt.Bytes = append(e.Stmt.Bytes, opcode)

@@ -75,14 +75,6 @@ type Mach struct {
 	cmd       chan message
 }
 
-type StatusReply struct {
-	Status Status
-}
-
-type ErrorReply struct {
-	Err error
-}
-
 func (m *Mach) Init() error {
 	if m.init {
 		return nil
@@ -90,7 +82,7 @@ func (m *Mach) Init() error {
 	m.quit = false
 	if m.CharDecoders == nil {
 		m.CharDecoders = map[string]CharDecoder{
-			"ascii": AsciiDecoder,
+			"ascii": ASCIIDecoder,
 		}
 		m.DefaultEncoding = "ascii"
 	}
@@ -181,7 +173,8 @@ func (m *Mach) execute() {
 			// at a breakpoint? only honor it if the processor is not stuck.
 			// when at a halt-like instruction, this causes a break once
 			// instead of each time.
-			if _, yes := m.Breakpoints[core][cpu.PC()]; yes && !stuck {
+			addr := cpu.PC() + cpu.Offset()
+			if _, yes := m.Breakpoints[core][addr]; yes && !stuck {
 				m.setStatus(Break)
 				break // allow other CPUs to be serviced
 			}
@@ -247,9 +240,4 @@ func (m *Mach) event(evt MachEvent, args ...interface{}) {
 func (m *Mach) setStatus(s Status) {
 	m.Status = s
 	m.event(StatusEvent, s)
-}
-
-var AsciiDecoder = func(code uint8) (rune, bool) {
-	printable := code >= 32 && code < 128
-	return rune(code), printable
 }

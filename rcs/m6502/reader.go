@@ -7,7 +7,7 @@ import (
 	"github.com/blackchip-org/retro-cs/rcs"
 )
 
-func Reader(e rcs.Eval) {
+func Reader(e rcs.StmtEval) {
 	e.Stmt.Addr = e.Ptr.Addr()
 	opcode := e.Ptr.Fetch()
 	e.Stmt.Bytes = append(e.Stmt.Bytes, opcode)
