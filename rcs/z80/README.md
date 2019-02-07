@@ -5,9 +5,11 @@
 The Z80 Instruction Exerciser written by Frank D. Cringle.
 
 Source code used to run the tests are not found in this repository. Download
-and place in the following locations, relative to the repository root:
+and place in the following location:
 
-- ext/zex/zexdoc.com
+```
+~/rcs/ext/zex/zexdoc.com
+```
 
 The original location of the exerciser seems to be here:
 

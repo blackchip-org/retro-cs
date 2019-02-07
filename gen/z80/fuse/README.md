@@ -2,10 +2,12 @@
 
 Z80 tests designed for the Free Unix Spectrum Emulator (FUSE).
 
-Source files used to generate the tests are not found in this repository. Download and place in the following locations, relative to the repository root:
+Source files used to generate the tests are not found in this repository. Download and place in the following locations:
 
-- ext/fuse/tests.expected
-- ext/fuse/tests.in
+```
+~/rcs/ext/fuse/tests.expected
+~/rcs/ext/fuse/tests.in
+```
 
 The original location of FUSE is here:
 

@@ -1,8 +1,10 @@
 # petscii
 
-Generates the PETSCII tables using the Unicode to PETSCII mapping table compiled by Rebecca Turner. The source used to generate this table are not found in this repository. Download and place in the following location, relative to the repository root:
+Generates the PETSCII tables using the Unicode to PETSCII mapping table compiled by Rebecca Turner. The source used to generate this table are not found in this repository. Download and place in the following location:
 
-- ext/petscii/table.txt
+```
+~/rcs/ext/petscii/table.txt
+```
 
 Document downloaded from here:
 
