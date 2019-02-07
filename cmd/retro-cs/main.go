@@ -40,7 +40,7 @@ func init() {
 func main() {
 	log.SetFlags(0)
 	flag.Parse()
-	config.DataDir = filepath.Join(config.Root(), "data")
+	config.DataDir = filepath.Join(config.ResourceDir(), "data")
 
 	if optProfC {
 		f, err := os.Create("./cpu.prof")

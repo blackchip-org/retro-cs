@@ -13,12 +13,14 @@ import (
 	"strconv"
 	"strings"
 	"unicode"
+
+	"github.com/blackchip-org/retro-cs/config"
 )
 
 var (
 	root      = filepath.Join("..", "..", "..")
 	targetDir = filepath.Join(root, "rcs", "z80")
-	sourceDir = filepath.Join(root, "ext", "harston")
+	sourceDir = filepath.Join(config.ResourceDir(), "ext", "harston")
 )
 
 const (

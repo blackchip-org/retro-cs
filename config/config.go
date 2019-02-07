@@ -13,12 +13,12 @@ var (
 	ROMDir  string // ROM directory
 )
 
-// Root returns the root directory where RCS data can be found. Locations
+// ResourceDir returns the root directory where RCS data can be found. Locations
 // for the root directory are checked in this order: 1) The value of the
 // Home variable in the configuration, 2) The value of the RCS_HOME
 // environmental variable, 3) The "retro-cs" directory in the user's home
 // directory.
-func Root() string {
+func ResourceDir() string {
 	userHome := "."
 	u, err := user.Current()
 	if err != nil {
@@ -32,7 +32,7 @@ func Root() string {
 		root = os.Getenv("RCS_HOME")
 	}
 	if root == "" {
-		root = filepath.Join(userHome, "retro-cs")
+		root = filepath.Join(userHome, "rcs")
 	}
 	return root
 }

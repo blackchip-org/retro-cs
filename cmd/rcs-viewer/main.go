@@ -55,7 +55,7 @@ func main() {
 		flag.Usage()
 		os.Exit(1)
 	}
-	config.DataDir = filepath.Join(config.Root(), "data")
+	config.DataDir = filepath.Join(config.ResourceDir(), "data")
 
 	v, ok := views[flag.Arg(0)]
 	if !ok {

@@ -15,12 +15,14 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/blackchip-org/retro-cs/config"
 )
 
 var (
 	root      = filepath.Join("..", "..", "..")
 	targetDir = filepath.Join(root, "rcs", "z80")
-	sourceDir = filepath.Join(root, "ext", "fuse")
+	sourceDir = filepath.Join(config.ResourceDir(), "ext", "fuse")
 )
 
 var out bytes.Buffer

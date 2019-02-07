@@ -14,12 +14,14 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/blackchip-org/retro-cs/config"
 )
 
 var (
 	root      = filepath.Join("..", "..", "..")
 	targetDir = filepath.Join(root, "rcs", "cbm")
-	sourceDir = filepath.Join(root, "ext", "petscii")
+	sourceDir = filepath.Join(config.ResourceDir(), "ext", "petscii")
 )
 
 func main() {
