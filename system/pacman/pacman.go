@@ -63,6 +63,7 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 	mem.MapRAM(0xc000, ram)
 
 	cpu := z80.New(mem)
+	cpu.Ports.MapRW(0x00, &sys.intSelect)
 
 	var screen rcs.Screen
 	if ctx.Renderer != nil {

@@ -91,10 +91,12 @@ func NewVideo(r *sdl.Renderer, config Config, data Data) (*Video, error) {
 }
 
 func (v *Video) Draw(r *sdl.Renderer) error {
+	r.SetRenderTarget(v.Texture)
 	r.SetDrawColorArray(0, 0, 0, 0xff)
 	r.Clear()
 	v.drawTiles(r)
 	v.drawSprites(r)
+	r.SetRenderTarget(nil)
 	return nil
 }
 

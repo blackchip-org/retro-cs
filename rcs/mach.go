@@ -102,7 +102,9 @@ func (m *Mach) Init() error {
 	if m.Ctx.Window != nil {
 		r := m.Ctx.Renderer
 		winx, winy := m.Ctx.Window.GetSize()
+		fmt.Printf("before: %+v\n", m.Screen)
 		FitInWindow(winx, winy, &m.Screen)
+		fmt.Printf("after: %+v\n", m.Screen)
 		drawW := m.Screen.W * m.Screen.Scale
 		drawH := m.Screen.H * m.Screen.Scale
 		if m.Screen.ScanLineH {
