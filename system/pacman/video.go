@@ -3,7 +3,12 @@ package pacman
 import (
 	"github.com/blackchip-org/retro-cs/rcs"
 	"github.com/blackchip-org/retro-cs/rcs/namco"
+	"github.com/veandco/go-sdl2/sdl"
 )
+
+func newVideo(r *sdl.Renderer, data namco.Data) (*namco.Video, error) {
+	return namco.NewVideo(r, VideoConfig, data)
+}
 
 var VideoConfig = namco.Config{
 	TileLayout: namco.SheetLayout{

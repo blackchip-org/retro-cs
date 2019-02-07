@@ -63,7 +63,7 @@ var views = map[string]view{
 		roms:   pacman.ROM["pacman"],
 		render: func(r *sdl.Renderer, d map[string][]byte) (rcs.TileSheet, error) {
 			config := pacman.VideoConfig
-			colors := namco.ColorTable(d["color"], config)
+			colors := namco.ColorTable(config, d["color"])
 			return rcs.NewColorSheet(r, [][]color.RGBA{colors})
 		},
 	},
@@ -72,8 +72,8 @@ var views = map[string]view{
 		roms:   pacman.ROM["pacman"],
 		render: func(r *sdl.Renderer, d map[string][]byte) (rcs.TileSheet, error) {
 			config := pacman.VideoConfig
-			colors := namco.ColorTable(d["color"], config)
-			palettes := namco.PaletteTable(d["palette"], config, colors)
+			colors := namco.ColorTable(config, d["color"])
+			palettes := namco.PaletteTable(config, d["palette"], colors)
 			return rcs.NewColorSheet(r, palettes)
 		},
 	},
