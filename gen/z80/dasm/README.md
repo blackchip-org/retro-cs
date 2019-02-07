@@ -3,7 +3,9 @@
 Generates the disassembly table using the "Full Z80 Opcode List Including
 Undocumented Opcodes" written by J.G. Harston. This source used to generate the table and tests are not found in this repository. Download and place in the following location:
 
-- ~/rcs/ext/harston/z80oplist.txt
+```
+~/rcs/ext/harston/z80oplist.txt
+```
 
 Document downloaded from here:
 
