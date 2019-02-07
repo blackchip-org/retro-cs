@@ -36,11 +36,14 @@ type CPU struct {
 	IYL uint8
 	SP  uint16 // Stack pointer
 
-	IFF1  bool // Interrupt flip flops
-	IFF2  bool
-	IM    uint8 // Interrupt mode
-	Halt  bool  // Halted by instruction
-	Ports *rcs.Memory
+	IFF1 bool // Interrupt flip flops
+	IFF2 bool
+	IM   uint8 // Interrupt mode
+	Halt bool  // Halted by instruction
+
+	Ports   *rcs.Memory
+	IRQ     bool
+	IRQData uint8
 
 	opcodes     map[uint8]func(*CPU)
 	opcodesCB   map[uint8]func(*CPU)
@@ -101,8 +104,20 @@ func New(mem *rcs.Memory) *CPU {
 	return c
 }
 
-func (c *CPU) Next() {
-	here := c.PC()
+func (c *CPU) Next() (here int, halt bool) {
+	halt = false
+	if c.IRQ {
+		c.IRQ = false
+		if c.IFF1 {
+			c.irqAck()
+		}
+	}
+
+	here = c.PC()
+	if c.Halt {
+		halt = true
+		return
+	}
 	opcode := c.fetch()
 	c.refreshR()
 
@@ -151,12 +166,33 @@ func (c *CPU) Next() {
 		return
 	}
 	execute(c)
+	return
 }
 
+func (c *CPU) irqAck() {
+	if c.IM == 0 {
+		log.Printf("unsupported interrupt mode 0")
+		return
+	}
+	c.Halt = false
+	c.IFF1 = false
+	c.IFF2 = false
+	c.SP -= 2
+	c.mem.WriteLE(int(c.SP), c.PC())
+	if c.IM == 2 {
+		vector := int(c.I)<<8 | int(c.IRQData)
+		c.SetPC(c.mem.ReadLE(vector))
+	} else {
+		c.pc = 0x0038
+	}
+}
+
+// PC returns the value of the program counter.
 func (c *CPU) PC() int {
 	return int(c.pc)
 }
 
+// SetPC sets the value of the program counter.
 func (c *CPU) SetPC(pc int) {
 	c.pc = uint16(pc)
 }
@@ -166,6 +202,13 @@ func (c *CPU) SetPC(pc int) {
 // the program counter is incremented after fetching the opcode.
 func (c *CPU) Offset() int {
 	return 0
+}
+
+// NewDisassembler creates a disassembler that can handle Z80 machine
+// code.
+func (c *CPU) NewDisassembler() *rcs.Disassembler {
+	dasm := rcs.NewDisassembler(c.mem, Reader, Formatter())
+	return dasm
 }
 
 func (c *CPU) fetch() uint8 {

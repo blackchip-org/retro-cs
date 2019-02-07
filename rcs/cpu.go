@@ -16,10 +16,10 @@ import (
 // returned. If the program counter is incremented after the fetch, zero
 // should be returned.
 type CPU interface {
-	Next()       // Execute the next instruction
-	PC() int     // Address of the program counter
-	SetPC(int)   // Set the address of the program counter
-	Offset() int // The next instruction is at PC() + Offset()
+	Next() (pc int, halt bool) // Execute the next instruction
+	PC() int                   // Address of the program counter
+	SetPC(int)                 // Set the address of the program counter
+	Offset() int               // The next instruction is at PC() + Offset()
 }
 
 // CPUEditor allow editing of register and flag values for CPUs that

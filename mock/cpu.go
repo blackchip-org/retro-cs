@@ -37,10 +37,12 @@ func (c *CPU) Offset() int {
 
 // Next reads the next byte at the program counter as the "opcode". The high
 // nibble is the number of "arguments" it will fetch (max two).
-func (c *CPU) Next() {
+func (c *CPU) Next() (here int, halt bool) {
+	halt = false
 	if c.OffsetPC == 1 {
 		c.pc++
 	}
+	here = c.PC()
 	opcode := c.mem.Read(int(c.pc))
 	if c.OffsetPC == 0 {
 		c.pc++
@@ -50,6 +52,7 @@ func (c *CPU) Next() {
 		narg = 2
 	}
 	c.pc += uint16(narg)
+	return
 }
 
 func (c *CPU) String() string {
