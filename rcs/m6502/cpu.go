@@ -229,3 +229,21 @@ func (c *CPU) setFlag(flag uint8) func(bool) {
 		}
 	}
 }
+
+func (c *CPU) Save(enc *rcs.Encoder) {
+	enc.Encode(c.pc)
+	enc.Encode(c.A)
+	enc.Encode(c.X)
+	enc.Encode(c.Y)
+	enc.Encode(c.SP)
+	enc.Encode(c.SR)
+}
+
+func (c *CPU) Load(dec *rcs.Decoder) {
+	dec.Decode(&c.pc)
+	dec.Decode(&c.A)
+	dec.Decode(&c.X)
+	dec.Decode(&c.Y)
+	dec.Decode(&c.SP)
+	dec.Decode(&c.SR)
+}

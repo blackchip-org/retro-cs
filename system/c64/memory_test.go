@@ -37,7 +37,9 @@ func TestMemoryLoad(t *testing.T) {
 		"cart":    cart,
 	}
 
-	mem := newMemory(roms)
+	ram := make([]uint8, 0x10000, 0x10000)
+	io := make([]uint8, 0x1000, 0x1000)
+	mem := newMemory(ram, io, roms)
 	mem.SetBank(31)
 	mem.Write(paged0, vio)
 

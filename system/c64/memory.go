@@ -4,14 +4,13 @@ import (
 	"github.com/blackchip-org/retro-cs/rcs"
 )
 
-func newMemory(roms map[string][]byte) *rcs.Memory {
-	ram := make([]uint8, 0x10000, 0x10000)
+func newMemory(ram []uint8, io []uint8, roms map[string][]byte) *rcs.Memory {
 	basic := roms["basic"]
 	kernal := roms["kernal"]
 	chargen := roms["chargen"]
 
-	io := rcs.NewMemory(1, 0x1000)
-	io.MapRAM(0, make([]uint8, 0x1000, 0x1000))
+	iomem := rcs.NewMemory(1, 0x1000)
+	iomem.MapRAM(0, io)
 
 	var cartlo, carthi []uint8
 	cart, ok := roms["cart"]
@@ -26,20 +25,20 @@ func newMemory(roms map[string][]byte) *rcs.Memory {
 	mem.SetBank(31)
 	mem.MapRAM(0x0000, ram)
 	mem.MapROM(0xa000, basic)
-	mem.Map(0xd000, io)
+	mem.Map(0xd000, iomem)
 	mem.MapROM(0xe000, kernal)
 
 	for _, bank := range []int{30, 14} {
 		mem.SetBank(bank)
 		mem.MapRAM(0x0000, ram)
-		mem.Map(0xd000, io)
+		mem.Map(0xd000, iomem)
 		mem.MapROM(0xe000, kernal)
 	}
 
 	for _, bank := range []int{29, 13} {
 		mem.SetBank(bank)
 		mem.MapRAM(0x0000, ram)
-		mem.Map(0xd000, io)
+		mem.Map(0xd000, iomem)
 	}
 
 	for _, bank := range []int{28, 24} {
@@ -72,7 +71,7 @@ func newMemory(roms map[string][]byte) *rcs.Memory {
 		mem.Unmap(0x1000, 0x7fff)
 		mem.MapROM(0x8000, cartlo)
 		mem.Unmap(0xa000, 0xcfff)
-		mem.Map(0xd000, io)
+		mem.Map(0xd000, iomem)
 		mem.MapROM(0xe000, carthi)
 	}
 
@@ -80,7 +79,7 @@ func newMemory(roms map[string][]byte) *rcs.Memory {
 	mem.MapRAM(0x0000, ram)
 	mem.MapROM(0x8000, cartlo)
 	mem.MapROM(0xa000, basic)
-	mem.Map(0xd000, io)
+	mem.Map(0xd000, iomem)
 	mem.MapROM(0xe000, kernal)
 
 	for _, bank := range []int{12, 8, 4, 0} {
@@ -99,18 +98,18 @@ func newMemory(roms map[string][]byte) *rcs.Memory {
 	mem.MapRAM(0x0000, ram)
 	mem.MapROM(0x8000, cartlo)
 	mem.MapROM(0xa000, carthi)
-	mem.Map(0xd000, io)
+	mem.Map(0xd000, iomem)
 	mem.MapROM(0xe000, kernal)
 
 	mem.SetBank(6)
 	mem.MapRAM(0x0000, ram)
 	mem.MapROM(0xa000, carthi)
-	mem.Map(0xd000, io)
+	mem.Map(0xd000, iomem)
 	mem.MapROM(0xe000, kernal)
 
 	mem.SetBank(5)
 	mem.MapRAM(0x0000, ram)
-	mem.Map(0xd000, io)
+	mem.Map(0xd000, iomem)
 
 	mem.SetBank(3)
 	mem.MapRAM(0x0000, ram)
