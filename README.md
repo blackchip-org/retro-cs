@@ -44,7 +44,7 @@ brew install go sdl2{,_image,_mixer,_ttf,_gfx} pkg-config
 ## Installation
 
 ```
-go get github.com/blackchip-org/retro-cs
+go get github.com/blackchip-org/retro-cs/...
 ```
 
 ## Run
@@ -53,13 +53,13 @@ go get github.com/blackchip-org/retro-cs
 ~/go/bin/retro-cs -s <system>
 ```
 
-where _system_ is one of the following:
+where `<system>` is one of the following:
 
 - `c64`
 - `mspacman`
 - `pacman`
 
-Use the -m flag to enable the monitor.
+Use the `-m` flag to enable the monitor.
 
 ## License
 
