@@ -21,9 +21,6 @@ type Config struct {
 	PaletteEntries int
 	PaletteColors  int
 	Hack           bool
-	/*
-		VideoAddr      uint16
-	*/
 }
 
 const (
@@ -191,6 +188,16 @@ func (v *Video) drawSprites(r *sdl.Renderer) error {
 		r.CopyEx(v.sprites[pal].Texture, &src, &dest, 0, nil, flip)
 	}
 	return nil
+}
+
+func (v *Video) Save(enc *rcs.Encoder) {
+	enc.Encode(v.TileMemory)
+	enc.Encode(v.ColorMemory)
+}
+
+func (v *Video) Load(enc *rcs.Decoder) {
+	enc.Decode(&v.TileMemory)
+	enc.Decode(&v.ColorMemory)
 }
 
 var ViewerPalette = []color.RGBA{

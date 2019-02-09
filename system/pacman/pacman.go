@@ -9,7 +9,9 @@ import (
 )
 
 type system struct {
-	ram []uint8
+	cpu   *z80.CPU
+	ram   []uint8
+	video *namco.Video
 
 	intSelect       uint8 // value sent during interrupt to select vector (port 0)
 	in0             uint8 // joystick #1, rack advance, coin slot, service button
@@ -81,6 +83,7 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 	cpu.Ports.MapRW(0x00, &sys.intSelect)
 
 	var screen rcs.Screen
+	var video *namco.Video
 	if ctx.Renderer != nil {
 		data := namco.Data{
 			Palettes: roms["palettes"],
@@ -88,7 +91,7 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 			Tiles:    roms["tiles"],
 			Sprites:  roms["sprites"],
 		}
-		video, err := newVideo(ctx.Renderer, data)
+		video, err = newVideo(ctx.Renderer, data)
 		if err != nil {
 			return nil, err
 		}
@@ -191,7 +194,12 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 		}
 	}
 
+	sys.cpu = cpu
+	sys.ram = ram
+	sys.video = video
+
 	mach := &rcs.Mach{
+		Sys: sys,
 		Mem: []*rcs.Memory{mem},
 		CPU: []rcs.CPU{cpu},
 		CharDecoders: map[string]rcs.CharDecoder{
@@ -205,6 +213,48 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 	}
 
 	return mach, nil
+}
+
+func (s *system) Save(enc *rcs.Encoder) {
+	s.cpu.Save(enc)
+	if s.video != nil {
+		s.video.Save(enc)
+	}
+	enc.Encode(s.ram)
+	enc.Encode(s.intSelect)
+	enc.Encode(s.in0)
+	enc.Encode(s.interruptEnable)
+	enc.Encode(s.soundEnable)
+	enc.Encode(s.unknown0)
+	enc.Encode(s.flipScreen)
+	enc.Encode(s.lampPlayer1)
+	enc.Encode(s.lampPlayer2)
+	enc.Encode(s.coinLockout)
+	enc.Encode(s.coinCounter)
+	enc.Encode(s.in1)
+	enc.Encode(s.dipSwitches)
+	enc.Encode(s.watchdogReset)
+}
+
+func (s *system) Load(dec *rcs.Decoder) {
+	s.cpu.Load(dec)
+	if s.video != nil {
+		s.video.Load(dec)
+	}
+	dec.Decode(&s.ram)
+	dec.Decode(&s.intSelect)
+	dec.Decode(&s.in0)
+	dec.Decode(&s.interruptEnable)
+	dec.Decode(&s.soundEnable)
+	dec.Decode(&s.unknown0)
+	dec.Decode(&s.flipScreen)
+	dec.Decode(&s.lampPlayer1)
+	dec.Decode(&s.lampPlayer2)
+	dec.Decode(&s.coinLockout)
+	dec.Decode(&s.coinCounter)
+	dec.Decode(&s.in1)
+	dec.Decode(&s.dipSwitches)
+	dec.Decode(&s.watchdogReset)
 }
 
 func New(ctx rcs.SDLContext) (*rcs.Mach, error) {

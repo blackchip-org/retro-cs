@@ -11,6 +11,7 @@ var (
 	Home    string // use this as the home directory
 	DataDir string // data directory
 	ROMDir  string // ROM directory
+	VarDir  string // Directory where runtime variable data is stored
 )
 
 // ResourceDir returns the root directory where RCS data can be found. Locations

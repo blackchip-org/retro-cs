@@ -16,6 +16,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/blackchip-org/retro-cs/config"
 	"github.com/blackchip-org/retro-cs/rcs"
 	"github.com/chzyer/readline"
 )
@@ -151,6 +152,8 @@ func (m *Monitor) cmd(args []string) error {
 		return m.cmdDasm(args[1:])
 	case "g", "go":
 		return m.cmdGo(args[1:])
+	case "load":
+		return m.cmdLoad(args[1:])
 	case "m":
 		return m.cmdMemoryDump(args[1:])
 	case "mem":
@@ -163,6 +166,8 @@ func (m *Monitor) cmd(args []string) error {
 		return m.cmdPeek(args[1:])
 	case "r":
 		return m.cmdCPU([]string{})
+	case "save":
+		return m.cmdSave(args[1:])
 	case "t", "trace":
 		return m.cmdTrace(args[1:])
 	case "q", "quit":
@@ -423,6 +428,15 @@ func (m *Monitor) cmdGo(args []string) error {
 	return nil
 }
 
+func (m *Monitor) cmdLoad(args []string) error {
+	if err := checkLen(args, 0, 0); err != nil {
+		return err
+	}
+	file := filepath.Join(config.VarDir, "state")
+	m.mach.Command(rcs.MachLoad, file)
+	return nil
+}
+
 func (m *Monitor) cmdMemory(args []string) error {
 	if err := checkLen(args, 1, maxArgs); err != nil {
 		return err
@@ -594,6 +608,15 @@ func (m *Monitor) cmdPeek(args []string) error {
 	return nil
 }
 
+func (m *Monitor) cmdSave(args []string) error {
+	if err := checkLen(args, 0, 0); err != nil {
+		return err
+	}
+	file := filepath.Join(config.VarDir, "state")
+	m.mach.Command(rcs.MachSave, file)
+	return nil
+}
+
 func (m *Monitor) cmdTrace(args []string) error {
 	if err := checkLen(args, 0, 0); err != nil {
 		return err
@@ -647,6 +670,7 @@ func newCompleter(m *Monitor) *readline.PrefixCompleter {
 		),
 		readline.PcItem("g"),
 		readline.PcItem("go"),
+		readline.PcItem("load"),
 		readline.PcItem("m"),
 		readline.PcItem("mem",
 			readline.PcItem("dump"),
@@ -661,6 +685,7 @@ func newCompleter(m *Monitor) *readline.PrefixCompleter {
 		readline.PcItem("poke"),
 		readline.PcItem("peek"),
 		readline.PcItem("r"),
+		readline.PcItem("save"),
 		readline.PcItem("t"),
 		readline.PcItem("trace"),
 		readline.PcItem("q"),

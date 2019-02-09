@@ -2,6 +2,7 @@ package rcs
 
 import (
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/veandco/go-sdl2/sdl"
@@ -35,7 +36,9 @@ func (s Status) String() string {
 type MachCmd int
 
 const (
-	MachPause MachCmd = iota
+	MachLoad MachCmd = iota
+	MachPause
+	MachSave
 	MachStart
 	MachTrace
 	MachQuit
@@ -55,6 +58,7 @@ const (
 )
 
 type Mach struct {
+	Sys             interface{}
 	Mem             []*Memory
 	CPU             []CPU
 	CharDecoders    map[string]CharDecoder
@@ -220,8 +224,12 @@ func (m *Mach) sdl() {
 
 func (m *Mach) handleCommand(msg message) {
 	switch msg.Cmd {
+	case MachLoad:
+		m.load(msg.Args...)
 	case MachPause:
 		m.setStatus(Pause)
+	case MachSave:
+		m.save(msg.Args...)
 	case MachStart:
 		m.setStatus(Run)
 	case MachTrace:
@@ -230,6 +238,46 @@ func (m *Mach) handleCommand(msg message) {
 		m.quit = true
 	default:
 		m.event(ErrorEvent, fmt.Errorf("unknown command: %v", msg.Cmd))
+	}
+}
+
+func (m *Mach) save(args ...interface{}) {
+	sys, ok := m.Sys.(Saver)
+	if !ok {
+		m.event(ErrorEvent, "saving is not supported")
+		return
+	}
+	filename := args[0].(string)
+	out, err := os.Create(filename)
+	if err != nil {
+		m.event(ErrorEvent, fmt.Sprintf("unable to create snapshot: %v", err))
+		return
+	}
+	enc := NewEncoder(out)
+	sys.Save(enc)
+	if enc.Err != nil {
+		m.event(ErrorEvent, fmt.Sprintf("unable to save snapshot: %v", enc.Err))
+		return
+	}
+}
+
+func (m *Mach) load(args ...interface{}) {
+	sys, ok := m.Sys.(Loader)
+	if !ok {
+		m.event(ErrorEvent, "loading is not supported")
+		return
+	}
+	filename := args[0].(string)
+	in, err := os.Open(filename)
+	if err != nil {
+		m.event(ErrorEvent, fmt.Sprintf("unable to create snapshot: %v", err))
+		return
+	}
+	dec := NewDecoder(in)
+	sys.Load(dec)
+	if dec.Err != nil {
+		m.event(ErrorEvent, fmt.Sprintf("unable to save snapshot: %v", dec.Err))
+		return
 	}
 }
 

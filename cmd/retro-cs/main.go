@@ -67,6 +67,11 @@ func main() {
 		log.Fatalf("no such system: %v", optSystem)
 	}
 	config.ROMDir = filepath.Join(config.DataDir, optSystem)
+	config.VarDir = filepath.Join(config.ResourceDir(), "var", optSystem)
+
+	if err := os.MkdirAll(config.VarDir, 0755); err != nil {
+		log.Fatalf("unable to create directory %v: %v", config.VarDir, err)
+	}
 
 	ctx := rcs.SDLContext{}
 	if !optNoVideo {
