@@ -216,6 +216,12 @@ $0000  00 00 00 00 ff ff ff ff  ff ff ff ff 00 00 00 00  ................
 $0000  00 00 00 00 ff ff ff ff  ff ff ff ff 00 00 00 00  ................
 		`,
 	}, {
+		"peek",
+		[]string{"poke 1234 ab", "peek 1234", "q"},
+		`
+$ab +171
+		`,
+	}, {
 		"registers and flags set",
 		[]string{
 			"r",
