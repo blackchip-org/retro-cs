@@ -118,47 +118,48 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 		}
 	}
 
+	var synth *audio
 	if ctx.AudioSpec.Channels > 0 {
 		data := audioData{
 			waveforms: roms["waveforms"],
 		}
-		audio, err := newAudio(ctx.AudioSpec, data)
+		synth, err = newAudio(ctx.AudioSpec, data)
 		if err != nil {
 			return nil, err
 		}
-		mem.MapWO(0x5040, &audio.voices[0].acc[0])
-		mem.MapWO(0x5041, &audio.voices[0].acc[1])
-		mem.MapWO(0x5042, &audio.voices[0].acc[2])
-		mem.MapWO(0x5043, &audio.voices[0].acc[3])
-		mem.MapWO(0x5044, &audio.voices[0].acc[4])
-		mem.MapWO(0x5045, &audio.voices[0].waveform)
-		mem.MapWO(0x5046, &audio.voices[1].acc[0])
-		mem.MapWO(0x5047, &audio.voices[1].acc[1])
-		mem.MapWO(0x5048, &audio.voices[1].acc[2])
-		mem.MapWO(0x5049, &audio.voices[1].acc[3])
-		mem.MapWO(0x504a, &audio.voices[1].waveform)
-		mem.MapWO(0x504b, &audio.voices[2].acc[0])
-		mem.MapWO(0x504c, &audio.voices[2].acc[1])
-		mem.MapWO(0x504d, &audio.voices[2].acc[2])
-		mem.MapWO(0x504e, &audio.voices[2].acc[3])
-		mem.MapRW(0x504f, &audio.voices[2].waveform)
+		mem.MapWO(0x5040, &synth.voices[0].acc[0])
+		mem.MapWO(0x5041, &synth.voices[0].acc[1])
+		mem.MapWO(0x5042, &synth.voices[0].acc[2])
+		mem.MapWO(0x5043, &synth.voices[0].acc[3])
+		mem.MapWO(0x5044, &synth.voices[0].acc[4])
+		mem.MapWO(0x5045, &synth.voices[0].waveform)
+		mem.MapWO(0x5046, &synth.voices[1].acc[0])
+		mem.MapWO(0x5047, &synth.voices[1].acc[1])
+		mem.MapWO(0x5048, &synth.voices[1].acc[2])
+		mem.MapWO(0x5049, &synth.voices[1].acc[3])
+		mem.MapWO(0x504a, &synth.voices[1].waveform)
+		mem.MapWO(0x504b, &synth.voices[2].acc[0])
+		mem.MapWO(0x504c, &synth.voices[2].acc[1])
+		mem.MapWO(0x504d, &synth.voices[2].acc[2])
+		mem.MapWO(0x504e, &synth.voices[2].acc[3])
+		mem.MapRW(0x504f, &synth.voices[2].waveform)
 
-		mem.MapWO(0x5050, &audio.voices[0].freq[0])
-		mem.MapWO(0x5051, &audio.voices[0].freq[1])
-		mem.MapWO(0x5052, &audio.voices[0].freq[2])
-		mem.MapWO(0x5053, &audio.voices[0].freq[3])
-		mem.MapWO(0x5054, &audio.voices[0].freq[4])
-		mem.MapWO(0x5055, &audio.voices[0].vol)
-		mem.MapWO(0x5056, &audio.voices[1].freq[0])
-		mem.MapWO(0x5057, &audio.voices[1].freq[1])
-		mem.MapWO(0x5058, &audio.voices[1].freq[2])
-		mem.MapWO(0x5059, &audio.voices[1].freq[3])
-		mem.MapWO(0x505a, &audio.voices[1].vol)
-		mem.MapWO(0x505b, &audio.voices[2].freq[0])
-		mem.MapWO(0x505c, &audio.voices[2].freq[1])
-		mem.MapWO(0x505d, &audio.voices[2].freq[2])
-		mem.MapWO(0x505e, &audio.voices[2].freq[3])
-		mem.MapRW(0x505f, &audio.voices[2].vol)
+		mem.MapWO(0x5050, &synth.voices[0].freq[0])
+		mem.MapWO(0x5051, &synth.voices[0].freq[1])
+		mem.MapWO(0x5052, &synth.voices[0].freq[2])
+		mem.MapWO(0x5053, &synth.voices[0].freq[3])
+		mem.MapWO(0x5054, &synth.voices[0].freq[4])
+		mem.MapWO(0x5055, &synth.voices[0].vol)
+		mem.MapWO(0x5056, &synth.voices[1].freq[0])
+		mem.MapWO(0x5057, &synth.voices[1].freq[1])
+		mem.MapWO(0x5058, &synth.voices[1].freq[2])
+		mem.MapWO(0x5059, &synth.voices[1].freq[3])
+		mem.MapWO(0x505a, &synth.voices[1].vol)
+		mem.MapWO(0x505b, &synth.voices[2].freq[0])
+		mem.MapWO(0x505c, &synth.voices[2].freq[1])
+		mem.MapWO(0x505d, &synth.voices[2].freq[2])
+		mem.MapWO(0x505e, &synth.voices[2].freq[3])
+		mem.MapRW(0x505f, &synth.voices[2].vol)
 	}
 
 	keyboard := newKeyboard(sys)
@@ -199,6 +200,7 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 		Ctx:        ctx,
 		Screen:     screen,
 		VBlankFunc: vblank,
+		QueueAudio: synth.queue,
 		Keyboard:   keyboard.handle,
 	}
 

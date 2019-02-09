@@ -62,6 +62,7 @@ type Mach struct {
 	Ctx             SDLContext
 	Screen          Screen
 	VBlankFunc      func()
+	QueueAudio      func() error
 	Keyboard        func(*sdl.KeyboardEvent) error
 
 	Status      Status
@@ -148,6 +149,11 @@ func (m *Mach) Command(cmd MachCmd, args ...interface{}) {
 func (m *Mach) jiffy() {
 	if m.Status == Run {
 		m.execute()
+	}
+	if m.QueueAudio != nil {
+		if err := m.QueueAudio(); err != nil {
+			m.event(ErrorEvent, err)
+		}
 	}
 	if m.Ctx.Renderer != nil {
 		m.render()
