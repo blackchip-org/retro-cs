@@ -31,9 +31,6 @@ var VideoConfig = namco.Config{
 	},
 	PaletteEntries: 64,
 	PaletteColors:  4,
-	/*
-		VideoAddr:      0x4000,
-	*/
 }
 
 var spritePixels = [][]int{

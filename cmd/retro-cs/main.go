@@ -23,6 +23,7 @@ var (
 	optProfC   bool
 	optSystem  string
 	optMonitor bool
+	optNoAudio bool
 	optNoVideo bool
 	optTrace   bool
 	optWait    bool
@@ -30,6 +31,7 @@ var (
 
 func init() {
 	flag.BoolVar(&optProfC, "profc", false, "enable cpu profiling")
+	flag.BoolVar(&optNoAudio, "no-audio", false, "disable audio")
 	flag.BoolVar(&optNoVideo, "no-video", false, "disable video")
 	flag.BoolVar(&optMonitor, "m", false, "enable monitor")
 	flag.StringVar(&optSystem, "s", "c64", "start this system")
@@ -94,6 +96,19 @@ func main() {
 		}
 		ctx.Window = window
 		ctx.Renderer = r
+	}
+
+	if !optNoAudio {
+		requestSpec := sdl.AudioSpec{
+			Freq:     22050,
+			Format:   sdl.AUDIO_S16LSB,
+			Channels: 2,
+			Samples:  367,
+		}
+		if err := sdl.OpenAudio(&requestSpec, &ctx.AudioSpec); err != nil {
+			log.Fatalf("unable to initialize audio: %v", err)
+		}
+		sdl.PauseAudio(false)
 	}
 
 	mach, err := newMachine(ctx)

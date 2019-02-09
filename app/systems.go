@@ -7,6 +7,7 @@ import (
 )
 
 var Systems = map[string]func(rcs.SDLContext) (*rcs.Mach, error){
-	"c64":    c64.New,
-	"pacman": pacman.New,
+	"c64":      c64.New,
+	"pacman":   pacman.New,
+	"mspacman": pacman.NewMs,
 }

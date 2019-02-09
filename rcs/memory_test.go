@@ -242,6 +242,19 @@ func TestMemoryBank(t *testing.T) {
 	}
 }
 
+func TestMemoryMirror(t *testing.T) {
+	mem := NewMemory(1, 20)
+	ram := make([]uint8, 10, 10)
+	mem.MapRAM(0, ram)
+	mem.MapRAM(10, ram)
+	mem.Write(4, 99)
+	have := mem.Read(14)
+	want := uint8(99)
+	if have != want {
+		t.Errorf("\n have: %v \n want: %v", have, want)
+	}
+}
+
 func benchmarkMemoryW(count int, b *testing.B) {
 	mem := NewMemory(1, count)
 	mem.MapRAM(0, make([]uint8, count, count))

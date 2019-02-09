@@ -233,6 +233,11 @@ func (m *Memory) Unmap(startAddr int, endAddr int) {
 	}
 }
 
+func (m *Memory) MapNil(addr int) {
+	m.read[addr] = func() uint8 { return 0 }
+	m.write[addr] = func(uint8) {}
+}
+
 // Bank returns the number of the selected bank. Banks are numbered starting
 // with zero.
 func (m *Memory) Bank() int {

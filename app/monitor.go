@@ -159,6 +159,8 @@ func (m *Monitor) cmd(args []string) error {
 		return m.cmdPause(args[1:])
 	case "poke":
 		return m.cmdPoke(args[1:])
+	case "peek":
+		return m.cmdPeek(args[1:])
 	case "r":
 		return m.cmdCPU([]string{})
 	case "t", "trace":
@@ -579,6 +581,19 @@ func (m *Monitor) cmdPoke(args []string) error {
 	return nil
 }
 
+func (m *Monitor) cmdPeek(args []string) error {
+	if err := checkLen(args, 1, 1); err != nil {
+		return err
+	}
+	addr, err := m.parseAddress(args[0])
+	if err != nil {
+		return err
+	}
+	v := m.core.mem.Read(addr)
+	m.out.Printf("$%02x +%v", v, v)
+	return nil
+}
+
 func (m *Monitor) cmdTrace(args []string) error {
 	if err := checkLen(args, 0, 0); err != nil {
 		return err
@@ -638,6 +653,7 @@ func newCompleter(m *Monitor) *readline.PrefixCompleter {
 		readline.PcItem("p"),
 		readline.PcItem("pause"),
 		readline.PcItem("poke"),
+		readline.PcItem("peek"),
 		readline.PcItem("r"),
 		readline.PcItem("t"),
 		readline.PcItem("trace"),

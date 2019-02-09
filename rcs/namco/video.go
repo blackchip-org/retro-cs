@@ -136,8 +136,7 @@ func (v *Video) drawTiles(r *sdl.Renderer) error {
 			}
 
 			// Only 64 palettes, strip out the higher bits
-			// pal := v.mem.Load(caddr) & 0x3f
-			pal := v.ColorMemory[addr] & 0x1f
+			pal := v.ColorMemory[addr] & 0x3f
 			r.Copy(v.tiles[pal].Texture, &src, &dest)
 		}
 	}
@@ -232,7 +231,7 @@ func NewTileSheet(r *sdl.Renderer, d []byte, l SheetLayout, pal []color.RGBA) (r
 		value := l.PixelReader(d, baseAddr, pixelN)
 
 		c := pal[value]
-		r.SetDrawColor(c.R, c.G, c.G, c.A)
+		r.SetDrawColor(c.R, c.G, c.B, c.A)
 		r.DrawPoint(targetX, targetY)
 	}
 	t.SetBlendMode(sdl.BLENDMODE_BLEND)
