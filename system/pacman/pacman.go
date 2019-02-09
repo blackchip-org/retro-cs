@@ -161,6 +161,8 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 		mem.MapRW(0x505f, &audio.voices[2].vol)
 	}
 
+	keyboard := newKeyboard(sys)
+
 	// Note: If in0 and in1 are not initialized to valid values, the
 	// game will crash during the game demo in attract mode.
 
@@ -197,6 +199,7 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 		Ctx:        ctx,
 		Screen:     screen,
 		VBlankFunc: vblank,
+		Keyboard:   keyboard.handle,
 	}
 
 	return mach, nil
