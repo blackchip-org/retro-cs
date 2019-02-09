@@ -158,6 +158,8 @@ func (m *Monitor) cmd(args []string) error {
 		return m.cmdMemoryDump(args[1:])
 	case "mem":
 		return m.cmdMemory(args[1:])
+	case "n", "next":
+		return m.cmdNext(args[1:])
 	case "p", "pause":
 		return m.cmdPause(args[1:])
 	case "poke":
@@ -168,6 +170,8 @@ func (m *Monitor) cmd(args []string) error {
 		return m.cmdCPU([]string{})
 	case "save":
 		return m.cmdSave(args[1:])
+	case "s", "step":
+		return m.cmdStep(args[1:])
 	case "t", "trace":
 		return m.cmdTrace(args[1:])
 	case "q", "quit":
@@ -567,6 +571,15 @@ func (m *Monitor) cmdMemoryLines(args []string) error {
 	return nil
 }
 
+func (m *Monitor) cmdNext(args []string) error {
+	if err := checkLen(args, 0, 0); err != nil {
+		return err
+	}
+	m.core.dasm.SetPC(m.core.cpu.PC() + m.core.cpu.Offset())
+	m.out.Println(m.core.dasm.Next())
+	return nil
+}
+
 func (m *Monitor) cmdPause(args []string) error {
 	if err := checkLen(args, 0, 0); err != nil {
 		return err
@@ -614,6 +627,17 @@ func (m *Monitor) cmdSave(args []string) error {
 	}
 	file := filepath.Join(config.VarDir, "state")
 	m.mach.Command(rcs.MachSave, file)
+	return nil
+}
+
+func (m *Monitor) cmdStep(args []string) error {
+	if err := checkLen(args, 0, 0); err != nil {
+		return err
+	}
+	m.core.cpu.Next()
+	m.core.dasm.SetPC(m.core.cpu.PC() + m.core.cpu.Offset())
+	m.out.Println(m.core.dasm.Next())
+	m.lastCmd = m.cmdStep
 	return nil
 }
 
@@ -680,12 +704,16 @@ func newCompleter(m *Monitor) *readline.PrefixCompleter {
 			readline.PcItem("fill"),
 			readline.PcItem("lines"),
 		),
+		readline.PcItem("n"),
+		readline.PcItem("next"),
 		readline.PcItem("p"),
 		readline.PcItem("pause"),
 		readline.PcItem("poke"),
 		readline.PcItem("peek"),
 		readline.PcItem("r"),
+		readline.PcItem("s"),
 		readline.PcItem("save"),
+		readline.PcItem("step"),
 		readline.PcItem("t"),
 		readline.PcItem("trace"),
 		readline.PcItem("q"),
@@ -761,6 +789,13 @@ func (m *Monitor) eventCallback(evt rcs.MachEvent, args ...interface{}) {
 		}
 	case rcs.ErrorEvent:
 		m.out.Println(args[0])
+	case rcs.StatusEvent:
+		status := args[0].(rcs.Status)
+		if status == rcs.Break {
+			m.out.Println()
+			m.cmdCPU([]string{})
+			m.rl.Refresh()
+		}
 	}
 }
 

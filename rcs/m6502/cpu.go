@@ -25,10 +25,11 @@ type CPU struct {
 
 	IRQ bool // interrupt request
 
-	mem       *rcs.Memory          // CPU's view into memory
-	ops       map[uint8]func(*CPU) // opcode table
-	addrLoad  int                  // memory address where the last value was loaded from
-	pageCross bool                 // if set, add a one cycle penalty for crossing a page boundary
+	mem         *rcs.Memory          // CPU's view into memory
+	ops         map[uint8]func(*CPU) // opcode table
+	addrLoad    int                  // memory address where the last value was loaded from
+	pageCross   bool                 // if set, add a one cycle penalty for crossing a page boundary
+	stopOnBreak bool
 }
 
 const (
@@ -64,9 +65,21 @@ func New(mem *rcs.Memory) *CPU {
 }
 
 // Next executes the next instruction.
-func (c *CPU) Next() (here int, halt bool) {
-	halt = false
+func (c *CPU) Next() {
+	here := c.PC()
+	c.pageCross = false
+	opcode := c.fetch()
+	execute, ok := c.ops[opcode]
+	if !ok {
+		log.Printf("%04x: illegal instruction: 0x%02x", here, opcode)
+		return
+	}
+	execute(c)
+
 	if c.SR&FlagB != 0 {
+		if c.stopOnBreak {
+			return
+		}
 		c.SR &^= FlagB
 		c.SR |= FlagI
 		c.irqAck()
@@ -77,17 +90,6 @@ func (c *CPU) Next() (here int, halt bool) {
 			c.irqAck()
 		}
 	}
-
-	here = c.PC()
-	c.pageCross = false
-	opcode := c.fetch()
-	execute, ok := c.ops[opcode]
-	if !ok {
-		log.Printf("%04x: illegal instruction: 0x%02x", here, opcode)
-		return
-	}
-	execute(c)
-	return
 }
 
 // interrupt handler

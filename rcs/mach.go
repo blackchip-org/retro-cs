@@ -173,15 +173,20 @@ func (m *Mach) jiffy() {
 func (m *Mach) execute() {
 	for core, cpu := range m.CPU {
 		for t := 0; t < perJiffy; t++ {
-			pc, halt := cpu.Next()
-			if m.tracing && !halt {
-				m.event(TraceEvent, core, pc)
+			ppc := cpu.PC()
+			cpu.Next()
+			// if the program counter didn't change, it is either stuck
+			// in an infinite loop or not advancing due to a halt-like
+			// instruction
+			stuck := ppc == cpu.PC()
+			if m.tracing && !stuck {
+				m.event(TraceEvent, core, ppc)
 			}
 			// at a breakpoint? only honor it if the processor is not stuck.
 			// when at a halt-like instruction, this causes a break once
 			// instead of each time.
 			addr := cpu.PC() + cpu.Offset()
-			if _, yes := m.Breakpoints[core][addr]; yes && !halt {
+			if _, yes := m.Breakpoints[core][addr]; yes && !stuck {
 				m.setStatus(Break)
 				break // allow other CPUs to be serviced
 			}

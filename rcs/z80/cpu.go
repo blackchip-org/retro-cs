@@ -104,20 +104,20 @@ func New(mem *rcs.Memory) *CPU {
 	return c
 }
 
-func (c *CPU) Next() (here int, halt bool) {
-	halt = false
+func (c *CPU) Next() {
+	if !c.Halt {
+		c.execute()
+	}
 	if c.IRQ {
 		c.IRQ = false
 		if c.IFF1 {
 			c.irqAck()
 		}
 	}
+}
 
-	here = c.PC()
-	if c.Halt {
-		halt = true
-		return
-	}
+func (c *CPU) execute() {
+	here := c.PC()
 	opcode := c.fetch()
 	c.refreshR()
 
@@ -160,13 +160,12 @@ func (c *CPU) Next() (here int, halt bool) {
 		table = c.opcodes
 	}
 
-	execute, ok := table[opcode]
+	opFunc, ok := table[opcode]
 	if !ok {
 		log.Printf("%04x: illegal instruction: %v%02x", here, prefix, opcode)
 		return
 	}
-	execute(c)
-	return
+	opFunc(c)
 }
 
 func (c *CPU) irqAck() {

@@ -9,6 +9,7 @@ import (
 func newTestCPU() *CPU {
 	mock.ResetMemory()
 	cpu := New(mock.TestMemory)
+	cpu.stopOnBreak = true
 	cpu.SP = 0xff
 	cpu.SetPC(0x1ff)
 	return cpu
@@ -19,7 +20,7 @@ func testRunCPU(t *testing.T, cpu *CPU) error {
 	for cpu.SR&FlagB == 0 {
 		cycles++
 		if cycles > 100 {
-			t.Error("max cycles exceeded")
+			t.Fatalf("max cycles exceeded")
 		}
 		cpu.Next()
 	}

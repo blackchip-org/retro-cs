@@ -133,6 +133,8 @@ $0013:  29 cd ab  i29 $abcd
 		"go",
 		[]string{"break set 10", "g", "_yield", "cpu reg pc", "q"},
 		`
+[break]
+pc:0010 a:00 b:00 q:false z:false
 $0010 +16
 		`,
 	}, {
@@ -216,6 +218,12 @@ $0000  00 00 00 00 ff ff ff ff  ff ff ff ff 00 00 00 00  ................
 $0000  00 00 00 00 ff ff ff ff  ff ff ff ff 00 00 00 00  ................
 		`,
 	}, {
+		"next",
+		[]string{"n", "q"},
+		`
+$0000:  00        i00
+		`,
+	}, {
 		"peek",
 		[]string{"poke 1234 ab", "peek 1234", "q"},
 		`
@@ -268,6 +276,18 @@ true
 no such flag: a
 		`,
 	}, {
+		"step",
+		[]string{"s", "r", "s", "", "r", "q"},
+		`
+$0001:  00        i00
+[pause]
+pc:0001 a:00 b:00 q:false z:false
+$0002:  00        i00
+$0003:  00        i00
+[pause]
+pc:0003 a:00 b:00 q:false z:false
+		`,
+	}, {
 		"trace",
 		[]string{
 			"poke 0 a b c",
@@ -282,6 +302,9 @@ no such flag: a
 		},
 		`
 $0000:  0a        i0a
+
+[break]
+pc:0001 a:00 b:00 q:false z:false
 		`,
 	},
 }
@@ -299,7 +322,11 @@ q
 	f.mon.in = testMonitorInput(cmds)
 	testMonitorRun(f.mon)
 	have := strings.TrimSpace(f.out.String())
-	want := "$000f +15"
+	want := strings.TrimSpace(`
+[break]
+pc:000f a:00 b:00 q:false z:false
+$000f +15
+`)
 	if have != want {
 		t.Errorf("\n have: \n%v \n want: \n%v", have, want)
 	}
