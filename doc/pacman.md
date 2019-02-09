@@ -1,11 +1,19 @@
 # pacman
+The Pac-Man cabinet hardware which also can run Ms. Pac-Man.
+
+## Status
 
 - Playable
 - Audio is a little glitchy
 - Rack advance switch doesn't work as expected?
 
-## Controls
+## Run
+```
+retro-cs -s pacman
+retro-cs -s mspacman
+```
 
+## Controls
 - `c`: Coin slot
 - `1`: One Player Start
 - `2`: Two Player Start
@@ -13,10 +21,11 @@
 - `r`: Rack advance
 
 ## ROMs
-
 The ROMs used for this emulator were obtained sfrom the MAME 0.37b5 ROM Set. The Internet Archive is a great resource. The correct SHA1 checksums are listed below:
 
 ### Pac-Man
+Place these files in `~/rcs/data/pacman`
+
 ```
 8d0268dee78e47c712202b0ec4f1f51109b1f2a5  82s123.7f
 bbcec0570aeceb582ff8238a4bc8546a23430081  82s126.1m
@@ -31,6 +40,8 @@ d4a70d56bb01d27d094d73db8667ffb00ca69cb9  pacman.6j
 ```
 
 ### Ms. Pac-Man
+Place these files in `~/rcs/data/mspacman`
+
 ```
 5e8b472b615f12efca3fe792410c23619f067845  5e
 fd6a1dde780b39aea76bf1c4befa5882573c2ef4  5f
@@ -44,6 +55,16 @@ bc2247ec946b639dd1f00bfc603fa157d0baaa97  boot1
 3022a408118fa7420060e32a760aeef15b8a96cf  boot4
 fed6e9a2b210b07e7189a18574f6b8c4ec5bb49b  boot5
 387010a0c76319a1eab61b54c9bcb5c66c4b67a1  boot6
+```
+
+## Viewers
+```
+rcs-viewer mspacman:sprites
+rcs-viewer mspacman:tiles
+rcs-viewer pacman:colors
+rcs-viewer pacman:palettes
+rcs-viewer pacman:sprites
+rcs-viewer pacman:tiles
 ```
 
 ## Development Notes
