@@ -14,7 +14,7 @@ Click on one of the systems below for more information:
 Development notes:
 
 - [MOS Technology 6502 series processor](doc/m6502.md)
-- [Pac-Man](doc/pacmam.md#development-notes)
+- [Pac-Man](https://github.com/blackchip-org/retro-cs/blob/master/doc/pacman.md#development-notes)
 - [Zilog Z80 processor](doc/z80.md)
 
 ## Requirements
