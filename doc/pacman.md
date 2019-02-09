@@ -151,6 +151,10 @@ Attract mode does not show up when free play is enabled.
 Load the additional code ROM at address 0x8000 and it should be good to go!
 
 ## References
+- "Commented Disassembly of Pacman", http://cubeman.org/arcade-source/pacman.asm
+_ Lawrence, Scott 'Jerry', et al, "Ms. Pac-Man documented disassembly", https://github.com/BleuLlama/GameDocs/blob/master/disassemble/mspac.asm
 - Lomont, Chris, "Pac-Man Emulation Guide v0.1, Oct 2008", https://www.lomont.org/Software/Games/PacMan/PacmanEmulation.pdf
 - Longstaff-Tyrrell, Mark, "Pac-Man Machine Emulator", http://www.frisnit.com/pac-man-machine-emulator/
 - Salmoria, Nicola, et al, "Namco PuckMan", https://github.com/mamedev/mame/blob/master/src/mame/drivers/pacman.cpp
+
+
