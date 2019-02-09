@@ -59,7 +59,7 @@ where `<system>` is one of the following:
 - `mspacman`
 - `pacman`
 
-Use the `-m` flag to enable the monitor.
+Use the `-m` flag to enable the [monitor](doc/monitor.md).
 
 ## License
 

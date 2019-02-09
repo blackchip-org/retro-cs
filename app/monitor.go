@@ -620,6 +620,12 @@ func (m *Monitor) cmdYield() error {
 
 func newCompleter(m *Monitor) *readline.PrefixCompleter {
 	return readline.NewPrefixCompleter(
+		readline.PcItem("b",
+			readline.PcItem("clear"),
+			readline.PcItem("clear-all"),
+			readline.PcItem("list"),
+			readline.PcItem("set"),
+		),
 		readline.PcItem("break",
 			readline.PcItem("clear"),
 			readline.PcItem("clear-all"),
