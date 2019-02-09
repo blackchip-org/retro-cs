@@ -22,6 +22,8 @@ func (k *keyboard) handle(e *sdl.KeyboardEvent) error {
 			s.in1 |= 1 << 6
 		case sdl.K_c:
 			s.in0 |= 1 << 5
+		case sdl.K_r:
+			s.in0 |= 1 << 4
 		case sdl.K_UP:
 			s.in0 &^= 1 << 0
 		case sdl.K_LEFT:
@@ -39,6 +41,8 @@ func (k *keyboard) handle(e *sdl.KeyboardEvent) error {
 			s.in1 &^= 1 << 6
 		case sdl.K_c:
 			s.in0 &^= 1 << 5
+		case sdl.K_r:
+			s.in0 &^= 1 << 4
 		case sdl.K_UP:
 			s.in0 |= 1 << 0
 		case sdl.K_LEFT:

@@ -1,18 +1,65 @@
 # pacman
 
-Almost everything you need to know to write a Pac-Man Emulator can be found in Chris Lomont's [Pac-Man Emulation Guide](https://www.lomont.org/Software/Games/PacMan/PacmanEmulation.pdf). This document tries to fill in some of the areas that were not covered.
+- Playable
+- Audio is a little glitchy
+- Rack advance switch doesn't work as expected?
 
-## Z80
+## Controls
+
+- `c`: Coin slot
+- `1`: One Player Start
+- `2`: Two Player Start
+- Arrow keys: Joystick
+- `r`: Rack advance
+
+## ROMs
+
+The ROMs used for this emulator were obtained sfrom the MAME 0.37b5 ROM Set. The Internet Archive is a great resource. The correct SHA1 checksums are listed below:
+
+### Pac-Man
+```
+8d0268dee78e47c712202b0ec4f1f51109b1f2a5  82s123.7f
+bbcec0570aeceb582ff8238a4bc8546a23430081  82s126.1m
+0c4d0bee858b97632411c440bea6948a74759746  82s126.3m
+19097b5f60d1030f8b82d9f1d3a241f93e5c75d6  82s126.4a
+06ef227747a440831c9a3a613b76693d52a2f0a9  pacman.5e
+4a937ac02216ea8c96477d4a15522070507fb599  pacman.5f
+e87e059c5be45753f7e9f33dff851f16d6751181  pacman.6e
+674d3a7f00d8be5e38b1fdc208ebef5a92d38329  pacman.6f
+8e47e8c2c4d6117d174cdac150392042d3e0a881  pacman.6h
+d4a70d56bb01d27d094d73db8667ffb00ca69cb9  pacman.6j
+```
+
+### Ms. Pac-Man
+```
+5e8b472b615f12efca3fe792410c23619f067845  5e
+fd6a1dde780b39aea76bf1c4befa5882573c2ef4  5f
+8d0268dee78e47c712202b0ec4f1f51109b1f2a5  82s123.7f
+bbcec0570aeceb582ff8238a4bc8546a23430081  82s126.1m
+0c4d0bee858b97632411c440bea6948a74759746  82s126.3m
+19097b5f60d1030f8b82d9f1d3a241f93e5c75d6  82s126.4a
+bc2247ec946b639dd1f00bfc603fa157d0baaa97  boot1
+13ea0c343de072508908be885e6a2a217bbb3047  boot2
+5ea4d907dbb2690698db72c4e0b5be4d3e9a7786  boot3
+3022a408118fa7420060e32a760aeef15b8a96cf  boot4
+fed6e9a2b210b07e7189a18574f6b8c4ec5bb49b  boot5
+387010a0c76319a1eab61b54c9bcb5c66c4b67a1  boot6
+```
+
+## Development Notes
+Almost everything you need to know to write a Pac-Man Emulator can be found in Chris Lomont's [Pac-Man Emulation Guide](https://www.lomont.org/Software/Games/PacMan/PacmanEmulation.pdf). The remainder of this document tries to fill in some of the areas that were not covered.
+
+### Z80
 A Z80 implementation that passes the [Zexdoc](http://mdfs.net/Software/Z80/Exerciser/) tests is sufficient. There is no need to add the undocumented instructions.
 
 Accurate timing of the CPU is not necessary. This emulator runs 1,000 instructions per VBLANK and that number seems to work well.
 
-## Memory
+### Memory
 The source code in [MAME](https://github.com/mamedev/mame/blob/master/src/mame/drivers/pacman.cpp) notes that the most signfigant line in the addres bus (A15) is not attached. If this is not emulated, the attract screen will be missing the text for "High Score" and "Credits". This may be a copy protection feature.
 
 When Pac-Man starts, it performs a series of initialization tasks and then executes a halt instruction to wait for the first interrupt. The stack pointer has not been set at this point and the interrupt will push the return address to 0xffff and 0xfffe which doesn't get used. Ms. Pac-Man also writes to 0xfffd and 0xfffc.
 
-## Video
+### Video
 While there are only 64 palettes, color memory does contain garbage in the higher bits. Mask out the value by and-ing with 0x3f.
 
 Figure 7 and Figure 8 which show the screen layout is a little difficult to read. This is a smaller table which shows the address values at the edges.
@@ -33,7 +80,7 @@ Figure 7 and Figure 8 which show the screen layout is a little difficult to read
 
 The layout of the tiles and sprites is confusing and easy to get wrong. There may also be a bug in the documentation. If those instructions do not produce correct images, the matrices below can be used instead. To fill the pixel in the target image at (X, Y) use the value found in matrix where a value of 0 is the first bit-plane in byte 0, 1 is the second bit-plane in byte 0, 4 is the first bit plane in byte 1, etc.
 
-### Tiles
+#### Tiles
 ```
      0   1   2   3   4   5   6   7
      --  --  --  --  --  --  --  --
@@ -46,7 +93,7 @@ The layout of the tiles and sprites is confusing and easy to get wrong. There ma
  6 | 29, 25, 21, 17, 13,  9,  5,  1
  7 | 28, 24, 20, 16, 12,  8,  4,  0
 ```
-### Sprites
+#### Sprites
 ```
      0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15
      ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
@@ -68,7 +115,7 @@ The layout of the tiles and sprites is confusing and easy to get wrong. There ma
 15 | 156, 152, 148, 144, 140, 136, 132, 128,  28,  24,  20,  16,  12,   8,   4,   0
 ```
 
-## Registers
+### Registers
 
 When starting the machine, if the inputs have not been hooked up yet (joysticks, buttons, coin slots), the IN0 and IN1 registers should be set to sane values.
 
@@ -79,10 +126,10 @@ Leaving these values as zero will boot to the testing screen instead of the game
 
 Attract mode does not show up when free play is enabled.
 
-## Ms. Pac-Man
+### Ms. Pac-Man
 Load the additional code ROM at address 0x8000 and it should be good to go!
 
 ## References
 - Lomont, Chris, "Pac-Man Emulation Guide v0.1, Oct 2008", https://www.lomont.org/Software/Games/PacMan/PacmanEmulation.pdf
-- Longstaff-Tyrrell, Mark, "Pac-Man Machine Emulator", http://www.frisnit.com/pac-man-machine-emulator
+- Longstaff-Tyrrell, Mark, "Pac-Man Machine Emulator", http://www.frisnit.com/pac-man-machine-emulator/
 - Salmoria, Nicola, et al, "Namco PuckMan", https://github.com/mamedev/mame/blob/master/src/mame/drivers/pacman.cpp

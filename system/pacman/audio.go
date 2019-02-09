@@ -1,7 +1,6 @@
 package pacman
 
 import (
-	"github.com/blackchip-org/pac8/pkg/util/bits"
 	"github.com/blackchip-org/retro-cs/rcs"
 	"github.com/veandco/go-sdl2/sdl"
 )
@@ -50,7 +49,7 @@ func newAudio(spec sdl.AudioSpec, data audioData) (*audio, error) {
 func (a *audio) queue() error {
 	for i := 0; i < 3; i++ {
 		v := a.voices[i]
-		wf := bits.Slice(v.waveform, 0, 2)
+		wf := rcs.SliceBits(v.waveform, 0, 2)
 
 		// Voice 0 has 5 bytes but Voice 1 and 2 only have 4 bytes with
 		// the missing lower byte being zero.

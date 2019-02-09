@@ -186,7 +186,8 @@ func (v *Video) drawSprites(r *sdl.Renderer) error {
 			W: spriteW,
 			H: spriteH,
 		}
-		pal := v.SpritePalettes[s]
+		// Only 64 palettes, strip out the higher bits
+		pal := v.SpritePalettes[s] & 0x3f
 		r.CopyEx(v.sprites[pal].Texture, &src, &dest, 0, nil, flip)
 	}
 	return nil
