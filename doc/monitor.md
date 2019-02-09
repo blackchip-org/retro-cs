@@ -75,6 +75,10 @@ Set the number of lines disassembled to *count* when an end address is not speci
 
 Go. Start execution of the processors.
 
+### load
+
+Load state that was saved with the `save` command.
+
 ### m[em] [dump] [*start_address*] [*end_address*]
 
 Dump memory from *start_address* to *end_address*. If *end_address* is not specified, sump an amount specified with the `mem lines` command. If *start_address* is not specified, continue from the last dump.
@@ -112,6 +116,10 @@ Set the memory *address* with the given *value*
 Show the memory value at *address*
 
 ### r
+
+### save
+
+Save the current state. Use load to restore to this state.
 
 Display the CPU status (registers and flags)
 
