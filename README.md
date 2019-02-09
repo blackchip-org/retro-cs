@@ -11,9 +11,10 @@ Click on one of the systems below for more information:
   - and Ms. Pac-Man
 - [Galaga](doc/galaga.md)
 
-Developer's notes:
+Development notes:
 
 - [MOS Technology 6502 series processor](doc/m6502.md)
+- [Pac-Man](doc/pacmam.md#development-notes)
 - [Zilog Z80 processor](doc/z80.md)
 
 ## Requirements
