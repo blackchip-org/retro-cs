@@ -75,9 +75,9 @@ Set the number of lines disassembled to *count* when an end address is not speci
 
 Go. Start execution of the processors.
 
-### load
+### load [*name*]
 
-Load state that was saved with the `save` command.
+Load state that was saved with the `save` command with the given *name*. If name isn't specified, `state` is used.
 
 ### m[em] [dump] [*start_address*] [*end_address*]
 
@@ -117,9 +117,9 @@ Show the memory value at *address*
 
 ### r
 
-### save
+### save [*name*]
 
-Save the current state. Use load to restore to this state.
+Save the current state with the given *name*. If *name* is not specified, `state` is used. Use load to restore to this state.
 
 Display the CPU status (registers and flags)
 

@@ -20,16 +20,20 @@ const (
 )
 
 var (
-	optProfC   bool
-	optSystem  string
-	optMonitor bool
-	optNoAudio bool
-	optNoVideo bool
-	optTrace   bool
-	optWait    bool
+	optFullStart bool
+	optProfC     bool
+	optSystem    string
+	optMonitor   bool
+	optLoad      string
+	optNoAudio   bool
+	optNoVideo   bool
+	optTrace     bool
+	optWait      bool
 )
 
 func init() {
+	flag.BoolVar(&optFullStart, "f", false, "full start -- do not bypass POST")
+	flag.StringVar(&optLoad, "l", "", "load state")
 	flag.BoolVar(&optProfC, "profc", false, "enable cpu profiling")
 	flag.BoolVar(&optNoAudio, "no-audio", false, "disable audio")
 	flag.BoolVar(&optNoVideo, "no-video", false, "disable video")
@@ -140,6 +144,15 @@ func main() {
 	}
 	if optTrace {
 		mach.Command(rcs.MachTrace)
+	}
+	if optLoad != "" {
+		filename := filepath.Join(config.VarDir, optLoad)
+		mach.Command(rcs.MachLoad, filename)
+	} else if !optFullStart {
+		filename := filepath.Join(config.ROMDir, "init.state")
+		if _, err := os.Stat(filename); !os.IsNotExist(err) {
+			mach.Command(rcs.MachLoad, filename)
+		}
 	}
 	mach.Run()
 }

@@ -433,10 +433,14 @@ func (m *Monitor) cmdGo(args []string) error {
 }
 
 func (m *Monitor) cmdLoad(args []string) error {
-	if err := checkLen(args, 0, 0); err != nil {
+	if err := checkLen(args, 0, 1); err != nil {
 		return err
 	}
-	file := filepath.Join(config.VarDir, "state")
+	filename := "state"
+	if len(args) > 0 {
+		filename = args[0]
+	}
+	file := filepath.Join(config.VarDir, filename)
 	m.mach.Command(rcs.MachLoad, file)
 	return nil
 }
@@ -622,10 +626,14 @@ func (m *Monitor) cmdPeek(args []string) error {
 }
 
 func (m *Monitor) cmdSave(args []string) error {
-	if err := checkLen(args, 0, 0); err != nil {
+	if err := checkLen(args, 0, 1); err != nil {
 		return err
 	}
-	file := filepath.Join(config.VarDir, "state")
+	filename := "state"
+	if len(args) > 0 {
+		filename = args[0]
+	}
+	file := filepath.Join(config.VarDir, filename)
 	m.mach.Command(rcs.MachSave, file)
 	return nil
 }
