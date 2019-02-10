@@ -165,9 +165,9 @@ func (k *keyboard) lookup(e *sdl.KeyboardEvent) (uint8, bool) {
 	case keysym.Mod&sdl.KMOD_CTRL > 0 && keysym.Sym == sdl.K_c:
 		if e.Type == sdl.KEYDOWN {
 			k.stkey = 0x7f
-		} else if e.Type == sdl.KEYUP {
-			k.stkey = 0xff
 		}
+	case keysym.Sym == sdl.K_c && e.Type == sdl.KEYUP:
+		k.stkey = 0xff
 	}
 
 	if e.Type != sdl.KEYDOWN {

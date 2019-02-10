@@ -76,19 +76,19 @@ func (c *CPU) Next() {
 	}
 	execute(c)
 
-	if c.SR&FlagB != 0 {
-		if c.stopOnBreak {
-			return
-		}
-		c.SR &^= FlagB
-		c.SR |= FlagI
-		c.irqAck()
-	}
 	if c.IRQ {
 		c.IRQ = false
 		if c.SR&FlagI == 0 {
 			c.irqAck()
 		}
+	}
+	if c.SR&FlagB != 0 {
+		if c.stopOnBreak {
+			return
+		}
+		c.SR |= FlagI
+		c.SR &^= FlagB
+		c.irqAck()
 	}
 }
 
