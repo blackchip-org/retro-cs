@@ -36,9 +36,9 @@ func (s Status) String() string {
 type MachCmd int
 
 const (
-	MachLoad MachCmd = iota
+	MachExport MachCmd = iota
+	MachImport
 	MachPause
-	MachSave
 	MachStart
 	MachTrace
 	MachQuit
@@ -229,12 +229,12 @@ func (m *Mach) sdl() {
 
 func (m *Mach) handleCommand(msg message) {
 	switch msg.Cmd {
-	case MachLoad:
-		m.load(msg.Args...)
+	case MachExport:
+		m.cmdExport(msg.Args...)
+	case MachImport:
+		m.cmdImport(msg.Args...)
 	case MachPause:
 		m.setStatus(Pause)
-	case MachSave:
-		m.save(msg.Args...)
 	case MachStart:
 		m.setStatus(Run)
 	case MachTrace:
@@ -246,42 +246,42 @@ func (m *Mach) handleCommand(msg message) {
 	}
 }
 
-func (m *Mach) save(args ...interface{}) {
+func (m *Mach) cmdExport(args ...interface{}) {
 	sys, ok := m.Sys.(Saver)
 	if !ok {
-		m.event(ErrorEvent, "saving is not supported")
+		m.event(ErrorEvent, "exporting is not supported")
 		return
 	}
 	filename := args[0].(string)
 	out, err := os.Create(filename)
 	if err != nil {
-		m.event(ErrorEvent, fmt.Sprintf("unable to create snapshot: %v", err))
+		m.event(ErrorEvent, fmt.Sprintf("unable toe xport: %v", err))
 		return
 	}
 	enc := NewEncoder(out)
 	sys.Save(enc)
 	if enc.Err != nil {
-		m.event(ErrorEvent, fmt.Sprintf("unable to save snapshot: %v", enc.Err))
+		m.event(ErrorEvent, fmt.Sprintf("unable to export: %v", enc.Err))
 		return
 	}
 }
 
-func (m *Mach) load(args ...interface{}) {
+func (m *Mach) cmdImport(args ...interface{}) {
 	sys, ok := m.Sys.(Loader)
 	if !ok {
-		m.event(ErrorEvent, "loading is not supported")
+		m.event(ErrorEvent, "importing is not supported")
 		return
 	}
 	filename := args[0].(string)
 	in, err := os.Open(filename)
 	if err != nil {
-		m.event(ErrorEvent, fmt.Sprintf("unable to create snapshot: %v", err))
+		m.event(ErrorEvent, fmt.Sprintf("unable to import: %v", err))
 		return
 	}
 	dec := NewDecoder(in)
 	sys.Load(dec)
 	if dec.Err != nil {
-		m.event(ErrorEvent, fmt.Sprintf("unable to save snapshot: %v", dec.Err))
+		m.event(ErrorEvent, fmt.Sprintf("unable to import: %v", dec.Err))
 		return
 	}
 }

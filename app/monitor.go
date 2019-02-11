@@ -150,10 +150,12 @@ func (m *Monitor) cmd(args []string) error {
 		return m.cmdDasmList(args[1:])
 	case "dasm":
 		return m.cmdDasm(args[1:])
+	case "export":
+		return m.cmdExport(args[1:])
 	case "g", "go":
 		return m.cmdGo(args[1:])
-	case "load":
-		return m.cmdLoad(args[1:])
+	case "import":
+		return m.cmdImport(args[1:])
 	case "m":
 		return m.cmdMemoryDump(args[1:])
 	case "mem":
@@ -168,8 +170,6 @@ func (m *Monitor) cmd(args []string) error {
 		return m.cmdPeek(args[1:])
 	case "r":
 		return m.cmdCPU([]string{})
-	case "save":
-		return m.cmdSave(args[1:])
 	case "s", "step":
 		return m.cmdStep(args[1:])
 	case "t", "trace":
@@ -179,6 +179,14 @@ func (m *Monitor) cmd(args []string) error {
 	case "_yield":
 		return m.cmdYield()
 	}
+
+	if config.System == "c64" {
+		switch args[0] {
+		case "load-prg":
+			return m.cmdLoadPrg(args[1:])
+		}
+	}
+
 	return fmt.Errorf("no such command: %v", args[0])
 }
 
@@ -424,15 +432,7 @@ func (m *Monitor) cmdDasmLines(args []string) error {
 	return nil
 }
 
-func (m *Monitor) cmdGo(args []string) error {
-	if err := checkLen(args, 0, 0); err != nil {
-		return err
-	}
-	m.mach.Command(rcs.MachStart)
-	return nil
-}
-
-func (m *Monitor) cmdLoad(args []string) error {
+func (m *Monitor) cmdExport(args []string) error {
 	if err := checkLen(args, 0, 1); err != nil {
 		return err
 	}
@@ -441,7 +441,28 @@ func (m *Monitor) cmdLoad(args []string) error {
 		filename = args[0]
 	}
 	file := filepath.Join(config.VarDir, filename)
-	m.mach.Command(rcs.MachLoad, file)
+	m.mach.Command(rcs.MachExport, file)
+	return nil
+}
+
+func (m *Monitor) cmdGo(args []string) error {
+	if err := checkLen(args, 0, 0); err != nil {
+		return err
+	}
+	m.mach.Command(rcs.MachStart)
+	return nil
+}
+
+func (m *Monitor) cmdImport(args []string) error {
+	if err := checkLen(args, 0, 1); err != nil {
+		return err
+	}
+	filename := "state"
+	if len(args) > 0 {
+		filename = args[0]
+	}
+	file := filepath.Join(config.VarDir, filename)
+	m.mach.Command(rcs.MachImport, file)
 	return nil
 }
 
@@ -625,19 +646,6 @@ func (m *Monitor) cmdPeek(args []string) error {
 	return nil
 }
 
-func (m *Monitor) cmdSave(args []string) error {
-	if err := checkLen(args, 0, 1); err != nil {
-		return err
-	}
-	filename := "state"
-	if len(args) > 0 {
-		filename = args[0]
-	}
-	file := filepath.Join(config.VarDir, filename)
-	m.mach.Command(rcs.MachSave, file)
-	return nil
-}
-
 func (m *Monitor) cmdStep(args []string) error {
 	if err := checkLen(args, 0, 0); err != nil {
 		return err
@@ -674,7 +682,8 @@ func (m *Monitor) cmdYield() error {
 // autocomplete
 
 func newCompleter(m *Monitor) *readline.PrefixCompleter {
-	return readline.NewPrefixCompleter(
+	//return readline.NewPrefixCompleter(
+	cmds := []readline.PrefixCompleterInterface{
 		readline.PcItem("b",
 			readline.PcItem("clear"),
 			readline.PcItem("clear-all"),
@@ -700,9 +709,10 @@ func newCompleter(m *Monitor) *readline.PrefixCompleter {
 			readline.PcItem("lines"),
 			readline.PcItem("list"),
 		),
+		readline.PcItem("export"),
 		readline.PcItem("g"),
 		readline.PcItem("go"),
-		readline.PcItem("load"),
+		readline.PcItem("import"),
 		readline.PcItem("m"),
 		readline.PcItem("mem",
 			readline.PcItem("dump"),
@@ -720,13 +730,19 @@ func newCompleter(m *Monitor) *readline.PrefixCompleter {
 		readline.PcItem("peek"),
 		readline.PcItem("r"),
 		readline.PcItem("s"),
-		readline.PcItem("save"),
 		readline.PcItem("step"),
 		readline.PcItem("t"),
 		readline.PcItem("trace"),
 		readline.PcItem("q"),
 		readline.PcItem("quit"),
-	)
+	}
+	switch config.System {
+	case "c64":
+		cmds = append(cmds, []readline.PrefixCompleterInterface{
+			readline.PcItem("load-prg"),
+		}...)
+	}
+	return readline.NewPrefixCompleter(cmds...)
 }
 
 func acRegisters(m *Monitor) func(string) []string {
@@ -919,6 +935,13 @@ func parsePut(m *Monitor, in string, val rcs.Value) error {
 		return fmt.Errorf("unknown type: %v", reflect.TypeOf(val.Put))
 	}
 	return nil
+}
+
+func loadPath(name string) string {
+	if filepath.IsAbs(name) {
+		return name
+	}
+	return filepath.Join(config.ROMDir, name)
 }
 
 func dump(m *rcs.Memory, start int, end int, decode rcs.CharDecoder) string {

@@ -24,7 +24,7 @@ var (
 	optProfC     bool
 	optSystem    string
 	optMonitor   bool
-	optLoad      string
+	optImport    string
 	optNoAudio   bool
 	optNoVideo   bool
 	optTrace     bool
@@ -33,7 +33,7 @@ var (
 
 func init() {
 	flag.BoolVar(&optFullStart, "f", false, "full start -- do not bypass POST")
-	flag.StringVar(&optLoad, "l", "", "load state")
+	flag.StringVar(&optImport, "i", "", "import state")
 	flag.BoolVar(&optProfC, "profc", false, "enable cpu profiling")
 	flag.BoolVar(&optNoAudio, "no-audio", false, "disable audio")
 	flag.BoolVar(&optNoVideo, "no-video", false, "disable video")
@@ -70,6 +70,7 @@ func main() {
 	if !ok {
 		log.Fatalf("no such system: %v", optSystem)
 	}
+	config.System = optSystem
 	config.ROMDir = filepath.Join(config.DataDir, optSystem)
 	config.VarDir = filepath.Join(config.ResourceDir(), "var", optSystem)
 
@@ -145,13 +146,13 @@ func main() {
 	if optTrace {
 		mach.Command(rcs.MachTrace)
 	}
-	if optLoad != "" {
-		filename := filepath.Join(config.VarDir, optLoad)
-		mach.Command(rcs.MachLoad, filename)
+	if optImport != "" {
+		filename := filepath.Join(config.VarDir, optImport)
+		mach.Command(rcs.MachImport, filename)
 	} else if !optFullStart {
 		filename := filepath.Join(config.ROMDir, "init.state")
 		if _, err := os.Stat(filename); !os.IsNotExist(err) {
-			mach.Command(rcs.MachLoad, filename)
+			mach.Command(rcs.MachImport, filename)
 		}
 	}
 	mach.Run()
