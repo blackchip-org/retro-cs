@@ -78,11 +78,16 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 	mem.Write(0x9101, 0xff)
 
 	// memory for each CPU
-	mem1 := mem.Clone()
+	mem1 := rcs.NewMemory(1, 0x10000)
+	mem1.Map(0, mem)
 	mem1.MapROM(0x0000, roms["code1"])
-	mem2 := mem.Clone()
+
+	mem2 := rcs.NewMemory(1, 0x10000)
+	mem2.Map(0, mem)
 	mem2.MapROM(0x0000, roms["code2"])
-	mem3 := mem.Clone()
+
+	mem3 := rcs.NewMemory(1, 0x10000)
+	mem3.Map(0, mem)
 	mem3.MapROM(0x0000, roms["code3"])
 
 	cpu1 := z80.New(mem1)

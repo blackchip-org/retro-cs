@@ -682,7 +682,6 @@ func (m *Monitor) cmdYield() error {
 // autocomplete
 
 func newCompleter(m *Monitor) *readline.PrefixCompleter {
-	//return readline.NewPrefixCompleter(
 	cmds := []readline.PrefixCompleterInterface{
 		readline.PcItem("b",
 			readline.PcItem("clear"),
