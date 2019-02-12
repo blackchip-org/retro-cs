@@ -233,6 +233,20 @@ func (m *Memory) Unmap(startAddr int, endAddr int) {
 	}
 }
 
+func (m *Memory) Clone() *Memory {
+	m2 := &Memory{MaxAddr: m.MaxAddr}
+	m2.reads = make([][]Load8, len(m.reads), len(m.reads))
+	m2.writes = make([][]Store8, len(m.writes), len(m.writes))
+	for b := 0; b < len(m.reads); b++ {
+		m2.reads[b] = make([]Load8, len(m.reads[b]), len(m.reads[b]))
+		copy(m2.reads[b], m.reads[b])
+		m2.writes[b] = make([]Store8, len(m.writes[b]), len(m.writes[b]))
+		copy(m2.writes[b], m.writes[b])
+	}
+	m2.SetBank(m.bank)
+	return m2
+}
+
 func (m *Memory) MapNil(addr int) {
 	m.read[addr] = func() uint8 { return 0 }
 	m.write[addr] = func(uint8) {}

@@ -182,6 +182,21 @@ func TestMemoryUnmap(t *testing.T) {
 	}
 }
 
+func TestMemoryClone(t *testing.T) {
+	mem := NewMemory(1, 2)
+	ram := []uint8{0, 0}
+	mem.MapRAM(0, ram)
+	mem0 := mem.Clone()
+	mem0.MapNil(1)
+	mem0.Write(0, 11)
+	mem0.Write(1, 22)
+
+	have := ram
+	want := []uint8{11, 0}
+	if !reflect.DeepEqual(have, want) {
+		t.Errorf("\n have: \n%v \n want: \n%v", have, want)
+	}
+}
 func TestMemoryReadLE(t *testing.T) {
 	mem := NewMemory(1, 2)
 	mem.MapROM(0, []uint8{0xcd, 0xab})
