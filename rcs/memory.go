@@ -224,13 +224,9 @@ func (m *Memory) Map(startAddr int, m1 *Memory) {
 	}
 }
 
-func (m *Memory) Unmap(startAddr int, endAddr int) {
-	for i := startAddr; i <= endAddr; i++ {
-		b := m.bank
-		j := i
-		m.read[i] = warnUnmappedRead(b, j)
-		m.write[i] = warnUnmappedWrite(b, j)
-	}
+func (m *Memory) Unmap(addr int) {
+	m.read[addr] = warnUnmappedRead(m.bank, addr)
+	m.write[addr] = warnUnmappedWrite(m.bank, addr)
 }
 
 func (m *Memory) MapNil(addr int) {

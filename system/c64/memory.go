@@ -68,9 +68,13 @@ func newMemory(ram []uint8, io []uint8, roms map[string][]byte) *rcs.Memory {
 	for bank := 23; bank >= 16; bank-- {
 		mem.SetBank(bank)
 		mem.MapRAM(0x0000, ram)
-		mem.Unmap(0x1000, 0x7fff)
+		for addr := 0x1000; addr <= 0x7fff; addr++ {
+			mem.Unmap(addr)
+		}
 		mem.MapROM(0x8000, cartlo)
-		mem.Unmap(0xa000, 0xcfff)
+		for addr := 0xa000; addr <= 0xcfff; addr++ {
+			mem.Unmap(addr)
+		}
 		mem.Map(0xd000, iomem)
 		mem.MapROM(0xe000, carthi)
 	}

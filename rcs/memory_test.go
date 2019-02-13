@@ -168,7 +168,7 @@ func TestMemoryUnmap(t *testing.T) {
 	mem := NewMemory(1, 10)
 	mem.MapRAM(0, make([]uint8, 10, 10))
 	mem.Write(7, 44)
-	mem.Unmap(5, 9)
+	mem.Unmap(7)
 	mem.Read(7)
 
 	msg := []string{
