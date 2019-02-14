@@ -11,6 +11,13 @@ import (
 	"strings"
 )
 
+type MemoryEvent struct {
+	Read  bool
+	Bank  int
+	Addr  int
+	Value uint8
+}
+
 /*
 Memory represents an address space used to access RAM, ROM, IO ports,
 and external devices.
@@ -84,11 +91,16 @@ in bank 0 and full access to the RAM in bank 1:
 	mem.MapRAM(0x0000, ram)
 */
 type Memory struct {
-	MaxAddr int // maximum valid address
+	MaxAddr  int // maximum valid address
+	Callback func(MemoryEvent)
 
 	// read and write functions for each bank
 	reads  [][]Load8
 	writes [][]Store8
+
+	// previous read and write functions are stored here during watches
+	preads  [][]Load8
+	pwrites [][]Store8
 
 	// selected bank index
 	bank int
@@ -110,10 +122,14 @@ func NewMemory(banks int, size int) *Memory {
 		MaxAddr: size - 1,
 		reads:   make([][]Load8, banks, banks),
 		writes:  make([][]Store8, banks, banks),
+		preads:  make([][]Load8, banks, banks),
+		pwrites: make([][]Store8, banks, banks),
 	}
 	for b := 0; b < banks; b++ {
 		mem.reads[b] = make([]Load8, size, size)
 		mem.writes[b] = make([]Store8, size, size)
+		mem.preads[b] = make([]Load8, size, size)
+		mem.pwrites[b] = make([]Store8, size, size)
 		for addr := 0; addr < size; addr++ {
 			mem.reads[b][addr] = warnUnmappedRead(b, addr)
 			mem.writes[b][addr] = warnUnmappedWrite(b, addr)
@@ -121,12 +137,21 @@ func NewMemory(banks int, size int) *Memory {
 	}
 	mem.read = mem.reads[0]
 	mem.write = mem.writes[0]
+	mem.Callback = func(MemoryEvent) {}
 	return mem
 }
 
 // Read returns the 8-bit value at the given address.
 func (m *Memory) Read(addr int) uint8 {
-	return m.read[addr]()
+	v := m.read[addr]()
+	if m.Callback != nil {
+		m.Callback(MemoryEvent{
+			Read:  true,
+			Addr:  addr,
+			Value: v,
+		})
+	}
+	return v
 }
 
 // Write sets the 8-bit value at the given address.
@@ -232,6 +257,57 @@ func (m *Memory) Unmap(addr int) {
 func (m *Memory) MapNil(addr int) {
 	m.read[addr] = func() uint8 { return 0 }
 	m.write[addr] = func(uint8) {}
+}
+
+func (m *Memory) WatchRO(addr int) {
+	if m.preads[m.bank][addr] != nil {
+		return
+	}
+	prev := m.reads[m.bank][addr]
+	m.read[addr] = func() uint8 {
+		value := prev()
+		m.Callback(MemoryEvent{
+			Read:  true,
+			Bank:  m.bank,
+			Addr:  addr,
+			Value: value,
+		})
+		return value
+	}
+	m.preads[m.bank][addr] = prev
+}
+
+func (m *Memory) WatchWO(addr int) {
+	if m.pwrites[m.bank][addr] != nil {
+		return
+	}
+	prev := m.writes[m.bank][addr]
+	m.write[addr] = func(value uint8) {
+		prev(value)
+		m.Callback(MemoryEvent{
+			Read:  true,
+			Bank:  m.bank,
+			Addr:  addr,
+			Value: value,
+		})
+	}
+	m.pwrites[m.bank][addr] = prev
+}
+
+func (m *Memory) WatchRW(addr int) {
+	m.WatchRO(addr)
+	m.WatchWO(addr)
+}
+
+func (m *Memory) Unwatch(addr int) {
+	if prev := m.pwrites[m.bank][addr]; prev != nil {
+		m.write[addr] = prev
+		m.pwrites[m.bank][addr] = nil
+	}
+	if prev := m.preads[m.bank][addr]; prev != nil {
+		m.read[addr] = prev
+		m.preads[m.bank][addr] = nil
+	}
 }
 
 // Bank returns the number of the selected bank. Banks are numbered starting
