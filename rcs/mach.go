@@ -72,6 +72,7 @@ type Mach struct {
 	Status      Status
 	Callback    func(MachEvent, ...interface{})
 	Breakpoints []map[int]struct{}
+	Trap        error
 
 	scanLines *sdl.Texture
 	init      bool
@@ -133,6 +134,12 @@ func (m *Mach) Run() error {
 		return err
 	}
 	ticker := time.NewTicker(vblank)
+	panicked := true
+	defer func() {
+		if panicked {
+			m.reportCrash()
+		}
+	}()
 	for {
 		select {
 		case c := <-m.cmd:
@@ -141,9 +148,11 @@ func (m *Mach) Run() error {
 			m.jiffy()
 		}
 		if m.quit {
-			return nil
+			break
 		}
 	}
+	panicked = false
+	return nil
 }
 
 func (m *Mach) Command(cmd MachCmd, args ...interface{}) {
@@ -238,7 +247,7 @@ func (m *Mach) handleCommand(msg message) {
 	case MachStart:
 		m.setStatus(Run)
 	case MachTrace:
-		m.tracing = !m.tracing
+		m.cmdTrace(msg.Args...)
 	case MachQuit:
 		m.quit = true
 	default:
@@ -286,6 +295,19 @@ func (m *Mach) cmdImport(args ...interface{}) {
 	}
 }
 
+func (m *Mach) cmdTrace(args ...interface{}) {
+	if len(args) == 0 {
+		m.tracing = !m.tracing
+		return
+	}
+	v, ok := args[0].(bool)
+	if !ok {
+		m.event(ErrorEvent, fmt.Sprintf("invalid trace mode: %v", args[0]))
+		return
+	}
+	m.tracing = v
+}
+
 func (m *Mach) event(evt MachEvent, args ...interface{}) {
 	if m.Callback == nil {
 		return
@@ -296,4 +318,11 @@ func (m *Mach) event(evt MachEvent, args ...interface{}) {
 func (m *Mach) setStatus(s Status) {
 	m.Status = s
 	m.event(StatusEvent, s)
+}
+
+func (m *Mach) reportCrash() {
+	for n, c := range m.CPU {
+		fmt.Printf("[panic: cpu %v]\n", n)
+		fmt.Println(c)
+	}
 }

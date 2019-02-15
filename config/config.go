@@ -10,7 +10,6 @@ import (
 var (
 	Home    string // use this as the home directory
 	DataDir string // data directory
-	ROMDir  string // ROM directory
 	VarDir  string // Directory where runtime variable data is stored
 	System  string
 )

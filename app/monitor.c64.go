@@ -7,8 +7,15 @@ import (
 )
 
 func (m *Monitor) cmdLoadPrg(args []string) error {
-	if err := checkLen(args, 1, 1); err != nil {
+	if err := checkLen(args, 1, 2); err != nil {
 		return err
+	}
+	basic := true
+	if len(args) == 2 {
+		if strings.TrimSpace(args[1]) != "1" {
+			return fmt.Errorf("invalid argument: %v", args[1])
+		}
+		basic = false
 	}
 	filename := loadPath(args[0])
 	if !strings.HasSuffix(filename, ".prg") {
@@ -27,9 +34,11 @@ func (m *Monitor) cmdLoadPrg(args []string) error {
 	for i, d := range data[2:] {
 		mem.Write(addr+i, d)
 	}
-	// new start of variables is after the basic program
-	vstart := end + 1
-	mem.WriteLE(0x002d, vstart) // basic variable storage
-	mem.WriteLE(0x002f, vstart) // basic array storage
+	if basic {
+		// new start of variables is after the basic program
+		vstart := end + 1
+		mem.WriteLE(0x002d, vstart) // basic variable storage
+		mem.WriteLE(0x002f, vstart) // basic array storage
+	}
 	return nil
 }

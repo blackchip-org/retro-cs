@@ -91,8 +91,9 @@ in bank 0 and full access to the RAM in bank 1:
 	mem.MapRAM(0x0000, ram)
 */
 type Memory struct {
-	MaxAddr  int // maximum valid address
-	Callback func(MemoryEvent)
+	MaxAddr  int               // maximum valid address
+	Callback func(MemoryEvent) // function called on watch events
+	NBank    int               // number of banks
 
 	// read and write functions for each bank
 	reads  [][]Load8
@@ -120,6 +121,7 @@ func NewMemory(banks int, size int) *Memory {
 	}
 	mem := &Memory{
 		MaxAddr: size - 1,
+		NBank:   banks,
 		reads:   make([][]Load8, banks, banks),
 		writes:  make([][]Store8, banks, banks),
 		preads:  make([][]Load8, banks, banks),
@@ -144,13 +146,6 @@ func NewMemory(banks int, size int) *Memory {
 // Read returns the 8-bit value at the given address.
 func (m *Memory) Read(addr int) uint8 {
 	v := m.read[addr]()
-	if m.Callback != nil {
-		m.Callback(MemoryEvent{
-			Read:  true,
-			Addr:  addr,
-			Value: v,
-		})
-	}
 	return v
 }
 
@@ -241,6 +236,8 @@ func (m *Memory) MapStore(addr int, store Store8) {
 	m.write[addr] = store
 }
 
+// Map maps the contents of other memory to this memory at the starting
+// address.
 func (m *Memory) Map(startAddr int, m1 *Memory) {
 	endAddr := startAddr + len(m1.read)
 	for i, addr := 0, startAddr; addr < endAddr; i, addr = i+1, addr+1 {
@@ -249,16 +246,20 @@ func (m *Memory) Map(startAddr int, m1 *Memory) {
 	}
 }
 
+// Unmap removes the read and write mappings at the address.
 func (m *Memory) Unmap(addr int) {
 	m.read[addr] = warnUnmappedRead(m.bank, addr)
 	m.write[addr] = warnUnmappedWrite(m.bank, addr)
 }
 
+// MapNil creates an empty read and write mapping at the address.
 func (m *Memory) MapNil(addr int) {
 	m.read[addr] = func() uint8 { return 0 }
 	m.write[addr] = func(uint8) {}
 }
 
+// WatchRO creates a read watch on the address. When a value is read to that
+// address, a MemoryEvent is sent to the Callback function.
 func (m *Memory) WatchRO(addr int) {
 	if m.preads[m.bank][addr] != nil {
 		return
@@ -277,6 +278,8 @@ func (m *Memory) WatchRO(addr int) {
 	m.preads[m.bank][addr] = prev
 }
 
+// WatchWO creates a write watch on the address. When a value is written to
+// that address, a MemoryEvent is sent to the Callback function.
 func (m *Memory) WatchWO(addr int) {
 	if m.pwrites[m.bank][addr] != nil {
 		return
@@ -285,7 +288,7 @@ func (m *Memory) WatchWO(addr int) {
 	m.write[addr] = func(value uint8) {
 		prev(value)
 		m.Callback(MemoryEvent{
-			Read:  true,
+			Read:  false,
 			Bank:  m.bank,
 			Addr:  addr,
 			Value: value,
@@ -294,11 +297,15 @@ func (m *Memory) WatchWO(addr int) {
 	m.pwrites[m.bank][addr] = prev
 }
 
+// WatchRW creats a read and write watch on the address. When a value is
+// read from or written to that address, a MemorYEvent is sent to the
+// Callback function.
 func (m *Memory) WatchRW(addr int) {
 	m.WatchRO(addr)
 	m.WatchWO(addr)
 }
 
+// Unwatch removes read nad write watches on the address.
 func (m *Memory) Unwatch(addr int) {
 	if prev := m.pwrites[m.bank][addr]; prev != nil {
 		m.write[addr] = prev

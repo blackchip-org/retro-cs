@@ -306,6 +306,39 @@ $0000:  0a        i0a
 [break]
 pc:0001 a:00 b:00 q:false z:false
 		`,
+	}, {
+		"watch",
+		[]string{
+			"watch set 10 rw",
+			"watch list",
+			"poke 10 22",
+			"peek 10",
+			"watch clear 10",
+			"watch set 10 r",
+			"watch list",
+			"poke 10 22",
+			"peek 10",
+			"watch clear 10",
+			"watch set 10 w",
+			"watch list",
+			"poke 10 22",
+			"peek 10",
+			"watch clear-all",
+			"watch",
+			"q",
+		},
+		`
+$0010 rw
+write($0010) => $22
+$22 <= read($0010)
+$22 +34
+$0010 r
+$22 <= read($0010)
+$22 +34
+$0010 w
+write($0010) => $22
+$22 +34
+		`,
 	},
 }
 

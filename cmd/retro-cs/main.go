@@ -7,6 +7,8 @@ import (
 	"path/filepath"
 	"runtime/pprof"
 
+	"github.com/blackchip-org/retro-cs/mock"
+
 	"github.com/veandco/go-sdl2/sdl"
 
 	"github.com/blackchip-org/retro-cs/app"
@@ -22,6 +24,7 @@ const (
 var (
 	optFullStart bool
 	optProfC     bool
+	optPanic     bool
 	optSystem    string
 	optMonitor   bool
 	optImport    string
@@ -38,6 +41,7 @@ func init() {
 	flag.BoolVar(&optNoAudio, "no-audio", false, "disable audio")
 	flag.BoolVar(&optNoVideo, "no-video", false, "disable video")
 	flag.BoolVar(&optMonitor, "m", false, "enable monitor")
+	flag.BoolVar(&optPanic, "panic", false, "install panic log writer")
 	flag.StringVar(&optSystem, "s", "c64", "start this system")
 	flag.BoolVar(&optTrace, "t", false, "enable tracing")
 	flag.BoolVar(&optWait, "w", false, "wait for go command")
@@ -46,7 +50,6 @@ func init() {
 func main() {
 	log.SetFlags(0)
 	flag.Parse()
-	config.DataDir = filepath.Join(config.ResourceDir(), "data")
 
 	if optProfC {
 		f, err := os.Create("./cpu.prof")
@@ -71,7 +74,7 @@ func main() {
 		log.Fatalf("no such system: %v", optSystem)
 	}
 	config.System = optSystem
-	config.ROMDir = filepath.Join(config.DataDir, optSystem)
+	config.DataDir = filepath.Join(config.ResourceDir(), "data", optSystem)
 	config.VarDir = filepath.Join(config.ResourceDir(), "var", optSystem)
 
 	if err := os.MkdirAll(config.VarDir, 0755); err != nil {
@@ -150,10 +153,15 @@ func main() {
 		filename := filepath.Join(config.VarDir, optImport)
 		mach.Command(rcs.MachImport, filename)
 	} else if !optFullStart {
-		filename := filepath.Join(config.ROMDir, "init.state")
+		filename := filepath.Join(config.DataDir, "init.state")
 		if _, err := os.Stat(filename); !os.IsNotExist(err) {
 			mach.Command(rcs.MachImport, filename)
 		}
 	}
+
+	if optPanic {
+		log.SetOutput(&mock.PanicWriter{})
+	}
+
 	mach.Run()
 }

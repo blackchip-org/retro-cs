@@ -115,18 +115,39 @@ Set the memory *address* with the given *value*
 
 Show the memory value at *address*
 
+### q[uit]
+
+Exit.
+
 ### r
+
+Display the CPU status (registers and flags)
 
 ### save [*name*]
 
 Save the current state with the given *name*. If *name* is not specified, `state` is used. Use load to restore to this state.
 
-Display the CPU status (registers and flags)
-
 ### t[race]
 
 Toggle the tracing of instruction execution.
 
-### q[uit]
+### w[atch] [list]
 
-Exit.
+Watch all active memory watches.
+
+### w[atch] clear *address*
+
+Clear the watch at *address*.
+
+### w[atch] clear-all
+
+Clear all watches.
+
+### w[atch] set *address* *mode*
+
+Set a watch for *address*. Mode is either *r* for reads, *w* for writes, *rw* for reads and writes.
+
+### x
+
+Stop all logging output.
+

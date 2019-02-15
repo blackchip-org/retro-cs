@@ -55,7 +55,6 @@ func main() {
 		flag.Usage()
 		os.Exit(1)
 	}
-	config.DataDir = filepath.Join(config.ResourceDir(), "data")
 
 	v, ok := views[flag.Arg(0)]
 	if !ok {
@@ -64,7 +63,7 @@ func main() {
 
 	var roms map[string][]byte
 	if v.roms != nil {
-		dir := filepath.Join(config.DataDir, v.system)
+		dir := filepath.Join(config.ResourceDir(), "data", v.system)
 		r, err := rcs.LoadROMs(dir, v.roms)
 		if err != nil {
 			log.Fatalf("unable to load roms:\n%v\n", err)

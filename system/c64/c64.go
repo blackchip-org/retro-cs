@@ -9,14 +9,15 @@ import (
 )
 
 type system struct {
-	cpu *m6502.CPU
-	ram []uint8
-	io  []uint8
+	cpu  *m6502.CPU
+	ram  []uint8
+	io   []uint8
+	bank uint8
 }
 
 func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 	sys := &system{}
-	roms, err := rcs.LoadROMs(config.ROMDir, SystemROM)
+	roms, err := rcs.LoadROMs(config.DataDir, SystemROM)
 	if err != nil {
 		return nil, err
 	}
@@ -24,7 +25,17 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 	io := make([]uint8, 0x1000, 0x1000)
 
 	mem := newMemory(ram, io, roms)
-	mem.SetBank(31)
+	// setup IO port on the 6510, map address 1 to "PLA" in all banks
+	for b := 0; b < 32; b++ {
+		mem.SetBank(b)
+		mem.MapLoad(1, sys.ioPortLoad(mem))
+		mem.MapStore(1, sys.ioPortStore(mem))
+	}
+	// GAME and EXROM on to start
+	sys.bank = 0x18
+	// HIMEM, LOMEM, CHAREN on to start
+	mem.Write(1, 0x7)
+
 	cpu := m6502.New(mem)
 
 	var screen rcs.Screen
@@ -73,6 +84,22 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 	}
 
 	return mach, nil
+}
+
+func (s *system) ioPortStore(mem *rcs.Memory) rcs.Store8 {
+	return func(v uint8) {
+		// PLA information is in the bottom 3 bits
+		s.bank &^= 0x7
+		s.bank |= v & 0x7
+		mem.SetBank(int(s.bank))
+	}
+}
+
+func (s *system) ioPortLoad(mem *rcs.Memory) rcs.Load8 {
+	return func() uint8 {
+		// Only return the bottom 3 bits for now
+		return s.bank & 0x7
+	}
 }
 
 func (s *system) Save(enc *rcs.Encoder) {

@@ -23,7 +23,7 @@ type system struct {
 
 func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 	sys := &system{}
-	roms, err := rcs.LoadROMs(config.ROMDir, set)
+	roms, err := rcs.LoadROMs(config.DataDir, set)
 	if err != nil {
 		return nil, err
 	}
