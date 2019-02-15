@@ -21,7 +21,7 @@ retro-cs -s mspacman
 - `r`: Rack advance
 
 ## ROMs
-The ROMs used for this emulator were obtained sfrom the MAME 0.37b5 ROM Set. The Internet Archive is a great resource. The correct SHA1 checksums are listed below:
+The ROMs used for this emulator were obtained from the MAME 0.37b5 ROM Set. The Internet Archive is a great resource. The correct SHA1 checksums are listed below:
 
 ### Pac-Man
 Place these files in `~/rcs/data/pacman`
@@ -78,12 +78,14 @@ Accurate timing of the CPU is not necessary. This emulator runs 1,000 instructio
 ### Memory
 The source code in [MAME](https://github.com/mamedev/mame/blob/master/src/mame/drivers/pacman.cpp) notes that the most signfigant line in the addres bus (A15) is not attached. If this is not emulated, the attract screen will be missing the text for "High Score" and "Credits". This may be a copy protection feature.
 
-When Pac-Man starts, it performs a series of initialization tasks and then executes a halt instruction to wait for the first interrupt. The stack pointer has not been set at this point and the interrupt will push the return address to 0xffff and 0xfffe which doesn't get used. Ms. Pac-Man also writes to 0xfffd and 0xfffc.
+When Pac-Man starts it performs a series of initialization tasks and then executes a halt instruction to wait for the first interrupt. The stack pointer has not been set at this point and the interrupt will push the return address to 0xffff and 0xfffe which doesn't get used. Ms. Pac-Man also writes to 0xfffd and 0xfffc.
+
+The start of the interrupt routine is at 0x008d. Exporting state the first time here is a great way to start the game bypassing the POST.
 
 ### Video
 While there are only 64 palettes, color memory does contain garbage in the higher bits. Mask out the value by and-ing with 0x3f.
 
-Figure 7 and Figure 8 which show the screen layout is a little difficult to read. This is a smaller table which shows the address values at the edges.
+Figure 7 and Figure 8 which show the screen layout is a little difficult to read. This is a smaller table which shows the address values at the screen edges.
 
 ```
 3df 3de | 3dd 3dc ... 3c3 3c2 | 3c1 3c0
@@ -99,7 +101,7 @@ Figure 7 and Figure 8 which show the screen layout is a little difficult to read
 03f 03e | 03d 03c ... 023 022 | 021 020
 ```
 
-The layout of the tiles and sprites is confusing and easy to get wrong. There may also be a bug in the documentation. If those instructions do not produce correct images, the matrices below can be used instead. To fill the pixel in the target image at (X, Y) use the value found in matrix where a value of 0 is the first bit-plane in byte 0, 1 is the second bit-plane in byte 0, 4 is the first bit plane in byte 1, etc.
+The layout of the tiles and sprites is confusing and easy to get wrong. There may also be a bug in the documentation. If those instructions do not produce correct images, the matrices below can be used instead. To fill the pixel in the target image at (X, Y) use the value found in the matrix where a value of 0 is the first bit-plane in byte 0, 1 is the second bit-plane in byte 0, 4 is the first bit plane in byte 1, etc.
 
 #### Tiles
 ```
@@ -138,10 +140,10 @@ The layout of the tiles and sprites is confusing and easy to get wrong. There ma
 
 ### Registers
 
-When starting the machine, if the inputs have not been hooked up yet (joysticks, buttons, coin slots), the IN0 and IN1 registers should be set to sane values.
+If the inputs have not been hooked up yet when starting the machine (joysticks, buttons, coin slots), the IN0 and IN1 registers should be set to sane values.
 
-- IN0: 0xbf
-- IN1: 0xff
+- IN0: `0xbf`
+- IN1: `0xff`
 
 Leaving these values as zero will boot to the testing screen instead of the game. If set improperly, the demo game in attract mode will crash and end up showing one of the level transition animations.
 
