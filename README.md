@@ -8,7 +8,7 @@ Inspired by the Vintage Computer Club.
 
 Work on the [pac8](https://github.com/blackchip-org/pac8) and the [mach85](https://github.com/blackchip-org/mach85) has now been combined into this project. Maybe [vt128](https://github.com/blackchip-org/vt128) will make it in soon. Always a work in progress and a labor of love. There is no master plan. Feel free to contact me for more information.
 
-Click on one of the systems below for more information:
+Notes on the systems in progress:
 
 - [Commodore 64](doc/c64.md)
 - [Pac-Man](doc/pacman.md)
