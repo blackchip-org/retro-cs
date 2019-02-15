@@ -57,6 +57,7 @@ go get github.com/blackchip-org/retro-cs/...
 where `<system>` is one of the following:
 
 - `c64`
+- `galaga`
 - `mspacman`
 - `pacman`
 
