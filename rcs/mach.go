@@ -92,7 +92,7 @@ func (m *Mach) Init() error {
 		}
 		m.DefaultEncoding = "ascii"
 	}
-	m.cmd = make(chan message, 1)
+	m.cmd = make(chan message, 10)
 	cores := len(m.CPU)
 	m.Breakpoints = make([]map[int]struct{}, cores, cores)
 	for i := 0; i < cores; i++ {
