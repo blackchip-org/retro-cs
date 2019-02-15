@@ -2,6 +2,7 @@
 
 ## Status
 
+- Does not work
 - Tiles and sprites availabe in rcs-viewer
 - Boots to test screen
 
