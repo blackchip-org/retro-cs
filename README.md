@@ -2,7 +2,11 @@
 
 [![Build Status](https://travis-ci.com/blackchip-org/retro-cs.svg?branch=master)](https://travis-ci.com/blackchip-org/retro-cs) [![GoDoc](https://godoc.org/github.com/blackchip-org/retro-cs?status.svg)](https://godoc.org/github.com/blackchip-org/retro-cs)
 
-The retro-computing systems.
+The Retro-Computing Systems.
+
+Inspired by the Vintage Computer Club.
+
+Work on the [pac8](https://github.com/blackchip-org/pac8) and the [mach85](https://github.com/blackchip-org/mach85) has now been combined into this project. Maybe [vt128](https://github.com/blackchip-org/vt128) will make it in soon. Always a work in progress and a labor of love. There is no master plan. Feel free to contact me for more information.
 
 Click on one of the systems below for more information:
 
@@ -41,6 +45,11 @@ Install go and SDL with:
 ```bash
 brew install go sdl2{,_image,_mixer,_ttf,_gfx} pkg-config
 ```
+
+### ROMs
+
+ROMs are not included in this repository. Follow the directions for each system to obtain the proper ROMs or ask for the resource pack.
+
 
 ## Installation
 
