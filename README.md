@@ -72,6 +72,8 @@ where `<system>` is one of the following:
 
 Use the `-m` flag to enable the [monitor](doc/monitor.md).
 
+Escape key to exit if in full screen mode.
+
 ## License
 
 MIT
