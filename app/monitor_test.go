@@ -60,15 +60,15 @@ var monitorTests = []struct {
 	{
 		"break",
 		[]string{
-			"b set 3456",
-			"b set 2345",
-			"b set 1234",
+			"b set $3456",
+			"b set $2345",
+			"b set $1234",
 			"b",
-			"b clear 2345",
+			"b clear $2345",
 			"b",
 			"b clear-all",
 			"b",
-			"b set 123456",
+			"b set $123456",
 			"q",
 		},
 		`
@@ -77,17 +77,17 @@ $2345
 $3456
 $1234
 $3456
-invalid address: 123456
+invalid address: $123456
 		`,
 	}, {
 		"dasm",
 		[]string{
 			"dasm lines 4",
-			"poke 10 09",
-			"poke 11 19 ab",
-			"poke 13 29 cd ab",
-			"poke 16 27 cd ab",
-			"d 10",
+			"poke $10 $09",
+			"poke $11 $19 $ab",
+			"poke $13 $29 $cd $ab",
+			"poke $16 $27 $cd $ab",
+			"d $10",
 			"q",
 		},
 		`
@@ -100,10 +100,10 @@ $0016:  27 cd ab  i27 $abcd
 		"dasm continue",
 		[]string{
 			"dasm lines 1",
-			"poke 0 09",
-			"poke 1 19 ab",
-			"poke 3 29 cd ab",
-			"poke 6 27 cd ab",
+			"poke $0 $09",
+			"poke $1 $19 $ab",
+			"poke $3 $29 $cd $ab",
+			"poke $6 $27 $cd $ab",
 			"d",
 			"d",
 			"",
@@ -118,11 +118,11 @@ $0003:  29 cd ab  i29 $abcd
 		"dasm range",
 		[]string{
 			"dasm lines 4",
-			"poke 10 09",
-			"poke 11 19 ab",
-			"poke 13 29 cd ab",
-			"poke 16 27 cd ab",
-			"d 11 14",
+			"poke $10 $09",
+			"poke $11 $19 $ab",
+			"poke $13 $29 $cd $ab",
+			"poke $16 $27 $cd $ab",
+			"d $11 $14",
 			"q",
 		},
 		`
@@ -131,7 +131,7 @@ $0013:  29 cd ab  i29 $abcd
 		`,
 	}, {
 		"go",
-		[]string{"break set 10", "g", "_yield", "cpu reg pc", "q"},
+		[]string{"break set $10", "g", "_yield", "cpu reg pc", "q"},
 		`
 [break]
 pc:0010 a:00 b:00 q:false z:false
@@ -189,10 +189,10 @@ $0020  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
 		"memory encoding",
 		[]string{
 			"mem encoding",
-			"poke 0 1 2 3 41 42 43",
-			"m 00 0f",
+			"poke $0 1 2 3 $41 $42 $43",
+			"m 00 $0f",
 			"mem encoding az26",
-			"m 00 0f",
+			"m 00 $0f",
 			"mem encoding ebcdic",
 			"q",
 		},
@@ -207,9 +207,9 @@ no such encoding: ebcdic
 		"memory fill",
 		[]string{
 			"mem lines 1",
-			"mem fill 0004 000b ff",
+			"mem fill 0004 $000b $ff",
 			"m 0",
-			"mem fill 000b 0004 aa",
+			"mem fill $000b 0004 $aa",
 			"m 0",
 			"q",
 		},
@@ -225,7 +225,7 @@ $0000:  00        i00
 		`,
 	}, {
 		"peek",
-		[]string{"poke 1234 ab", "peek 1234", "q"},
+		[]string{"poke $1234 $ab", "peek $1234", "q"},
 		`
 $ab +171
 		`,
@@ -233,9 +233,9 @@ $ab +171
 		"registers and flags set",
 		[]string{
 			"r",
-			"cpu reg pc 1234",
-			"cpu reg a 56",
-			"cpu reg c ff",
+			"cpu reg pc $1234",
+			"cpu reg a $56",
+			"cpu reg c $ff",
 			"cpu flag q on",
 			"cpu flag a on",
 			"r",
@@ -262,7 +262,7 @@ z
 	}, {
 		"registers and flags set",
 		[]string{
-			"cpu reg a 56",
+			"cpu reg a $56",
 			"cpu flag q on",
 			"cpu reg a",
 			"cpu reg c",
@@ -290,7 +290,7 @@ pc:0003 a:00 b:00 q:false z:false
 	}, {
 		"trace",
 		[]string{
-			"poke 0 a b c",
+			"poke 0 $a $b $c",
 			"trace",
 			"break set 1",
 			"break set 2",
@@ -309,20 +309,20 @@ pc:0001 a:00 b:00 q:false z:false
 	}, {
 		"watch",
 		[]string{
-			"watch set 10 rw",
+			"watch set $10 rw",
 			"watch list",
-			"poke 10 22",
-			"peek 10",
-			"watch clear 10",
-			"watch set 10 r",
+			"poke $10 $22",
+			"peek $10",
+			"watch clear $10",
+			"watch set $10 r",
 			"watch list",
-			"poke 10 22",
-			"peek 10",
-			"watch clear 10",
-			"watch set 10 w",
+			"poke $10 $22",
+			"peek $10",
+			"watch clear $10",
+			"watch set $10 w",
 			"watch list",
-			"poke 10 22",
-			"peek 10",
+			"poke $10 $22",
+			"peek $10",
 			"watch clear-all",
 			"watch",
 			"q",
@@ -346,7 +346,7 @@ func TestBreakpointOffset(t *testing.T) {
 	f := newMonitorFixture()
 	f.cpu.OffsetPC = 1
 	cmds := `
-b set 10
+b set $10
 g
 _yield
 cpu reg pc

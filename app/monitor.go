@@ -1008,15 +1008,20 @@ func checkLen(args []string, min int, max int) error {
 }
 
 func parseUint(str string, bitSize int) (uint64, error) {
-	base := 16
+	base := 10
 	switch {
 	case strings.HasPrefix(str, "$"):
 		str = str[1:]
+		base = 16
 	case strings.HasPrefix(str, "0x"):
 		str = str[2:]
-	case strings.HasPrefix(str, "+"):
+		base = 16
+	case strings.HasPrefix(str, "%"):
 		str = str[1:]
-		base = 10
+		base = 2
+	case strings.HasPrefix(str, "0b"):
+		str = str[2:]
+		base = 2
 	}
 	return strconv.ParseUint(str, base, bitSize)
 }
