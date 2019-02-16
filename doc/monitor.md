@@ -4,13 +4,26 @@ Enable the monitor by using -m on the command line.
 
 ## Arguments
 
-The arguments for *address* and *value* can be specified as a hexadecimal value without a prefix or with a `$` prefix. Decimal values can be specified by using a `+` prefix.
+The arguments for *address* and *value* are decimal values, or other values using the following prefixes:
+
+    - `$` or `0x`: hexadecimal
+    - `%` or `0b`: binary
 
 Examples:
 ```
-p 1234 ff
-p 1234 $ff
-p 1234 +255
+monitor> poke $1234 10
+monitor> poke $1234 $0a
+monitor> poke $1234 %1010
+```
+
+## Conversions
+Typing in a number at the monitor prompt will show the value in decimal,
+hexadecimal, and binary.
+
+Examples:
+```
+monitor> 129
+129 $81 %10000001
 ```
 
 ## Commands

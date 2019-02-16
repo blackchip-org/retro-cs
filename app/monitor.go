@@ -195,6 +195,12 @@ func (m *Monitor) cmd(args []string) error {
 		}
 	}
 
+	val, err := m.parseValue(args[0])
+	if err == nil {
+		m.out.Printf(m.formatValue(val))
+		return nil
+	}
+
 	return fmt.Errorf("no such command: %v", args[0])
 }
 
@@ -1066,6 +1072,10 @@ func (m *Monitor) parseBool(str string) (bool, error) {
 		return false, nil
 	}
 	return false, fmt.Errorf("invalid value: %v", str)
+}
+
+func (m *Monitor) formatValue(v int) string {
+	return fmt.Sprintf("%d $%x %%%%%b", v, v, v)
 }
 
 func (m *Monitor) formatValue8(v uint8) string {

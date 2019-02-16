@@ -58,6 +58,14 @@ var monitorTests = []struct {
 	want string
 }{
 	{
+		"conversions",
+		[]string{"42", "$2a", "%101010", "q"},
+		`
+42 $2a %101010
+42 $2a %101010
+42 $2a %101010
+		`,
+	}, {
 		"break",
 		[]string{
 			"b set $3456",
