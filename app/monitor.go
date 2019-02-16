@@ -370,7 +370,7 @@ func (m *Monitor) cmdCPUSelect(args []string) error {
 	if err := checkLen(args, 1, 1); err != nil {
 		return err
 	}
-	value, err := parseValue(args[0])
+	value, err := m.parseValue(args[0])
 	if err != nil {
 		return err
 	}
@@ -447,7 +447,7 @@ func (m *Monitor) cmdDasmLines(args []string) error {
 		m.out.Println(m.dasmLines)
 		return nil
 	}
-	lines, err := parseValue(args[0])
+	lines, err := m.parseValue(args[0])
 	if err != nil {
 		return err
 	}
@@ -590,7 +590,7 @@ func (m *Monitor) cmdMemoryFill(args []string) error {
 	if err != nil {
 		return err
 	}
-	value, err := parseValue8(args[2])
+	value, err := m.parseValue8(args[2])
 	if err != nil {
 		return err
 	}
@@ -611,7 +611,7 @@ func (m *Monitor) cmdMemoryLines(args []string) error {
 		m.out.Println(m.memLines)
 		return nil
 	}
-	lines, err := parseValue(args[0])
+	lines, err := m.parseValue(args[0])
 	if err != nil {
 		return err
 	}
@@ -649,7 +649,7 @@ func (m *Monitor) cmdPoke(args []string) error {
 	}
 	values := []uint8{}
 	for _, str := range args[1:] {
-		v, err := parseValue8(str)
+		v, err := m.parseValue8(str)
 		if err != nil {
 			return err
 		}
@@ -1034,7 +1034,7 @@ func (m *Monitor) parseAddress(str string) (int, error) {
 	return int(value), nil
 }
 
-func parseValue(str string) (int, error) {
+func (m *Monitor) parseValue(str string) (int, error) {
 	value, err := parseUint(str, 64)
 	if err != nil {
 		return 0, fmt.Errorf("invalid value: %v", str)
@@ -1042,7 +1042,7 @@ func parseValue(str string) (int, error) {
 	return int(value), nil
 }
 
-func parseValue8(str string) (uint8, error) {
+func (m *Monitor) parseValue8(str string) (uint8, error) {
 	value, err := parseUint(str, 8)
 	if err != nil {
 		return 0, fmt.Errorf("invalid value: %v", str)
@@ -1050,7 +1050,7 @@ func parseValue8(str string) (uint8, error) {
 	return uint8(value), nil
 }
 
-func parseValue16(str string) (uint16, error) {
+func (m *Monitor) parseValue16(str string) (uint16, error) {
 	value, err := parseUint(str, 16)
 	if err != nil {
 		return 0, fmt.Errorf("invalid value: %v", str)
@@ -1058,7 +1058,7 @@ func parseValue16(str string) (uint16, error) {
 	return uint16(value), nil
 }
 
-func parseBool(str string) (bool, error) {
+func (m *Monitor) parseBool(str string) (bool, error) {
 	switch str {
 	case "true", "1", "yes", "on":
 		return true, nil
@@ -1068,20 +1068,20 @@ func parseBool(str string) (bool, error) {
 	return false, fmt.Errorf("invalid value: %v", str)
 }
 
-func formatValue8(v uint8) string {
+func (m *Monitor) formatValue8(v uint8) string {
 	return fmt.Sprintf("$%02x +%d %%%08b", v, v, v)
 }
 
-func formatValue16(v uint16) string {
+func (m *Monitor) formatValue16(v uint16) string {
 	return fmt.Sprintf("$%04x +%d", v, v)
 }
 
 func formatGet(m *Monitor, val rcs.Value) error {
 	switch get := val.Get.(type) {
 	case func() uint8:
-		m.out.Print(formatValue8(get()))
+		m.out.Print(m.formatValue8(get()))
 	case func() uint16:
-		m.out.Print(formatValue16(get()))
+		m.out.Print(m.formatValue16(get()))
 	case func() bool:
 		m.out.Printf("%v", get())
 	default:
@@ -1093,19 +1093,19 @@ func formatGet(m *Monitor, val rcs.Value) error {
 func parsePut(m *Monitor, in string, val rcs.Value) error {
 	switch put := val.Put.(type) {
 	case func(uint8):
-		v, err := parseValue8(in)
+		v, err := m.parseValue8(in)
 		if err != nil {
 			return err
 		}
 		put(v)
 	case func(uint16):
-		v, err := parseValue16(in)
+		v, err := m.parseValue16(in)
 		if err != nil {
 			return err
 		}
 		put(v)
 	case func(bool):
-		v, err := parseBool(in)
+		v, err := m.parseBool(in)
 		if err != nil {
 			return err
 		}
