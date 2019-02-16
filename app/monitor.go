@@ -213,7 +213,7 @@ func (m *Monitor) cmd(args []string) error {
 
 	val, err := m.parseValue(args[0])
 	if err == nil {
-		m.out.Printf(m.formatValue(val))
+		m.out.Print(m.formatValue(val))
 		return nil
 	}
 
@@ -690,7 +690,7 @@ func (m *Monitor) cmdPeek(args []string) error {
 		return err
 	}
 	v := m.sc.mem.Read(addr)
-	m.out.Printf("$%02x +%v", v, v)
+	m.out.Print(m.formatValue(int(v)))
 	return nil
 }
 
@@ -1091,23 +1091,15 @@ func (m *Monitor) parseBool(str string) (bool, error) {
 }
 
 func (m *Monitor) formatValue(v int) string {
-	return fmt.Sprintf("%d $%x %%%%%b", v, v, v)
-}
-
-func (m *Monitor) formatValue8(v uint8) string {
-	return fmt.Sprintf("$%02x +%d %%%08b", v, v, v)
-}
-
-func (m *Monitor) formatValue16(v uint16) string {
-	return fmt.Sprintf("$%04x +%d", v, v)
+	return fmt.Sprintf("%d $%x %%%b", v, v, v)
 }
 
 func formatGet(m *Monitor, val rcs.Value) error {
 	switch get := val.Get.(type) {
 	case func() uint8:
-		m.out.Print(m.formatValue8(get()))
+		m.out.Print(m.formatValue(int(get())))
 	case func() uint16:
-		m.out.Print(m.formatValue16(get()))
+		m.out.Print(m.formatValue(int(get())))
 	case func() bool:
 		m.out.Printf("%v", get())
 	default:

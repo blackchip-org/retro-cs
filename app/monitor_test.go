@@ -143,7 +143,7 @@ $0013:  29 cd ab  i29 $abcd
 		`
 [break]
 pc:0010 a:00 b:00 q:false z:false
-$0010 +16
+16 $10 %10000
 		`,
 	}, {
 		"memory",
@@ -235,7 +235,7 @@ $0000:  00        i00
 		"peek",
 		[]string{"poke $1234 $ab", "peek $1234", "q"},
 		`
-$ab +171
+171 $ab %10101011
 		`,
 	}, {
 		"registers and flags set",
@@ -268,7 +268,7 @@ q
 z
 		`,
 	}, {
-		"registers and flags set",
+		"registers and flags get",
 		[]string{
 			"cpu reg a $56",
 			"cpu flag q on",
@@ -278,7 +278,7 @@ z
 			"cpu flag a",
 			"q"},
 		`
-$56 +86 %01010110
+86 $56 %1010110
 no such register: c
 true
 no such flag: a
@@ -339,13 +339,13 @@ pc:0001 a:00 b:00 q:false z:false
 $0010 rw
 write($0010) => $22
 $22 <= read($0010)
-$22 +34
+34 $22 %100010
 $0010 r
 $22 <= read($0010)
-$22 +34
+34 $22 %100010
 $0010 w
 write($0010) => $22
-$22 +34
+34 $22 %100010
 		`,
 	},
 }
@@ -366,7 +366,7 @@ q
 	want := strings.TrimSpace(`
 [break]
 pc:000f a:00 b:00 q:false z:false
-$000f +15
+15 $f %1111
 `)
 	if have != want {
 		t.Errorf("\n have: \n%v \n want: \n%v", have, want)
