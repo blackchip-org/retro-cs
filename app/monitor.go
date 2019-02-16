@@ -8,9 +8,9 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	"os/user"
 	"path/filepath"
 	"reflect"
+	"regexp"
 	"runtime"
 	"sort"
 	"strconv"
@@ -96,14 +96,14 @@ func NewMonitor(mach *rcs.Mach) *Monitor {
 }
 
 func (m *Monitor) Run() error {
-	usr, err := user.Current()
-	if err != nil {
-		return err
+	historyFile := ""
+	if config.UserDir != "" {
+		historyFile = filepath.Join(config.UserDir, "history")
 	}
 	rl, err := readline.NewEx(&readline.Config{
 		Prompt:       m.getPrompt(),
-		HistoryFile:  filepath.Join(usr.HomeDir, ".retro-cs-history"),
 		Stdin:        m.in,
+		HistoryFile:  historyFile,
 		AutoComplete: newCompleter(m),
 	})
 	if err != nil {
@@ -123,6 +123,22 @@ func (m *Monitor) Run() error {
 	}
 }
 
+func (m *Monitor) Eval(str string) error {
+	lines := strings.Split(str, "\n")
+	for _, line := range lines {
+		args := splitArgs(line)
+		if len(args) > 0 {
+			m.out.Printf("+ %v\n", line)
+			err := m.cmd(args)
+			if err != nil {
+				m.out.Printf("%v", err)
+				return err
+			}
+		}
+	}
+	return nil
+}
+
 func (m *Monitor) parse(line string) {
 	line = strings.TrimSpace(line)
 	if line == "" && m.lastCmd != nil {
@@ -133,7 +149,7 @@ func (m *Monitor) parse(line string) {
 		return
 	}
 	m.lastCmd = nil
-	args := strings.Split(line, " ")
+	args := splitArgs(line)
 	err := m.cmd(args)
 	if err != nil {
 		m.out.Printf("%v", err)
@@ -1131,6 +1147,16 @@ func loadPath(name string) string {
 		return name
 	}
 	return filepath.Join(config.DataDir, name)
+}
+
+var whitespaceRegex = regexp.MustCompile("\\s+")
+
+func splitArgs(line string) []string {
+	line = strings.TrimSpace(line)
+	if line == "" || line[0] == '#' {
+		return []string{}
+	}
+	return whitespaceRegex.Split(line, -1)
 }
 
 func dump(m *rcs.Memory, start int, end int, decode rcs.CharDecoder) string {

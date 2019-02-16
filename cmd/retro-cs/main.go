@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -74,9 +75,13 @@ func main() {
 		log.Fatalf("no such system: %v", optSystem)
 	}
 	config.System = optSystem
+	config.UserDir = filepath.Join(config.UserHome, ".retro-cs")
 	config.DataDir = filepath.Join(config.ResourceDir(), "data", optSystem)
 	config.VarDir = filepath.Join(config.ResourceDir(), "var", optSystem)
 
+	if err := os.MkdirAll(config.UserDir, 0755); err != nil {
+		log.Fatalf("unaboe to create directory %v: %v", config.UserDir, err)
+	}
 	if err := os.MkdirAll(config.VarDir, 0755); err != nil {
 		log.Fatalf("unable to create directory %v: %v", config.VarDir, err)
 	}
@@ -130,11 +135,12 @@ func main() {
 	}
 
 	var mon *app.Monitor
+	mon = app.NewMonitor(mach)
+	defer func() {
+		mon.Close()
+	}()
+
 	if optMonitor {
-		mon = app.NewMonitor(mach)
-		defer func() {
-			mon.Close()
-		}()
 		go func() {
 			err := mon.Run()
 			if err != nil {
@@ -142,6 +148,7 @@ func main() {
 			}
 		}()
 	}
+
 	mach.Status = rcs.Run
 	if optWait {
 		mach.Status = rcs.Pause
@@ -164,6 +171,12 @@ func main() {
 
 	if optPanic {
 		log.SetOutput(&mock.PanicWriter{})
+	}
+
+	startFile := filepath.Join(config.UserDir, "startup")
+	cmds, err := ioutil.ReadFile(startFile)
+	if err == nil {
+		mon.Eval(string(cmds))
 	}
 
 	mach.Run()

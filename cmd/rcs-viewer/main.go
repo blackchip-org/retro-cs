@@ -22,7 +22,7 @@ var (
 
 func init() {
 	flag.IntVar(&scale, "scale", 1, "image `scale`")
-	flag.StringVar(&config.Home, "home", "", "set the RCS `home` directory")
+	flag.StringVar(&config.RCSDir, "home", "", "set the RCS `home` directory")
 	flag.BoolVar(&hscan, "hscan", false, "add horizontal scan lines")
 	flag.BoolVar(&vscan, "vscan", false, "add vertical scan lines")
 

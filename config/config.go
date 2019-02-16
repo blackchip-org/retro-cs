@@ -8,11 +8,21 @@ import (
 )
 
 var (
-	Home    string // use this as the home directory
-	DataDir string // data directory
-	VarDir  string // Directory where runtime variable data is stored
-	System  string
+	UserHome string // the user's home directory
+	RCSDir   string // use this as the home directory
+	UserDir  string
+	DataDir  string // data directory
+	VarDir   string // Directory where runtime variable data is stored
+	System   string
 )
+
+func init() {
+	usr, err := user.Current()
+	if err != nil {
+		log.Printf("unable to get home directory: %v", err)
+	}
+	UserHome = usr.HomeDir
+}
 
 // ResourceDir returns the root directory where RCS data can be found. Locations
 // for the root directory are checked in this order: 1) The value of the
@@ -28,7 +38,7 @@ func ResourceDir() string {
 		userHome = u.HomeDir
 	}
 
-	root := Home
+	root := RCSDir
 	if root == "" {
 		root = os.Getenv("RCS_HOME")
 	}
