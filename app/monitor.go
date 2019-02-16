@@ -270,10 +270,12 @@ func (m *Monitor) cmdCPU(args []string) error {
 		return nil
 	}
 	switch args[0] {
-	case "reg":
-		return m.cmdCPUReg(args[1:])
 	case "flag":
 		return m.cmdCPUFlag(args[1:])
+	case "reg":
+		return m.cmdCPUReg(args[1:])
+	case "select":
+		return m.cmdCPUSelect(args[1:])
 	}
 	return fmt.Errorf("unknown command: %v", args[0])
 }
@@ -362,6 +364,22 @@ func (m *Monitor) cmdCPUFlagPut(editor rcs.CPUEditor, name string, val string) e
 		return fmt.Errorf("no such flag: %v", name)
 	}
 	return parsePut(m, val, reg)
+}
+
+func (m *Monitor) cmdCPUSelect(args []string) error {
+	if err := checkLen(args, 1, 1); err != nil {
+		return err
+	}
+	value, err := parseValue(args[0])
+	if err != nil {
+		return err
+	}
+	if value < 0 || value >= len(m.mach.CPU) {
+		return fmt.Errorf("invalid core: %v", value)
+	}
+	m.sc = &m.cores[value]
+	m.rl.SetPrompt(m.getPrompt())
+	return nil
 }
 
 func (m *Monitor) cmdDasm(args []string) error {
@@ -794,12 +812,13 @@ func newCompleter(m *Monitor) *readline.PrefixCompleter {
 			readline.PcItem("set"),
 		),
 		readline.PcItem("cpu",
-			readline.PcItem("reg",
-				readline.PcItemDynamic(acRegisters(m)),
-			),
 			readline.PcItem("flag",
 				readline.PcItemDynamic(acFlags(m)),
 			),
+			readline.PcItem("reg",
+				readline.PcItemDynamic(acRegisters(m)),
+			),
+			readline.PcItem("select"),
 		),
 		readline.PcItem("d"),
 		readline.PcItem("dasm",
@@ -940,7 +959,7 @@ func (m *Monitor) Close() {
 func (m *Monitor) getPrompt() string {
 	c := ""
 	if len(m.mach.CPU) > 1 {
-		c = fmt.Sprintf(":%v", m.sc.id+1)
+		c = fmt.Sprintf(":%v", m.sc.id)
 	}
 	return fmt.Sprintf("monitor%v> ", c)
 }

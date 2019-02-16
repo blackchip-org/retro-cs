@@ -9,9 +9,12 @@ import (
 )
 
 type system struct {
-	cpu [3]*z80.CPU
-	mem [3]*rcs.Memory
-	ram []uint8
+	cpu   [3]*z80.CPU
+	mem   [3]*rcs.Memory
+	ram   []uint8
+	n06xx *namco.N06XX
+	n51xx *namco.N51XX
+	n54xx *namco.N54XX
 
 	video *namco.Video
 
@@ -22,7 +25,7 @@ type system struct {
 }
 
 func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
-	sys := &system{}
+	s := &system{}
 	roms, err := rcs.LoadROMs(config.DataDir, set)
 	if err != nil {
 		return nil, err
@@ -34,15 +37,33 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 
 	mem.MapRAM(0x6800, make([]uint8, 0x100, 0x100)) // temporary
 	for i := 0; i < 8; i++ {
-		mem.MapRW(0x6800+i, &sys.dipSwitches[i])
+		mem.MapRW(0x6800+i, &s.dipSwitches[i])
 	}
-	mem.MapRW(0x6820, &sys.interruptEnable1)
-	mem.MapRW(0x6821, &sys.interruptEnable2)
-	mem.MapRW(0x6822, &sys.interruptEnable3)
+	mem.MapRW(0x6820, &s.interruptEnable1)
+	mem.MapRW(0x6821, &s.interruptEnable2)
+	mem.MapRW(0x6822, &s.interruptEnable3)
 
 	mem.MapRAM(0x7000, make([]uint8, 0x1000, 0x1000))
 	mem.MapRAM(0x8000, ram)
 	mem.MapRAM(0xa000, make([]uint8, 0x1000, 0x1000))
+
+	s.n51xx = namco.NewN51XX()
+	s.n54xx = namco.NewN54XX()
+
+	s.n06xx = namco.NewN06XX()
+	s.n06xx.DeviceW[0] = s.n51xx.Write
+	s.n06xx.DeviceR[0] = s.n51xx.Read
+	s.n06xx.DeviceW[3] = s.n54xx.Write
+	s.n06xx.DeviceR[3] = s.n54xx.Read
+	for i, addr := 0, 0x7000; addr < 0x7100; addr, i = addr+1, i+1 {
+		j := i
+		mem.MapStore(addr, s.n06xx.WriteData(j))
+	}
+	for i, addr := 0, 0x7100; addr < 0x7200; addr, i = addr+1, i+1 {
+		j := i
+		mem.MapLoad(addr, s.n06xx.ReadCtrl(j))
+		mem.MapStore(addr, s.n06xx.WriteCtrl(j))
+	}
 
 	var screen rcs.Screen
 	var video *namco.Video
@@ -69,9 +90,10 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 		}
 	}
 
-	sys.dipSwitches[3] = 1
-	sys.dipSwitches[5] = 1
-	sys.dipSwitches[6] = 1
+	s.dipSwitches[3] = 1
+	s.dipSwitches[4] = 2
+	s.dipSwitches[5] = 1
+	s.dipSwitches[6] = 1
 
 	// HACK
 	mem.Write(0x9100, 0xff)
@@ -95,18 +117,23 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 	cpu3 := z80.New(mem3)
 
 	vblank := func() {
-		if sys.interruptEnable1 != 0 {
+		if s.interruptEnable1 != 0 {
 			cpu1.IRQ = true
 		}
-		if sys.interruptEnable2 != 0 {
+		if s.interruptEnable2 != 0 {
 			cpu2.IRQ = true
 		}
 	}
 
+	s.n06xx.NMI = func() {
+		cpu1.NMI = true
+	}
+
 	mach := &rcs.Mach{
-		Sys: sys,
-		Mem: []*rcs.Memory{mem1, mem2, mem3},
-		CPU: []rcs.CPU{cpu1, cpu2, cpu3},
+		Sys:  s,
+		Mem:  []*rcs.Memory{mem1, mem2, mem3},
+		CPU:  []rcs.CPU{cpu1, cpu2, cpu3},
+		Proc: []rcs.Proc{s.n06xx},
 		CharDecoders: map[string]rcs.CharDecoder{
 			"galaga": GalagaDecoder,
 		},

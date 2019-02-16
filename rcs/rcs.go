@@ -2,8 +2,10 @@ package rcs
 
 import (
 	"encoding/gob"
+	"fmt"
 	"io"
 	"math/bits"
+	"os"
 	"strconv"
 
 	"github.com/veandco/go-sdl2/sdl"
@@ -179,4 +181,36 @@ type Saver interface {
 
 type Loader interface {
 	Load(*Decoder)
+}
+
+type Debugger struct {
+	Print   func(...interface{}) (int, error)
+	Printf  func(string, ...interface{}) (int, error)
+	Println func(...interface{}) (int, error)
+}
+
+var activeDebugger = Debugger{
+	Print:   fmt.Print,
+	Printf:  fmt.Printf,
+	Println: fmt.Println,
+}
+
+var slientDebugger = Debugger{
+	Print: func(...interface{}) (int, error) {
+		return 0, nil
+	},
+	Printf: func(string, ...interface{}) (int, error) {
+		return 0, nil
+	},
+	Println: func(...interface{}) (int, error) {
+		return 0, nil
+	},
+}
+
+func NewDebugger(name string) Debugger {
+	if os.Getenv(name) != "" {
+		fmt.Printf("enabled debugging: %v\n", name)
+		return activeDebugger
+	}
+	return slientDebugger
 }

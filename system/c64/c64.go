@@ -10,42 +10,31 @@ import (
 
 type system struct {
 	cpu  *m6502.CPU
+	mem  *rcs.Memory
 	ram  []uint8
 	io   []uint8
 	bank uint8
 }
 
 func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
-	sys := &system{}
+	s := &system{}
 	roms, err := rcs.LoadROMs(config.DataDir, SystemROM)
 	if err != nil {
 		return nil, err
 	}
-	ram := make([]uint8, 0x10000, 0x10000)
-	io := make([]uint8, 0x1000, 0x1000)
+	s.ram = make([]uint8, 0x10000, 0x10000)
+	s.io = make([]uint8, 0x1000, 0x1000)
 
-	mem := newMemory(ram, io, roms)
-	// setup IO port on the 6510, map address 1 to "PLA" in all banks
-	for b := 0; b < 32; b++ {
-		mem.SetBank(b)
-		mem.MapLoad(1, sys.ioPortLoad(mem))
-		mem.MapStore(1, sys.ioPortStore(mem))
-	}
-	// GAME and EXROM on to start
-	sys.bank = 0x18
-	// HIMEM, LOMEM, CHAREN on to start
-	mem.Write(1, 0x7)
-
-	cpu := m6502.New(mem)
+	s.mem = newMemory(s.ram, s.io, roms)
+	kb := newKeyboard()
 
 	var screen rcs.Screen
+	video := &video{}
 	if ctx.Renderer != nil {
-		video, err := newVideo(ctx.Renderer, mem, roms["chargen"])
+		video, err = newVideo(ctx.Renderer, s.mem, roms["chargen"])
 		if err != nil {
 			return nil, err
 		}
-		mem.MapRW(0xd020, &video.borderColor)
-		mem.MapRW(0xd021, &video.bgColor)
 		screen = rcs.Screen{
 			W:         screenW,
 			H:         screenH,
@@ -55,19 +44,36 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 		}
 	}
 
-	kb := newKeyboard()
-	mem.MapRW(0x0091, &kb.stkey) // stop key
-	mem.MapRW(0x00c6, &kb.ndx)   // buffer index
-	mem.MapRAM(0x277, kb.buf)
+	for b := 0; b < 32; b++ {
+		s.mem.SetBank(b)
+		// setup IO port on the 6510, map address 1 to "PLA"s
+		s.mem.MapLoad(0x01, s.ioPortLoad)
+		s.mem.MapStore(0x01, s.ioPortStore)
 
-	sys.cpu = cpu
-	sys.ram = ram
-	sys.io = io
+		s.mem.MapRW(0xd020, &video.borderColor)
+		s.mem.MapRW(0xd021, &video.bgColor)
+
+		s.mem.MapRW(0x0091, &kb.stkey) // stop key
+		s.mem.MapRW(0x00c6, &kb.ndx)   // buffer index
+		s.mem.MapRAM(0x0277, kb.buf)
+
+		s.mem.MapRW(0xdc00, &kb.joy2)
+	}
+	// Initialize to bank 31
+	s.mem.SetBank(31)
+	// GAME and EXROM on to start
+	s.bank = 0x18
+	// HIMEM, LOMEM, CHAREN on to start
+	s.mem.Write(1, 0x7)
+
+	// CPU should be created after memory is completely setup to obtain
+	// the correct reset vector
+	s.cpu = m6502.New(s.mem)
 
 	mach := &rcs.Mach{
-		Sys: sys,
-		Mem: []*rcs.Memory{mem},
-		CPU: []rcs.CPU{cpu},
+		Sys: s,
+		Mem: []*rcs.Memory{s.mem},
+		CPU: []rcs.CPU{s.cpu},
 		CharDecoders: map[string]rcs.CharDecoder{
 			"petscii":         cbm.PetsciiDecoder,
 			"petscii-shifted": cbm.PetsciiShiftedDecoder,
@@ -77,7 +83,7 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 		DefaultEncoding: "petscii",
 		Ctx:             ctx,
 		VBlankFunc: func() {
-			cpu.IRQ = true
+			s.cpu.IRQ = true
 		},
 		Screen:   screen,
 		Keyboard: kb.handle,
@@ -86,20 +92,16 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 	return mach, nil
 }
 
-func (s *system) ioPortStore(mem *rcs.Memory) rcs.Store8 {
-	return func(v uint8) {
-		// PLA information is in the bottom 3 bits
-		s.bank &^= 0x7
-		s.bank |= v & 0x7
-		mem.SetBank(int(s.bank))
-	}
+func (s *system) ioPortStore(v uint8) {
+	// PLA information is in the bottom 3 bits
+	s.bank &^= 0x7
+	s.bank |= v & 0x7
+	s.mem.SetBank(int(s.bank))
 }
 
-func (s *system) ioPortLoad(mem *rcs.Memory) rcs.Load8 {
-	return func() uint8 {
-		// Only return the bottom 3 bits for now
-		return s.bank & 0x7
-	}
+func (s *system) ioPortLoad() uint8 {
+	// Only return the bottom 3 bits for now
+	return s.bank & 0x7
 }
 
 func (s *system) Save(enc *rcs.Encoder) {

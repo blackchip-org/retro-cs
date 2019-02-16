@@ -61,6 +61,7 @@ type Mach struct {
 	Sys             interface{}
 	Mem             []*Memory
 	CPU             []CPU
+	Proc            []Proc
 	CharDecoders    map[string]CharDecoder
 	DefaultEncoding string
 	Ctx             SDLContext
@@ -84,6 +85,9 @@ type Mach struct {
 func (m *Mach) Init() error {
 	if m.init {
 		return nil
+	}
+	if m.Proc == nil {
+		m.Proc = []Proc{}
 	}
 	m.quit = false
 	if m.CharDecoders == nil {
@@ -180,8 +184,8 @@ func (m *Mach) jiffy() {
 }
 
 func (m *Mach) execute() {
-	for core, cpu := range m.CPU {
-		for t := 0; t < perJiffy; t++ {
+	for t := 0; t < perJiffy; t++ {
+		for core, cpu := range m.CPU {
 			ppc := cpu.PC()
 			cpu.Next()
 			// if the program counter didn't change, it is either stuck
@@ -197,8 +201,11 @@ func (m *Mach) execute() {
 			addr := cpu.PC() + cpu.Offset()
 			if _, yes := m.Breakpoints[core][addr]; yes && !stuck {
 				m.setStatus(Break)
-				break // allow other CPUs to be serviced
+				return
 			}
+		}
+		for _, proc := range m.Proc {
+			proc.Next()
 		}
 	}
 }

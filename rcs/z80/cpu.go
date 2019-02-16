@@ -44,6 +44,7 @@ type CPU struct {
 	Ports   *rcs.Memory
 	IRQ     bool
 	IRQData uint8
+	NMI     bool
 
 	opcodes     map[uint8]func(*CPU)
 	opcodesCB   map[uint8]func(*CPU)
@@ -113,6 +114,10 @@ func (c *CPU) Next() {
 		if c.IFF1 {
 			c.irqAck()
 		}
+	}
+	if c.NMI {
+		c.NMI = false
+		c.nmiAck()
 	}
 }
 
@@ -184,6 +189,12 @@ func (c *CPU) irqAck() {
 	} else {
 		c.pc = 0x0038
 	}
+}
+
+func (c *CPU) nmiAck() {
+	c.SP -= 2
+	c.mem.WriteLE(int(c.SP), c.PC())
+	c.pc = 0x0066
 }
 
 // PC returns the value of the program counter.

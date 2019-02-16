@@ -5,6 +5,10 @@ import (
 	"strings"
 )
 
+type Proc interface {
+	Next()
+}
+
 // CPU is a central processing unit.
 //
 // The program counter is an integer to accomodate address busses of at

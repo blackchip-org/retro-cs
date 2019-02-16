@@ -10,20 +10,17 @@ type keyboard struct {
 	buf   []uint8
 	ndx   uint8 // Number of characters in keyboard buffer
 	stkey uint8 // Was STOP Key Pressed?
+	joy2  uint8 // HACK: joystick 2, move elsewhere
 }
 
 func newKeyboard() *keyboard {
 	return &keyboard{
-		buf: make([]uint8, kbBufLen, kbBufLen),
+		buf:  make([]uint8, kbBufLen, kbBufLen),
+		joy2: 0xff,
 	}
 }
 
 func (k *keyboard) handle(e *sdl.KeyboardEvent) error {
-	/*
-		if false {
-			fmt.Printf("key: %+v\n", e.Keysym)
-		}
-	*/
 	ch, ok := k.lookup(e)
 	if !ok {
 		return nil
@@ -168,6 +165,28 @@ func (k *keyboard) lookup(e *sdl.KeyboardEvent) (uint8, bool) {
 		}
 	case keysym.Sym == sdl.K_c && e.Type == sdl.KEYUP:
 		k.stkey = 0xff
+
+	case keysym.Sym == sdl.K_UP && e.Type == sdl.KEYDOWN:
+		k.joy2 &^= (1 << 0)
+	case keysym.Sym == sdl.K_DOWN && e.Type == sdl.KEYDOWN:
+		k.joy2 &^= (1 << 1)
+	case keysym.Sym == sdl.K_LEFT && e.Type == sdl.KEYDOWN:
+		k.joy2 &^= (1 << 2)
+	case keysym.Sym == sdl.K_RIGHT && e.Type == sdl.KEYDOWN:
+		k.joy2 &^= (1 << 3)
+	case keysym.Sym == sdl.K_SPACE && e.Type == sdl.KEYDOWN:
+		k.joy2 &^= (1 << 4)
+
+	case keysym.Sym == sdl.K_UP && e.Type == sdl.KEYUP:
+		k.joy2 |= (1 << 0)
+	case keysym.Sym == sdl.K_DOWN && e.Type == sdl.KEYUP:
+		k.joy2 |= (1 << 1)
+	case keysym.Sym == sdl.K_LEFT && e.Type == sdl.KEYUP:
+		k.joy2 |= (1 << 2)
+	case keysym.Sym == sdl.K_RIGHT && e.Type == sdl.KEYUP:
+		k.joy2 |= (1 << 3)
+	case keysym.Sym == sdl.K_SPACE && e.Type == sdl.KEYUP:
+		k.joy2 |= (1 << 4)
 	}
 
 	if e.Type != sdl.KEYDOWN {
