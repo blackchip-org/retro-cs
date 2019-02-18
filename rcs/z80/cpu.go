@@ -45,6 +45,7 @@ type CPU struct {
 	IRQ     bool
 	IRQData uint8
 	NMI     bool
+	RESET   bool
 
 	opcodes     map[uint8]func(*CPU)
 	opcodesCB   map[uint8]func(*CPU)
@@ -118,6 +119,10 @@ func (c *CPU) Next() {
 	if c.NMI {
 		c.NMI = false
 		c.nmiAck()
+	}
+	if c.RESET {
+		c.RESET = false
+		c.resetAck()
 	}
 }
 
@@ -195,6 +200,16 @@ func (c *CPU) nmiAck() {
 	c.SP -= 2
 	c.mem.WriteLE(int(c.SP), c.PC())
 	c.pc = 0x0066
+}
+
+func (c *CPU) resetAck() {
+	fmt.Println("RESET")
+	c.IFF1 = false
+	c.IFF2 = false
+	c.pc = 0
+	c.I = 0
+	c.R = 0
+	c.IM = 0
 }
 
 // PC returns the value of the program counter.

@@ -1,7 +1,9 @@
 package rcs
 
 import (
+	"bytes"
 	"fmt"
+	"strings"
 	"testing"
 )
 
@@ -74,6 +76,43 @@ func TestBitPlane(t *testing.T) {
 		out := BitPlane4(test.in, test.offset)
 		if out != test.out {
 			t.Errorf("\n have: %08b \n want: %08b", out, test.out)
+		}
+	}
+}
+
+func TestRepeatWriter(t *testing.T) {
+	tests := []struct {
+		in  []string
+		out []string
+	}{
+		{
+			[]string{"a", "b", "c"},
+			[]string{"a", "b", "c"},
+		},
+		{
+			[]string{"a", "b", "b", "c"},
+			[]string{"a", "b", "... repeats 1 time", "c"},
+		},
+		{
+			[]string{"a", "b", "b", "b", "b", "b", "c"},
+			[]string{"a", "b", "... repeats 4 times", "c"},
+		},
+		{
+			[]string{"a", "b", "b", "b", "b", "b", "c", "c", "d"},
+			[]string{"a", "b", "... repeats 4 times", "c", "... repeats 1 time", "d"},
+		},
+	}
+
+	for _, test := range tests {
+		var buf bytes.Buffer
+		rw := NewRepeatWriter(&buf)
+		str := strings.Join(test.in, "\n")
+		rw.Write([]byte(str))
+		rw.Close()
+		have := buf.String()
+		want := strings.Join(test.out, "\n") + "\n"
+		if have != want {
+			t.Errorf("\n have: \n[%v] \n want: \n[%v]", have, want)
 		}
 	}
 }

@@ -18,9 +18,10 @@ type system struct {
 
 	video *namco.Video
 
+	interruptEnable0 uint8 // low bit
 	interruptEnable1 uint8 // low bit
 	interruptEnable2 uint8 // low bit
-	interruptEnable3 uint8 // low bit
+	reset            uint8
 	dipSwitches      [8]uint8
 }
 
@@ -39,9 +40,10 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 	for i := 0; i < 8; i++ {
 		mem.MapRW(0x6800+i, &s.dipSwitches[i])
 	}
-	mem.MapRW(0x6820, &s.interruptEnable1)
-	mem.MapRW(0x6821, &s.interruptEnable2)
-	mem.MapRW(0x6822, &s.interruptEnable3)
+	mem.MapRW(0x6820, &s.interruptEnable0)
+	mem.MapRW(0x6821, &s.interruptEnable1)
+	mem.MapRW(0x6822, &s.interruptEnable2)
+	mem.MapRW(0x6823, &s.reset)
 
 	mem.MapRAM(0x7000, make([]uint8, 0x1000, 0x1000))
 	mem.MapRAM(0x8000, ram)
@@ -100,28 +102,38 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 	mem.Write(0x9101, 0xff)
 
 	// memory for each CPU
+	mem0 := rcs.NewMemory(1, 0x10000)
+	mem0.Map(0, mem)
+	mem0.MapROM(0x0000, roms["code1"])
+
 	mem1 := rcs.NewMemory(1, 0x10000)
 	mem1.Map(0, mem)
-	mem1.MapROM(0x0000, roms["code1"])
+	mem1.MapROM(0x0000, roms["code2"])
 
 	mem2 := rcs.NewMemory(1, 0x10000)
 	mem2.Map(0, mem)
-	mem2.MapROM(0x0000, roms["code2"])
+	mem2.MapROM(0x0000, roms["code3"])
 
-	mem3 := rcs.NewMemory(1, 0x10000)
-	mem3.Map(0, mem)
-	mem3.MapROM(0x0000, roms["code3"])
-
+	cpu0 := z80.New(mem0)
 	cpu1 := z80.New(mem1)
 	cpu2 := z80.New(mem2)
-	cpu3 := z80.New(mem3)
 
 	vblank := func() {
+		if s.interruptEnable0 != 0 {
+			cpu0.IRQ = true
+		}
 		if s.interruptEnable1 != 0 {
 			cpu1.IRQ = true
 		}
+		cpu2.IRQ = true
 		if s.interruptEnable2 != 0 {
-			cpu2.IRQ = true
+			// FIXME: Is this correct??? Probably not
+			cpu2.NMI = true
+		}
+		if s.reset != 0 {
+			s.reset = 0
+			cpu1.RESET = true
+			cpu2.RESET = true
 		}
 	}
 
@@ -131,8 +143,8 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 
 	mach := &rcs.Mach{
 		Sys:  s,
-		Mem:  []*rcs.Memory{mem1, mem2, mem3},
-		CPU:  []rcs.CPU{cpu1, cpu2, cpu3},
+		Mem:  []*rcs.Memory{mem0, mem1, mem2},
+		CPU:  []rcs.CPU{cpu0, cpu1, cpu2},
 		Proc: []rcs.Proc{s.n06xx},
 		CharDecoders: map[string]rcs.CharDecoder{
 			"galaga": GalagaDecoder,

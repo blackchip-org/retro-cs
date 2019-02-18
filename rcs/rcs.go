@@ -4,9 +4,11 @@ import (
 	"encoding/gob"
 	"fmt"
 	"io"
+	"log"
 	"math/bits"
 	"os"
 	"strconv"
+	"strings"
 
 	"github.com/veandco/go-sdl2/sdl"
 )
@@ -183,28 +185,24 @@ type Loader interface {
 	Load(*Decoder)
 }
 
+var dout = log.New(NewRepeatWriter(os.Stdout), "", 0)
+
 type Debugger struct {
-	Print   func(...interface{}) (int, error)
-	Printf  func(string, ...interface{}) (int, error)
-	Println func(...interface{}) (int, error)
+	Print   func(...interface{})
+	Printf  func(string, ...interface{})
+	Println func(...interface{})
 }
 
 var activeDebugger = Debugger{
-	Print:   fmt.Print,
-	Printf:  fmt.Printf,
-	Println: fmt.Println,
+	Print:   dout.Print,
+	Printf:  dout.Printf,
+	Println: dout.Println,
 }
 
 var slientDebugger = Debugger{
-	Print: func(...interface{}) (int, error) {
-		return 0, nil
-	},
-	Printf: func(string, ...interface{}) (int, error) {
-		return 0, nil
-	},
-	Println: func(...interface{}) (int, error) {
-		return 0, nil
-	},
+	Print:   func(...interface{}) {},
+	Printf:  func(string, ...interface{}) {},
+	Println: func(...interface{}) {},
 }
 
 func NewDebugger(name string) Debugger {
@@ -213,4 +211,53 @@ func NewDebugger(name string) Debugger {
 		return activeDebugger
 	}
 	return slientDebugger
+}
+
+type RepeatWriter struct {
+	w       io.Writer
+	buf     strings.Builder
+	prev    string
+	repeats int
+}
+
+func NewRepeatWriter(w io.Writer) *RepeatWriter {
+	return &RepeatWriter{w: w}
+}
+
+func (r *RepeatWriter) Write(p []byte) (int, error) {
+	for _, b := range p {
+		r.buf.WriteByte(b)
+		if b == '\n' {
+			r.eoln()
+		}
+	}
+	return len(p), nil
+}
+
+func (r *RepeatWriter) Close() error {
+	if !strings.HasSuffix(r.buf.String(), "\n") {
+		r.buf.WriteString("\n")
+	}
+	r.eoln()
+	return nil
+}
+
+func (r *RepeatWriter) eoln() {
+	str := r.buf.String()
+	if str != r.prev {
+		if r.repeats == 1 {
+			io.WriteString(r.w, "1 time\n")
+		} else if r.repeats > 1 {
+			io.WriteString(r.w, fmt.Sprintf("%d times\n", r.repeats))
+		}
+		r.repeats = 0
+		io.WriteString(r.w, str)
+	} else {
+		if r.repeats == 0 {
+			io.WriteString(r.w, "... repeats ")
+		}
+		r.repeats++
+	}
+	r.buf.Reset()
+	r.prev = str
 }
