@@ -48,7 +48,7 @@ type Monitor struct {
 	dasmLines int
 }
 
-func New(mach *rcs.Mach) *Monitor {
+func New(mach *rcs.Mach) (*Monitor, error) {
 	mach.Init()
 	m := &Monitor{
 		mach:     mach,
@@ -87,10 +87,6 @@ func New(mach *rcs.Mach) *Monitor {
 			break
 		}
 	}
-	return m
-}
-
-func (m *Monitor) Run() error {
 	historyFile := ""
 	if config.UserDir != "" {
 		historyFile = filepath.Join(config.UserDir, "history")
@@ -102,14 +98,17 @@ func (m *Monitor) Run() error {
 		AutoComplete: newCompleter(m),
 	})
 	if err != nil {
-		return err
+		return nil, err
 	}
 	m.rl = rl
 	if m.out == nil {
 		m.out = log.New(newConsoleWriter(rl), "", 0)
 	}
 	m.rl.SetPrompt(m.getPrompt())
+	return m, nil
+}
 
+func (m *Monitor) Run() error {
 	for {
 		line, err := m.rl.Readline()
 		if err == io.EOF {
@@ -131,7 +130,6 @@ func (m *Monitor) Eval(str string) error {
 			err := m.cmd(args)
 			if err != nil {
 				m.out.Printf("%v", err)
-				return err
 			}
 		}
 	}

@@ -136,7 +136,10 @@ func main() {
 	}
 
 	var mon *monitor.Monitor
-	mon = monitor.New(mach)
+	mon, err = monitor.New(mach)
+	if err != nil {
+		log.Fatalf("unable to create monitor: %v\n", err)
+	}
 	defer func() {
 		mon.Close()
 	}()
