@@ -76,7 +76,7 @@ A Z80 implementation that passes the [Zexdoc](http://mdfs.net/Software/Z80/Exerc
 Accurate timing of the CPU is not necessary. This emulator runs 20,000 instructions per VBLANK and that number seems to work well.
 
 ### Memory
-The source code in [MAME](https://github.com/mamedev/mame/blob/master/src/mame/drivers/pacman.cpp) notes that the most signfigant line in the address bus (A15) is not attached. If this is not emulated, the attract screen will be missing the text for "High Score" and "Credits". This may be a copy protection feature.
+The source code in [MAME](https://github.com/mamedev/mame/blob/master/src/mame/drivers/pacman.cpp) notes that the most significant line in the address bus (A15) is not attached. If this is not emulated, the attract screen will be missing the text for "High Score" and "Credits". This may be a copy protection feature.
 
 When Pac-Man starts it performs a series of initialization tasks and then executes a halt instruction to wait for the first interrupt. The stack pointer has not been set at this point and the interrupt will push the return address to 0xffff and 0xfffe which doesn't get used. Ms. Pac-Man also writes to 0xfffd and 0xfffc.
 

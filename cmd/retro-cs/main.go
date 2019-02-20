@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"runtime/pprof"
 
+	"github.com/blackchip-org/retro-cs/app/monitor"
 	"github.com/blackchip-org/retro-cs/mock"
 
 	"github.com/veandco/go-sdl2/sdl"
@@ -80,7 +81,7 @@ func main() {
 	config.VarDir = filepath.Join(config.ResourceDir(), "var", optSystem)
 
 	if err := os.MkdirAll(config.UserDir, 0755); err != nil {
-		log.Fatalf("unaboe to create directory %v: %v", config.UserDir, err)
+		log.Fatalf("unable to create directory %v: %v", config.UserDir, err)
 	}
 	if err := os.MkdirAll(config.VarDir, 0755); err != nil {
 		log.Fatalf("unable to create directory %v: %v", config.VarDir, err)
@@ -134,8 +135,8 @@ func main() {
 		log.Fatalf("unable to create machine: \n%v", err)
 	}
 
-	var mon *app.Monitor
-	mon = app.NewMonitor(mach)
+	var mon *monitor.Monitor
+	mon = monitor.New(mach)
 	defer func() {
 		mon.Close()
 	}()

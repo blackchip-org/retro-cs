@@ -1,4 +1,4 @@
-package app
+package monitor
 
 import (
 	"fmt"

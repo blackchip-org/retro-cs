@@ -1,9 +1,10 @@
-package app
+package monitor
 
 import (
 	"bytes"
 	"io"
 	"io/ioutil"
+	"log"
 	"strings"
 	"testing"
 
@@ -21,10 +22,11 @@ func newMonitorFixture() *monitorFixture {
 	mach := mock.NewMach()
 	cpu := mach.CPU[0].(*mock.CPU)
 	f := &monitorFixture{
-		mon: NewMonitor(mach),
+		mon: New(mach),
 		cpu: cpu,
 	}
-	f.mon.out.SetOutput(&f.out)
+	f.mon.out = log.New(&f.out, "", 0)
+	//f.mon.out.SetOutput(&f.out)
 	return f
 }
 
