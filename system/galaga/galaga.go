@@ -59,6 +59,7 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 	s.n06xx.DeviceR[3] = s.n54xx.Read
 	for i, addr := 0, 0x7000; addr < 0x7100; addr, i = addr+1, i+1 {
 		j := i
+		mem.MapLoad(addr, s.n06xx.ReadData(j))
 		mem.MapStore(addr, s.n06xx.WriteData(j))
 	}
 	for i, addr := 0, 0x7100; addr < 0x7200; addr, i = addr+1, i+1 {
@@ -138,7 +139,7 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 	}
 
 	s.n06xx.NMI = func() {
-		cpu1.NMI = true
+		cpu0.NMI = true
 	}
 
 	mach := &rcs.Mach{

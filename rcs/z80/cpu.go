@@ -203,7 +203,6 @@ func (c *CPU) nmiAck() {
 }
 
 func (c *CPU) resetAck() {
-	fmt.Println("RESET")
 	c.IFF1 = false
 	c.IFF2 = false
 	c.pc = 0

@@ -1,6 +1,7 @@
 package namco
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/blackchip-org/retro-cs/rcs"
@@ -37,6 +38,7 @@ func NewN06XX() *N06XX {
 func (n *N06XX) WriteData(addr int) rcs.Store8 {
 	return func(v uint8) {
 		if n.ctrl&0x10 != 0 {
+			fmt.Println("SKIP")
 			return
 		}
 		n.debug.Printf("n06xx data write($%04x) => $%02x\n", addr, v)
@@ -100,7 +102,7 @@ func (n *N06XX) Next() {
 	if n.timing {
 		n.elapsed++
 		if n.elapsed > 2000 {
-			//n.debug.Println("n06xx send NMI")
+			n.debug.Println("n06xx send NMI")
 			n.NMI()
 			n.elapsed = 0
 		}
