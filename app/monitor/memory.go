@@ -11,7 +11,7 @@ import (
 	"github.com/blackchip-org/retro-cs/rcs"
 )
 
-type memory struct {
+type modMemory struct {
 	name    string
 	mon     *Monitor
 	mem     *rcs.Memory
@@ -19,9 +19,9 @@ type memory struct {
 	watches map[int]string
 }
 
-func newMemory(mon *Monitor, comp *rcs.Component) module {
+func newModMemory(mon *Monitor, comp rcs.Component) module {
 	mem := comp.C.(*rcs.Memory)
-	mod := &memory{
+	mod := &modMemory{
 		name:    comp.Name,
 		mon:     mon,
 		mem:     mem,
@@ -32,7 +32,7 @@ func newMemory(mon *Monitor, comp *rcs.Component) module {
 	return mod
 }
 
-func (m *memory) Command(args []string) error {
+func (m *modMemory) Command(args []string) error {
 	if err := checkLen(args, 0, maxArgs); err != nil {
 		return err
 	}
@@ -50,7 +50,7 @@ func (m *memory) Command(args []string) error {
 		return m.poke(args[1:])
 	case "watch-clear":
 		return m.watchClear(args[1:])
-	case "watch-list":
+	case "watch-list", "watch":
 		return m.watchList(args[1:])
 	case "watch-none":
 		return m.watchNone(args[1:])
@@ -60,7 +60,7 @@ func (m *memory) Command(args []string) error {
 	return m.dump(args[0:])
 }
 
-func (m *memory) dump(args []string) error {
+func (m *modMemory) dump(args []string) error {
 	if err := checkLen(args, 0, 2); err != nil {
 		return err
 	}
@@ -69,7 +69,7 @@ func (m *memory) dump(args []string) error {
 		addrStart = m.ptr.Addr()
 	}
 	if len(args) > 0 {
-		addr, err := m.mon.parseAddress(args[0])
+		addr, err := parseAddress(m.mem, args[0])
 		if err != nil {
 			return err
 		}
@@ -77,7 +77,7 @@ func (m *memory) dump(args []string) error {
 	}
 	addrEnd := addrStart + (m.mon.memLines * 16)
 	if len(args) > 1 {
-		addr, err := m.mon.parseAddress(args[1])
+		addr, err := parseAddress(m.mem, args[1])
 		if err != nil {
 			return err
 		}
@@ -93,19 +93,19 @@ func (m *memory) dump(args []string) error {
 	return nil
 }
 
-func (m *memory) fill(args []string) error {
+func (m *modMemory) fill(args []string) error {
 	if err := checkLen(args, 3, 3); err != nil {
 		return err
 	}
-	startAddr, err := m.mon.parseAddress(args[0])
+	startAddr, err := parseAddress(m.mem, args[0])
 	if err != nil {
 		return err
 	}
-	endAddr, err := m.mon.parseAddress(args[1])
+	endAddr, err := parseAddress(m.mem, args[1])
 	if err != nil {
 		return err
 	}
-	value, err := m.mon.parseValue8(args[2])
+	value, err := parseValue8(args[2])
 	if err != nil {
 		return err
 	}
@@ -118,11 +118,11 @@ func (m *memory) fill(args []string) error {
 	return nil
 }
 
-func (m *memory) peek(args []string) error {
+func (m *modMemory) peek(args []string) error {
 	if err := checkLen(args, 1, 1); err != nil {
 		return err
 	}
-	addr, err := m.mon.parseAddress(args[0])
+	addr, err := parseAddress(m.mem, args[0])
 	if err != nil {
 		return err
 	}
@@ -131,17 +131,17 @@ func (m *memory) peek(args []string) error {
 	return nil
 }
 
-func (m *memory) poke(args []string) error {
+func (m *modMemory) poke(args []string) error {
 	if err := checkLen(args, 2, maxArgs); err != nil {
 		return err
 	}
-	addr, err := m.mon.parseAddress(args[0])
+	addr, err := parseAddress(m.mem, args[0])
 	if err != nil {
 		return err
 	}
 	values := []uint8{}
 	for _, str := range args[1:] {
-		v, err := m.mon.parseValue8(str)
+		v, err := parseValue8(str)
 		if err != nil {
 			return err
 		}
@@ -151,11 +151,11 @@ func (m *memory) poke(args []string) error {
 	return nil
 }
 
-func (m *memory) watchClear(args []string) error {
+func (m *modMemory) watchClear(args []string) error {
 	if err := checkLen(args, 1, 1); err != nil {
 		return err
 	}
-	addr, err := m.mon.parseAddress(args[0])
+	addr, err := parseAddress(m.mem, args[0])
 	if err != nil {
 		return err
 	}
@@ -166,7 +166,7 @@ func (m *memory) watchClear(args []string) error {
 	return nil
 }
 
-func (m *memory) watchList(args []string) error {
+func (m *modMemory) watchList(args []string) error {
 	if err := checkLen(args, 0, 0); err != nil {
 		return err
 	}
@@ -179,7 +179,7 @@ func (m *memory) watchList(args []string) error {
 	return nil
 }
 
-func (m *memory) watchNone(args []string) error {
+func (m *modMemory) watchNone(args []string) error {
 	if err := checkLen(args, 0, 0); err != nil {
 		return err
 	}
@@ -190,11 +190,11 @@ func (m *memory) watchNone(args []string) error {
 	return nil
 }
 
-func (m *memory) watchSet(args []string) error {
+func (m *modMemory) watchSet(args []string) error {
 	if err := checkLen(args, 2, 2); err != nil {
 		return err
 	}
-	addr, err := m.mon.parseAddress(args[0])
+	addr, err := parseAddress(m.mem, args[0])
 	if err != nil {
 		return err
 	}
@@ -216,7 +216,7 @@ func (m *memory) watchSet(args []string) error {
 
 }
 
-func (m *memory) watchCallback(evt rcs.MemoryEvent) {
+func (m *modMemory) watchCallback(evt rcs.MemoryEvent) {
 	// FIXME: hard coded address format
 	a := fmt.Sprintf("%v  $%04x", m.name, evt.Addr)
 	if m.mem.NBank > 1 {
@@ -229,7 +229,7 @@ func (m *memory) watchCallback(evt rcs.MemoryEvent) {
 	}
 }
 
-func (m *memory) AutoComplete() []readline.PrefixCompleterInterface {
+func (m *modMemory) AutoComplete() []readline.PrefixCompleterInterface {
 	return []readline.PrefixCompleterInterface{
 		readline.PcItem("dump"),
 		readline.PcItem("fill"),

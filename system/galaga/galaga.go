@@ -115,38 +115,44 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 	s.mem[2].Map(0, mem)
 	s.mem[2].MapROM(0x0000, roms["code3"])
 
-	cpu0 := z80.New(s.mem[0])
-	cpu1 := z80.New(s.mem[1])
-	cpu2 := z80.New(s.mem[2])
+	s.cpu[0] = z80.New(s.mem[0])
+	s.cpu[1] = z80.New(s.mem[1])
+	s.cpu[2] = z80.New(s.mem[2])
 
 	vblank := func() {
 		if s.interruptEnable0 != 0 {
-			cpu0.IRQ = true
+			s.cpu[0].IRQ = true
 		}
 		if s.interruptEnable1 != 0 {
-			cpu1.IRQ = true
+			s.cpu[1].IRQ = true
 		}
-		cpu2.IRQ = true
+		s.cpu[2].IRQ = true
 		if s.interruptEnable2 != 0 {
 			// FIXME: Is this correct??? Probably not
-			cpu2.NMI = true
+			s.cpu[2].NMI = true
 		}
 		if s.reset != 0 {
 			s.reset = 0
-			cpu1.RESET = true
-			cpu2.RESET = true
+			s.cpu[1].RESET = true
+			s.cpu[2].RESET = true
 		}
 	}
 
 	s.n06xx.NMI = func() {
-		cpu0.NMI = true
+		s.cpu[0].NMI = true
 	}
 
 	mach := &rcs.Mach{
-		Sys:  s,
-		Mem:  []*rcs.Memory{s.mem[0], s.mem[1], s.mem[2]},
-		CPU:  []rcs.CPU{cpu0, cpu1, cpu2},
-		Proc: []rcs.Proc{s.n06xx},
+		Sys: s,
+		Comps: []rcs.Component{
+			rcs.NewComponent("cpu1", "cpu", "z80", s.cpu[0]),
+			rcs.NewComponent("cpu2", "cpu", "z80", s.cpu[1]),
+			rcs.NewComponent("cpu3", "cpu", "z80", s.cpu[2]),
+			rcs.NewComponent("mem1", "mem", "", s.mem[0]),
+			rcs.NewComponent("mem2", "mem", "", s.mem[1]),
+			rcs.NewComponent("mem3", "mem", "", s.mem[2]),
+			rcs.NewComponent("n06xx", "n06xx", "", s.n06xx),
+		},
 		CharDecoders: map[string]rcs.CharDecoder{
 			"galaga": GalagaDecoder,
 		},
@@ -155,15 +161,6 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 		VBlankFunc: vblank,
 	}
 	return mach, nil
-}
-
-func (s *system) Components() []*rcs.Component {
-	return []*rcs.Component{
-		rcs.NewComponent("mem1", "mem", "", s.mem[0]),
-		rcs.NewComponent("mem2", "mem", "", s.mem[1]),
-		rcs.NewComponent("mem3", "mem", "", s.mem[2]),
-		rcs.NewComponent("n06xx", "n06xx", "", s.n06xx),
-	}
 }
 
 func New(ctx rcs.SDLContext) (*rcs.Mach, error) {

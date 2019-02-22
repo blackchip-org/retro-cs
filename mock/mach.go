@@ -5,8 +5,9 @@ import "github.com/blackchip-org/retro-cs/rcs"
 func NewMach() *rcs.Mach {
 	ResetMemory()
 	return &rcs.Mach{
-		Mem: []*rcs.Memory{TestMemory},
-		CPU: []rcs.CPU{NewCPU(TestMemory)},
+		Comps: []rcs.Component{
+			rcs.NewComponent("cpu", "cpu", "", NewCPU(TestMemory)),
+		},
 		CharDecoders: map[string]rcs.CharDecoder{
 			"ascii": rcs.ASCIIDecoder,
 			"az26":  AZ26Decoder,

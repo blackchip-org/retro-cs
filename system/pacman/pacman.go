@@ -200,8 +200,9 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 
 	mach := &rcs.Mach{
 		Sys: sys,
-		Mem: []*rcs.Memory{mem},
-		CPU: []rcs.CPU{cpu},
+		Comps: []rcs.Component{
+			rcs.NewComponent("cpu", "cpu", "z80", sys.cpu),
+		},
 		CharDecoders: map[string]rcs.CharDecoder{
 			"pacman": PacmanDecoder,
 		},

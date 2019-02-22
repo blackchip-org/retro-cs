@@ -269,10 +269,6 @@ type Component struct {
 	C         interface{}
 }
 
-func NewComponent(name string, mod string, sub string, c interface{}) *Component {
-	return &Component{Name: name, Module: mod, Submodule: sub, C: c}
-}
-
-type System interface {
-	Components() []*Component
+func NewComponent(name string, mod string, sub string, c interface{}) Component {
+	return Component{Name: name, Module: mod, Submodule: sub, C: c}
 }

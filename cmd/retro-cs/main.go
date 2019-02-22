@@ -38,13 +38,13 @@ var (
 
 func init() {
 	flag.BoolVar(&optFullStart, "f", false, "full start -- do not bypass POST")
-	flag.StringVar(&optImport, "i", "", "import state")
+	flag.StringVar(&optImport, "i", "", "import state from `filename`")
 	flag.BoolVar(&optProfC, "profc", false, "enable cpu profiling")
 	flag.BoolVar(&optNoAudio, "no-audio", false, "disable audio")
 	flag.BoolVar(&optNoVideo, "no-video", false, "disable video")
 	flag.BoolVar(&optMonitor, "m", false, "enable monitor")
 	flag.BoolVar(&optPanic, "panic", false, "install panic log writer")
-	flag.StringVar(&optSystem, "s", "c64", "start this system")
+	flag.StringVar(&optSystem, "s", "c64", "start this `system`")
 	flag.BoolVar(&optTrace, "t", false, "enable tracing")
 	flag.BoolVar(&optWait, "w", false, "wait for go command")
 }

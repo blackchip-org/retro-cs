@@ -35,6 +35,10 @@ func (c *CPU) Offset() int {
 	return c.OffsetPC
 }
 
+func (c *CPU) Memory() *rcs.Memory {
+	return c.mem
+}
+
 // Next reads the next byte at the program counter as the "opcode". The high
 // nibble is the number of "arguments" it will fetch (max two).
 func (c *CPU) Next() {

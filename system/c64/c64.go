@@ -72,8 +72,11 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 
 	mach := &rcs.Mach{
 		Sys: s,
-		Mem: []*rcs.Memory{s.mem},
-		CPU: []rcs.CPU{s.cpu},
+		Comps: []rcs.Component{
+			rcs.NewComponent("c64", "c64", "", s),
+			rcs.NewComponent("cpu", "cpu", "m6502", s.cpu),
+			rcs.NewComponent("mem", "mem", "", s.mem),
+		},
 		CharDecoders: map[string]rcs.CharDecoder{
 			"petscii":         cbm.PetsciiDecoder,
 			"petscii-shifted": cbm.PetsciiShiftedDecoder,
@@ -90,10 +93,6 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 	}
 
 	return mach, nil
-}
-
-func (s *system) Components() []*rcs.Component {
-	return []*rcs.Component{}
 }
 
 func (s *system) ioPortStore(v uint8) {

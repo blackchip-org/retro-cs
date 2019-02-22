@@ -119,6 +119,11 @@ func (c *CPU) Offset() int {
 	return 1
 }
 
+// Memory is the memory that can been seen by this CPU.
+func (c *CPU) Memory() *rcs.Memory {
+	return c.mem
+}
+
 // NewDisassembler creates a disassembler that can handle 6502 machine
 // code.
 func (c *CPU) NewDisassembler() *rcs.Disassembler {

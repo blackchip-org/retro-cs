@@ -58,10 +58,8 @@ const (
 )
 
 type Mach struct {
-	Sys             System
-	Mem             []*Memory
-	CPU             []CPU
-	Proc            []Proc
+	Sys             interface{}
+	Comps           []Component
 	CharDecoders    map[string]CharDecoder
 	DefaultEncoding string
 	Ctx             SDLContext
@@ -70,14 +68,15 @@ type Mach struct {
 	QueueAudio      func() error
 	Keyboard        func(*sdl.KeyboardEvent) error
 
+	CPU         map[string]CPU
+	Proc        map[string]Proc
 	Status      Status
 	Callback    func(MachEvent, ...interface{})
-	Breakpoints []map[int]struct{}
-	Trap        error
+	Breakpoints map[string]map[int]struct{}
 
 	scanLines *sdl.Texture
 	init      bool
-	tracing   bool
+	tracing   map[string]bool
 	quit      bool
 	cmd       chan message
 }
@@ -86,9 +85,19 @@ func (m *Mach) Init() error {
 	if m.init {
 		return nil
 	}
-	if m.Proc == nil {
-		m.Proc = []Proc{}
+	m.CPU = make(map[string]CPU)
+	m.Proc = make(map[string]Proc)
+	m.tracing = make(map[string]bool)
+	for _, comp := range m.Comps {
+		switch v := comp.C.(type) {
+		case CPU:
+			m.CPU[comp.Name] = v
+			m.tracing[comp.Name] = false
+		case Proc:
+			m.Proc[comp.Name] = v
+		}
 	}
+
 	m.quit = false
 	if m.CharDecoders == nil {
 		m.CharDecoders = map[string]CharDecoder{
@@ -97,10 +106,10 @@ func (m *Mach) Init() error {
 		m.DefaultEncoding = "ascii"
 	}
 	m.cmd = make(chan message, 10)
-	cores := len(m.CPU)
-	m.Breakpoints = make([]map[int]struct{}, cores, cores)
-	for i := 0; i < cores; i++ {
-		m.Breakpoints[i] = make(map[int]struct{})
+
+	m.Breakpoints = make(map[string]map[int]struct{})
+	for name := range m.CPU {
+		m.Breakpoints[name] = make(map[int]struct{})
 	}
 	if m.VBlankFunc == nil {
 		m.VBlankFunc = func() {}
@@ -185,21 +194,21 @@ func (m *Mach) jiffy() {
 
 func (m *Mach) execute() {
 	for t := 0; t < perJiffy; t++ {
-		for core, cpu := range m.CPU {
+		for name, cpu := range m.CPU {
 			ppc := cpu.PC()
 			cpu.Next()
 			// if the program counter didn't change, it is either stuck
 			// in an infinite loop or not advancing due to a halt-like
 			// instruction
 			stuck := ppc == cpu.PC()
-			if m.tracing && !stuck {
-				m.event(TraceEvent, core, ppc)
+			if m.tracing[name] && !stuck {
+				m.event(TraceEvent, name, ppc)
 			}
 			// at a breakpoint? only honor it if the processor is not stuck.
 			// when at a halt-like instruction, this causes a break once
 			// instead of each time.
 			addr := cpu.PC() + cpu.Offset()
-			if _, yes := m.Breakpoints[core][addr]; yes && !stuck {
+			if _, yes := m.Breakpoints[name][addr]; yes && !stuck {
 				m.setStatus(Break)
 				return
 			}
@@ -303,16 +312,17 @@ func (m *Mach) cmdImport(args ...interface{}) {
 }
 
 func (m *Mach) cmdTrace(args ...interface{}) {
-	if len(args) == 0 {
-		m.tracing = !m.tracing
+	name := args[0].(string)
+	if len(args) == 1 {
+		m.tracing[name] = !m.tracing[name]
 		return
 	}
-	v, ok := args[0].(bool)
+	v, ok := args[1].(bool)
 	if !ok {
 		m.event(ErrorEvent, fmt.Sprintf("invalid trace mode: %v", args[0]))
 		return
 	}
-	m.tracing = v
+	m.tracing[name] = v
 }
 
 func (m *Mach) event(evt MachEvent, args ...interface{}) {
@@ -329,7 +339,7 @@ func (m *Mach) setStatus(s Status) {
 
 func (m *Mach) reportCrash() {
 	for n, c := range m.CPU {
-		fmt.Printf("[panic: cpu %v]\n", n)
+		fmt.Printf("[panic: %v]\n", n)
 		fmt.Println(c)
 	}
 }
