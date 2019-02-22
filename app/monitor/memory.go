@@ -253,7 +253,7 @@ func dump(m *rcs.Memory, start int, end int, decode rcs.CharDecoder, prefix stri
 	}
 	for addr := a0; addr < a1; addr++ {
 		if addr%0x10 == 0 {
-			buf.WriteString(fmt.Sprintf("%v  $%04x ", prefix, addr))
+			buf.WriteString(fmt.Sprintf("%v$%04x ", prefix, addr))
 			chars.Reset()
 		}
 		if addr < start || addr > end {

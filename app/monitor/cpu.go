@@ -59,7 +59,7 @@ func (m *modCPU) Command(args []string) error {
 	switch args[0] {
 	case "breakpoint-clear", "bpc":
 		return m.cmdBreakpointClear(args[1:])
-	case "breakpoint-list", "b", "bpl":
+	case "breakpoint-list", "bp", "bpl":
 		return m.cmdBreakpointList(args[1:])
 	case "breakpoint-none", "bpn":
 		return m.cmdBreakpointNone(args[1:])

@@ -171,7 +171,7 @@ func (m *Monitor) dispatch(args []string) error {
 	switch args[0] {
 	case
 		"breakpoint-clear", "bpc",
-		"breakpoint-list", "bpl", "b",
+		"breakpoint-list", "bpl", "bp",
 		"breakpoint-none", "bpn",
 		"breakpoint-set", "bps",
 		"disassemble", "d",
