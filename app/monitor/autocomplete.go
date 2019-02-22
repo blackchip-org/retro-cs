@@ -78,6 +78,11 @@ func newCompleter(m *Monitor) *readline.PrefixCompleter {
 			readline.PcItem("set"),
 		),
 	}
+	for key, comp := range m.comps {
+		cmds = append(cmds, []readline.PrefixCompleterInterface{
+			readline.PcItem(key, comp.AutoComplete()...),
+		}...)
+	}
 	switch config.System {
 	case "c64":
 		cmds = append(cmds, []readline.PrefixCompleterInterface{

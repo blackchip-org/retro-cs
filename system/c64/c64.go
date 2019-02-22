@@ -92,6 +92,10 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 	return mach, nil
 }
 
+func (s *system) Components() []*rcs.Component {
+	return []*rcs.Component{}
+}
+
 func (s *system) ioPortStore(v uint8) {
 	// PLA information is in the bottom 3 bits
 	s.bank &^= 0x7

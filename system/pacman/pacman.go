@@ -215,6 +215,10 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 	return mach, nil
 }
 
+func (s *system) Components() []*rcs.Component {
+	return []*rcs.Component{}
+}
+
 func (s *system) Save(enc *rcs.Encoder) {
 	s.cpu.Save(enc)
 	if s.video != nil {

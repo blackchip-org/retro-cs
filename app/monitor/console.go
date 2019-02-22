@@ -13,22 +13,24 @@ import (
 )
 
 type consoleWriter struct {
-	rl        *readline.Instance
-	w         io.Writer
-	line      bytes.Buffer
-	backlog   bytes.Buffer
-	timer     *time.Timer
-	mutex     sync.Mutex
-	interval  time.Duration // minimum time between display updates
-	maxUpdate int           // maximum number of charaters per update
+	rl              *readline.Instance
+	w               io.Writer
+	line            bytes.Buffer
+	backlog         bytes.Buffer
+	timer           *time.Timer
+	mutex           sync.Mutex
+	firstInterval   time.Duration // wait this long before emitting the first line
+	backlogInterval time.Duration // wait this long between backlog processing
+	maxUpdate       int           // maximum number of charaters per update
 }
 
 func newConsoleWriter(rl *readline.Instance) io.Writer {
 	cw := &consoleWriter{
-		rl:        rl,
-		w:         os.Stdout,
-		interval:  time.Millisecond * 100,
-		maxUpdate: 2000,
+		rl:              rl,
+		w:               os.Stdout,
+		firstInterval:   time.Millisecond * 10,
+		backlogInterval: time.Millisecond * 100,
+		maxUpdate:       2000,
 	}
 	return cw
 }
@@ -39,7 +41,7 @@ func (c *consoleWriter) Write(p []byte) (int, error) {
 		if b == '\n' {
 			c.backlog.Write(c.line.Bytes())
 			if c.timer == nil {
-				c.timer = time.AfterFunc(c.interval, c.emit)
+				c.timer = time.AfterFunc(c.firstInterval, c.emit)
 			}
 			c.line.Reset()
 		}
@@ -85,5 +87,5 @@ func (c *consoleWriter) emit() {
 	c.w.Write([]byte(update))
 	c.rl.Refresh()
 	c.backlog.Reset()
-	c.timer = time.AfterFunc(c.interval, c.emit)
+	c.timer = time.AfterFunc(c.backlogInterval, c.emit)
 }

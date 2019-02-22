@@ -1,7 +1,6 @@
 package monitor
 
 import (
-	"bytes"
 	"errors"
 	"fmt"
 	"io"
@@ -35,8 +34,19 @@ type core struct {
 	watches map[int]string
 }
 
+type module interface {
+	Command([]string) error
+	AutoComplete() []readline.PrefixCompleterInterface
+}
+
+var modules = map[string]func(m *Monitor, comp *rcs.Component) module{
+	"mem":   newMemory,
+	"n06xx": newN06XX,
+}
+
 type Monitor struct {
 	mach      *rcs.Mach
+	comps     map[string]module
 	sc        *core // selected core
 	cores     []core
 	in        io.ReadCloser
@@ -52,6 +62,7 @@ func New(mach *rcs.Mach) (*Monitor, error) {
 	mach.Init()
 	m := &Monitor{
 		mach:     mach,
+		comps:    make(map[string]module),
 		in:       readline.NewCancelableStdin(os.Stdin),
 		cores:    make([]core, len(mach.CPU), len(mach.CPU)),
 		memLines: 16, // show a full page on "m" command
@@ -87,6 +98,10 @@ func New(mach *rcs.Mach) (*Monitor, error) {
 			break
 		}
 	}
+	for _, c := range mach.Sys.Components() {
+		m.comps["/"+c.Name] = modules[c.Module](m, c)
+	}
+
 	historyFile := ""
 	if config.UserDir != "" {
 		historyFile = filepath.Join(config.UserDir, "history")
@@ -332,42 +347,29 @@ func splitArgs(line string) []string {
 	return whitespaceRegex.Split(line, -1)
 }
 
-func dump(m *rcs.Memory, start int, end int, decode rcs.CharDecoder) string {
-	var buf bytes.Buffer
-	var chars bytes.Buffer
+func (m *Monitor) valueBool(val *bool, args []string) error {
+	if err := checkLen(args, 0, 1); err != nil {
+		return err
+	}
+	if len(args) == 0 {
+		m.out.Println(*val)
+		return nil
+	}
+	sval := strings.ToLower(args[0])
+	switch sval {
+	case "true", "yes", "on", "t", "1":
+		*val = true
+	case "false", "no", "off", "f", "0":
+		*val = false
+	default:
+		return fmt.Errorf("invalid value: %v", args[0])
+	}
+	return nil
+}
 
-	a0 := start / 0x10 * 0x10
-	a1 := end / 0x10 * 0x10
-	if a1 != end {
-		a1 += 0x10
+func (m *Monitor) terminal(args []string, fn func() error) error {
+	if err := checkLen(args, 0, 0); err != nil {
+		return err
 	}
-	for addr := a0; addr < a1; addr++ {
-		if addr%0x10 == 0 {
-			buf.WriteString(fmt.Sprintf("$%04x ", addr))
-			chars.Reset()
-		}
-		if addr < start || addr > end {
-			buf.WriteString("   ")
-			chars.WriteString(" ")
-		} else {
-			value := m.Read(addr)
-			buf.WriteString(fmt.Sprintf(" %02x", value))
-			ch, printable := decode(value)
-			if printable {
-				chars.WriteString(fmt.Sprintf("%c", ch))
-			} else {
-				chars.WriteString(".")
-			}
-		}
-		if addr%0x10 == 7 {
-			buf.WriteString(" ")
-		}
-		if addr%0x10 == 0x0f {
-			buf.WriteString("  " + chars.String())
-			if addr < end-1 {
-				buf.WriteString("\n")
-			}
-		}
-	}
-	return buf.String()
+	return fn()
 }

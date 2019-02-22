@@ -103,21 +103,21 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 	mem.Write(0x9101, 0xff)
 
 	// memory for each CPU
-	mem0 := rcs.NewMemory(1, 0x10000)
-	mem0.Map(0, mem)
-	mem0.MapROM(0x0000, roms["code1"])
+	s.mem[0] = rcs.NewMemory(1, 0x10000)
+	s.mem[0].Map(0, mem)
+	s.mem[0].MapROM(0x0000, roms["code1"])
 
-	mem1 := rcs.NewMemory(1, 0x10000)
-	mem1.Map(0, mem)
-	mem1.MapROM(0x0000, roms["code2"])
+	s.mem[1] = rcs.NewMemory(1, 0x10000)
+	s.mem[1].Map(0, mem)
+	s.mem[1].MapROM(0x0000, roms["code2"])
 
-	mem2 := rcs.NewMemory(1, 0x10000)
-	mem2.Map(0, mem)
-	mem2.MapROM(0x0000, roms["code3"])
+	s.mem[2] = rcs.NewMemory(1, 0x10000)
+	s.mem[2].Map(0, mem)
+	s.mem[2].MapROM(0x0000, roms["code3"])
 
-	cpu0 := z80.New(mem0)
-	cpu1 := z80.New(mem1)
-	cpu2 := z80.New(mem2)
+	cpu0 := z80.New(s.mem[0])
+	cpu1 := z80.New(s.mem[1])
+	cpu2 := z80.New(s.mem[2])
 
 	vblank := func() {
 		if s.interruptEnable0 != 0 {
@@ -144,7 +144,7 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 
 	mach := &rcs.Mach{
 		Sys:  s,
-		Mem:  []*rcs.Memory{mem0, mem1, mem2},
+		Mem:  []*rcs.Memory{s.mem[0], s.mem[1], s.mem[2]},
 		CPU:  []rcs.CPU{cpu0, cpu1, cpu2},
 		Proc: []rcs.Proc{s.n06xx},
 		CharDecoders: map[string]rcs.CharDecoder{
@@ -155,6 +155,15 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 		VBlankFunc: vblank,
 	}
 	return mach, nil
+}
+
+func (s *system) Components() []*rcs.Component {
+	return []*rcs.Component{
+		rcs.NewComponent("mem1", "mem", "", s.mem[0]),
+		rcs.NewComponent("mem2", "mem", "", s.mem[1]),
+		rcs.NewComponent("mem3", "mem", "", s.mem[2]),
+		rcs.NewComponent("n06xx", "n06xx", "", s.n06xx),
+	}
 }
 
 func New(ctx rcs.SDLContext) (*rcs.Mach, error) {

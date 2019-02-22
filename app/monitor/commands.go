@@ -57,6 +57,10 @@ func (m *Monitor) cmd(args []string) error {
 		return m.cmdYield()
 	}
 
+	if ext, ok := m.comps[args[0]]; ok {
+		return ext.Command(args[1:])
+	}
+
 	if config.System == "c64" {
 		switch args[0] {
 		case "load-prg":
@@ -411,7 +415,7 @@ func (m *Monitor) cmdMemoryDump(args []string) error {
 	if !ok {
 		return fmt.Errorf("invalid encoding: %v", m.encoding)
 	}
-	m.out.Println(dump(m.sc.mem, addrStart, addrEnd, decoder))
+	m.out.Println(dump(m.sc.mem, addrStart, addrEnd, decoder, ""))
 	m.sc.ptr.SetAddr(addrEnd)
 	m.lastCmd = m.cmdMemoryDump
 	return nil
@@ -515,35 +519,10 @@ func (m *Monitor) cmdPause(args []string) error {
 }
 
 func (m *Monitor) cmdPoke(args []string) error {
-	if err := checkLen(args, 1, maxArgs); err != nil {
-		return err
-	}
-	addr, err := m.parseAddress(args[0])
-	if err != nil {
-		return err
-	}
-	values := []uint8{}
-	for _, str := range args[1:] {
-		v, err := m.parseValue8(str)
-		if err != nil {
-			return err
-		}
-		values = append(values, v)
-	}
-	m.sc.mem.WriteN(addr, values...)
 	return nil
 }
 
 func (m *Monitor) cmdPeek(args []string) error {
-	if err := checkLen(args, 1, 1); err != nil {
-		return err
-	}
-	addr, err := m.parseAddress(args[0])
-	if err != nil {
-		return err
-	}
-	v := m.sc.mem.Read(addr)
-	m.out.Print(m.formatValue(int(v)))
 	return nil
 }
 
@@ -574,86 +553,22 @@ func (m *Monitor) cmdTrace(args []string) error {
 }
 
 func (m *Monitor) cmdWatch(args []string) error {
-	if err := checkLen(args, 0, maxArgs); err != nil {
-		return err
-	}
-	if len(args) == 0 {
-		return m.cmdWatchList([]string{})
-	}
-	switch args[0] {
-	case "clear":
-		return m.cmdWatchClear(args[1:])
-	case "clear-all":
-		return m.cmdWatchClearAll(args[1:])
-	case "list":
-		return m.cmdWatchList(args[1:])
-	case "set":
-		return m.cmdWatchSet(args[1:])
-	}
-	return fmt.Errorf("no such command: %v", args[0])
+	return nil
 }
 
 func (m *Monitor) cmdWatchClear(args []string) error {
-	if err := checkLen(args, 1, 1); err != nil {
-		return err
-	}
-	addr, err := m.parseAddress(args[0])
-	if err != nil {
-		return err
-	}
-	if _, ok := m.sc.watches[addr]; ok {
-		delete(m.sc.watches, addr)
-		m.sc.mem.Unwatch(addr)
-	}
 	return nil
 }
 
 func (m *Monitor) cmdWatchClearAll(args []string) error {
-	if err := checkLen(args, 0, 0); err != nil {
-		return err
-	}
-	for addr := range m.sc.watches {
-		delete(m.sc.watches, addr)
-		m.sc.mem.Unwatch(addr)
-	}
 	return nil
 }
 
 func (m *Monitor) cmdWatchList(args []string) error {
-	if err := checkLen(args, 0, 0); err != nil {
-		return err
-	}
-	list := make([]string, 0, len(m.sc.watches))
-	for addr, mode := range m.sc.watches {
-		list = append(list, fmt.Sprintf("$%04x %v", addr, mode))
-	}
-	sort.Strings(list)
-	m.out.Printf(strings.Join(list, "\n"))
 	return nil
 }
 
 func (m *Monitor) cmdWatchSet(args []string) error {
-	if err := checkLen(args, 2, 2); err != nil {
-		return err
-	}
-	addr, err := m.parseAddress(args[0])
-	if err != nil {
-		return err
-	}
-	mode := args[1]
-	switch mode {
-	case "r", "ro":
-		m.sc.mem.WatchRO(addr)
-		m.sc.watches[addr] = "r"
-	case "w", "wo":
-		m.sc.mem.WatchWO(addr)
-		m.sc.watches[addr] = "w"
-	case "rw":
-		m.sc.mem.WatchRW(addr)
-		m.sc.watches[addr] = "rw"
-	default:
-		return fmt.Errorf("unknown watch mode: %v", mode)
-	}
 	return nil
 }
 

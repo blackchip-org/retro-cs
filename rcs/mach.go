@@ -58,7 +58,7 @@ const (
 )
 
 type Mach struct {
-	Sys             interface{}
+	Sys             System
 	Mem             []*Memory
 	CPU             []CPU
 	Proc            []Proc
