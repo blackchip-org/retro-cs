@@ -37,13 +37,16 @@ type module interface {
 var modules = map[string]func(m *Monitor, comp rcs.Component) module{
 	"c64":   newModC64,
 	"cpu":   newModCPU,
+	"m6502": newModM6502,
 	"mem":   newModMemory,
 	"n06xx": newModN06XX,
+	"z80":   newModZ80,
 }
 
 type Monitor struct {
 	mach      *rcs.Mach
-	comps     map[string]module
+	comps     map[string]rcs.Component
+	mods      map[string]module
 	cpu       map[string]rcs.CPU
 	tracers   map[string]*rcs.Disassembler
 	sc        string // selected CPU core
@@ -61,7 +64,8 @@ func New(mach *rcs.Mach) (*Monitor, error) {
 	cw := newConsoleWriter()
 	m := &Monitor{
 		mach:     mach,
-		comps:    make(map[string]module),
+		comps:    make(map[string]rcs.Component),
+		mods:     make(map[string]module),
 		cpu:      make(map[string]rcs.CPU),
 		tracers:  make(map[string]*rcs.Disassembler),
 		in:       readline.NewCancelableStdin(os.Stdin),
@@ -80,7 +84,8 @@ func New(mach *rcs.Mach) (*Monitor, error) {
 	}
 
 	for _, comp := range mach.Comps {
-		m.comps[comp.Name] = modules[comp.Module](m, comp)
+		m.comps[comp.Name] = comp
+		m.mods[comp.Name] = modules[comp.Module](m, comp)
 		if cpu, ok := comp.C.(rcs.CPU); ok {
 			m.cpu[comp.Name] = cpu
 			// select the first CPU seen
@@ -179,7 +184,15 @@ func (m *Monitor) dispatch(args []string) error {
 		"next", "n",
 		"step", "s",
 		"trace", "t":
-		return m.comps[m.sc].Command(args)
+		return m.mods[m.sc].Command(args)
+	case "m":
+		parent := m.comps[m.sc].Parent
+		return m.mods[parent].Command(args[1:])
+	case
+		"peek",
+		"poke":
+		parent := m.comps[m.sc].Parent
+		return m.mods[parent].Command(args)
 	case "config":
 		return m.cmdConfig(args[1:])
 	case "encoding", "e":
@@ -198,8 +211,8 @@ func (m *Monitor) dispatch(args []string) error {
 		return m.cmdQuit(args[1:])
 	}
 
-	if comp, ok := m.comps[args[0]]; ok {
-		return comp.Command(args[1:])
+	if mod, ok := m.mods[args[0]]; ok {
+		return mod.Command(args[1:])
 	}
 
 	val, err := m.parseValue(args[0])
@@ -334,9 +347,9 @@ func newCompleter(m *Monitor) *readline.PrefixCompleter {
 		readline.PcItem("step"),
 		readline.PcItem("sleep"),
 	}
-	for key, comp := range m.comps {
+	for key, mod := range m.mods {
 		cmds = append(cmds, []readline.PrefixCompleterInterface{
-			readline.PcItem(key, comp.AutoComplete()...),
+			readline.PcItem(key, mod.AutoComplete()...),
 		}...)
 	}
 	sort.Sort(byName(cmds))

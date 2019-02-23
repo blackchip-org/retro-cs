@@ -37,30 +37,30 @@ func (m *modMemory) Command(args []string) error {
 		return err
 	}
 	if len(args) == 0 {
-		return m.dump(args[0:])
+		return m.cmdDump(args[0:])
 	}
 	switch args[0] {
 	case "dump":
-		return m.dump(args[1:])
+		return m.cmdDump(args[1:])
 	case "fill":
-		return m.fill(args[1:])
+		return m.cmdFill(args[1:])
 	case "peek":
-		return m.peek(args[1:])
+		return m.cmdPeek(args[1:])
 	case "poke":
-		return m.poke(args[1:])
+		return m.cmdPoke(args[1:])
 	case "watch-clear":
-		return m.watchClear(args[1:])
+		return m.cmdWatchClear(args[1:])
 	case "watch-list", "watch":
-		return m.watchList(args[1:])
+		return m.cmdWatchList(args[1:])
 	case "watch-none":
-		return m.watchNone(args[1:])
+		return m.cmdWatchNone(args[1:])
 	case "watch-set":
-		return m.watchSet(args[1:])
+		return m.cmdWatchSet(args[1:])
 	}
-	return m.dump(args[0:])
+	return m.cmdDump(args[0:])
 }
 
-func (m *modMemory) dump(args []string) error {
+func (m *modMemory) cmdDump(args []string) error {
 	if err := checkLen(args, 0, 2); err != nil {
 		return err
 	}
@@ -87,13 +87,13 @@ func (m *modMemory) dump(args []string) error {
 	if !ok {
 		return fmt.Errorf("invalid encoding: %v", m.mon.encoding)
 	}
-	m.mon.out.Println(dump(m.mem, addrStart, addrEnd, decoder, m.name))
+	m.mon.out.Println(dump(m.mem, addrStart, addrEnd, decoder, m.prefix()))
 	m.ptr.SetAddr(addrEnd)
 	//mon.lastCmd = m.cmdMemoryDump
 	return nil
 }
 
-func (m *modMemory) fill(args []string) error {
+func (m *modMemory) cmdFill(args []string) error {
 	if err := checkLen(args, 3, 3); err != nil {
 		return err
 	}
@@ -118,7 +118,7 @@ func (m *modMemory) fill(args []string) error {
 	return nil
 }
 
-func (m *modMemory) peek(args []string) error {
+func (m *modMemory) cmdPeek(args []string) error {
 	if err := checkLen(args, 1, 1); err != nil {
 		return err
 	}
@@ -131,7 +131,7 @@ func (m *modMemory) peek(args []string) error {
 	return nil
 }
 
-func (m *modMemory) poke(args []string) error {
+func (m *modMemory) cmdPoke(args []string) error {
 	if err := checkLen(args, 2, maxArgs); err != nil {
 		return err
 	}
@@ -151,7 +151,7 @@ func (m *modMemory) poke(args []string) error {
 	return nil
 }
 
-func (m *modMemory) watchClear(args []string) error {
+func (m *modMemory) cmdWatchClear(args []string) error {
 	if err := checkLen(args, 1, 1); err != nil {
 		return err
 	}
@@ -166,7 +166,7 @@ func (m *modMemory) watchClear(args []string) error {
 	return nil
 }
 
-func (m *modMemory) watchList(args []string) error {
+func (m *modMemory) cmdWatchList(args []string) error {
 	if err := checkLen(args, 0, 0); err != nil {
 		return err
 	}
@@ -179,7 +179,7 @@ func (m *modMemory) watchList(args []string) error {
 	return nil
 }
 
-func (m *modMemory) watchNone(args []string) error {
+func (m *modMemory) cmdWatchNone(args []string) error {
 	if err := checkLen(args, 0, 0); err != nil {
 		return err
 	}
@@ -190,7 +190,7 @@ func (m *modMemory) watchNone(args []string) error {
 	return nil
 }
 
-func (m *modMemory) watchSet(args []string) error {
+func (m *modMemory) cmdWatchSet(args []string) error {
 	if err := checkLen(args, 2, 2); err != nil {
 		return err
 	}
@@ -227,6 +227,13 @@ func (m *modMemory) watchCallback(evt rcs.MemoryEvent) {
 	} else {
 		m.mon.out.Printf("write(%v) => $%02x", a, evt.Value)
 	}
+}
+
+func (m *modMemory) prefix() string {
+	if m.name == "mem" {
+		return ""
+	}
+	return m.name + "  "
 }
 
 func (m *modMemory) AutoComplete() []readline.PrefixCompleterInterface {

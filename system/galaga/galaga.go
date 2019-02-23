@@ -145,12 +145,12 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 	mach := &rcs.Mach{
 		Sys: s,
 		Comps: []rcs.Component{
-			rcs.NewComponent("cpu1", "cpu", "z80", s.cpu[0]),
-			rcs.NewComponent("cpu2", "cpu", "z80", s.cpu[1]),
-			rcs.NewComponent("cpu3", "cpu", "z80", s.cpu[2]),
 			rcs.NewComponent("mem1", "mem", "", s.mem[0]),
 			rcs.NewComponent("mem2", "mem", "", s.mem[1]),
 			rcs.NewComponent("mem3", "mem", "", s.mem[2]),
+			rcs.NewComponent("cpu1", "z80", "mem1", s.cpu[0]),
+			rcs.NewComponent("cpu2", "z80", "mem2", s.cpu[1]),
+			rcs.NewComponent("cpu3", "z80", "mem3", s.cpu[2]),
 			rcs.NewComponent("n06xx", "n06xx", "", s.n06xx),
 		},
 		CharDecoders: map[string]rcs.CharDecoder{

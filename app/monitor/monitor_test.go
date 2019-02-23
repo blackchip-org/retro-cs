@@ -96,10 +96,10 @@ $3456
 + bps $123456
 invalid address: $123456
 		`,
-	}} /*{
+	}, {
 		"dasm",
 		[]string{
-			"dasm lines 4",
+			"config lines-disassembly 4",
 			"poke $10 $09",
 			"poke $11 $19 $ab",
 			"poke $13 $29 $cd $ab",
@@ -107,7 +107,7 @@ invalid address: $123456
 			"d $10",
 		},
 		`
-+ dasm lines 4
++ config lines-disassembly 4
 + poke $10 $09
 + poke $11 $19 $ab
 + poke $13 $29 $cd $ab
@@ -118,7 +118,7 @@ $0011:  19 ab     i19 $ab
 $0013:  29 cd ab  i29 $abcd
 $0016:  27 cd ab  i27 $abcd
 `,
-	}, {
+	}} /*, {
 		"dasm continue",
 		[]string{
 			"dasm lines 1",

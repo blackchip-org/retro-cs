@@ -15,17 +15,11 @@ import (
 
 type modCPU struct {
 	name   string
-	sub    module
 	mon    *Monitor
 	cpu    rcs.CPU
 	mem    *rcs.Memory
 	dasm   *rcs.Disassembler
 	brkpts map[int]struct{}
-}
-
-var subCPU = map[string]func(m *Monitor, comp rcs.Component) module{
-	"m6502": newModM6502,
-	"z80":   newModZ80,
 }
 
 func newModCPU(mon *Monitor, comp rcs.Component) module {
@@ -42,9 +36,6 @@ func newModCPU(mon *Monitor, comp rcs.Component) module {
 		mem:    c.Memory(),
 		dasm:   dasm,
 		brkpts: mon.mach.Breakpoints[comp.Name],
-	}
-	if comp.Submodule != "" {
-		mod.sub = subCPU[comp.Submodule](mon, comp)
 	}
 	return mod
 }
@@ -75,9 +66,6 @@ func (m *modCPU) Command(args []string) error {
 		return m.cmdStep(args[1:])
 	case "trace", "t":
 		return m.cmdTrace(args[1:])
-	}
-	if m.sub != nil {
-		return m.sub.Command(args)
 	}
 	return fmt.Errorf("no such command: %v", args[0])
 }
@@ -231,7 +219,7 @@ func (m *modCPU) cmdTrace(args []string) error {
 }
 
 func (m *modCPU) AutoComplete() []readline.PrefixCompleterInterface {
-	cmds := []readline.PrefixCompleterInterface{
+	return []readline.PrefixCompleterInterface{
 		readline.PcItem("breakpoint-clear"),
 		readline.PcItem("breakpoint-list"),
 		readline.PcItem("breakpoint-none"),
@@ -242,11 +230,6 @@ func (m *modCPU) AutoComplete() []readline.PrefixCompleterInterface {
 		readline.PcItem("step"),
 		readline.PcItem("trace"),
 	}
-	if m.sub != nil {
-		cmds = append(cmds, m.sub.AutoComplete()...)
-	}
-	sort.Sort(byName(cmds))
-	return cmds
 }
 
 func (m *modCPU) prefix() string {
@@ -257,19 +240,19 @@ func (m *modCPU) prefix() string {
 }
 
 type modM6502 struct {
-	name string
-	mon  *Monitor
-	out  *log.Logger
-	cpu  *m6502.CPU
+	parent module
+	mon    *Monitor
+	out    *log.Logger
+	cpu    *m6502.CPU
 }
 
 func newModM6502(mon *Monitor, comp rcs.Component) module {
 	cpu := comp.C.(*m6502.CPU)
 	return &modM6502{
-		name: comp.Submodule,
-		mon:  mon,
-		out:  mon.out,
-		cpu:  cpu,
+		parent: newModCPU(mon, comp),
+		mon:    mon,
+		out:    mon.out,
+		cpu:    cpu,
 	}
 }
 
@@ -302,11 +285,12 @@ func (m *modM6502) Command(args []string) error {
 	case "f.n":
 		return valueBit(m.out, &m.cpu.SR, m6502.FlagN, args[1:])
 	}
-	return fmt.Errorf("no such command: %v", args[0])
+	return m.parent.Command(args)
 }
 
 func (m *modM6502) AutoComplete() []readline.PrefixCompleterInterface {
-	return []readline.PrefixCompleterInterface{
+	cmds := m.parent.AutoComplete()
+	cmds = append(cmds, []readline.PrefixCompleterInterface{
 		readline.PcItem("r.a"),
 		readline.PcItem("r.x"),
 		readline.PcItem("r.y"),
@@ -319,23 +303,25 @@ func (m *modM6502) AutoComplete() []readline.PrefixCompleterInterface {
 		readline.PcItem("f.b"),
 		readline.PcItem("f.v"),
 		readline.PcItem("f.n"),
-	}
+	}...)
+	sort.Sort(byName(cmds))
+	return cmds
 }
 
 type modZ80 struct {
-	name string
-	mon  *Monitor
-	out  *log.Logger
-	cpu  *z80.CPU
+	parent module
+	mon    *Monitor
+	out    *log.Logger
+	cpu    *z80.CPU
 }
 
 func newModZ80(mon *Monitor, comp rcs.Component) module {
 	cpu := comp.C.(*z80.CPU)
 	return &modZ80{
-		name: comp.Submodule,
-		mon:  mon,
-		out:  mon.out,
-		cpu:  cpu,
+		parent: newModCPU(mon, comp),
+		mon:    mon,
+		out:    mon.out,
+		cpu:    cpu,
 	}
 }
 
@@ -442,11 +428,12 @@ func (m *modZ80) Command(args []string) error {
 		return valueBit(m.out, &m.cpu.F, z80.FlagS, args[1:])
 	}
 
-	return fmt.Errorf("no such command: %v", args[0])
+	return m.parent.Command(args)
 }
 
 func (m *modZ80) AutoComplete() []readline.PrefixCompleterInterface {
-	return []readline.PrefixCompleterInterface{
+	cmds := m.parent.AutoComplete()
+	cmds = append(cmds, []readline.PrefixCompleterInterface{
 		readline.PcItem("r.pc"),
 		readline.PcItem("r.a"),
 		readline.PcItem("r.f"),
@@ -500,5 +487,7 @@ func (m *modZ80) AutoComplete() []readline.PrefixCompleterInterface {
 		readline.PcItem("f.5"),
 		readline.PcItem("f.z"),
 		readline.PcItem("f.s"),
-	}
+	}...)
+	sort.Sort(byName(cmds))
+	return cmds
 }

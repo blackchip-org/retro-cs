@@ -10,6 +10,7 @@ import (
 
 type system struct {
 	cpu   *z80.CPU
+	mem   *rcs.Memory
 	ram   []uint8
 	video *namco.Video
 
@@ -29,58 +30,58 @@ type system struct {
 }
 
 func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
-	sys := &system{}
+	s := &system{}
 	roms, err := rcs.LoadROMs(config.DataDir, set)
 	if err != nil {
 		return nil, err
 	}
 
-	mem := rcs.NewMemory(1, 0x10000)
+	s.mem = rcs.NewMemory(1, 0x10000)
 	ram := make([]uint8, 0x1000, 0x1000)
 
-	mem.MapROM(0x0000, roms["code"])
-	mem.MapRAM(0x4000, ram)
+	s.mem.MapROM(0x0000, roms["code"])
+	s.mem.MapRAM(0x4000, ram)
 
 	// Register range. Nil mappings first then add real mappings
 	for i := 0x5000; i < 0x6000; i++ {
-		mem.MapNil(i)
+		s.mem.MapNil(i)
 	}
-	mem.MapWO(0x5000, &sys.interruptEnable)
+	s.mem.MapWO(0x5000, &s.interruptEnable)
 	for i := 0x5000; i < 0x503f; i++ {
-		mem.MapRO(i, &sys.in0)
+		s.mem.MapRO(i, &s.in0)
 	}
-	mem.MapWO(0x5001, &sys.soundEnable)
-	mem.MapWO(0x5002, &sys.unknown0)
-	mem.MapRW(0x5003, &sys.flipScreen)
-	mem.MapRW(0x5004, &sys.lampPlayer1)
-	mem.MapRW(0x5005, &sys.lampPlayer2)
-	mem.MapRW(0x5006, &sys.coinLockout)
-	mem.MapRW(0x5007, &sys.coinCounter)
+	s.mem.MapWO(0x5001, &s.soundEnable)
+	s.mem.MapWO(0x5002, &s.unknown0)
+	s.mem.MapRW(0x5003, &s.flipScreen)
+	s.mem.MapRW(0x5004, &s.lampPlayer1)
+	s.mem.MapRW(0x5005, &s.lampPlayer2)
+	s.mem.MapRW(0x5006, &s.coinLockout)
+	s.mem.MapRW(0x5007, &s.coinCounter)
 	for i := 0x5040; i <= 0x507f; i++ {
-		mem.MapRO(i, &sys.in1)
+		s.mem.MapRO(i, &s.in1)
 	}
 	for i := 0x5080; i <= 0x50bf; i++ {
-		mem.MapRO(i, &sys.dipSwitches)
+		s.mem.MapRO(i, &s.dipSwitches)
 	}
 	for i := 0x50c0; i <= 0x50ff; i++ {
-		mem.MapWO(i, &sys.watchdogReset)
+		s.mem.MapWO(i, &s.watchdogReset)
 	}
 
 	if code2, ok := roms["code2"]; ok {
-		mem.MapROM(0x8000, code2)
+		s.mem.MapROM(0x8000, code2)
 	}
 
 	// The first interrupt is executed without the stack pointer being set.
 	// The machine attempts to write the return address to 0xffff and 0xfffe
 	// but no memory is mapped there. Ms. Pac-Man also writes to 0xfffd
 	// and 0xfffc. Remove this warning.
-	mem.MapNil(0xfffc)
-	mem.MapNil(0xfffd)
-	mem.MapNil(0xfffe)
-	mem.MapNil(0xffff)
+	s.mem.MapNil(0xfffc)
+	s.mem.MapNil(0xfffd)
+	s.mem.MapNil(0xfffe)
+	s.mem.MapNil(0xffff)
 
-	cpu := z80.New(mem)
-	cpu.Ports.MapRW(0x00, &sys.intSelect)
+	cpu := z80.New(s.mem)
+	cpu.Ports.MapRW(0x00, &s.intSelect)
 
 	var screen rcs.Screen
 	var video *namco.Video
@@ -95,22 +96,22 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 		if err != nil {
 			return nil, err
 		}
-		mem.MapRAM(0x4000, video.TileMemory)
-		mem.MapRAM(0x4400, video.ColorMemory)
+		s.mem.MapRAM(0x4000, video.TileMemory)
+		s.mem.MapRAM(0x4400, video.ColorMemory)
 
 		// Pacman is missing address line A15 so an access to $c000 is the
 		// same as accessing $4000. Ms. Pacman has additional ROMs in high
 		// memory so it has an A15 line but it appears to have the RAM mapped at
 		// $c000 as well. Text for HIGH SCORE and CREDIT accesses this high
 		// memory when writing to video memory. Copy protection?
-		mem.MapRAM(0xc000, video.TileMemory)
-		mem.MapRAM(0xc400, video.ColorMemory)
+		s.mem.MapRAM(0xc000, video.TileMemory)
+		s.mem.MapRAM(0xc400, video.ColorMemory)
 
 		for i := 0; i < 8; i++ {
-			mem.MapRW(0x5060+(i*2), &video.SpriteCoords[i].X)
-			mem.MapRW(0x5061+(i*2), &video.SpriteCoords[i].Y)
-			mem.MapRW(0x4ff0+(i*2), &video.SpriteInfo[i])
-			mem.MapRW(0x4ff1+(i*2), &video.SpritePalettes[i])
+			s.mem.MapRW(0x5060+(i*2), &video.SpriteCoords[i].X)
+			s.mem.MapRW(0x5061+(i*2), &video.SpriteCoords[i].Y)
+			s.mem.MapRW(0x4ff0+(i*2), &video.SpriteInfo[i])
+			s.mem.MapRW(0x4ff1+(i*2), &video.SpritePalettes[i])
 		}
 		screen = rcs.Screen{
 			W:         namco.W,
@@ -130,42 +131,42 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 		if err != nil {
 			return nil, err
 		}
-		mem.MapWO(0x5040, &synth.voices[0].acc[0])
-		mem.MapWO(0x5041, &synth.voices[0].acc[1])
-		mem.MapWO(0x5042, &synth.voices[0].acc[2])
-		mem.MapWO(0x5043, &synth.voices[0].acc[3])
-		mem.MapWO(0x5044, &synth.voices[0].acc[4])
-		mem.MapWO(0x5045, &synth.voices[0].waveform)
-		mem.MapWO(0x5046, &synth.voices[1].acc[0])
-		mem.MapWO(0x5047, &synth.voices[1].acc[1])
-		mem.MapWO(0x5048, &synth.voices[1].acc[2])
-		mem.MapWO(0x5049, &synth.voices[1].acc[3])
-		mem.MapWO(0x504a, &synth.voices[1].waveform)
-		mem.MapWO(0x504b, &synth.voices[2].acc[0])
-		mem.MapWO(0x504c, &synth.voices[2].acc[1])
-		mem.MapWO(0x504d, &synth.voices[2].acc[2])
-		mem.MapWO(0x504e, &synth.voices[2].acc[3])
-		mem.MapRW(0x504f, &synth.voices[2].waveform)
+		s.mem.MapWO(0x5040, &synth.voices[0].acc[0])
+		s.mem.MapWO(0x5041, &synth.voices[0].acc[1])
+		s.mem.MapWO(0x5042, &synth.voices[0].acc[2])
+		s.mem.MapWO(0x5043, &synth.voices[0].acc[3])
+		s.mem.MapWO(0x5044, &synth.voices[0].acc[4])
+		s.mem.MapWO(0x5045, &synth.voices[0].waveform)
+		s.mem.MapWO(0x5046, &synth.voices[1].acc[0])
+		s.mem.MapWO(0x5047, &synth.voices[1].acc[1])
+		s.mem.MapWO(0x5048, &synth.voices[1].acc[2])
+		s.mem.MapWO(0x5049, &synth.voices[1].acc[3])
+		s.mem.MapWO(0x504a, &synth.voices[1].waveform)
+		s.mem.MapWO(0x504b, &synth.voices[2].acc[0])
+		s.mem.MapWO(0x504c, &synth.voices[2].acc[1])
+		s.mem.MapWO(0x504d, &synth.voices[2].acc[2])
+		s.mem.MapWO(0x504e, &synth.voices[2].acc[3])
+		s.mem.MapRW(0x504f, &synth.voices[2].waveform)
 
-		mem.MapWO(0x5050, &synth.voices[0].freq[0])
-		mem.MapWO(0x5051, &synth.voices[0].freq[1])
-		mem.MapWO(0x5052, &synth.voices[0].freq[2])
-		mem.MapWO(0x5053, &synth.voices[0].freq[3])
-		mem.MapWO(0x5054, &synth.voices[0].freq[4])
-		mem.MapWO(0x5055, &synth.voices[0].vol)
-		mem.MapWO(0x5056, &synth.voices[1].freq[0])
-		mem.MapWO(0x5057, &synth.voices[1].freq[1])
-		mem.MapWO(0x5058, &synth.voices[1].freq[2])
-		mem.MapWO(0x5059, &synth.voices[1].freq[3])
-		mem.MapWO(0x505a, &synth.voices[1].vol)
-		mem.MapWO(0x505b, &synth.voices[2].freq[0])
-		mem.MapWO(0x505c, &synth.voices[2].freq[1])
-		mem.MapWO(0x505d, &synth.voices[2].freq[2])
-		mem.MapWO(0x505e, &synth.voices[2].freq[3])
-		mem.MapRW(0x505f, &synth.voices[2].vol)
+		s.mem.MapWO(0x5050, &synth.voices[0].freq[0])
+		s.mem.MapWO(0x5051, &synth.voices[0].freq[1])
+		s.mem.MapWO(0x5052, &synth.voices[0].freq[2])
+		s.mem.MapWO(0x5053, &synth.voices[0].freq[3])
+		s.mem.MapWO(0x5054, &synth.voices[0].freq[4])
+		s.mem.MapWO(0x5055, &synth.voices[0].vol)
+		s.mem.MapWO(0x5056, &synth.voices[1].freq[0])
+		s.mem.MapWO(0x5057, &synth.voices[1].freq[1])
+		s.mem.MapWO(0x5058, &synth.voices[1].freq[2])
+		s.mem.MapWO(0x5059, &synth.voices[1].freq[3])
+		s.mem.MapWO(0x505a, &synth.voices[1].vol)
+		s.mem.MapWO(0x505b, &synth.voices[2].freq[0])
+		s.mem.MapWO(0x505c, &synth.voices[2].freq[1])
+		s.mem.MapWO(0x505d, &synth.voices[2].freq[2])
+		s.mem.MapWO(0x505e, &synth.voices[2].freq[3])
+		s.mem.MapRW(0x505f, &synth.voices[2].vol)
 	}
 
-	keyboard := newKeyboard(sys)
+	keyboard := newKeyboard(s)
 
 	// Note: If in0 and in1 are not initialized to valid values, the
 	// game will crash during the game demo in attract mode.
@@ -174,34 +175,35 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 	// Rack advance not pressed
 	// Coin slots clear
 	// Service button released
-	sys.in0 = 0xbf
+	s.in0 = 0xbf
 
 	// Joystick #2 in neutral position
 	// Board test off
 	// Player start buttons released
 	// Upright cabinet
-	sys.in1 = 0xff
+	s.in1 = 0xff
 
-	sys.dipSwitches |= (1 << 0)  // 1 coin per game
-	sys.dipSwitches &^= (1 << 1) // ...
-	sys.dipSwitches |= (1 << 3)  // 3 lives
-	sys.dipSwitches |= (1 << 7)  // Normal ghost names
+	s.dipSwitches |= (1 << 0)  // 1 coin per game
+	s.dipSwitches &^= (1 << 1) // ...
+	s.dipSwitches |= (1 << 3)  // 3 lives
+	s.dipSwitches |= (1 << 7)  // Normal ghost names
 
 	vblank := func() {
-		if sys.interruptEnable != 0 {
+		if s.interruptEnable != 0 {
 			cpu.IRQ = true
-			cpu.IRQData = sys.intSelect
+			cpu.IRQData = s.intSelect
 		}
 	}
 
-	sys.cpu = cpu
-	sys.ram = ram
-	sys.video = video
+	s.cpu = cpu
+	s.ram = ram
+	s.video = video
 
 	mach := &rcs.Mach{
-		Sys: sys,
+		Sys: s,
 		Comps: []rcs.Component{
-			rcs.NewComponent("cpu", "cpu", "z80", sys.cpu),
+			rcs.NewComponent("mem", "mem", "", s.mem),
+			rcs.NewComponent("cpu", "z80", "mem", s.cpu),
 		},
 		CharDecoders: map[string]rcs.CharDecoder{
 			"pacman": PacmanDecoder,

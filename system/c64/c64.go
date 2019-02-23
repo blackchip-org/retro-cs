@@ -74,8 +74,8 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 		Sys: s,
 		Comps: []rcs.Component{
 			rcs.NewComponent("c64", "c64", "", s),
-			rcs.NewComponent("cpu", "cpu", "m6502", s.cpu),
-			rcs.NewComponent("mem", "mem", "", s.mem),
+			rcs.NewComponent("cpu", "m6502", "", s.cpu),
+			rcs.NewComponent("mem", "mem", "cpu", s.mem),
 		},
 		CharDecoders: map[string]rcs.CharDecoder{
 			"petscii":         cbm.PetsciiDecoder,

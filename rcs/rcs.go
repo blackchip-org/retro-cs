@@ -263,12 +263,12 @@ func (r *RepeatWriter) eoln() {
 }
 
 type Component struct {
-	Name      string
-	Module    string
-	Submodule string
-	C         interface{}
+	Name   string
+	Module string
+	Parent string
+	C      interface{}
 }
 
-func NewComponent(name string, mod string, sub string, c interface{}) Component {
-	return Component{Name: name, Module: mod, Submodule: sub, C: c}
+func NewComponent(name string, mod string, parent string, c interface{}) Component {
+	return Component{Name: name, Module: mod, Parent: parent, C: c}
 }

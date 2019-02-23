@@ -6,7 +6,8 @@ func NewMach() *rcs.Mach {
 	ResetMemory()
 	return &rcs.Mach{
 		Comps: []rcs.Component{
-			rcs.NewComponent("cpu", "cpu", "", NewCPU(TestMemory)),
+			rcs.NewComponent("mem", "mem", "", TestMemory),
+			rcs.NewComponent("cpu", "cpu", "mem", NewCPU(TestMemory)),
 		},
 		CharDecoders: map[string]rcs.CharDecoder{
 			"ascii": rcs.ASCIIDecoder,
