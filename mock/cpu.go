@@ -61,36 +61,6 @@ func (c *CPU) String() string {
 	return fmt.Sprintf("pc:%04x a:%02x b:%02x q:%v z:%v", c.pc, c.A, c.B, c.Q, c.Z)
 }
 
-func (c *CPU) Registers() map[string]rcs.Value {
-	return map[string]rcs.Value{
-		"pc": rcs.Value{
-			Get: func() uint16 { return c.pc },
-			Put: func(addr uint16) { c.pc = addr },
-		},
-		"a": rcs.Value{
-			Get: func() uint8 { return c.A },
-			Put: func(v uint8) { c.A = v },
-		},
-		"b": rcs.Value{
-			Get: func() uint8 { return c.B },
-			Put: func(v uint8) { c.B = v },
-		},
-	}
-}
-
-func (c *CPU) Flags() map[string]rcs.Value {
-	return map[string]rcs.Value{
-		"q": rcs.Value{
-			Get: func() bool { return c.Q },
-			Put: func(v bool) { c.Q = v },
-		},
-		"z": rcs.Value{
-			Get: func() bool { return c.Z },
-			Put: func(v bool) { c.Z = v },
-		},
-	}
-}
-
 func reader(e rcs.StmtEval) {
 	e.Stmt.Addr = e.Ptr.Addr()
 	opcode := e.Ptr.Fetch()

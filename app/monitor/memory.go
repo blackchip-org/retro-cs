@@ -48,13 +48,13 @@ func (m *modMemory) Command(args []string) error {
 		return m.cmdPeek(args[1:])
 	case "poke":
 		return m.cmdPoke(args[1:])
-	case "watch-clear":
+	case "watch-clear", "wc":
 		return m.cmdWatchClear(args[1:])
-	case "watch-list", "watch":
+	case "watch-list", "w", "wl":
 		return m.cmdWatchList(args[1:])
-	case "watch-none":
+	case "watch-none", "wn":
 		return m.cmdWatchNone(args[1:])
-	case "watch-set":
+	case "watch-set", "ws":
 		return m.cmdWatchSet(args[1:])
 	}
 	return m.cmdDump(args[0:])
@@ -170,12 +170,15 @@ func (m *modMemory) cmdWatchList(args []string) error {
 	if err := checkLen(args, 0, 0); err != nil {
 		return err
 	}
+	if len(m.watches) == 0 {
+		return nil
+	}
 	list := make([]string, 0, len(m.watches))
 	for addr, mode := range m.watches {
-		list = append(list, fmt.Sprintf("$%04x %v", addr, mode))
+		list = append(list, fmt.Sprintf("%v$%04x %v", m.prefix(), addr, mode))
 	}
 	sort.Strings(list)
-	m.mon.out.Printf(strings.Join(list, "\n"))
+	m.mon.out.Print(strings.Join(list, "\n"))
 	return nil
 }
 
@@ -218,14 +221,14 @@ func (m *modMemory) cmdWatchSet(args []string) error {
 
 func (m *modMemory) watchCallback(evt rcs.MemoryEvent) {
 	// FIXME: hard coded address format
-	a := fmt.Sprintf("%v  $%04x", m.name, evt.Addr)
+	a := fmt.Sprintf("$%04x", evt.Addr)
 	if m.mem.NBank > 1 {
-		a = fmt.Sprintf("%v  %v:$%04x", m.name, evt.Bank, evt.Addr)
+		a = fmt.Sprintf("%v:$%04x", evt.Bank, evt.Addr)
 	}
 	if evt.Read {
-		m.mon.out.Printf("$%02x <= read(%v)", evt.Value, a)
+		m.mon.out.Printf("%v$%02x <= read(%v)", m.prefix(), evt.Value, a)
 	} else {
-		m.mon.out.Printf("write(%v) => $%02x", a, evt.Value)
+		m.mon.out.Printf("%vwrite(%v) => $%02x", m.prefix(), a, evt.Value)
 	}
 }
 

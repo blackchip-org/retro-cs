@@ -126,13 +126,6 @@ var ASCIIDecoder = func(code uint8) (rune, bool) {
 	return rune(code), printable
 }
 
-// Value is a function wrapper around an arbitrary value for changing
-// its contents.
-type Value struct {
-	Get interface{}
-	Put interface{}
-}
-
 // SDLContext contains the window for rendering and the audio specs
 // available for use.
 type SDLContext struct {

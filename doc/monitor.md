@@ -2,6 +2,8 @@
 
 Enable the monitor by using -m on the command line.
 
+*NOTE*: This document needs an update as it is no longer correct.
+
 ## Arguments
 
 The arguments for *address* and *value* are decimal values, or other values using the following prefixes:

@@ -27,13 +27,6 @@ type CPU interface {
 	Memory() *Memory // View of memory
 }
 
-// CPUEditor allow editing of register and flag values for CPUs that
-// support these methods.
-type CPUEditor interface {
-	Registers() map[string]Value
-	Flags() map[string]Value
-}
-
 // CPUDisassembler provides a disassembler instance for CPUs that
 // support this method.
 type CPUDisassembler interface {

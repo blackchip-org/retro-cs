@@ -9,7 +9,6 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"reflect"
 	"regexp"
 	"runtime"
 	"sort"
@@ -190,7 +189,11 @@ func (m *Monitor) dispatch(args []string) error {
 		return m.mods[parent].Command(args[1:])
 	case
 		"peek",
-		"poke":
+		"poke",
+		"watch-clear", "wc",
+		"watch-list", "w", "wl",
+		"watch-none", "wn",
+		"watch-set", "ws":
 		parent := m.comps[m.sc].Parent
 		return m.mods[parent].Command(args)
 	case "config":
@@ -346,6 +349,10 @@ func newCompleter(m *Monitor) *readline.PrefixCompleter {
 		readline.PcItem("quit"),
 		readline.PcItem("step"),
 		readline.PcItem("sleep"),
+		readline.PcItem("watch-clear"),
+		readline.PcItem("watch-list"),
+		readline.PcItem("watch-none"),
+		readline.PcItem("watch-set"),
 	}
 	for key, mod := range m.mods {
 		cmds = append(cmds, []readline.PrefixCompleterInterface{
@@ -427,7 +434,7 @@ func (m *Monitor) cpuCallback(evt rcs.MachEvent, args ...interface{}) {
 		status := args[0].(rcs.Status)
 		if status == rcs.Break {
 			m.out.Println()
-			//m.cmdCPU([]string{})
+			m.dispatch([]string{"i"})
 			m.rl.Refresh()
 		}
 	}
@@ -487,48 +494,6 @@ func (m *Monitor) parseValue(str string) (int, error) {
 func (m *Monitor) formatValue(v int) string {
 	return fmt.Sprintf("%d $%x %%%b", v, v, v)
 }
-
-func formatGet(m *Monitor, val rcs.Value) error {
-	switch get := val.Get.(type) {
-	case func() uint8:
-		m.out.Print(m.formatValue(int(get())))
-	case func() uint16:
-		m.out.Print(m.formatValue(int(get())))
-	case func() bool:
-		m.out.Printf("%v", get())
-	default:
-		return fmt.Errorf("unknown type: %v", reflect.TypeOf(val.Get))
-	}
-	return nil
-}
-
-/*
-func parsePut(m *Monitor, in string, val rcs.Value) error {
-	switch put := val.Put.(type) {
-	case func(uint8):
-		v, err := m.parseValue8(in)
-		if err != nil {
-			return err
-		}
-		put(v)
-	case func(uint16):
-		v, err := m.parseValue16(in)
-		if err != nil {
-			return err
-		}
-		put(v)
-	case func(bool):
-		v, err := m.parseBool(in)
-		if err != nil {
-			return err
-		}
-		put(v)
-	default:
-		return fmt.Errorf("unknown type: %v", reflect.TypeOf(val.Put))
-	}
-	return nil
-}
-*/
 
 func loadPath(name string) string {
 	if filepath.IsAbs(name) {
@@ -701,7 +666,7 @@ func valueList(out *log.Logger, val *string, list []string, args []string) error
 			return nil
 		}
 	}
-	return fmt.Errorf("no such value: %v", args[0])
+	return fmt.Errorf("invalid value: %v", args[0])
 }
 
 func valueBit(out *log.Logger, val *uint8, mask uint8, args []string) error {

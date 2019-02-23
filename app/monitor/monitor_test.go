@@ -118,10 +118,10 @@ $0011:  19 ab     i19 $ab
 $0013:  29 cd ab  i29 $abcd
 $0016:  27 cd ab  i27 $abcd
 `,
-	}} /*, {
+	}, {
 		"dasm continue",
 		[]string{
-			"dasm lines 1",
+			"config lines-disassembly 1",
 			"poke $0 $09",
 			"poke $1 $19 $ab",
 			"poke $3 $29 $cd $ab",
@@ -130,7 +130,7 @@ $0016:  27 cd ab  i27 $abcd
 			"d",
 		},
 		`
-+ dasm lines 1
++ config lines-disassembly 1
 + poke $0 $09
 + poke $1 $19 $ab
 + poke $3 $29 $cd $ab
@@ -143,7 +143,7 @@ $0001:  19 ab     i19 $ab
 	}, {
 		"dasm range",
 		[]string{
-			"dasm lines 4",
+			"config lines-disassembly 4",
 			"poke $10 $09",
 			"poke $11 $19 $ab",
 			"poke $13 $29 $cd $ab",
@@ -151,7 +151,7 @@ $0001:  19 ab     i19 $ab
 			"d $11 $14",
 		},
 		`
-+ dasm lines 4
++ config lines-disassembly 4
 + poke $10 $09
 + poke $11 $19 $ab
 + poke $13 $29 $cd $ab
@@ -162,40 +162,38 @@ $0013:  29 cd ab  i29 $abcd
 		`,
 	}, {
 		"go",
-		[]string{"break set $10", "g", "_yield", "cpu reg pc"},
+		[]string{"bps $10", "g", "sleep 100"},
 		`
-+ break set $10
++ bps $10
 + g
-+ _yield
++ sleep 100
 
 [break]
 pc:0010 a:00 b:00 q:false z:false
-+ cpu reg pc
-16 $10 %10000
 		`,
 	}, {
 		"memory",
-		[]string{"mem lines 2", "m"},
+		[]string{"config lines-memory 2", "m"},
 		`
-+ mem lines 2
++ config lines-memory 2
 + m
 $0000  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
 $0010  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
 	`,
 	}, {
 		"memory page 1",
-		[]string{"mem lines 2", "m $100"},
+		[]string{"config lines-memory 2", "m $100"},
 		`
-+ mem lines 2
++ config lines-memory 2
 + m $100
 $0100  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
 $0110  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
 	`,
 	}, {
 		"memory next page",
-		[]string{"mem lines 2", "m $100", "m"},
+		[]string{"config lines-memory 2", "m $100", "m"},
 		`
-+ mem lines 2
++ config lines-memory 2
 + m $100
 $0100  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
 $0110  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
@@ -213,11 +211,11 @@ $0150  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
 `,
 	}, {
 		"memory lines",
-		[]string{"mem lines 3", "mem lines", "m"},
+		[]string{"config lines-memory 3", "config lines-memory", "m"},
 		`
-+ mem lines 3
-+ mem lines
-3
++ config lines-memory 3
++ config lines-memory
+3 $3 %11
 + m
 $0000  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
 $0010  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
@@ -226,37 +224,36 @@ $0020  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
 	}, {
 		"memory encoding",
 		[]string{
-			"mem encoding",
+			"encoding",
 			"poke $0 1 2 3 $41 $42 $43",
 			"m 00 $0f",
-			"mem encoding az26",
+			"encoding az26",
 			"m 00 $0f",
-			"mem encoding ebcdic",
+			"encoding ebcdic",
 		},
 		`
-+ mem encoding
-* ascii
-  az26
++ encoding
+ascii
 + poke $0 1 2 3 $41 $42 $43
 + m 00 $0f
 $0000  01 02 03 41 42 43 00 00  00 00 00 00 00 00 00 00  ...ABC..........
-+ mem encoding az26
++ encoding az26
 + m 00 $0f
 $0000  01 02 03 41 42 43 00 00  00 00 00 00 00 00 00 00  ABC.............
-+ mem encoding ebcdic
-no such encoding: ebcdic
++ encoding ebcdic
+invalid value: ebcdic
 		`,
 	}, {
 		"memory fill",
 		[]string{
-			"mem lines 1",
+			"config lines-memory 1",
 			"mem fill 0004 $000b $ff",
 			"m 0",
 			"mem fill $000b 0004 $aa",
 			"m 0",
 		},
 		`
-+ mem lines 1
++ config lines-memory 1
 + mem fill 0004 $000b $ff
 + m 0
 $0000  00 00 00 00 ff ff ff ff  ff ff ff ff 00 00 00 00  ................
@@ -280,79 +277,19 @@ $0000:  00        i00
 171 $ab %10101011
 		`,
 	}, {
-		"registers and flags set",
-		[]string{
-			"r",
-			"cpu reg pc $1234",
-			"cpu reg a $56",
-			"cpu reg c $ff",
-			"cpu flag q on",
-			"cpu flag a on",
-			"r",
-		},
-		`
-+ r
-[pause]
-pc:0000 a:00 b:00 q:false z:false
-+ cpu reg pc $1234
-+ cpu reg a $56
-+ cpu reg c $ff
-no such register: c
-+ cpu flag q on
-+ cpu flag a on
-no such flag: a
-+ r
-[pause]
-pc:1234 a:56 b:00 q:true z:false
-		`,
-	}, {
-		"registers and flags list",
-		[]string{"cpu reg", "cpu flag"},
-		`
-+ cpu reg
-a
-b
-pc
-+ cpu flag
-q
-z
-		`,
-	}, {
-		"registers and flags get",
-		[]string{
-			"cpu reg a $56",
-			"cpu flag q on",
-			"cpu reg a",
-			"cpu reg c",
-			"cpu flag q",
-			"cpu flag a",
-		},
-		`
-+ cpu reg a $56
-+ cpu flag q on
-+ cpu reg a
-86 $56 %1010110
-+ cpu reg c
-no such register: c
-+ cpu flag q
-true
-+ cpu flag a
-no such flag: a
-		`,
-	}, {
 		"step",
-		[]string{"s", "r", "s", "s", "r"},
+		[]string{"s", "i", "s", "s", "i"},
 		`
 + s
 $0001:  00        i00
-+ r
++ i
 [pause]
 pc:0001 a:00 b:00 q:false z:false
 + s
 $0002:  00        i00
 + s
 $0003:  00        i00
-+ r
++ i
 [pause]
 pc:0003 a:00 b:00 q:false z:false
 		`,
@@ -361,20 +298,20 @@ pc:0003 a:00 b:00 q:false z:false
 		[]string{
 			"poke 0 $a $b $c",
 			"trace",
-			"break set 1",
-			"break set 2",
+			"bps 1",
+			"bps 2",
 			"go",
-			"_yield",
+			"sleep 100",
 			"trace",
 			"go",
 		},
 		`
 + poke 0 $a $b $c
 + trace
-+ break set 1
-+ break set 2
++ bps 1
++ bps 2
 + go
-+ _yield
++ sleep 100
 $0000:  0a        i0a
 
 [break]
@@ -385,50 +322,50 @@ pc:0001 a:00 b:00 q:false z:false
 	}, {
 		"watch",
 		[]string{
-			"watch set $10 rw",
-			"watch list",
+			"ws $10 rw",
+			"w",
 			"poke $10 $22",
 			"peek $10",
-			"watch clear $10",
-			"watch set $10 r",
-			"watch list",
+			"wc $10",
+			"ws $10 r",
+			"w",
 			"poke $10 $22",
 			"peek $10",
-			"watch clear $10",
-			"watch set $10 w",
-			"watch list",
+			"wc $10",
+			"ws $10 w",
+			"w",
 			"poke $10 $22",
 			"peek $10",
-			"watch clear-all",
-			"watch",
+			"wn",
+			"w",
 		},
 		`
-+ watch set $10 rw
-+ watch list
++ ws $10 rw
++ w
 $0010 rw
 + poke $10 $22
 write($0010) => $22
 + peek $10
 $22 <= read($0010)
 34 $22 %100010
-+ watch clear $10
-+ watch set $10 r
-+ watch list
++ wc $10
++ ws $10 r
++ w
 $0010 r
 + poke $10 $22
 + peek $10
 $22 <= read($0010)
 34 $22 %100010
-+ watch clear $10
-+ watch set $10 w
-+ watch list
++ wc $10
++ ws $10 w
++ w
 $0010 w
 + poke $10 $22
 write($0010) => $22
 + peek $10
 34 $22 %100010
-+ watch clear-all
-+ watch
++ wn
++ w
 		`,
 	},
 }
@@ -437,10 +374,9 @@ func TestBreakpointOffset(t *testing.T) {
 	f := newMonitorFixture()
 	f.cpu.OffsetPC = 1
 	cmds := `
-b set $10
+bps $10
 g
-_yield
-cpu reg pc
+sleep 100
 	`
 	go f.mon.mach.Run()
 	defer func() {
@@ -449,20 +385,17 @@ cpu reg pc
 	f.mon.Eval(cmds)
 	have := strings.TrimSpace(f.out.String())
 	want := strings.TrimSpace(`
-+ b set $10
++ bps $10
 + g
-+ _yield
++ sleep 100
 
 [break]
 pc:000f a:00 b:00 q:false z:false
-+ cpu reg pc
-15 $f %1111
 `)
 	if have != want {
 		t.Errorf("\n have: \n%v \n want: \n%v", have, want)
 	}
 }
-*/
 
 func TestDump(t *testing.T) {
 	var dumpTests = []struct {
