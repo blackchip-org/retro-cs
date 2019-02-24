@@ -257,6 +257,10 @@ func newModM6502(mon *Monitor, comp rcs.Component) module {
 }
 
 func (m *modM6502) Command(args []string) error {
+	if len(args) == 0 {
+		return m.parent.Command(args)
+	}
+
 	switch args[0] {
 	case "r.pc":
 		return valueIntF(m.out, m.cpu.PC, m.cpu.SetPC, args[1:])
@@ -326,6 +330,10 @@ func newModZ80(mon *Monitor, comp rcs.Component) module {
 }
 
 func (m *modZ80) Command(args []string) error {
+	if len(args) == 0 {
+		return m.parent.Command(args)
+	}
+
 	switch args[0] {
 	case "f.c":
 		return valueBit(m.out, &m.cpu.F, z80.FlagC, args[1:])
@@ -431,7 +439,6 @@ func (m *modZ80) Command(args []string) error {
 		return valueBool(m.out, &m.cpu.WatchIRQ, args[1:])
 
 	}
-
 	return m.parent.Command(args)
 }
 
