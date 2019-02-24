@@ -72,3 +72,99 @@ func (m *modN06XX) AutoComplete() []readline.PrefixCompleterInterface {
 		readline.PcItem("watch-none"),
 	}
 }
+
+type modN51XX struct {
+	mon   *Monitor
+	out   *log.Logger
+	n51xx *namco.N51XX
+}
+
+func newModN51XX(mon *Monitor, comp rcs.Component) module {
+	return &modN51XX{
+		mon:   mon,
+		out:   mon.out,
+		n51xx: comp.C.(*namco.N51XX),
+	}
+}
+
+func (m *modN51XX) Command(args []string) error {
+	if err := checkLen(args, 1, maxArgs); err != nil {
+		return err
+	}
+	switch args[0] {
+	case "watch-write":
+		return valueBool(m.out, &m.n51xx.WatchW, args[1:])
+	case "watch-read":
+		return valueBool(m.out, &m.n51xx.WatchR, args[1:])
+	case "watch-all":
+		return terminal(args[1:], func() error {
+			m.n51xx.WatchW = true
+			m.n51xx.WatchR = true
+			return nil
+		})
+	case "watch-none":
+		return terminal(args[1:], func() error {
+			m.n51xx.WatchW = false
+			m.n51xx.WatchR = false
+			return nil
+		})
+	}
+	return fmt.Errorf("no such command: %v", args[0])
+}
+
+func (m *modN51XX) AutoComplete() []readline.PrefixCompleterInterface {
+	return []readline.PrefixCompleterInterface{
+		readline.PcItem("watch-write"),
+		readline.PcItem("watch-read"),
+		readline.PcItem("watch-all"),
+		readline.PcItem("watch-none"),
+	}
+}
+
+type modN54XX struct {
+	mon   *Monitor
+	out   *log.Logger
+	n54xx *namco.N54XX
+}
+
+func newModN54XX(mon *Monitor, comp rcs.Component) module {
+	return &modN54XX{
+		mon:   mon,
+		out:   mon.out,
+		n54xx: comp.C.(*namco.N54XX),
+	}
+}
+
+func (m *modN54XX) Command(args []string) error {
+	if err := checkLen(args, 1, maxArgs); err != nil {
+		return err
+	}
+	switch args[0] {
+	case "watch-write":
+		return valueBool(m.out, &m.n54xx.WatchW, args[1:])
+	case "watch-read":
+		return valueBool(m.out, &m.n54xx.WatchR, args[1:])
+	case "watch-all":
+		return terminal(args[1:], func() error {
+			m.n54xx.WatchW = true
+			m.n54xx.WatchR = true
+			return nil
+		})
+	case "watch-none":
+		return terminal(args[1:], func() error {
+			m.n54xx.WatchW = false
+			m.n54xx.WatchR = false
+			return nil
+		})
+	}
+	return fmt.Errorf("no such command: %v", args[0])
+}
+
+func (m *modN54XX) AutoComplete() []readline.PrefixCompleterInterface {
+	return []readline.PrefixCompleterInterface{
+		readline.PcItem("watch-write"),
+		readline.PcItem("watch-read"),
+		readline.PcItem("watch-all"),
+		readline.PcItem("watch-none"),
+	}
+}

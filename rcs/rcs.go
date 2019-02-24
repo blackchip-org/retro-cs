@@ -4,9 +4,7 @@ import (
 	"encoding/gob"
 	"fmt"
 	"io"
-	"log"
 	"math/bits"
-	"os"
 	"strconv"
 	"strings"
 
@@ -176,34 +174,6 @@ type Saver interface {
 
 type Loader interface {
 	Load(*Decoder)
-}
-
-var dout = log.New(NewRepeatWriter(os.Stdout), "", 0)
-
-type Debugger struct {
-	Print   func(...interface{})
-	Printf  func(string, ...interface{})
-	Println func(...interface{})
-}
-
-var activeDebugger = Debugger{
-	Print:   dout.Print,
-	Printf:  dout.Printf,
-	Println: dout.Println,
-}
-
-var slientDebugger = Debugger{
-	Print:   func(...interface{}) {},
-	Printf:  func(string, ...interface{}) {},
-	Println: func(...interface{}) {},
-}
-
-func NewDebugger(name string) Debugger {
-	if os.Getenv(name) != "" {
-		fmt.Printf("enabled debugging: %v\n", name)
-		return activeDebugger
-	}
-	return slientDebugger
 }
 
 type RepeatWriter struct {

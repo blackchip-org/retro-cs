@@ -152,6 +152,8 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 			rcs.NewComponent("cpu2", "z80", "mem2", s.cpu[1]),
 			rcs.NewComponent("cpu3", "z80", "mem3", s.cpu[2]),
 			rcs.NewComponent("n06xx", "n06xx", "", s.n06xx),
+			rcs.NewComponent("n51xx", "n51xx", "", s.n51xx),
+			rcs.NewComponent("n54xx", "n54xx", "", s.n54xx),
 		},
 		CharDecoders: map[string]rcs.CharDecoder{
 			"galaga": GalagaDecoder,

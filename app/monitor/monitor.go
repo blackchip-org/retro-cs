@@ -39,6 +39,8 @@ var modules = map[string]func(m *Monitor, comp rcs.Component) module{
 	"m6502": newModM6502,
 	"mem":   newModMemory,
 	"n06xx": newModN06XX,
+	"n51xx": newModN51XX,
+	"n54xx": newModN54XX,
 	"z80":   newModZ80,
 }
 
