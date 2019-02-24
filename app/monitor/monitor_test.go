@@ -493,6 +493,7 @@ func TestRepeatWriter(t *testing.T) {
 	for _, test := range tests {
 		var buf bytes.Buffer
 		rw := newRepeatWriter(&buf)
+		rw.ansi = false
 		str := strings.Join(test.in, "\n")
 		rw.Write([]byte(str))
 		rw.Close()

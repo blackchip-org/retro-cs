@@ -62,7 +62,10 @@ type Monitor struct {
 
 func New(mach *rcs.Mach) (*Monitor, error) {
 	mach.Init()
-	cw := newConsoleWriter()
+	cw := newConsoleWriter(os.Stdout)
+	rw := newRepeatWriter(cw)
+	log.SetOutput(rw)
+
 	m := &Monitor{
 		mach:     mach,
 		comps:    make(map[string]rcs.Component),
@@ -119,8 +122,6 @@ func New(mach *rcs.Mach) (*Monitor, error) {
 	m.rl = rl
 	cw.RefreshFunc = func() { m.rl.Refresh() }
 	m.rl.SetPrompt(m.getPrompt())
-	log.SetOutput(cw)
-
 	return m, nil
 }
 
@@ -222,9 +223,9 @@ func (m *Monitor) dispatch(args []string) error {
 		return mod.Command(args[1:])
 	}
 
-	val, err := m.parseValue(args[0])
+	val, err := parseValue(args[0])
 	if err == nil {
-		m.out.Print(m.formatValue(val))
+		m.out.Print(formatValue(val))
 		return nil
 	}
 
@@ -413,14 +414,6 @@ func acEncodings(m *Monitor) func(string) []string {
 // ============================================================================
 // aux
 
-func (m *Monitor) getPrompt() string {
-	c := ""
-	if len(m.mach.CPU) > 1 {
-		c = fmt.Sprintf(":%v", m.sc)
-	}
-	return fmt.Sprintf("monitor%v> ", c)
-}
-
 func (m *Monitor) cpuCallback(evt rcs.MachEvent, args ...interface{}) {
 	switch evt {
 	case rcs.TraceEvent:
@@ -442,20 +435,6 @@ func (m *Monitor) cpuCallback(evt rcs.MachEvent, args ...interface{}) {
 			m.rl.Refresh()
 		}
 	}
-}
-
-func (m *Monitor) memCallback(evt rcs.MemoryEvent) {
-	/*
-		a := fmt.Sprintf("$%04x", evt.Addr)
-		if m.sc.mem.NBank > 1 {
-			a = fmt.Sprintf("%v:$%04x", evt.Bank, evt.Addr)
-		}
-		if evt.Read {
-			m.out.Printf("$%02x <= read(%v)", evt.Value, a)
-		} else {
-			m.out.Printf("write(%v) => $%02x", a, evt.Value)
-		}
-	*/
 }
 
 func checkLen(args []string, min int, max int) error {
@@ -485,18 +464,6 @@ func parseUint(str string, bitSize int) (uint64, error) {
 		base = 2
 	}
 	return strconv.ParseUint(str, base, bitSize)
-}
-
-func (m *Monitor) parseValue(str string) (int, error) {
-	value, err := parseUint(str, 64)
-	if err != nil {
-		return 0, fmt.Errorf("invalid value: %v", str)
-	}
-	return int(value), nil
-}
-
-func (m *Monitor) formatValue(v int) string {
-	return fmt.Sprintf("%d $%x %%%b", v, v, v)
 }
 
 func loadPath(name string) string {
@@ -710,6 +677,23 @@ func parseAddress(mem *rcs.Memory, str string) (int, error) {
 // =========================================================================
 // console
 
+// carriage return to go to the beginning of the line
+// then ansi escape sequence to clear the line
+const (
+	ansiClearLine  = "\r\033[2K"
+	ansiReset      = "\033[0m"
+	ansiLightBlue  = "\033[1;34m"
+	ansiLightGreen = "\033[1;32m"
+)
+
+func (m *Monitor) getPrompt() string {
+	c := ""
+	if len(m.mach.CPU) > 1 {
+		c = fmt.Sprintf(":%v%v%v", ansiLightBlue, m.sc, ansiReset)
+	}
+	return fmt.Sprintf("%vmonitor%v%v> ", ansiLightGreen, ansiReset, c)
+}
+
 type consoleWriter struct {
 	RefreshFunc     func()
 	rl              *readline.Instance
@@ -723,9 +707,9 @@ type consoleWriter struct {
 	maxUpdate       int           // maximum number of charaters per update
 }
 
-func newConsoleWriter() *consoleWriter {
+func newConsoleWriter(w io.Writer) *consoleWriter {
 	cw := &consoleWriter{
-		w:               os.Stdout,
+		w:               w,
 		firstInterval:   time.Millisecond * 10,
 		backlogInterval: time.Millisecond * 100,
 		maxUpdate:       2000,
@@ -777,12 +761,12 @@ func (c *consoleWriter) emit() {
 	}
 	// carriage return to go to the begnning of the line
 	// then ansi escape sequence to clear the line
-	c.w.Write([]byte("\r\033[2K"))
+	io.WriteString(c.w, ansiClearLine)
 	if omission {
 		text := fmt.Sprintf("... omitted %v lines\n", lines-c.maxUpdate)
-		c.w.Write([]byte(text))
+		io.WriteString(c.w, text)
 	}
-	c.w.Write([]byte(update))
+	io.WriteString(c.w, update)
 	c.RefreshFunc()
 	c.backlog.Reset()
 	c.timer = time.AfterFunc(c.backlogInterval, c.emit)
@@ -793,10 +777,11 @@ type repeatWriter struct {
 	buf     strings.Builder
 	prev    string
 	repeats int
+	ansi    bool
 }
 
 func newRepeatWriter(w io.Writer) *repeatWriter {
-	return &repeatWriter{w: w}
+	return &repeatWriter{w: w, ansi: true}
 }
 
 func (r *repeatWriter) Write(p []byte) (int, error) {
@@ -820,10 +805,16 @@ func (r *repeatWriter) Close() error {
 func (r *repeatWriter) eoln() {
 	str := r.buf.String()
 	if str != r.prev {
-		if r.repeats == 1 {
-			io.WriteString(r.w, "1 time\n")
-		} else if r.repeats > 1 {
-			io.WriteString(r.w, fmt.Sprintf("%d times\n", r.repeats))
+		if r.repeats > 0 {
+			if r.ansi {
+				io.WriteString(r.w, ansiClearLine)
+				io.WriteString(r.w, "... repeats ")
+			}
+			if r.repeats == 1 {
+				io.WriteString(r.w, "1 time\n")
+			} else if r.repeats > 1 {
+				io.WriteString(r.w, fmt.Sprintf("%d times\n", r.repeats))
+			}
 		}
 		r.repeats = 0
 		io.WriteString(r.w, str)

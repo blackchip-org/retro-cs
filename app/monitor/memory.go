@@ -127,7 +127,7 @@ func (m *modMemory) cmdPeek(args []string) error {
 		return err
 	}
 	v := m.mem.Read(addr)
-	m.mon.out.Print(m.mon.formatValue(int(v)))
+	m.mon.out.Print(formatValue(int(v)))
 	return nil
 }
 
