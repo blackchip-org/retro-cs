@@ -119,6 +119,8 @@ func New(mach *rcs.Mach) (*Monitor, error) {
 	m.rl = rl
 	cw.RefreshFunc = func() { m.rl.Refresh() }
 	m.rl.SetPrompt(m.getPrompt())
+	log.SetOutput(cw)
+
 	return m, nil
 }
 
@@ -784,4 +786,53 @@ func (c *consoleWriter) emit() {
 	c.RefreshFunc()
 	c.backlog.Reset()
 	c.timer = time.AfterFunc(c.backlogInterval, c.emit)
+}
+
+type repeatWriter struct {
+	w       io.Writer
+	buf     strings.Builder
+	prev    string
+	repeats int
+}
+
+func newRepeatWriter(w io.Writer) *repeatWriter {
+	return &repeatWriter{w: w}
+}
+
+func (r *repeatWriter) Write(p []byte) (int, error) {
+	for _, b := range p {
+		r.buf.WriteByte(b)
+		if b == '\n' {
+			r.eoln()
+		}
+	}
+	return len(p), nil
+}
+
+func (r *repeatWriter) Close() error {
+	if !strings.HasSuffix(r.buf.String(), "\n") {
+		r.buf.WriteString("\n")
+	}
+	r.eoln()
+	return nil
+}
+
+func (r *repeatWriter) eoln() {
+	str := r.buf.String()
+	if str != r.prev {
+		if r.repeats == 1 {
+			io.WriteString(r.w, "1 time\n")
+		} else if r.repeats > 1 {
+			io.WriteString(r.w, fmt.Sprintf("%d times\n", r.repeats))
+		}
+		r.repeats = 0
+		io.WriteString(r.w, str)
+	} else {
+		if r.repeats == 0 {
+			io.WriteString(r.w, "... repeats ")
+		}
+		r.repeats++
+	}
+	r.buf.Reset()
+	r.prev = str
 }
