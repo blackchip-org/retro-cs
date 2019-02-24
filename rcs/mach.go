@@ -176,7 +176,7 @@ func (m *Mach) jiffy() {
 	if m.Status == Run {
 		m.execute()
 	}
-	if m.QueueAudio != nil {
+	if m.QueueAudio != nil && m.Ctx.AudioSpec.Freq != 0 {
 		if err := m.QueueAudio(); err != nil {
 			m.event(ErrorEvent, err)
 		}

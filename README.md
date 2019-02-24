@@ -11,6 +11,7 @@ Work on the [pac8](https://github.com/blackchip-org/pac8) and the [mach85](https
 Notes on the systems in progress:
 
 - [Commodore 64](doc/c64.md)
+- [Commodore 128](doc/c128.md)
 - [Pac-Man](doc/pacman.md)
   - and Ms. Pac-Man
 - [Galaga](doc/galaga.md)
@@ -37,7 +38,6 @@ Install go from here:
 
 https://golang.org/dl
 
-
 ### macOS
 
 Install go and SDL with:
@@ -45,6 +45,16 @@ Install go and SDL with:
 ```bash
 brew install go sdl2{,_image,_mixer,_ttf,_gfx} pkg-config
 ```
+
+### Windows
+
+It's never easy on Windows. Go needs to use mingw to compile the SDL bindings. Follow the instructions on the go-sdl2 page:
+
+https://github.com/veandco/go-sdl2#requirements
+
+Install go from here:
+
+https://golang.org/dl
 
 ### ROMs
 
@@ -66,6 +76,7 @@ go get github.com/blackchip-org/retro-cs/...
 where `<system>` is one of the following:
 
 - `c64`
+- `c128`
 - `galaga`
 - `mspacman`
 - `pacman`
