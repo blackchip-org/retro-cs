@@ -118,7 +118,7 @@ func (m *Mach) Init() error {
 		m.Keyboard = func(*sdl.KeyboardEvent) error { return nil }
 	}
 
-	if m.Ctx.Window != nil {
+	if m.Ctx.Window != nil && m.Screen.W > 0 {
 		r := m.Ctx.Renderer
 		winx, winy := m.Ctx.Window.GetSize()
 		FitInWindow(winx, winy, &m.Screen)
@@ -181,7 +181,7 @@ func (m *Mach) jiffy() {
 			m.event(ErrorEvent, err)
 		}
 	}
-	if m.Ctx.Renderer != nil {
+	if m.Ctx.Renderer != nil && m.Screen.W > 0 {
 		m.render()
 	} else {
 		time.Sleep(10 * time.Millisecond)
