@@ -327,6 +327,25 @@ func newModZ80(mon *Monitor, comp rcs.Component) module {
 
 func (m *modZ80) Command(args []string) error {
 	switch args[0] {
+	case "f.c":
+		return valueBit(m.out, &m.cpu.F, z80.FlagC, args[1:])
+	case "f.n":
+		return valueBit(m.out, &m.cpu.F, z80.FlagN, args[1:])
+	case "f.v":
+		return valueBit(m.out, &m.cpu.F, z80.FlagV, args[1:])
+	case "f.p":
+		return valueBit(m.out, &m.cpu.F, z80.FlagP, args[1:])
+	case "f.3":
+		return valueBit(m.out, &m.cpu.F, z80.Flag3, args[1:])
+	case "f.h":
+		return valueBit(m.out, &m.cpu.F, z80.FlagH, args[1:])
+	case "f.5":
+		return valueBit(m.out, &m.cpu.F, z80.Flag5, args[1:])
+	case "f.z":
+		return valueBit(m.out, &m.cpu.F, z80.FlagZ, args[1:])
+	case "f.s":
+		return valueBit(m.out, &m.cpu.F, z80.FlagS, args[1:])
+
 	case "r.pc":
 		return valueIntF(m.out, m.cpu.PC, m.cpu.SetPC, args[1:])
 	case "r.a":
@@ -408,24 +427,9 @@ func (m *modZ80) Command(args []string) error {
 	case "r.im":
 		return valueUint8(m.out, &m.cpu.IM, args[1:])
 
-	case "f.c":
-		return valueBit(m.out, &m.cpu.F, z80.FlagC, args[1:])
-	case "f.n":
-		return valueBit(m.out, &m.cpu.F, z80.FlagN, args[1:])
-	case "f.v":
-		return valueBit(m.out, &m.cpu.F, z80.FlagV, args[1:])
-	case "f.p":
-		return valueBit(m.out, &m.cpu.F, z80.FlagP, args[1:])
-	case "f.3":
-		return valueBit(m.out, &m.cpu.F, z80.Flag3, args[1:])
-	case "f.h":
-		return valueBit(m.out, &m.cpu.F, z80.FlagH, args[1:])
-	case "f.5":
-		return valueBit(m.out, &m.cpu.F, z80.Flag5, args[1:])
-	case "f.z":
-		return valueBit(m.out, &m.cpu.F, z80.FlagZ, args[1:])
-	case "f.s":
-		return valueBit(m.out, &m.cpu.F, z80.FlagS, args[1:])
+	case "watch-irq":
+		return valueBool(m.out, &m.cpu.WatchIRQ, args[1:])
+
 	}
 
 	return m.parent.Command(args)
@@ -487,6 +491,8 @@ func (m *modZ80) AutoComplete() []readline.PrefixCompleterInterface {
 		readline.PcItem("f.5"),
 		readline.PcItem("f.z"),
 		readline.PcItem("f.s"),
+
+		readline.PcItem("watch-irq"),
 	}...)
 	sort.Sort(byName(cmds))
 	return cmds

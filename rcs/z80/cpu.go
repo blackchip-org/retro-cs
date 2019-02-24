@@ -9,6 +9,8 @@ import (
 
 // CPU is the Zilog Z80 processor.
 type CPU struct {
+	Name string
+
 	pc uint16 // Program counter
 	A  uint8  // Accumulator
 	F  uint8  // Flags
@@ -46,6 +48,8 @@ type CPU struct {
 	IRQData uint8
 	NMI     bool
 	RESET   bool
+
+	WatchIRQ bool
 
 	opcodes     map[uint8]func(*CPU)
 	opcodesCB   map[uint8]func(*CPU)
@@ -179,6 +183,9 @@ func (c *CPU) execute() {
 }
 
 func (c *CPU) irqAck() {
+	if c.WatchIRQ {
+		log.Printf("%vz80 irq, im %v, data $%02x", c.prefix(), c.IM, c.IRQData)
+	}
 	if c.IM == 0 {
 		log.Printf("unsupported interrupt mode 0")
 		return
@@ -374,4 +381,11 @@ func (c *CPU) Load(dec *rcs.Decoder) {
 	dec.Decode(&c.IFF2)
 	dec.Decode(&c.IM)
 	dec.Decode(&c.Halt)
+}
+
+func (c *CPU) prefix() string {
+	if c.Name == "" {
+		return ""
+	}
+	return c.Name + "  "
 }

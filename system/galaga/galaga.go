@@ -8,7 +8,7 @@ import (
 	"github.com/blackchip-org/retro-cs/rcs/z80"
 )
 
-type system struct {
+type System struct {
 	cpu   [3]*z80.CPU
 	mem   [3]*rcs.Memory
 	ram   []uint8
@@ -18,15 +18,15 @@ type system struct {
 
 	video *namco.Video
 
-	interruptEnable0 uint8 // low bit
-	interruptEnable1 uint8 // low bit
-	interruptEnable2 uint8 // low bit
+	InterruptEnable0 uint8 // low bit
+	InterruptEnable1 uint8 // low bit
+	InterruptEnable2 uint8 // low bit
 	reset            uint8
 	dipSwitches      [8]uint8
 }
 
 func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
-	s := &system{}
+	s := &System{}
 	roms, err := rcs.LoadROMs(config.DataDir, set)
 	if err != nil {
 		return nil, err
@@ -40,9 +40,9 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 	for i := 0; i < 8; i++ {
 		mem.MapRW(0x6800+i, &s.dipSwitches[i])
 	}
-	mem.MapRW(0x6820, &s.interruptEnable0)
-	mem.MapRW(0x6821, &s.interruptEnable1)
-	mem.MapRW(0x6822, &s.interruptEnable2)
+	mem.MapRW(0x6820, &s.InterruptEnable0)
+	mem.MapRW(0x6821, &s.InterruptEnable1)
+	mem.MapRW(0x6822, &s.InterruptEnable2)
 	mem.MapRW(0x6823, &s.reset)
 
 	mem.MapRAM(0x7000, make([]uint8, 0x1000, 0x1000))
@@ -116,18 +116,21 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 	s.mem[2].MapROM(0x0000, roms["code3"])
 
 	s.cpu[0] = z80.New(s.mem[0])
+	s.cpu[0].Name = "cpu1"
 	s.cpu[1] = z80.New(s.mem[1])
+	s.cpu[1].Name = "cpu2"
 	s.cpu[2] = z80.New(s.mem[2])
+	s.cpu[2].Name = "cpu3"
 
 	vblank := func() {
-		if s.interruptEnable0 != 0 {
+		if s.InterruptEnable0 != 0 {
 			s.cpu[0].IRQ = true
 		}
-		if s.interruptEnable1 != 0 {
+		if s.InterruptEnable1 != 0 {
 			s.cpu[1].IRQ = true
 		}
 		s.cpu[2].IRQ = true
-		if s.interruptEnable2 != 0 {
+		if s.InterruptEnable2 != 0 {
 			// FIXME: Is this correct??? Probably not
 			s.cpu[2].NMI = true
 		}
@@ -145,6 +148,7 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 	mach := &rcs.Mach{
 		Sys: s,
 		Comps: []rcs.Component{
+			rcs.NewComponent("galaga", "galaga", "", s),
 			rcs.NewComponent("mem1", "mem", "", s.mem[0]),
 			rcs.NewComponent("mem2", "mem", "", s.mem[1]),
 			rcs.NewComponent("mem3", "mem", "", s.mem[2]),
