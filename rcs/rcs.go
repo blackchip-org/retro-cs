@@ -184,3 +184,8 @@ type Component struct {
 func NewComponent(name string, mod string, parent string, c interface{}) Component {
 	return Component{Name: name, Module: mod, Parent: parent, C: c}
 }
+
+type FlagRW struct {
+	Read  bool
+	Write bool
+}

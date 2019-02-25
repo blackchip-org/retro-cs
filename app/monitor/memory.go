@@ -228,6 +228,7 @@ func (m *modMemory) watchCallback(evt rcs.MemoryEvent) {
 	if evt.Read {
 		m.mon.out.Printf("%v$%02x <= read(%v)", m.prefix(), evt.Value, a)
 	} else {
+		// FIXME: change the arrow to <=
 		m.mon.out.Printf("%vwrite(%v) => $%02x", m.prefix(), a, evt.Value)
 	}
 }

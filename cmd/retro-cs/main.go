@@ -105,13 +105,19 @@ func main() {
 		if err != nil {
 			log.Fatalf("unable to initialize window: %v", err)
 		}
-
 		r, err := sdl.CreateRenderer(window, -1, sdl.RENDERER_ACCELERATED)
 		if err != nil {
 			log.Fatalf("unable to initialize renderer: %v", err)
 		}
-		if err = sdl.GLSetSwapInterval(1); err != nil {
-			log.Printf("unable to set swap interval: %v", err)
+		info, err := r.GetInfo()
+		if err != nil {
+			log.Fatalf("unable to get renderer infor=L %v", err)
+		}
+		// FIXME: Change this to check for OpenGL
+		if info.Name != "direct3d" {
+			if err = sdl.GLSetSwapInterval(1); err != nil {
+				log.Printf("unable to set swap interval: %v", err)
+			}
 		}
 		ctx.Window = window
 		ctx.Renderer = r

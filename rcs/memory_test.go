@@ -370,18 +370,18 @@ func TestLoadROMs(t *testing.T) {
 	data1 := []byte{3, 4}
 	readFile = func(filename string) ([]byte, error) {
 		switch filename {
-		case "/data0":
+		case "data0":
 			return data0, nil
-		case "/data1":
+		case "data1":
 			return data1, nil
 		}
-		return nil, fmt.Errorf("invalid file")
+		return nil, fmt.Errorf("invalid file: %v", filename)
 	}
 	defer func() { readFile = ioutil.ReadFile }()
 
 	rom0 := NewROM(" data0 ", " data0 ", "0ca623e2855f2c75c842ad302fe820e41b4d197d")
 	rom1 := NewROM(" data1 ", " data1 ", "c512123626a98914cb55a769db20808db3df3af7")
-	chunks, err := LoadROMs("/", []ROM{rom0, rom1})
+	chunks, err := LoadROMs("", []ROM{rom0, rom1})
 	if err != nil {
 		t.Error(err)
 	}
@@ -399,9 +399,9 @@ func TestLoadROMsCombine(t *testing.T) {
 	data1 := []byte{3, 4}
 	readFile = func(filename string) ([]byte, error) {
 		switch filename {
-		case "/data0":
+		case "data0":
 			return data0, nil
-		case "/data1":
+		case "data1":
 			return data1, nil
 		}
 		return nil, fmt.Errorf("invalid file")
@@ -410,7 +410,7 @@ func TestLoadROMsCombine(t *testing.T) {
 
 	rom0 := NewROM(" data ", " data0 ", "0ca623e2855f2c75c842ad302fe820e41b4d197d")
 	rom1 := NewROM(" data ", " data1 ", "c512123626a98914cb55a769db20808db3df3af7")
-	chunks, err := LoadROMs("/", []ROM{rom0, rom1})
+	chunks, err := LoadROMs("", []ROM{rom0, rom1})
 	if err != nil {
 		t.Error(err)
 	}

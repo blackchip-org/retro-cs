@@ -60,11 +60,11 @@ var monitorTests = []struct {
 		[]string{"42", "$2a", "%101010"},
 		`
 + 42
-42 $2a %101010
+42 $2a %10.1010
 + $2a
-42 $2a %101010
+42 $2a %10.1010
 + %101010
-42 $2a %101010
+42 $2a %10.1010
 		`,
 	}, {
 		"break",
@@ -274,7 +274,7 @@ $0000:  00        i00
 		`
 + poke $1234 $ab
 + peek $1234
-171 $ab %10101011
+171 $ab %1010.1011
 		`,
 	}, {
 		"step",
@@ -347,7 +347,7 @@ $0010 rw
 write($0010) => $22
 + peek $10
 $22 <= read($0010)
-34 $22 %100010
+34 $22 %10.0010
 + wc $10
 + ws $10 r
 + w
@@ -355,7 +355,7 @@ $0010 r
 + poke $10 $22
 + peek $10
 $22 <= read($0010)
-34 $22 %100010
+34 $22 %10.0010
 + wc $10
 + ws $10 w
 + w
@@ -363,7 +363,7 @@ $0010 w
 + poke $10 $22
 write($0010) => $22
 + peek $10
-34 $22 %100010
+34 $22 %10.0010
 + wn
 + w
 		`,
@@ -501,6 +501,25 @@ func TestRepeatWriter(t *testing.T) {
 		want := strings.Join(test.out, "\n") + "\n"
 		if have != want {
 			t.Errorf("\n have: \n[%v] \n want: \n[%v]", have, want)
+		}
+	}
+}
+
+func TestFormatBits(t *testing.T) {
+	tests := []struct {
+		in  int
+		out string
+	}{
+		{0x0f, "1111"},
+		{0x1f, "1.1111"},
+		{0xff, "1111.1111"},
+		{0x1ff, "1:1111.1111"},
+	}
+
+	for _, test := range tests {
+		have := formatBits(test.in)
+		if have != test.out {
+			t.Errorf("\n have: %v \n want: %v", have, test.out)
 		}
 	}
 }

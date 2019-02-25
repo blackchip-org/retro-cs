@@ -451,17 +451,13 @@ func checkLen(args []string, min int, max int) error {
 func parseUint(str string, bitSize int) (uint64, error) {
 	base := 10
 	switch {
-	case strings.HasPrefix(str, "$"):
+	case strings.HasPrefix(str, "$"), strings.HasPrefix(str, "0x"):
 		str = str[1:]
 		base = 16
-	case strings.HasPrefix(str, "0x"):
-		str = str[2:]
-		base = 16
-	case strings.HasPrefix(str, "%"):
+	case strings.HasPrefix(str, "%"), strings.HasPrefix(str, "0b"):
 		str = str[1:]
-		base = 2
-	case strings.HasPrefix(str, "0b"):
-		str = str[2:]
+		str = strings.Replace(str, ":", "", -1)
+		str = strings.Replace(str, ".", "", -1)
 		base = 2
 	}
 	return strconv.ParseUint(str, base, bitSize)
@@ -518,8 +514,27 @@ func parseBool(str string) (bool, error) {
 	return false, fmt.Errorf("invalid value: %v", str)
 }
 
+func formatBits(v int) string {
+	in := fmt.Sprintf("%b", v)
+	out := ""
+	bit := 0
+	for i := len(in) - 1; i >= 0; i-- {
+		if bit != 0 {
+			switch {
+			case bit%8 == 0:
+				out = string(":") + out
+			case bit%4 == 0:
+				out = string('.') + out
+			}
+		}
+		out = string(in[i]) + out
+		bit++
+	}
+	return out
+}
+
 func formatValue(v int) string {
-	return fmt.Sprintf("%d $%x %%%b", v, v, v)
+	return fmt.Sprintf("%d $%x %%%s", v, v, formatBits(v))
 }
 
 func valueBool(out *log.Logger, val *bool, args []string) error {
@@ -678,9 +693,9 @@ func parseAddress(mem *rcs.Memory, str string) (int, error) {
 // =========================================================================
 // console
 
-// carriage return to go to the beginning of the line
-// then ansi escape sequence to clear the line
 const (
+	// carriage return to go to the beginning of the line
+	// then ansi escape sequence to clear the line
 	ansiClearLine  = "\r\033[2K"
 	ansiReset      = "\033[0m"
 	ansiLightBlue  = "\033[1;34m"
