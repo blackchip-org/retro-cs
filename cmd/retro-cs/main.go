@@ -164,7 +164,7 @@ func main() {
 		mach.Status = rcs.Pause
 	}
 	if optTrace {
-		mach.Command(rcs.MachTrace)
+		mach.Command(rcs.MachTraceAll, true)
 	}
 	/*
 		BUG: Doesn't work in full screen mode? Disable for now

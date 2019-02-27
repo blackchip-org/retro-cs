@@ -34,15 +34,16 @@ type module interface {
 }
 
 var modules = map[string]func(m *Monitor, comp rcs.Component) module{
-	"c64":    newModC64,
-	"cpu":    newModCPU,
-	"galaga": newModGalaga,
-	"m6502":  newModM6502,
-	"mem":    newModMemory,
-	"n06xx":  newModN06XX,
-	"n51xx":  newModN51XX,
-	"n54xx":  newModN54XX,
-	"z80":    newModZ80,
+	"c64":      newModC64,
+	"c128/mmu": newModC128MMU,
+	"cpu":      newModCPU,
+	"galaga":   newModGalaga,
+	"m6502":    newModM6502,
+	"mem":      newModMemory,
+	"n06xx":    newModN06XX,
+	"n51xx":    newModN51XX,
+	"n54xx":    newModN54XX,
+	"z80":      newModZ80,
 }
 
 type Monitor struct {

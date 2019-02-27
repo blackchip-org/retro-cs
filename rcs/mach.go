@@ -41,6 +41,7 @@ const (
 	MachPause
 	MachStart
 	MachTrace
+	MachTraceAll
 	MachQuit
 )
 
@@ -264,6 +265,8 @@ func (m *Mach) handleCommand(msg message) {
 		m.setStatus(Run)
 	case MachTrace:
 		m.cmdTrace(msg.Args...)
+	case MachTraceAll:
+		m.cmdTraceAll(msg.Args...)
 	case MachQuit:
 		m.quit = true
 	default:
@@ -323,6 +326,17 @@ func (m *Mach) cmdTrace(args ...interface{}) {
 		return
 	}
 	m.tracing[name] = v
+}
+
+func (m *Mach) cmdTraceAll(args ...interface{}) {
+	v, ok := args[0].(bool)
+	if !ok {
+		m.event(ErrorEvent, fmt.Sprintf("invalid trace mode: %v", args[0]))
+		return
+	}
+	for name := range m.tracing {
+		m.tracing[name] = v
+	}
 }
 
 func (m *Mach) event(evt MachEvent, args ...interface{}) {
