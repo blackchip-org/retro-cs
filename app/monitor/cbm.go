@@ -94,6 +94,8 @@ func (m *modC128MMU) Command(args []string) error {
 		return err
 	}
 	switch args[0] {
+	case "mode":
+		return valueUint8(m.out, &m.mmu.Mode, args[1:])
 	case "watch-cr-write":
 		return valueBool(m.out, &m.mmu.WatchCR.Write, args[1:])
 	case "watch-cr-read":
@@ -138,6 +140,80 @@ func (m *modC128MMU) AutoComplete() []readline.PrefixCompleterInterface {
 		readline.PcItem("watch-lcr-read"),
 		readline.PcItem("watch-pcr-write"),
 		readline.PcItem("watch-pcr-read"),
+		readline.PcItem("watch-all"),
+		readline.PcItem("watch-none"),
+	}
+}
+
+type modC128VDC struct {
+	mon *Monitor
+	out *log.Logger
+	vdc *c128.VDC
+}
+
+func newModC128VDC(mon *Monitor, comp rcs.Component) module {
+	return &modC128VDC{
+		mon: mon,
+		out: mon.out,
+		vdc: comp.C.(*c128.VDC),
+	}
+}
+
+func (m *modC128VDC) Command(args []string) error {
+	if err := checkLen(args, 1, maxArgs); err != nil {
+		return err
+	}
+	switch args[0] {
+	case "info":
+		return m.info(args[1:])
+	case "watch-address-write":
+		return valueBool(m.out, &m.vdc.WatchAddr.Write, args[1:])
+	case "watch-status-read":
+		return valueBool(m.out, &m.vdc.WatchStatus.Read, args[1:])
+	case "watch-data-write":
+		return valueBool(m.out, &m.vdc.WatchData.Write, args[1:])
+	case "watch-data-read":
+		return valueBool(m.out, &m.vdc.WatchData.Read, args[1:])
+	case "watch-all":
+		return terminal(args[1:], func() error {
+			m.vdc.WatchAddr.Write = true
+			m.vdc.WatchStatus.Read = true
+			m.vdc.WatchData.Write = true
+			m.vdc.WatchData.Read = true
+			return nil
+		})
+	case "watch-none":
+		return terminal(args[1:], func() error {
+			m.vdc.WatchAddr.Write = false
+			m.vdc.WatchStatus.Read = false
+			m.vdc.WatchData.Write = false
+			m.vdc.WatchData.Read = false
+			return nil
+		})
+	}
+	return fmt.Errorf("no such command: %v", args[0])
+}
+
+func (m *modC128VDC) info(args []string) error {
+	if err := checkLen(args, 0, 0); err != nil {
+		return err
+	}
+	format := strings.TrimSpace(`
+addr  : %02x
+status: %v
+data  : %02x
+	`)
+	m.out.Println(format, m.vdc.Addr, formatValue(int(m.vdc.Status)), m.vdc.Data)
+	return nil
+}
+
+func (m *modC128VDC) AutoComplete() []readline.PrefixCompleterInterface {
+	return []readline.PrefixCompleterInterface{
+		readline.PcItem("info"),
+		readline.PcItem("watch-address-write"),
+		readline.PcItem("watch-status-read"),
+		readline.PcItem("watch-data-write"),
+		readline.PcItem("watch-data-read"),
 		readline.PcItem("watch-all"),
 		readline.PcItem("watch-none"),
 	}

@@ -36,6 +36,7 @@ type module interface {
 var modules = map[string]func(m *Monitor, comp rcs.Component) module{
 	"c64":      newModC64,
 	"c128/mmu": newModC128MMU,
+	"c128/vdc": newModC128VDC,
 	"cpu":      newModCPU,
 	"galaga":   newModGalaga,
 	"m6502":    newModM6502,
@@ -90,8 +91,10 @@ func New(mach *rcs.Mach) (*Monitor, error) {
 	}
 
 	for _, comp := range mach.Comps {
-		m.comps[comp.Name] = comp
-		m.mods[comp.Name] = modules[comp.Module](m, comp)
+		if comp.Name != "" {
+			m.comps[comp.Name] = comp
+			m.mods[comp.Name] = modules[comp.Module](m, comp)
+		}
 		if cpu, ok := comp.C.(rcs.CPU); ok {
 			m.cpu[comp.Name] = cpu
 			// select the first CPU seen

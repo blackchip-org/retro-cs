@@ -334,6 +334,7 @@ func (m *Mach) cmdTraceAll(args ...interface{}) {
 		m.event(ErrorEvent, fmt.Sprintf("invalid trace mode: %v", args[0]))
 		return
 	}
+	fmt.Printf("trace all: %v", v)
 	for name := range m.tracing {
 		m.tracing[name] = v
 	}

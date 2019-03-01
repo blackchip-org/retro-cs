@@ -10,9 +10,10 @@ var mmuRegs = []string{"A", "B", "C", "D"}
 
 // MMU is the memory management unit
 type MMU struct {
-	mem *rcs.Memory // configuration register is the bank number
-	lcr [4]uint8    // load configuration register
-	pcr [4]uint8    // pre-configuration register
+	mem  *rcs.Memory // configuration register is the bank number
+	lcr  [4]uint8    // load configuration register
+	pcr  [4]uint8    // pre-configuration register
+	Mode uint8
 
 	WatchCR  rcs.FlagRW
 	WatchLCR rcs.FlagRW
@@ -20,7 +21,10 @@ type MMU struct {
 }
 
 func NewMMU(mem *rcs.Memory) *MMU {
-	return &MMU{mem: mem}
+	return &MMU{
+		mem:  mem,
+		Mode: 0x80,
+	}
 }
 
 func (m *MMU) CR() uint8 {

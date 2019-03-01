@@ -12,6 +12,7 @@ type System struct {
 	cpu *m6502.CPU
 	mem *rcs.Memory
 	mmu *MMU
+	vdc *VDC
 
 	BasicLo []uint8
 	BasicHi []uint8
@@ -36,8 +37,10 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 	s.Kernal = roms["kernal"]
 	s.RAM0 = make([]uint8, 0x10000, 0x10000)
 	s.RAM1 = make([]uint8, 0xc000, 0xc000)
+
 	s.IORAM = make([]uint8, 0x1000, 0x1000)
 	s.IO = rcs.NewMemory(1, 0x1000)
+	s.IO.MapRAM(0, s.IORAM)
 
 	s.mmu = NewMMU(s.mem)
 	s.IO.MapLoad(0x500, s.mmu.CR)
@@ -47,6 +50,13 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 		s.IO.MapLoad(0x501+i, func() uint8 { return s.mmu.PCR(i) })
 		s.IO.MapStore(0x501+i, func(v uint8) { s.mmu.SetPCR(i, v) })
 	}
+	s.IO.MapRW(0x505, &s.mmu.Mode)
+
+	s.vdc = NewVDC()
+	s.IO.MapLoad(0x600, s.vdc.ReadStatus)
+	s.IO.MapStore(0x600, s.vdc.WriteAddr)
+	s.IO.MapLoad(0x601, s.vdc.ReadData)
+	s.IO.MapStore(0x601, s.vdc.WriteData)
 
 	// map banks
 	for i := 0; i < 256; i++ {
@@ -74,8 +84,8 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 
 		switch blockC000 {
 		case 0:
-			s.mem.MapROM(0xc000, s.Kernal)
 			s.mem.MapROM(0xd000, s.CharGen)
+			s.mem.MapROM(0xc000, s.Kernal)
 		case 1:
 			// internal function ROM
 		case 2:
@@ -97,7 +107,7 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 
 		switch block4000 {
 		case 0:
-			s.mem.MapROM(0x8000, s.BasicLo)
+			s.mem.MapROM(0x4000, s.BasicLo)
 		case 1:
 			// RAM
 		}
@@ -118,14 +128,19 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 		}
 	}
 	s.mem.SetBank(0) // bank 15
-	s.cpu = m6502.New(s.mem)
 
+	s.mem.Write(0xd011, 0xff) // HACK
+	s.mem.Write(0xd012, 0x09) // HACK: bcc on $8
+	s.mem.Write(0xd600, 0xff) // HACK
+
+	s.cpu = m6502.New(s.mem)
 	mach := &rcs.Mach{
 		Sys: s,
 		Comps: []rcs.Component{
 			rcs.NewComponent("cpu", "m6502", "mem", s.cpu),
 			rcs.NewComponent("mem", "mem", "", s.mem),
 			rcs.NewComponent("mmu", "c128/mmu", "", s.mmu),
+			rcs.NewComponent("vdc", "c128/vdc", "", s.vdc),
 		},
 		CharDecoders: map[string]rcs.CharDecoder{
 			"petscii":         cbm.PetsciiDecoder,
@@ -140,7 +155,4 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 		},
 	}
 	return mach, nil
-}
-
-func mapBanks(s *System) {
 }
