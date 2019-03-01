@@ -46,22 +46,22 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 
 	s.mmu = NewMMU(s.mem)
 	s.vdc = NewVDC()
-	if ctx.Renderer != nil {
-		v, err := cbm.NewVIC(ctx.Renderer, s.mem, roms["chargen"])
-		if err != nil {
-			return nil, err
-		}
-		s.screen = rcs.Screen{
-			W:         v.W,
-			H:         v.H,
-			Texture:   v.Texture,
-			ScanLineH: true,
-			Draw:      v.Draw,
-		}
-		s.vic = v
+	v, err := cbm.NewVIC(ctx.Renderer, s.mem, roms["chargen"])
+	if err != nil {
+		return nil, err
+	}
+	s.vic = v
+	s.screen = rcs.Screen{
+		W:         v.W,
+		H:         v.H,
+		Texture:   v.Texture,
+		ScanLineH: true,
+		Draw:      v.Draw,
 	}
 
 	// IO mappings
+	s.IO.MapRW(0x020, &s.vic.BorderColor)
+	s.IO.MapRW(0x021, &s.vic.BgColor)
 	s.IO.MapLoad(0x500, s.mmu.CR)
 	s.IO.MapStore(0x500, s.mmu.SetCR)
 	for i := 0; i < 4; i++ {
