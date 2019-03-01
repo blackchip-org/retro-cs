@@ -43,6 +43,9 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 	s.IO.MapRAM(0, s.IORAM)
 
 	s.mmu = NewMMU(s.mem)
+	s.vdc = NewVDC()
+
+	// IO mappings
 	s.IO.MapLoad(0x500, s.mmu.CR)
 	s.IO.MapStore(0x500, s.mmu.SetCR)
 	for i := 0; i < 4; i++ {
@@ -50,9 +53,10 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 		s.IO.MapLoad(0x501+i, func() uint8 { return s.mmu.PCR(i) })
 		s.IO.MapStore(0x501+i, func(v uint8) { s.mmu.SetPCR(i, v) })
 	}
-	s.IO.MapRW(0x505, &s.mmu.Mode)
+	s.IO.MapLoad(0x505, func() uint8 {
+		return (1 << 7) | (1 << 4) | (1 << 5)
+	})
 
-	s.vdc = NewVDC()
 	s.IO.MapLoad(0x600, s.vdc.ReadStatus)
 	s.IO.MapStore(0x600, s.vdc.WriteAddr)
 	s.IO.MapLoad(0x601, s.vdc.ReadData)

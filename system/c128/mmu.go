@@ -22,8 +22,7 @@ type MMU struct {
 
 func NewMMU(mem *rcs.Memory) *MMU {
 	return &MMU{
-		mem:  mem,
-		Mode: 0x80,
+		mem: mem,
 	}
 }
 

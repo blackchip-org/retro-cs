@@ -199,11 +199,14 @@ func (m *modC128VDC) info(args []string) error {
 		return err
 	}
 	format := strings.TrimSpace(`
-addr  : %02x
+addr  : $%02x
 status: %v
-data  : %02x
-	`)
-	m.out.Println(format, m.vdc.Addr, formatValue(int(m.vdc.Status)), m.vdc.Data)
+mempos: $%04x
+			`)
+	m.out.Printf(format,
+		m.vdc.Addr,
+		formatValue(int(m.vdc.Status)),
+		m.vdc.MemPos)
 	return nil
 }
 
