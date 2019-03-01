@@ -132,10 +132,6 @@ func NewMemory(banks int, size int) *Memory {
 		mem.writes[b] = make([]Store8, size, size)
 		mem.preads[b] = make([]Load8, size, size)
 		mem.pwrites[b] = make([]Store8, size, size)
-		for addr := 0; addr < size; addr++ {
-			mem.reads[b][addr] = warnUnmappedRead(b, addr)
-			mem.writes[b][addr] = warnUnmappedWrite(b, addr)
-		}
 	}
 	mem.read = mem.reads[0]
 	mem.write = mem.writes[0]

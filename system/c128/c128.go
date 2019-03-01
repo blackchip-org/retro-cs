@@ -63,7 +63,7 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 	s.IO.MapStore(0x601, s.vdc.WriteData)
 
 	// map banks
-	for i := 0; i < 256; i++ {
+	for _, i := range usedBanks {
 		s.mem.SetBank(i)
 		cr := uint8(i)
 		blockRAM := rcs.SliceBits(cr, 6, 7)
@@ -159,4 +159,17 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 		},
 	}
 	return mach, nil
+}
+
+var usedBanks = []int{
+	0x3f, // bank 0
+	0x7f, // bank 1
+	0x01, // bank 14
+	0x00, // bank 15
+
+	0xc0, // on init
+	0x80, // on init
+	0x40, // on init
+	0x2a, // on init
+	0x16, // on init
 }
