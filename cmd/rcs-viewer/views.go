@@ -4,6 +4,7 @@ import (
 	"image/color"
 
 	"github.com/blackchip-org/retro-cs/rcs"
+	"github.com/blackchip-org/retro-cs/rcs/cbm"
 	"github.com/blackchip-org/retro-cs/rcs/namco"
 	"github.com/blackchip-org/retro-cs/system/c64"
 	"github.com/blackchip-org/retro-cs/system/galaga"
@@ -16,13 +17,13 @@ var views = map[string]view{
 		system: "c64",
 		roms:   c64.SystemROM,
 		render: func(r *sdl.Renderer, d map[string][]byte) (rcs.TileSheet, error) {
-			return c64.CharGen(r, d["chargen"])
+			return cbm.CharGen(r, d["chargen"])
 		},
 	},
 	"c64:colors": view{
 		system: "c64",
 		render: func(r *sdl.Renderer, _ map[string][]byte) (rcs.TileSheet, error) {
-			palettes := [][]color.RGBA{c64.Palette}
+			palettes := [][]color.RGBA{cbm.Palette}
 			return rcs.NewColorSheet(r, palettes)
 		},
 	},

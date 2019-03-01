@@ -9,11 +9,13 @@ import (
 )
 
 type system struct {
-	cpu  *m6502.CPU
-	mem  *rcs.Memory
-	ram  []uint8
-	io   []uint8
-	bank uint8
+	cpu    *m6502.CPU
+	mem    *rcs.Memory
+	screen rcs.Screen
+	vic    *cbm.VIC
+	ram    []uint8
+	io     []uint8
+	bank   uint8
 }
 
 func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
@@ -28,20 +30,17 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 	s.mem = newMemory(s.ram, s.io, roms)
 	kb := newKeyboard()
 
-	var screen rcs.Screen
-	video := &video{}
-	if ctx.Renderer != nil {
-		video, err = newVideo(ctx.Renderer, s.mem, roms["chargen"])
-		if err != nil {
-			return nil, err
-		}
-		screen = rcs.Screen{
-			W:         screenW,
-			H:         screenH,
-			Texture:   video.texture,
-			ScanLineH: true,
-			Draw:      video.draw,
-		}
+	v, err := cbm.NewVIC(ctx.Renderer, s.mem, roms["chargen"])
+	if err != nil {
+		return nil, err
+	}
+	s.vic = v
+	s.screen = rcs.Screen{
+		W:         v.W,
+		H:         v.H,
+		Texture:   v.Texture,
+		ScanLineH: true,
+		Draw:      v.Draw,
 	}
 
 	for b := 0; b < 32; b++ {
@@ -50,8 +49,8 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 		s.mem.MapLoad(0x01, s.ioPortLoad)
 		s.mem.MapStore(0x01, s.ioPortStore)
 
-		s.mem.MapRW(0xd020, &video.borderColor)
-		s.mem.MapRW(0xd021, &video.bgColor)
+		s.mem.MapRW(0xd020, &s.vic.BorderColor)
+		s.mem.MapRW(0xd021, &s.vic.BgColor)
 
 		s.mem.MapRW(0x0091, &kb.stkey) // stop key
 		s.mem.MapRW(0x00c6, &kb.ndx)   // buffer index
@@ -88,7 +87,7 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 		VBlankFunc: func() {
 			s.cpu.IRQ = true
 		},
-		Screen:   screen,
+		Screen:   s.screen,
 		Keyboard: kb.handle,
 	}
 

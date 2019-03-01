@@ -9,10 +9,12 @@ import (
 )
 
 type System struct {
-	cpu *m6502.CPU
-	mem *rcs.Memory
-	mmu *MMU
-	vdc *VDC
+	cpu    *m6502.CPU
+	mem    *rcs.Memory
+	mmu    *MMU
+	screen rcs.Screen
+	vdc    *VDC
+	vic    *cbm.VIC
 
 	BasicLo []uint8
 	BasicHi []uint8
@@ -44,6 +46,20 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 
 	s.mmu = NewMMU(s.mem)
 	s.vdc = NewVDC()
+	if ctx.Renderer != nil {
+		v, err := cbm.NewVIC(ctx.Renderer, s.mem, roms["chargen"])
+		if err != nil {
+			return nil, err
+		}
+		s.screen = rcs.Screen{
+			W:         v.W,
+			H:         v.H,
+			Texture:   v.Texture,
+			ScanLineH: true,
+			Draw:      v.Draw,
+		}
+		s.vic = v
+	}
 
 	// IO mappings
 	s.IO.MapLoad(0x500, s.mmu.CR)
@@ -157,6 +173,7 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 		VBlankFunc: func() {
 			s.cpu.IRQ = true
 		},
+		Screen: s.screen,
 	}
 	return mach, nil
 }
