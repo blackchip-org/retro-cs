@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"os"
 	"time"
+	"unsafe"
 
+	"github.com/veandco/go-sdl2/img"
 	"github.com/veandco/go-sdl2/sdl"
 )
 
@@ -39,6 +41,7 @@ const (
 	MachExport MachCmd = iota
 	MachImport
 	MachPause
+	MachSnapshot
 	MachStart
 	MachTrace
 	MachTraceAll
@@ -80,6 +83,8 @@ type Mach struct {
 	tracing   map[string]bool
 	quit      bool
 	cmd       chan message
+	snapT     *sdl.Texture
+	snapS     *sdl.Surface
 }
 
 func (m *Mach) Init() error {
@@ -231,12 +236,17 @@ func (m *Mach) render() error {
 		W: m.Screen.W * m.Screen.Scale,
 		H: m.Screen.H * m.Screen.Scale,
 	}
-	r.Copy(m.Screen.Texture, nil, &dest)
-	if m.scanLines != nil {
-		r.Copy(m.scanLines, nil, &dest)
-	}
+	m.renderToTarget(&dest)
 	r.Present()
 	return nil
+}
+
+func (m *Mach) renderToTarget(dest *sdl.Rect) {
+	r := m.Ctx.Renderer
+	r.Copy(m.Screen.Texture, nil, dest)
+	if m.scanLines != nil {
+		r.Copy(m.scanLines, nil, dest)
+	}
 }
 
 func (m *Mach) sdl() {
@@ -261,6 +271,8 @@ func (m *Mach) handleCommand(msg message) {
 		m.cmdImport(msg.Args...)
 	case MachPause:
 		m.setStatus(Pause)
+	case MachSnapshot:
+		m.cmdSnapshot(msg.Args...)
 	case MachStart:
 		m.setStatus(Run)
 	case MachTrace:
@@ -310,6 +322,44 @@ func (m *Mach) cmdImport(args ...interface{}) {
 	sys.Load(dec)
 	if dec.Err != nil {
 		m.event(ErrorEvent, fmt.Sprintf("unable to import: %v", dec.Err))
+		return
+	}
+}
+
+func (m *Mach) cmdSnapshot(args ...interface{}) {
+	filename := args[0].(string)
+	if m.Screen.Texture == nil {
+		m.event(ErrorEvent, "no screen to snapshot")
+		return
+	}
+
+	r := m.Ctx.Renderer
+	w := m.Screen.W * m.Screen.Scale
+	h := m.Screen.H * m.Screen.Scale
+	if m.snapT == nil {
+		tex, err := r.CreateTexture(sdl.PIXELFORMAT_RGBA8888, sdl.TEXTUREACCESS_TARGET, w, h)
+		if err != nil {
+			m.event(ErrorEvent, err.Error())
+			return
+		}
+		surf, err := sdl.CreateRGBSurface(0, w, h, 32, 0, 0, 0, 0)
+		if err != nil {
+			m.event(ErrorEvent, err.Error())
+			return
+		}
+		m.snapT = tex
+		m.snapS = surf
+	}
+	r.SetRenderTarget(m.snapT)
+	m.renderToTarget(nil)
+
+	r.SetRenderTarget(m.snapT)
+	pixels := m.snapS.Pixels()
+	ptr := unsafe.Pointer(&pixels[0])
+	r.ReadPixels(nil, m.snapS.Format.Format, ptr, int(m.snapS.Pitch))
+
+	if err := img.SavePNG(m.snapS, filename); err != nil {
+		m.event(ErrorEvent, fmt.Sprintf("unable to save snapshot: %v", err))
 		return
 	}
 }

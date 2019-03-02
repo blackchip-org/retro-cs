@@ -222,6 +222,8 @@ func (m *Monitor) dispatch(args []string) error {
 		return m.cmdPause(args[1:])
 	case "sleep":
 		return m.cmdSleep(args[1:])
+	case "snapshot", "snap":
+		return m.cmdSnapshot(args[1:])
 	case "q", "quit":
 		return m.cmdQuit(args[1:])
 	}
@@ -305,6 +307,18 @@ func (m *Monitor) cmdPause(args []string) error {
 	return nil
 }
 
+func (m *Monitor) cmdSnapshot(args []string) error {
+	if err := checkLen(args, 0, 1); err != nil {
+		return err
+	}
+	filename := filepath.Join(config.VarDir, "snapshot")
+	if len(args) == 1 {
+		filename = args[0]
+	}
+	m.mach.Command(rcs.MachSnapshot, filename)
+	return nil
+}
+
 func (m *Monitor) cmdQuit(args []string) error {
 	m.rl.Close()
 	m.mach.Command(rcs.MachQuit)
@@ -361,6 +375,7 @@ func newCompleter(m *Monitor) *readline.PrefixCompleter {
 		readline.PcItem("quit"),
 		readline.PcItem("step"),
 		readline.PcItem("sleep"),
+		readline.PcItem("snapshot"),
 		readline.PcItem("watch-clear"),
 		readline.PcItem("watch-list"),
 		readline.PcItem("watch-none"),
