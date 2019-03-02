@@ -104,14 +104,17 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 
 	// memory for each CPU
 	s.mem[0] = rcs.NewMemory(1, 0x10000)
+	s.mem[0].Name = "mem1"
 	s.mem[0].Map(0, mem)
 	s.mem[0].MapROM(0x0000, roms["code1"])
 
 	s.mem[1] = rcs.NewMemory(1, 0x10000)
+	s.mem[1].Name = "mem2"
 	s.mem[1].Map(0, mem)
 	s.mem[1].MapROM(0x0000, roms["code2"])
 
 	s.mem[2] = rcs.NewMemory(1, 0x10000)
+	s.mem[2].Name = "mem3"
 	s.mem[2].Map(0, mem)
 	s.mem[2].MapROM(0x0000, roms["code3"])
 

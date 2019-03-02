@@ -21,13 +21,12 @@ func TestMemoryUnmapped(t *testing.T) {
 	}()
 
 	mem := NewMemory(1, 0x10000)
-	mem.Unmap(0x1234)
 	mem.Write(0x1234, 0xaa)
 	mem.Read(0x1234)
 
 	msg := []string{
-		"unmapped memory write, bank 0, addr 0x1234, value 0xaa",
-		"unmapped memory read, bank 0, addr 0x1234",
+		"(!) mem: unmapped write, bank 0x0, addr 0x1234, val 0xaa",
+		"(!) mem: unmapped read, bank 0x0, addr 0x1234",
 		"",
 	}
 	have := buf.String()
@@ -67,9 +66,6 @@ func TestMemoryROM(t *testing.T) {
 	rom := []uint8{10, 11, 12, 13, 14}
 	out := make([]uint8, 5, 5)
 	mem := NewMemory(1, 15)
-	for i := 10; i < 15; i++ {
-		mem.Unmap(i)
-	}
 	mem.MapROM(10, rom)
 
 	for i := 0; i < 5; i++ {
@@ -81,11 +77,11 @@ func TestMemoryROM(t *testing.T) {
 	}
 
 	msg := []string{
-		"unmapped memory write, bank 0, addr 0xa, value 0xff",
-		"unmapped memory write, bank 0, addr 0xb, value 0xff",
-		"unmapped memory write, bank 0, addr 0xc, value 0xff",
-		"unmapped memory write, bank 0, addr 0xd, value 0xff",
-		"unmapped memory write, bank 0, addr 0xe, value 0xff",
+		"(!) mem: unmapped write, bank 0x0, addr 0xa, val 0xff",
+		"(!) mem: unmapped write, bank 0x0, addr 0xb, val 0xff",
+		"(!) mem: unmapped write, bank 0x0, addr 0xc, val 0xff",
+		"(!) mem: unmapped write, bank 0x0, addr 0xd, val 0xff",
+		"(!) mem: unmapped write, bank 0x0, addr 0xe, val 0xff",
 		"",
 	}
 	have := buf.String()
@@ -176,7 +172,7 @@ func TestMemoryUnmap(t *testing.T) {
 	mem.Read(7)
 
 	msg := []string{
-		"unmapped memory read, bank 0, addr 0x7",
+		"(!) mem: unmapped read, bank 0x0, addr 0x7",
 		"",
 	}
 	have := buf.String()

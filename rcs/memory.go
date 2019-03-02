@@ -91,6 +91,7 @@ in bank 0 and full access to the RAM in bank 1:
 	mem.MapRAM(0x0000, ram)
 */
 type Memory struct {
+	Name     string
 	MaxAddr  int               // maximum valid address
 	Callback func(MemoryEvent) // function called on watch events
 	NBank    int               // number of banks
@@ -120,6 +121,7 @@ func NewMemory(banks int, size int) *Memory {
 		banks = 1
 	}
 	mem := &Memory{
+		Name:    "mem",
 		MaxAddr: size - 1,
 		NBank:   banks,
 		reads:   make([][]Load8, banks, banks),
@@ -141,12 +143,22 @@ func NewMemory(banks int, size int) *Memory {
 
 // Read returns the 8-bit value at the given address.
 func (m *Memory) Read(addr int) uint8 {
+	if m.read[addr] == nil {
+		log.Printf("(!) %v: unmapped read, bank 0x%x, addr 0x%x", m.Name,
+			m.bank, addr)
+		return 0
+	}
 	v := m.read[addr]()
 	return v
 }
 
 // Write sets the 8-bit value at the given address.
 func (m *Memory) Write(addr int, val uint8) {
+	if m.write[addr] == nil {
+		log.Printf("(!) %v: unmapped write, bank 0x%x, addr 0x%x, val 0x%x",
+			m.Name, m.bank, addr, val)
+		return
+	}
 	m.write[addr](val)
 }
 
@@ -232,8 +244,10 @@ func (m *Memory) MapStore(addr int, store Store8) {
 	m.write[addr] = store
 }
 
-// Map maps the contents of other memory to this memory at the starting
-// address.
+// Map maps the contents of another memory to this memory at the starting
+// address. This copies the bindings in the other memory at call time;
+// later updates to the map of the other memory will not be seen in this
+// memory.
 func (m *Memory) Map(startAddr int, m1 *Memory) {
 	endAddr := startAddr + len(m1.read)
 	for i, addr := 0, startAddr; addr < endAddr; i, addr = i+1, addr+1 {
@@ -244,8 +258,8 @@ func (m *Memory) Map(startAddr int, m1 *Memory) {
 
 // Unmap removes the read and write mappings at the address.
 func (m *Memory) Unmap(addr int) {
-	m.read[addr] = warnUnmappedRead(m.bank, addr)
-	m.write[addr] = warnUnmappedWrite(m.bank, addr)
+	m.read[addr] = nil
+	m.write[addr] = nil
 }
 
 // MapNil creates an empty read and write mapping at the address.
@@ -324,19 +338,6 @@ func (m *Memory) SetBank(bank int) {
 	m.bank = bank
 	m.read = m.reads[bank]
 	m.write = m.writes[bank]
-}
-
-func warnUnmappedRead(bank int, addr int) Load8 {
-	return func() uint8 {
-		log.Printf("unmapped memory read, bank %v, addr 0x%x", bank, addr)
-		return 0
-	}
-}
-
-func warnUnmappedWrite(bank int, addr int) Store8 {
-	return func(v uint8) {
-		log.Printf("unmapped memory write, bank %v, addr 0x%x, value 0x%x", bank, addr, v)
-	}
 }
 
 // Pointer points to a location in memory.
