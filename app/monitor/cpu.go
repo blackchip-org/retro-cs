@@ -198,7 +198,7 @@ func (m *modCPU) cmdStep(args []string) error {
 	m.dasm.SetPC(m.cpu.PC() + m.cpu.Offset())
 	m.mon.out.Println(m.dasm.Next())
 	m.dasm.SetPC(ppc)
-	// m.lastCmd = m.cmdStep
+	m.mon.defaultCmd = fmt.Sprintf("%v step", m.name)
 	return nil
 }
 
@@ -288,6 +288,11 @@ func (m *modM6502) Command(args []string) error {
 		return valueBit(m.out, &m.cpu.SR, m6502.FlagV, args[1:])
 	case "f.n":
 		return valueBit(m.out, &m.cpu.SR, m6502.FlagN, args[1:])
+
+	case "watch-brk":
+		return valueBool(m.out, &m.cpu.WatchBRK, args[1:])
+	case "watch-irq":
+		return valueBool(m.out, &m.cpu.WatchIRQ, args[1:])
 	}
 	return m.parent.Command(args)
 }
@@ -307,6 +312,9 @@ func (m *modM6502) AutoComplete() []readline.PrefixCompleterInterface {
 		readline.PcItem("f.b"),
 		readline.PcItem("f.v"),
 		readline.PcItem("f.n"),
+
+		readline.PcItem("watch-brk"),
+		readline.PcItem("watch-irq"),
 	}...)
 	sort.Sort(byName(cmds))
 	return cmds

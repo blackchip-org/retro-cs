@@ -48,20 +48,20 @@ var modules = map[string]func(m *Monitor, comp rcs.Component) module{
 }
 
 type Monitor struct {
-	mach      *rcs.Mach
-	comps     map[string]rcs.Component
-	mods      map[string]module
-	cpu       map[string]rcs.CPU
-	tracers   map[string]*rcs.Disassembler
-	sc        string // selected CPU core
-	in        io.ReadCloser
-	out       *log.Logger
-	rl        *readline.Instance
-	encoding  string
-	lastCmd   func([]string) error
-	memLines  int
-	dasmLines int
-	cw        *consoleWriter
+	mach       *rcs.Mach
+	comps      map[string]rcs.Component
+	mods       map[string]module
+	cpu        map[string]rcs.CPU
+	tracers    map[string]*rcs.Disassembler
+	sc         string // selected CPU core
+	in         io.ReadCloser
+	out        *log.Logger
+	rl         *readline.Instance
+	encoding   string
+	defaultCmd string
+	memLines   int
+	dasmLines  int
+	cw         *consoleWriter
 }
 
 func New(mach *rcs.Mach) (*Monitor, error) {
@@ -168,14 +168,13 @@ func (m *Monitor) Close() {
 
 func (m *Monitor) parse(line string) {
 	line = strings.TrimSpace(line)
-	if line == "" && m.lastCmd != nil {
-		m.lastCmd([]string{})
-		return
+	if line == "" && m.defaultCmd != "" {
+		line = m.defaultCmd
+		m.defaultCmd = ""
 	}
 	if line == "" {
 		return
 	}
-	m.lastCmd = nil
 	args := splitArgs(line)
 	err := m.dispatch(args)
 	if err != nil {

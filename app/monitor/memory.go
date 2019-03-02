@@ -89,7 +89,7 @@ func (m *modMemory) cmdDump(args []string) error {
 	}
 	m.mon.out.Println(dump(m.mem, addrStart, addrEnd, decoder, m.prefix()))
 	m.ptr.SetAddr(addrEnd)
-	//mon.lastCmd = m.cmdMemoryDump
+	m.mon.defaultCmd = fmt.Sprintf("%v dump", m.name)
 	return nil
 }
 

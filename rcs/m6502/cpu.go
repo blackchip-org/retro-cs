@@ -25,6 +25,9 @@ type CPU struct {
 
 	IRQ bool // interrupt request
 
+	WatchIRQ bool
+	WatchBRK bool
+
 	mem         *rcs.Memory          // CPU's view into memory
 	ops         map[uint8]func(*CPU) // opcode table
 	addrLoad    int                  // memory address where the last value was loaded from
@@ -47,6 +50,9 @@ const (
 
 	// FlagB is the break flag
 	FlagB = uint8(1 << 4)
+
+	// Flag5 is the 5th bit flag, always on
+	Flag5 = uint8(1 << 5)
 
 	// FlagV is the overflow flag
 	FlagV = uint8(1 << 6)
@@ -71,7 +77,7 @@ func (c *CPU) Next() {
 	opcode := c.fetch()
 	execute, ok := c.ops[opcode]
 	if !ok {
-		log.Printf("%04x: illegal instruction: 0x%02x", here, opcode)
+		log.Printf("6502: illegal instruction 0x%02x, pc 0x%04x", opcode, here)
 		return
 	}
 	execute(c)
@@ -86,7 +92,9 @@ func (c *CPU) Next() {
 		if c.stopOnBreak {
 			return
 		}
-		c.SR |= FlagI
+		if c.WatchBRK {
+			log.Printf("6502: brk, pc 0x%04x", here)
+		}
 		c.SR &^= FlagB
 		c.irqAck()
 	}
@@ -97,10 +105,15 @@ func (c *CPU) irqAck() {
 	// http://www.6502.org/tutorials/6502opcodes.html#RTI
 	// Note that unlike RTS, the return address on the stack is the
 	// actual address rather than the address-1.
-	c.push2(c.pc + 1)
-	c.push(c.SR)
+	ret := c.pc + 1
+	c.push2(ret)
+	c.push(c.SR | Flag5)
+	c.SR |= FlagI
 	vector := c.mem.ReadLE(0xfffe)
-	c.pc = uint16(vector - 1) // irq vector
+	if c.WatchIRQ {
+		log.Printf("6502: irq, vector 0x%04x, return 0x%04x", vector, ret)
+	}
+	c.pc = uint16(vector - 1)
 }
 
 // PC returns the value of the program counter.
