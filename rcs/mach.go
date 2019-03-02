@@ -407,4 +407,5 @@ func (m *Mach) reportCrash() {
 		fmt.Printf("[panic: %v]\n", n)
 		fmt.Println(c)
 	}
+	fmt.Printf("BANK: %02x\n", m.CPU["cpu"].Memory().Bank())
 }

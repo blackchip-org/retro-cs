@@ -94,6 +94,8 @@ func (m *modC128MMU) Command(args []string) error {
 		return err
 	}
 	switch args[0] {
+	case "cr":
+		return valueFunc8(m.out, m.mmu.CR, m.mmu.SetCR, args[1:])
 	case "mode":
 		return valueUint8(m.out, &m.mmu.Mode, args[1:])
 	case "watch-cr-write":

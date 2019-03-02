@@ -38,6 +38,9 @@ func (m *MMU) SetCR(v uint8) {
 	if m.WatchCR.Write {
 		log.Printf("mmu:cr <= $%02x", v)
 	}
+	if v == 5 {
+		panic("it is 5")
+	}
 	m.mem.SetBank(int(v))
 }
 
@@ -50,11 +53,13 @@ func (m *MMU) LCR(i int) uint8 {
 }
 
 func (m *MMU) SetLCR(i int, v uint8) {
-	if m.WatchLCR.Write {
-		log.Printf("mmu:lcr %v <= %v", mmuRegs[i], v)
-	}
-	m.lcr[i] = v
-	m.SetCR(m.lcr[i])
+	/*
+		if m.WatchLCR.Write {
+			log.Printf("mmu:lcr %v <= %v", mmuRegs[i], v)
+		}
+		m.lcr[i] = v
+		m.SetCR(m.lcr[i])
+	*/
 }
 
 func (m *MMU) PCR(i int) uint8 {

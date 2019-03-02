@@ -296,6 +296,7 @@ func (m *Monitor) cmdGo(args []string) error {
 		return err
 	}
 	m.mach.Command(rcs.MachStart)
+	m.defaultCmd = "g"
 	return nil
 }
 
@@ -694,6 +695,22 @@ func valueBit(out *log.Logger, val *uint8, mask uint8, args []string) error {
 	default:
 		return fmt.Errorf("invalid value: %v", args[0])
 	}
+	return nil
+}
+
+func valueFunc8(out *log.Logger, load rcs.Load8, store rcs.Store8, args []string) error {
+	if err := checkLen(args, 0, 1); err != nil {
+		return err
+	}
+	if len(args) == 0 {
+		out.Println(formatValue(int(load())))
+		return nil
+	}
+	val, err := parseValue8(args[0])
+	if err != nil {
+		return err
+	}
+	store(val)
 	return nil
 }
 

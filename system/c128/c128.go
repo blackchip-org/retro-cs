@@ -69,8 +69,13 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 		s.IO.MapLoad(0x501+i, func() uint8 { return s.mmu.PCR(i) })
 		s.IO.MapStore(0x501+i, func(v uint8) { s.mmu.SetPCR(i, v) })
 	}
+	// HACK
 	s.IO.MapLoad(0x505, func() uint8 {
 		return (1 << 7) | (1 << 4) | (1 << 5)
+	})
+	// HACK
+	s.IO.MapLoad(0xd00, func() uint8 {
+		return (1 << 7) | (1 << 6)
 	})
 
 	s.IO.MapLoad(0x600, s.vdc.ReadStatus)
@@ -152,6 +157,7 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 	s.mem.Write(0xd011, 0xff) // HACK
 	s.mem.Write(0xd012, 0x09) // HACK: bcc on $8
 	s.mem.Write(0xd600, 0xff) // HACK
+	s.mem.Write(0xdc01, 0xff) // HACK: keyboard no press
 
 	s.cpu = m6502.New(s.mem)
 	mach := &rcs.Mach{
@@ -189,4 +195,6 @@ var usedBanks = []int{
 	0x40, // on init
 	0x2a, // on init
 	0x16, // on init
+
+	0x05, // after init
 }
