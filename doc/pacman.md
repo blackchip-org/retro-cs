@@ -1,7 +1,8 @@
 # pacman
 The Pac-Man cabinet hardware which also can run Ms. Pac-Man.
 
-![Pac-Man](img/pacman-attract.png) ![Ms. Pac-Man](img/mspacman-attract.png)
+[![Pac-Man](img/pacman-attract.thumb.png)](img/pacman-attract.png)
+[![Ms. Pac-Man](img/mspacman-attract.thumb.png)](img/mspacman-attract.png)
 
 ## Status
 
