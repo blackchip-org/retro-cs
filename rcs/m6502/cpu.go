@@ -99,7 +99,8 @@ func (c *CPU) irqAck() {
 	// actual address rather than the address-1.
 	c.push2(c.pc + 1)
 	c.push(c.SR)
-	c.pc = uint16(c.mem.ReadLE(0xfffe) - 1) // irq vector
+	vector := c.mem.ReadLE(0xfffe)
+	c.pc = uint16(vector - 1) // irq vector
 }
 
 // PC returns the value of the program counter.

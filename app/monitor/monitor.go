@@ -61,13 +61,14 @@ type Monitor struct {
 	lastCmd   func([]string) error
 	memLines  int
 	dasmLines int
+	cw        *consoleWriter
 }
 
 func New(mach *rcs.Mach) (*Monitor, error) {
 	mach.Init()
 	cw := newConsoleWriter(os.Stdout)
-	rw := newRepeatWriter(cw)
-	log.SetOutput(rw)
+	// rw := newRepeatWriter(cw)
+	log.SetOutput(cw)
 
 	m := &Monitor{
 		mach:     mach,
@@ -78,6 +79,7 @@ func New(mach *rcs.Mach) (*Monitor, error) {
 		in:       readline.NewCancelableStdin(os.Stdin),
 		out:      log.New(cw, "", 0),
 		memLines: 16, // show a full page on "m" command
+		cw:       cw,
 	}
 
 	mach.Callback = m.cpuCallback
@@ -161,6 +163,7 @@ func (m *Monitor) Eval(str string) error {
 func (m *Monitor) Close() {
 	m.in.Close()
 	m.rl.Close()
+	m.cw.Flush()
 }
 
 func (m *Monitor) parse(line string) {
@@ -437,6 +440,7 @@ func (m *Monitor) cpuCallback(evt rcs.MachEvent, args ...interface{}) {
 		if status == rcs.Break {
 			m.out.Println()
 			m.dispatch([]string{"i"})
+			m.out.Println()
 			m.rl.Refresh()
 		}
 	}
@@ -749,6 +753,10 @@ func (c *consoleWriter) Write(p []byte) (int, error) {
 		}
 	}
 	return len(p), nil
+}
+
+func (c *consoleWriter) Flush() {
+	c.emit()
 }
 
 func (c *consoleWriter) emit() {

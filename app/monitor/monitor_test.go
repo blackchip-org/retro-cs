@@ -316,6 +316,7 @@ $0000:  0a        i0a
 
 [break]
 pc:0001 a:00 b:00 q:false z:false
+
 + trace
 + go
 		`,
