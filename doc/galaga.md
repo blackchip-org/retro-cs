@@ -3,11 +3,11 @@
 ## Status
 
 - Does not work
-- Tiles and sprites availabe in rcs-viewer
+- Tiles and sprites available in rcs-viewer
 - Boots to test screen
 
 ## ROMs
-The ROMs used for this emulator were obtained sfrom the MAME 0.37b5 ROM Set. The Internet Archive is a great resource. The correct SHA1 checksums are listed below:
+The ROMs used for this emulator were obtained from the MAME 0.37b5 ROM Set. The Internet Archive is a great resource. The correct SHA1 checksums are listed below:
 
 Place these files in `~/rcs/data/galaga`
 ```

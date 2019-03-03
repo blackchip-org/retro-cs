@@ -16,6 +16,7 @@ Notes on the systems in progress:
 
 Development notes:
 
+- [Memory](doc/memory.md)
 - [MOS Technology 6502 series processor](doc/m6502.md)
 - [Pac-Man](https://github.com/blackchip-org/retro-cs/blob/master/doc/pacman.md#development-notes)
 - [Zilog Z80 processor](doc/z80.md)
