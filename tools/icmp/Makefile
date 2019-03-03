@@ -2,7 +2,7 @@ Z80EMU_HOME=$(HOME)/z80emu
 
 all: z80emu/icmp-z80emu
 	z80emu/icmp-z80emu > z80emu.txt
-	go run rcs/icmp-rcs.go > rcs.txt
+	go run icmp-rcs/icmp-rcs.go > rcs.txt
 	diff z80emu.txt rcs.txt
 
 z80emu/icmp-z80emu: z80emu/icmp-z80emu.c
