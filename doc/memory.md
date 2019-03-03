@@ -20,7 +20,7 @@ The Pac-Man emulator came next. I couldn't use the memory with the seven regions
 
 I should have read the memory map instead of skimming it.
 
-When I finally had the parts of the Pac-Man emulator ready for assembly I realized this page boundary scheme was not going to work. There were certain addresses that would write to one value but read from another. For example, a write to 0x5000 enables or disables interrupts but a read returns the value of port IN0--inputs for joysticks, coin slots, etc. By the way, IN0 can also be read at 0x5001, 0x5002, and every address up to 0x503f. So much for being exact.
+When I finally had the parts of the Pac-Man emulator ready for assembly I realized this page boundary scheme might be a problem. There were certain addresses that would write to one value but read from another. For example, a write to 0x5000 enables or disables interrupts but a read returns the value of port IN0--inputs for joysticks, coin slots, etc. By the way, IN0 can also be read at 0x5001, 0x5002, and every address up to 0x503f. So much for being exact.
 
 At this point, I had a common interface that memory types implemented:
 
