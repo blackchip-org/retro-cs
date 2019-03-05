@@ -100,7 +100,8 @@ var opcodes = map[uint8]func(*CPU){
 	0x96: func(c *CPU) { st(c, c.storeZeroPageY, c.loadX) },
 	0x98: func(c *CPU) { ld(c, c.storeA, c.loadY) }, // tya
 	0x99: func(c *CPU) { st(c, c.storeAbsoluteY, c.loadA) },
-	0x9a: func(c *CPU) { ld(c, c.storeSP, c.loadX) }, // txs
+	0x9a: func(c *CPU) { c.storeSP(c.loadX()) }, // txs: does not set NZ
+
 	0x9d: func(c *CPU) { st(c, c.storeAbsoluteX, c.loadA) },
 
 	0xa0: func(c *CPU) { ld(c, c.storeY, c.loadImmediate) },

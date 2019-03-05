@@ -25,14 +25,14 @@ type CPU struct {
 
 	IRQ bool // interrupt request
 
-	WatchIRQ bool
-	WatchBRK bool
+	BreakFunc func()
+	WatchIRQ  bool
+	WatchBRK  bool
 
-	mem         *rcs.Memory          // CPU's view into memory
-	ops         map[uint8]func(*CPU) // opcode table
-	addrLoad    int                  // memory address where the last value was loaded from
-	pageCross   bool                 // if set, add a one cycle penalty for crossing a page boundary
-	stopOnBreak bool
+	mem       *rcs.Memory          // CPU's view into memory
+	ops       map[uint8]func(*CPU) // opcode table
+	addrLoad  int                  // memory address where the last value was loaded from
+	pageCross bool                 // if set, add a one cycle penalty for crossing a page boundary
 }
 
 const (
@@ -72,46 +72,45 @@ func New(mem *rcs.Memory) *CPU {
 
 // Next executes the next instruction.
 func (c *CPU) Next() {
-	here := c.PC()
+	here := c.PC() + 1
 	c.pageCross = false
 	opcode := c.fetch()
 	execute, ok := c.ops[opcode]
 	if !ok {
-		log.Printf("6502: illegal instruction 0x%02x, pc 0x%04x", opcode, here)
+		log.Printf("(!) 6502: illegal instruction 0x%02x, pc 0x%04x", opcode, here)
 		return
 	}
 	execute(c)
+	c.SR |= Flag5
 
 	if c.IRQ {
 		c.IRQ = false
 		if c.SR&FlagI == 0 {
-			c.irqAck()
+			c.irqAck(false)
 		}
-	}
-	if c.SR&FlagB != 0 {
-		if c.stopOnBreak {
-			return
-		}
-		if c.WatchBRK {
-			log.Printf("6502: brk, pc 0x%04x", here)
-		}
-		c.SR &^= FlagB
-		c.irqAck()
 	}
 }
 
 // interrupt handler
-func (c *CPU) irqAck() {
+func (c *CPU) irqAck(brk bool) {
+	here := c.pc
 	// http://www.6502.org/tutorials/6502opcodes.html#RTI
 	// Note that unlike RTS, the return address on the stack is the
 	// actual address rather than the address-1.
 	ret := c.pc + 1
 	c.push2(ret)
-	c.push(c.SR | Flag5)
+	sr := c.SR | Flag5
+	if brk {
+		sr |= FlagB
+	}
+	c.push(sr)
 	c.SR |= FlagI
 	vector := c.mem.ReadLE(0xfffe)
-	if c.WatchIRQ {
+	if !brk && c.WatchIRQ {
 		log.Printf("6502: irq, vector 0x%04x, return 0x%04x", vector, ret)
+	}
+	if brk && c.WatchBRK {
+		log.Printf("6502: brk, vector 0x%04x, pc 0x%04x", vector, here)
 	}
 	c.pc = uint16(vector - 1)
 }

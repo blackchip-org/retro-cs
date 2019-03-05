@@ -27,11 +27,11 @@ Helpful references:
 Run the functional test with:
 
 ```bash
-go test -v -tags=long -timeout 60m
+go test -v -tags=ext -timeout 60m
 ```
 
 Run the benchmarks with:
 
 ```bash
-go test -run=X -tags=long -bench=.
+go test -run=X -tags=ext -bench=.
 ```

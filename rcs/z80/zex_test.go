@@ -1,4 +1,4 @@
-// +build long
+// +build ext
 
 package z80
 

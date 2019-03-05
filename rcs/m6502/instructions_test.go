@@ -19,7 +19,7 @@ func TestAdcImmediate(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagB
+	want = Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -37,7 +37,7 @@ func TestAdcWithCarry(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagB
+	want = Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -54,7 +54,7 @@ func TestAdcCarryResult(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagC | FlagB
+	want = FlagC | Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -71,7 +71,7 @@ func TestAdcZero(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagZ | FlagC | FlagB
+	want = FlagZ | FlagC | Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -88,7 +88,7 @@ func TestAdcZeroSigned(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagN | FlagB
+	want = FlagN | Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -105,7 +105,7 @@ func TestAdcOverflowSet(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagV | FlagN | FlagB
+	want = FlagV | FlagN | Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -123,7 +123,7 @@ func TestAdcOverflowClear(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagC | FlagN | FlagB
+	want = FlagC | FlagN | Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -280,7 +280,7 @@ func TestAndImmediate(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagB
+	want = Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -292,7 +292,7 @@ func TestAndZero(t *testing.T) {
 	c.mem.WriteN(0x0200, 0x29, 0xf0) // and #$f0
 	c.A = 0x0f
 	testRunCPU(t, c)
-	want := FlagZ | FlagB
+	want := FlagZ | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -311,7 +311,7 @@ func TestAndSigned(t *testing.T) {
 		t.Errorf("\n want: %02x \n have: %02x \n", want0, have0)
 	}
 
-	want1 := FlagN | FlagB
+	want1 := FlagN | Flag5
 	have1 := c.SR
 	if want1 != have1 {
 		flagError(t, want1, have1)
@@ -436,7 +436,7 @@ func TestAslSigned(t *testing.T) {
 	c.mem.Write(0x0200, 0x0a) // asl a
 	c.A = 1 << 6
 	testRunCPU(t, c)
-	want := FlagN | FlagB
+	want := FlagN | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -448,7 +448,7 @@ func TestAslCarry(t *testing.T) {
 	c.mem.Write(0x0200, 0x0a) // asl a
 	c.A = 1 << 7
 	testRunCPU(t, c)
-	want := FlagC | FlagZ | FlagB
+	want := FlagC | FlagZ | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -514,11 +514,11 @@ var bitTests = []struct {
 	fetch         uint8
 	expectedFlags uint8
 }{
-	{"zero", 0x00, 0x00, FlagZ | FlagB},
-	{"non-zero", 0x01, 0x01, FlagB},
-	{"and-zero", 0x01, 0x02, FlagZ | FlagB},
-	{"bit6", 0x00, 1 << 6, FlagV | FlagZ | FlagB},
-	{"bit7", 0x00, 1 << 7, FlagN | FlagZ | FlagB},
+	{"zero", 0x00, 0x00, FlagZ | Flag5},
+	{"non-zero", 0x01, 0x01, Flag5},
+	{"and-zero", 0x01, 0x02, FlagZ | Flag5},
+	{"bit6", 0x00, 1 << 6, FlagV | FlagZ | Flag5},
+	{"bit7", 0x00, 1 << 7, FlagN | FlagZ | Flag5},
 }
 
 func TestBitAbsolute(t *testing.T) {
@@ -623,7 +623,7 @@ func TestCmpImmediateEqual(t *testing.T) {
 	c.A = 0x12
 	c.mem.WriteN(0x0200, 0xc9, 0x12) // cmp #$12
 	testRunCPU(t, c)
-	want := FlagZ | FlagC | FlagB
+	want := FlagZ | FlagC | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -635,7 +635,7 @@ func TestCmpImmediateLessThan(t *testing.T) {
 	c.A = 0x02
 	c.mem.WriteN(0x0200, 0xc9, 0x12) // cmp #$12
 	testRunCPU(t, c)
-	want := FlagN | FlagB
+	want := FlagN | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -647,7 +647,7 @@ func TestCmpImmediateGreaterThan(t *testing.T) {
 	c.A = 0x22
 	c.mem.WriteN(0x0200, 0xc9, 0x12) // cmp #$12
 	testRunCPU(t, c)
-	want := FlagC | FlagB
+	want := FlagC | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -660,7 +660,7 @@ func TestCmpZeroPage(t *testing.T) {
 	c.mem.Write(0x0034, 0x12)        // .byte $12
 	c.mem.WriteN(0x0200, 0xc5, 0x34) // cmp $34
 	testRunCPU(t, c)
-	want := FlagZ | FlagC | FlagB
+	want := FlagZ | FlagC | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -674,7 +674,7 @@ func TestCmpZeroPageX(t *testing.T) {
 	c.mem.WriteN(0x0200, 0xd5, 0x30) // cmp $30,X
 	c.X = 0x04
 	testRunCPU(t, c)
-	want := FlagZ | FlagC | FlagB
+	want := FlagZ | FlagC | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -687,7 +687,7 @@ func TestCmpAbsolute(t *testing.T) {
 	c.mem.Write(0x02ab, 0x12)              // .byte $12
 	c.mem.WriteN(0x0200, 0xcd, 0xab, 0x02) // cmp $02ab
 	testRunCPU(t, c)
-	want := FlagZ | FlagC | FlagB
+	want := FlagZ | FlagC | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -701,7 +701,7 @@ func TestCmpAbsoluteX(t *testing.T) {
 	c.mem.WriteN(0x0200, 0xdd, 0xa0, 0x02) // cmp $02a0,X
 	c.X = 0x0b
 	testRunCPU(t, c)
-	want := FlagZ | FlagC | FlagB
+	want := FlagZ | FlagC | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -715,7 +715,7 @@ func TestCmpAbsoluteY(t *testing.T) {
 	c.mem.WriteN(0x0200, 0xd9, 0xa0, 0x02) // cmp $02a0,Y
 	c.Y = 0x0b
 	testRunCPU(t, c)
-	want := FlagZ | FlagC | FlagB
+	want := FlagZ | FlagC | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -730,7 +730,7 @@ func TestCmpIndirectX(t *testing.T) {
 	c.mem.WriteN(0x0200, 0xc1, 0x40) // cmp ($40,X)
 	c.X = 0x0a
 	testRunCPU(t, c)
-	want := FlagZ | FlagC | FlagB
+	want := FlagZ | FlagC | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -745,7 +745,7 @@ func TestCmpIndirectY(t *testing.T) {
 	c.mem.WriteN(0x0200, 0xd1, 0x4a) // cmp ($4a),Y
 	c.Y = 0x0b
 	testRunCPU(t, c)
-	want := FlagZ | FlagC | FlagB
+	want := FlagZ | FlagC | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -760,7 +760,7 @@ func TestCpxImmediateEqual(t *testing.T) {
 	c.X = 0x12
 	c.mem.WriteN(0x0200, 0xe0, 0x12) // cpx #$12
 	testRunCPU(t, c)
-	want := FlagZ | FlagC | FlagB
+	want := FlagZ | FlagC | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -772,7 +772,7 @@ func TestCpxImmediateLessThan(t *testing.T) {
 	c.X = 0x02
 	c.mem.WriteN(0x0200, 0xe0, 0x12) // cpx #$12
 	testRunCPU(t, c)
-	want := FlagN | FlagB
+	want := FlagN | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -784,7 +784,7 @@ func TestCpxImmediateGreaterThan(t *testing.T) {
 	c.X = 0x22
 	c.mem.WriteN(0x0200, 0xe0, 0x12) // cpx #$12
 	testRunCPU(t, c)
-	want := FlagC | FlagB
+	want := FlagC | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -797,7 +797,7 @@ func TestCpxZeroPage(t *testing.T) {
 	c.mem.Write(0x0034, 0x12)        // .byte $12
 	c.mem.WriteN(0x0200, 0xe4, 0x34) // cpx $34
 	testRunCPU(t, c)
-	want := FlagZ | FlagC | FlagB
+	want := FlagZ | FlagC | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -810,7 +810,7 @@ func TestCpxAbsolute(t *testing.T) {
 	c.mem.Write(0x02ab, 0x12)              // .byte $12
 	c.mem.WriteN(0x0200, 0xec, 0xab, 0x02) // cpx $02ab
 	testRunCPU(t, c)
-	want := FlagZ | FlagC | FlagB
+	want := FlagZ | FlagC | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -825,7 +825,7 @@ func TestCpyImmediateEqual(t *testing.T) {
 	c.Y = 0x12
 	c.mem.WriteN(0x0200, 0xc0, 0x12) // cpy #$12
 	testRunCPU(t, c)
-	want := FlagZ | FlagC | FlagB
+	want := FlagZ | FlagC | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -837,7 +837,7 @@ func TestCpyImmediateLessThan(t *testing.T) {
 	c.Y = 0x02
 	c.mem.WriteN(0x0200, 0xc0, 0x12) // cpy #$12
 	testRunCPU(t, c)
-	want := FlagN | FlagB
+	want := FlagN | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -849,7 +849,7 @@ func TestCpyImmediateGreaterThan(t *testing.T) {
 	c.Y = 0x22
 	c.mem.WriteN(0x0200, 0xc0, 0x12) // cpy #$12
 	testRunCPU(t, c)
-	want := FlagC | FlagB
+	want := FlagC | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -862,7 +862,7 @@ func TestCpyZeroPage(t *testing.T) {
 	c.mem.Write(0x0034, 0x12)        // .byte $12
 	c.mem.WriteN(0x0200, 0xc4, 0x34) // cpy $34
 	testRunCPU(t, c)
-	want := FlagZ | FlagC | FlagB
+	want := FlagZ | FlagC | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -875,7 +875,7 @@ func TestCpyAbsolute(t *testing.T) {
 	c.mem.Write(0x02ab, 0x12)              // .byte $12
 	c.mem.WriteN(0x0200, 0xcc, 0xab, 0x02) // cpy $02ab
 	testRunCPU(t, c)
-	want := FlagZ | FlagC | FlagB
+	want := FlagZ | FlagC | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -895,7 +895,7 @@ func TestDecZeroPage(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagB
+	want = Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -912,7 +912,7 @@ func TestDecZeroPageZero(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagZ | FlagB
+	want = FlagZ | Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -929,7 +929,7 @@ func TestDecZeroPageSigned(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagN | FlagB
+	want = FlagN | Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -947,7 +947,7 @@ func TestDecZeroPageX(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagB
+	want = Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -964,7 +964,7 @@ func TestDecAbsolute(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagB
+	want = Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -982,7 +982,7 @@ func TestDecAbsoluteX(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagB
+	want = Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -1009,7 +1009,7 @@ func TestDexZero(t *testing.T) {
 	c.mem.WriteN(0x0200, 0xca)
 	c.X = 0x01
 	testRunCPU(t, c)
-	want := FlagZ | FlagB
+	want := FlagZ | Flag5
 	have := c.SR
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
@@ -1021,7 +1021,7 @@ func TestDexSigned(t *testing.T) {
 	c.mem.WriteN(0x0200, 0xca)
 	c.X = 0x00
 	testRunCPU(t, c)
-	want := FlagN | FlagB
+	want := FlagN | Flag5
 	have := c.SR
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
@@ -1048,7 +1048,7 @@ func TestDeyZero(t *testing.T) {
 	c.mem.WriteN(0x0200, 0x88)
 	c.Y = 0x01
 	testRunCPU(t, c)
-	want := FlagZ | FlagB
+	want := FlagZ | Flag5
 	have := c.SR
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
@@ -1060,7 +1060,7 @@ func TestDeySigned(t *testing.T) {
 	c.mem.WriteN(0x0200, 0x88)
 	c.Y = 0x00
 	testRunCPU(t, c)
-	want := FlagN | FlagB
+	want := FlagN | Flag5
 	have := c.SR
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
@@ -1080,7 +1080,7 @@ func TestEorImmdediate(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagB
+	want = Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -1097,7 +1097,7 @@ func TestEorImmediateZero(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagZ | FlagB
+	want = FlagZ | Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -1114,7 +1114,7 @@ func TestEorImmediateSigned(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagN | FlagB
+	want = FlagN | Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -1227,7 +1227,7 @@ func TestClc(t *testing.T) {
 	c.SP |= FlagC
 	c.mem.WriteN(0x0200, 0x18) // clc
 	testRunCPU(t, c)
-	want := FlagB
+	want := Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -1238,7 +1238,7 @@ func TestSec(t *testing.T) {
 	c := newTestCPU()
 	c.mem.WriteN(0x0200, 0x38) // sec
 	testRunCPU(t, c)
-	want := FlagC | FlagB
+	want := FlagC | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -1250,7 +1250,7 @@ func TestCli(t *testing.T) {
 	c.SR |= FlagI
 	c.mem.WriteN(0x0200, 0x58) // cli
 	testRunCPU(t, c)
-	want := FlagB
+	want := Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -1261,7 +1261,7 @@ func TestSei(t *testing.T) {
 	c := newTestCPU()
 	c.mem.WriteN(0x0200, 0x78) // sei
 	testRunCPU(t, c)
-	want := FlagI | FlagB
+	want := FlagI | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -1273,7 +1273,7 @@ func TestClv(t *testing.T) {
 	c.SR |= FlagV
 	c.mem.WriteN(0x0200, 0xb8) // clv
 	testRunCPU(t, c)
-	want := FlagB
+	want := Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -1285,7 +1285,7 @@ func TestCld(t *testing.T) {
 	c.SR |= FlagD
 	c.mem.WriteN(0x0200, 0xd8) // cld
 	testRunCPU(t, c)
-	want := FlagB
+	want := Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -1296,7 +1296,7 @@ func TestSed(t *testing.T) {
 	c := newTestCPU()
 	c.mem.WriteN(0x0200, 0xf8) // sed
 	testRunCPU(t, c)
-	want := FlagD | FlagB
+	want := FlagD | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -1316,7 +1316,7 @@ func TestIncZeroPage(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagB
+	want = Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -1333,7 +1333,7 @@ func TestIncZeroPageZero(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagZ | FlagB
+	want = FlagZ | Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -1350,7 +1350,7 @@ func TestIncZeroPageSigned(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagN | FlagB
+	want = FlagN | Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -1368,7 +1368,7 @@ func TestIncZeroPageX(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagB
+	want = Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -1385,7 +1385,7 @@ func TestIncAbsolute(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagB
+	want = Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -1403,7 +1403,7 @@ func TestIncAbsoluteX(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagB
+	want = Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -1430,7 +1430,7 @@ func TestInxZero(t *testing.T) {
 	c.mem.WriteN(0x0200, 0xe8)
 	c.X = 0xff
 	testRunCPU(t, c)
-	want := FlagZ | FlagB
+	want := FlagZ | Flag5
 	have := c.SR
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
@@ -1442,7 +1442,7 @@ func TestInxSigned(t *testing.T) {
 	c.mem.WriteN(0x0200, 0xe8)
 	c.X = 0x7f
 	testRunCPU(t, c)
-	want := FlagN | FlagB
+	want := FlagN | Flag5
 	have := c.SR
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
@@ -1469,7 +1469,7 @@ func TestInyZero(t *testing.T) {
 	c.mem.WriteN(0x0200, 0xc8)
 	c.Y = 0xff
 	testRunCPU(t, c)
-	want := FlagZ | FlagB
+	want := FlagZ | Flag5
 	have := c.SR
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
@@ -1481,7 +1481,7 @@ func TestInySigned(t *testing.T) {
 	c.mem.WriteN(0x0200, 0xc8)
 	c.Y = 0x7f
 	testRunCPU(t, c)
-	want := FlagN | FlagB
+	want := FlagN | Flag5
 	have := c.SR
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
@@ -1546,7 +1546,7 @@ func TestLdaImmediate(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagB
+	want = Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -1557,7 +1557,7 @@ func TestLdaZero(t *testing.T) {
 	c := newTestCPU()
 	c.mem.WriteN(0x0200, 0xa9, 0x00) // lda #$00
 	testRunCPU(t, c)
-	want := FlagZ | FlagB
+	want := FlagZ | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -1568,7 +1568,7 @@ func TestLdaSigned(t *testing.T) {
 	c := newTestCPU()
 	c.mem.WriteN(0x0200, 0xa9, 0xff) // lda #$ff
 	testRunCPU(t, c)
-	want := FlagN | FlagB
+	want := FlagN | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -1678,7 +1678,7 @@ func TestLdxImmediate(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagB
+	want = Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -1689,7 +1689,7 @@ func TestLdxZero(t *testing.T) {
 	c := newTestCPU()
 	c.mem.WriteN(0x0200, 0xa2, 0x00) // ldx #$00
 	testRunCPU(t, c)
-	want := FlagZ | FlagB
+	want := FlagZ | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -1700,7 +1700,7 @@ func TestLdxSigned(t *testing.T) {
 	c := newTestCPU()
 	c.mem.WriteN(0x0200, 0xa2, 0xff) // ldx #$ff
 	testRunCPU(t, c)
-	want := FlagN | FlagB
+	want := FlagN | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -1769,7 +1769,7 @@ func TestLdyImmediate(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagB
+	want = Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -1780,7 +1780,7 @@ func TestLdyZero(t *testing.T) {
 	c := newTestCPU()
 	c.mem.WriteN(0x0200, 0xa0, 0x00) // ldy #$00
 	testRunCPU(t, c)
-	want := FlagZ | FlagB
+	want := FlagZ | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -1791,7 +1791,7 @@ func TestLdySigned(t *testing.T) {
 	c := newTestCPU()
 	c.mem.WriteN(0x0200, 0xa0, 0xff) // ldy #$ff
 	testRunCPU(t, c)
-	want := FlagN | FlagB
+	want := FlagN | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -1861,7 +1861,7 @@ func TestLsrAccumulator(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagB
+	want = Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -1878,7 +1878,7 @@ func TestLsrShiftOut(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagZ | FlagC | FlagB
+	want = FlagZ | FlagC | Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -1962,7 +1962,7 @@ func TestOraImmediate(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagB
+	want = Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -1974,7 +1974,7 @@ func TestOraZero(t *testing.T) {
 	c.mem.WriteN(0x0200, 0x09, 0x00) // ora #$00
 	c.A = 0x00
 	testRunCPU(t, c)
-	want := FlagZ | FlagB
+	want := FlagZ | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -1986,7 +1986,7 @@ func TestOraSigned(t *testing.T) {
 	c.mem.WriteN(0x0200, 0xa9, 0xf0) // and #$f0
 	c.A = 0x0f
 	testRunCPU(t, c)
-	want := FlagN | FlagB
+	want := FlagN | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -2114,7 +2114,7 @@ func TestPhp(t *testing.T) {
 	c.mem.WriteN(0x0200, 0x08)
 	c.SR |= FlagC
 	testRunCPU(t, c)
-	want := FlagC | FlagB
+	want := FlagC | Flag5 | FlagB
 	have := c.mem.Read(addrStack + 0xff)
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
@@ -2143,7 +2143,7 @@ func TestPlaZero(t *testing.T) {
 	c.SP = 0xfe
 	c.mem.Write(addrStack+0xff, 0x00)
 	testRunCPU(t, c)
-	want := FlagZ | FlagB
+	want := FlagZ | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -2156,7 +2156,7 @@ func TestPlaSigned(t *testing.T) {
 	c.SP = 0xfe
 	c.mem.Write(addrStack+0xff, 0xff)
 	testRunCPU(t, c)
-	want := FlagN | FlagB
+	want := FlagN | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -2172,7 +2172,7 @@ func TestPlp(t *testing.T) {
 	c.SP = 0xfe
 	c.mem.Write(addrStack+0xff, FlagC|FlagN)
 	testRunCPU(t, c)
-	want := FlagC | FlagN | FlagB
+	want := FlagC | FlagN | Flag5
 	have := c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -2192,7 +2192,7 @@ func TestRolAccumulator(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagB
+	want = Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -2209,7 +2209,7 @@ func TestRolRotateOut(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagZ | FlagC | FlagB
+	want = FlagZ | FlagC | Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -2227,7 +2227,7 @@ func TestRolRotateIn(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagB
+	want = Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -2244,7 +2244,7 @@ func TestRolSigned(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagN | FlagB
+	want = FlagN | Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -2313,7 +2313,7 @@ func TestRorAccumulator(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagB
+	want = Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -2329,7 +2329,7 @@ func TestRorRotateOut(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagZ | FlagC | FlagB
+	want = FlagZ | FlagC | Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -2347,7 +2347,7 @@ func TestRorRotateIn(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagN | FlagB
+	want = FlagN | Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -2413,12 +2413,12 @@ func TestRti(t *testing.T) {
 	c.push(FlagC)
 	c.mem.Write(0x0200, 0x40) //rti
 	testRunCPU(t, c)
-	wantSR := FlagC | FlagB
+	wantSR := FlagC | Flag5
 	haveSR := c.SR
 	if wantSR != haveSR {
 		t.Errorf("\n want: %02x \n have: %02x \n", wantSR, haveSR)
 	}
-	wantPC := uint16(0x1235)
+	wantPC := uint16(0x1234)
 	havePC := c.pc
 	if wantPC != havePC {
 		t.Errorf("\n want: %04x \n have: %04x \n", wantPC, havePC)
@@ -2454,7 +2454,7 @@ func TestSbcImmediate(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagC | FlagB
+	want = FlagC | Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -2471,7 +2471,7 @@ func TestAdcWithBorrow(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagC | FlagB
+	want = FlagC | Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -2489,7 +2489,7 @@ func TestSbcCarryResult(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagN | FlagB
+	want = FlagN | Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -2507,7 +2507,7 @@ func TestSbcZero(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagZ | FlagC | FlagB
+	want = FlagZ | FlagC | Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -2525,7 +2525,7 @@ func TestSbcOverflowSet(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagV | FlagB | FlagC
+	want = FlagV | Flag5 | FlagC
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -2543,7 +2543,7 @@ func TestSbcOverflowClear(t *testing.T) {
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
 	}
-	want = FlagN | FlagB
+	want = FlagN | Flag5
 	have = c.SR
 	if want != have {
 		flagError(t, want, have)
@@ -2890,7 +2890,7 @@ func TestTaxZero(t *testing.T) {
 	c.mem.Write(0x0200, 0xaa)
 	c.A = 0x00
 	testRunCPU(t, c)
-	want := FlagZ | FlagB
+	want := FlagZ | Flag5
 	have := c.SR
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
@@ -2902,7 +2902,7 @@ func TestTaxSigned(t *testing.T) {
 	c.mem.Write(0x0200, 0xaa)
 	c.A = 0xff
 	testRunCPU(t, c)
-	want := FlagN | FlagB
+	want := FlagN | Flag5
 	have := c.SR
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
@@ -2929,7 +2929,7 @@ func TestTayZero(t *testing.T) {
 	c.mem.Write(0x0200, 0xa8)
 	c.A = 0x00
 	testRunCPU(t, c)
-	want := FlagZ | FlagB
+	want := FlagZ | Flag5
 	have := c.SR
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
@@ -2941,7 +2941,7 @@ func TestTaySigned(t *testing.T) {
 	c.mem.Write(0x0200, 0xa8)
 	c.A = 0xff
 	testRunCPU(t, c)
-	want := FlagN | FlagB
+	want := FlagN | Flag5
 	have := c.SR
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
@@ -2968,7 +2968,7 @@ func TestTsxZero(t *testing.T) {
 	c.mem.Write(0x0200, 0xba)
 	c.SP = 0x00
 	testRunCPU(t, c)
-	want := FlagZ | FlagB
+	want := FlagZ | Flag5
 	have := c.SR
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
@@ -2980,7 +2980,7 @@ func TestTsxSigned(t *testing.T) {
 	c.mem.Write(0x0200, 0xba)
 	c.SP = 0xff
 	testRunCPU(t, c)
-	want := FlagN | FlagB
+	want := FlagN | Flag5
 	have := c.SR
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
@@ -3007,7 +3007,7 @@ func TestTxaZero(t *testing.T) {
 	c.mem.Write(0x0200, 0x8a)
 	c.X = 0x00
 	testRunCPU(t, c)
-	want := FlagZ | FlagB
+	want := FlagZ | Flag5
 	have := c.SR
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
@@ -3019,7 +3019,7 @@ func TestTxaSigned(t *testing.T) {
 	c.mem.Write(0x0200, 0x8a)
 	c.X = 0xff
 	testRunCPU(t, c)
-	want := FlagN | FlagB
+	want := FlagN | Flag5
 	have := c.SR
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
@@ -3061,7 +3061,7 @@ func TestTyaZero(t *testing.T) {
 	c.mem.Write(0x0200, 0x98)
 	c.Y = 0x00
 	testRunCPU(t, c)
-	want := FlagZ | FlagB
+	want := FlagZ | Flag5
 	have := c.SR
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)
@@ -3073,7 +3073,7 @@ func TestTyaSigned(t *testing.T) {
 	c.mem.Write(0x0200, 0x98)
 	c.Y = 0xff
 	testRunCPU(t, c)
-	want := FlagN | FlagB
+	want := FlagN | Flag5
 	have := c.SR
 	if want != have {
 		t.Errorf("\n want: %02x \n have: %02x \n", want, have)

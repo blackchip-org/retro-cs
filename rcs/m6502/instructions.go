@@ -122,8 +122,12 @@ func branch(c *CPU, do bool) {
 
 // break
 func brk(c *CPU) {
-	c.SR |= FlagB
-	c.fetch()
+	if c.BreakFunc != nil {
+		c.BreakFunc()
+	} else {
+		c.fetch()
+		c.irqAck(true)
+	}
 }
 
 // compare
@@ -247,7 +251,7 @@ func ora(c *CPU, load rcs.Load8) {
 // push processor status
 func php(c *CPU) {
 	// https://wiki.nesdev.com/w/index.php/Status_flags
-	c.push(c.SR | FlagB)
+	c.push(c.SR | FlagB | Flag5)
 }
 
 // pull accumulator
@@ -309,6 +313,9 @@ func ror(c *CPU, store rcs.Store8, load rcs.Load8) {
 
 // return from interrupt
 func rti(c *CPU) {
+	// http://www.6502.org/tutorials/6502opcodes.html#RTI
+	// Note that unlike RTS, the return address on the stack is the
+	// actual address rather than the address-1.
 	c.SR = c.pull()
 	c.pc = c.pull2() - 1
 }
@@ -347,13 +354,14 @@ func sbcd(c *CPU, load rcs.Load8) {
 	in0 := rcs.FromBCD(c.A)
 	in1 := rcs.FromBCD(load())
 	outn := int16(in0) - int16(in1) - int16(borrow)
+	carry := outn >= 0
 	if outn < 0 {
 		outn += 100
 	}
 	out := rcs.ToBCD(uint8(outn))
 
 	c.SR &^= FlagC | FlagZ | FlagN
-	if outn >= 0 {
+	if carry {
 		c.SR |= FlagC
 	}
 	if out == 0 {
