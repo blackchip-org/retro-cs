@@ -16,18 +16,20 @@ const (
 
 // CPU is the MOS Technology 6502 series processor.
 type CPU struct {
-	pc uint16 // program counter
-	A  uint8  // accumulator
-	X  uint8  // x register
-	Y  uint8  // y register
-	SP uint8  // stack pointer
-	SR uint8  // status register
+	Name string
+	pc   uint16 // program counter
+	A    uint8  // accumulator
+	X    uint8  // x register
+	Y    uint8  // y register
+	SP   uint8  // stack pointer
+	SR   uint8  // status register
 
 	IRQ bool // interrupt request
 
-	BreakFunc func()
-	WatchIRQ  bool
-	WatchBRK  bool
+	BreakFunc  func()
+	WatchIRQ   bool
+	WatchBRK   bool
+	WatchStack bool
 
 	mem       *rcs.Memory          // CPU's view into memory
 	ops       map[uint8]func(*CPU) // opcode table
@@ -64,9 +66,10 @@ const (
 // New creates a new CPU with a view of the provided memory.
 func New(mem *rcs.Memory) *CPU {
 	return &CPU{
-		mem: mem,
-		pc:  uint16(mem.ReadLE(addrReset) - 1), // reset vector
-		ops: opcodes,
+		Name: "cpu",
+		mem:  mem,
+		pc:   uint16(mem.ReadLE(addrReset) - 1), // reset vector
+		ops:  opcodes,
 	}
 }
 
@@ -77,11 +80,12 @@ func (c *CPU) Next() {
 	opcode := c.fetch()
 	execute, ok := c.ops[opcode]
 	if !ok {
-		log.Printf("(!) 6502: illegal instruction 0x%02x, pc 0x%04x", opcode, here)
+		log.Printf("(!) %v: illegal instruction 0x%02x, pc 0x%04x", c.Name, opcode, here)
 		return
 	}
 	execute(c)
 	c.SR |= Flag5
+	c.SR &^= FlagB
 
 	if c.IRQ {
 		c.IRQ = false
@@ -98,6 +102,14 @@ func (c *CPU) irqAck(brk bool) {
 	// Note that unlike RTS, the return address on the stack is the
 	// actual address rather than the address-1.
 	ret := c.pc + 1
+	vector := c.mem.ReadLE(0xfffe)
+	if !brk && c.WatchIRQ {
+		log.Printf("%v: irq, vector 0x%04x, return 0x%04x", c.Name, vector, ret)
+	}
+	if brk && c.WatchBRK {
+		log.Printf("%v: brk, vector 0x%04x, pc 0x%04x", c.Name, vector, here)
+	}
+
 	c.push2(ret)
 	sr := c.SR | Flag5
 	if brk {
@@ -105,13 +117,6 @@ func (c *CPU) irqAck(brk bool) {
 	}
 	c.push(sr)
 	c.SR |= FlagI
-	vector := c.mem.ReadLE(0xfffe)
-	if !brk && c.WatchIRQ {
-		log.Printf("6502: irq, vector 0x%04x, return 0x%04x", vector, ret)
-	}
-	if brk && c.WatchBRK {
-		log.Printf("6502: brk, vector 0x%04x, pc 0x%04x", vector, here)
-	}
 	c.pc = uint16(vector - 1)
 }
 
@@ -188,7 +193,13 @@ func (c *CPU) fetch2() int {
 
 // Push a 8-bit value to the stack.
 func (c *CPU) push(v uint8) {
+	if c.WatchStack {
+		log.Printf("%v: stack[0x%02x] <= 0x%02x", c.Name, c.SP, v)
+	}
 	c.mem.Write(addrStack+int(c.SP), v)
+	if c.SP == 0 {
+		log.Printf("(!) %v: stack overflow", c.Name)
+	}
 	c.SP--
 }
 
@@ -200,8 +211,15 @@ func (c *CPU) push2(v uint16) {
 
 // Pull a 8-bit value from the stack.
 func (c *CPU) pull() uint8 {
+	if c.SP == 0xff {
+		log.Printf("(!) %v: stack underflow", c.Name)
+	}
 	c.SP++
-	return c.mem.Read(addrStack + int(c.SP))
+	v := c.mem.Read(addrStack + int(c.SP))
+	if c.WatchStack {
+		log.Printf("%v: 0x%02x <= stack[0x%02x]", c.Name, v, c.SP)
+	}
+	return v
 }
 
 // Pull a 16-bit value from the stack.

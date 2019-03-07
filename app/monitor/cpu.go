@@ -16,6 +16,7 @@ import (
 type modCPU struct {
 	name   string
 	mon    *Monitor
+	out    *log.Logger
 	cpu    rcs.CPU
 	mem    *rcs.Memory
 	dasm   *rcs.Disassembler
@@ -32,6 +33,7 @@ func newModCPU(mon *Monitor, comp rcs.Component) module {
 	mod := &modCPU{
 		name:   comp.Name,
 		mon:    mon,
+		out:    mon.out,
 		cpu:    c,
 		mem:    c.Memory(),
 		dasm:   dasm,
@@ -41,21 +43,12 @@ func newModCPU(mon *Monitor, comp rcs.Component) module {
 }
 
 func (m *modCPU) Command(args []string) error {
-	if err := checkLen(args, 0, maxArgs); err != nil {
-		return err
-	}
 	if len(args) == 0 {
 		return m.cmdInfo(args[0:])
 	}
 	switch args[0] {
-	case "breakpoint-clear", "bpc":
-		return m.cmdBreakpointClear(args[1:])
-	case "breakpoint-list", "bp", "bpl":
-		return m.cmdBreakpointList(args[1:])
-	case "breakpoint-none", "bpn":
-		return m.cmdBreakpointNone(args[1:])
-	case "breakpoint-set", "bps":
-		return m.cmdBreakpointSet(args[1:])
+	case "breakpoint", "bp":
+		return m.cmdBreakpoint(args[1:])
 	case "disassemble", "d":
 		return m.cmdDisassemble(args[1:])
 	case "info", "i":
@@ -68,6 +61,21 @@ func (m *modCPU) Command(args []string) error {
 		return m.cmdTrace(args[1:])
 	}
 	return fmt.Errorf("no such command: %v", args[0])
+}
+
+func (m *modCPU) cmdBreakpoint(args []string) error {
+	if len(args) == 0 {
+		return m.cmdBreakpointList(args[0:])
+	}
+	switch args[0] {
+	case "list":
+		return m.cmdBreakpointList(args[1:])
+	case "none":
+		return m.cmdBreakpointNone(args[1:])
+	case "address":
+		return m.cmdBreakpointSwitch(args[1:])
+	}
+	return m.cmdBreakpointSwitch(args[0:])
 }
 
 func (m *modCPU) cmdBreakpointClear(args []string) error {
@@ -109,16 +117,31 @@ func (m *modCPU) cmdBreakpointNone(args []string) error {
 	return nil
 }
 
-func (m *modCPU) cmdBreakpointSet(args []string) error {
-	if err := checkLen(args, 1, 1); err != nil {
+func (m *modCPU) cmdBreakpointSwitch(args []string) error {
+	if err := checkLen(args, 1, 2); err != nil {
 		return err
 	}
 	addr, err := parseAddress(m.mem, args[0])
 	if err != nil {
-		return err
+		return fmt.Errorf("invalid address: %v", args[0])
 	}
-	m.brkpts[addr] = struct{}{}
-	return nil
+	if len(args) == 1 {
+		if _, ok := m.brkpts[addr]; ok {
+			m.out.Println("on")
+		} else {
+			m.out.Println("off")
+		}
+		return nil
+	}
+	switch args[1] {
+	case "on":
+		m.brkpts[addr] = struct{}{}
+		return nil
+	case "off":
+		delete(m.brkpts, addr)
+		return nil
+	}
+	return fmt.Errorf("invalid argument: %v", args[0])
 }
 
 func (m *modCPU) cmdDisassemble(args []string) error {
@@ -293,6 +316,8 @@ func (m *modM6502) Command(args []string) error {
 		return valueBool(m.out, &m.cpu.WatchBRK, args[1:])
 	case "watch-irq":
 		return valueBool(m.out, &m.cpu.WatchIRQ, args[1:])
+	case "watch-stack":
+		return valueBool(m.out, &m.cpu.WatchStack, args[1:])
 	}
 	return m.parent.Command(args)
 }

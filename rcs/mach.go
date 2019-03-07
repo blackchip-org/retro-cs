@@ -78,9 +78,10 @@ type Mach struct {
 	Callback    func(MachEvent, ...interface{})
 	Breakpoints map[string]map[int]struct{}
 
+	stuck     map[string]bool
+	tracing   map[string]bool
 	scanLines *sdl.Texture
 	init      bool
-	tracing   map[string]bool
 	quit      bool
 	cmd       chan message
 	snapT     *sdl.Texture
@@ -93,6 +94,7 @@ func (m *Mach) Init() error {
 	}
 	m.CPU = make(map[string]CPU)
 	m.Proc = make(map[string]Proc)
+	m.stuck = make(map[string]bool)
 	m.tracing = make(map[string]bool)
 	for _, comp := range m.Comps {
 		switch v := comp.C.(type) {
@@ -201,20 +203,20 @@ func (m *Mach) jiffy() {
 func (m *Mach) execute() {
 	for t := 0; t < perJiffy; t++ {
 		for name, cpu := range m.CPU {
+			if m.tracing[name] && !m.stuck[name] {
+				m.event(TraceEvent, name, cpu.PC())
+			}
 			ppc := cpu.PC()
 			cpu.Next()
 			// if the program counter didn't change, it is either stuck
 			// in an infinite loop or not advancing due to a halt-like
 			// instruction
-			stuck := ppc == cpu.PC()
-			if m.tracing[name] && !stuck {
-				m.event(TraceEvent, name, ppc)
-			}
+			m.stuck[name] = ppc == cpu.PC()
 			// at a breakpoint? only honor it if the processor is not stuck.
 			// when at a halt-like instruction, this causes a break once
 			// instead of each time.
 			addr := cpu.PC() + cpu.Offset()
-			if _, yes := m.Breakpoints[name][addr]; yes && !stuck {
+			if _, yes := m.Breakpoints[name][addr]; yes && !m.stuck[name] {
 				m.setStatus(Break)
 				return
 			}

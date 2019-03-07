@@ -98,19 +98,24 @@ func (m *modC128MMU) Command(args []string) error {
 		return valueFunc8(m.out, m.mmu.CR, m.mmu.SetCR, args[1:])
 	case "mode":
 		return valueUint8(m.out, &m.mmu.Mode, args[1:])
-	case "watch-cr-write":
-		return valueBool(m.out, &m.mmu.WatchCR.Write, args[1:])
-	case "watch-cr-read":
-		return valueBool(m.out, &m.mmu.WatchCR.Read, args[1:])
-	case "watch-lcr-write":
-		return valueBool(m.out, &m.mmu.WatchLCR.Write, args[1:])
-	case "watch-lcr-read":
-		return valueBool(m.out, &m.mmu.WatchLCR.Read, args[1:])
-	case "watch-pcr-write":
-		return valueBool(m.out, &m.mmu.WatchPCR.Write, args[1:])
-	case "watch-pcr-read":
-		return valueBool(m.out, &m.mmu.WatchPCR.Read, args[1:])
-	case "watch-all":
+	case "watch", "w":
+		return m.cmdWatch(args[1:])
+	}
+	return fmt.Errorf("no such command: %v", args[0])
+}
+
+func (m *modC128MMU) cmdWatch(args []string) error {
+	if err := checkLen(args, 1, 2); err != nil {
+		return err
+	}
+	switch args[0] {
+	case "cr":
+		return valueRW(m.out, &m.mmu.WatchCR, args[1:])
+	case "lcr":
+		return valueRW(m.out, &m.mmu.WatchLCR, args[1:])
+	case "pcr":
+		return valueRW(m.out, &m.mmu.WatchPCR, args[1:])
+	case "all":
 		return terminal(args[1:], func() error {
 			m.mmu.WatchCR.Write = true
 			m.mmu.WatchCR.Read = true
@@ -120,7 +125,7 @@ func (m *modC128MMU) Command(args []string) error {
 			m.mmu.WatchPCR.Read = true
 			return nil
 		})
-	case "watch-none":
+	case "none":
 		return terminal(args[1:], func() error {
 			m.mmu.WatchCR.Write = false
 			m.mmu.WatchCR.Read = false
@@ -131,7 +136,7 @@ func (m *modC128MMU) Command(args []string) error {
 			return nil
 		})
 	}
-	return fmt.Errorf("no such command: %v", args[0])
+	return fmt.Errorf("invalid argument: %v", args[0])
 }
 
 func (m *modC128MMU) AutoComplete() []readline.PrefixCompleterInterface {

@@ -69,31 +69,31 @@ var monitorTests = []struct {
 	}, {
 		"break",
 		[]string{
-			"bps $3456",
-			"bps $2345",
-			"bps $1234",
+			"bp $3456 on",
+			"bp $2345 on",
+			"bp $1234 on",
 			"bp",
-			"bpc $2345",
+			"bp $2345 off",
 			"bp",
-			"bpn",
+			"bp none",
 			"bp",
-			"bps $123456",
+			"bp $123456 on",
 		},
 		`
-+ bps $3456
-+ bps $2345
-+ bps $1234
++ bp $3456 on
++ bp $2345 on
++ bp $1234 on
 + bp
 $1234
 $2345
 $3456
-+ bpc $2345
++ bp $2345 off
 + bp
 $1234
 $3456
-+ bpn
++ bp none
 + bp
-+ bps $123456
++ bp $123456 on
 invalid address: $123456
 		`,
 	}, {
@@ -162,9 +162,9 @@ $0013:  29 cd ab  i29 $abcd
 		`,
 	}, {
 		"go",
-		[]string{"bps $10", "g", "sleep 100"},
+		[]string{"bp $10 on", "g", "sleep 100"},
 		`
-+ bps $10
++ bp $10 on
 + g
 + sleep 100
 
@@ -298,8 +298,8 @@ pc:0003 a:00 b:00 q:false z:false
 		[]string{
 			"poke 0 $a $b $c",
 			"trace",
-			"bps 1",
-			"bps 2",
+			"bp 1 on",
+			"bp 2 on",
 			"go",
 			"sleep 100",
 			"trace",
@@ -308,8 +308,8 @@ pc:0003 a:00 b:00 q:false z:false
 		`
 + poke 0 $a $b $c
 + trace
-+ bps 1
-+ bps 2
++ bp 1 on
++ bp 2 on
 + go
 + sleep 100
 $0000:  0a        i0a
@@ -375,7 +375,7 @@ func TestBreakpointOffset(t *testing.T) {
 	f := newMonitorFixture()
 	f.cpu.OffsetPC = 1
 	cmds := `
-bps $10
+bp $10 on
 g
 sleep 100
 	`
@@ -386,7 +386,7 @@ sleep 100
 	f.mon.Eval(cmds)
 	have := strings.TrimSpace(f.out.String())
 	want := strings.TrimSpace(`
-+ bps $10
++ bp $10 on
 + g
 + sleep 100
 

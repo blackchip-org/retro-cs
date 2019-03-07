@@ -27,7 +27,7 @@ var opcodes = map[uint8]func(*CPU){
 	0x24: func(c *CPU) { bit(c, c.loadZeroPage) },
 	0x25: func(c *CPU) { and(c, c.loadZeroPage) },
 	0x26: func(c *CPU) { rol(c, c.storeBack, c.loadZeroPage) },
-	0x28: func(c *CPU) { c.SR = c.pull() }, // plp
+	0x28: func(c *CPU) { plp(c) },
 	0x29: func(c *CPU) { and(c, c.loadImmediate) },
 	0x2a: func(c *CPU) { rol(c, c.storeA, c.loadA) },
 	0x2c: func(c *CPU) { bit(c, c.loadAbsolute) },
@@ -101,7 +101,6 @@ var opcodes = map[uint8]func(*CPU){
 	0x98: func(c *CPU) { ld(c, c.storeA, c.loadY) }, // tya
 	0x99: func(c *CPU) { st(c, c.storeAbsoluteY, c.loadA) },
 	0x9a: func(c *CPU) { c.storeSP(c.loadX()) }, // txs: does not set NZ
-
 	0x9d: func(c *CPU) { st(c, c.storeAbsoluteX, c.loadA) },
 
 	0xa0: func(c *CPU) { ld(c, c.storeY, c.loadImmediate) },

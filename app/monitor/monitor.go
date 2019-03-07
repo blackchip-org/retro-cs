@@ -69,15 +69,17 @@ func New(mach *rcs.Mach) (*Monitor, error) {
 	cw := newConsoleWriter(os.Stdout)
 	// rw := newRepeatWriter(cw)
 	log.SetOutput(cw)
+	// log.SetOutput(os.Stdout)
 
 	m := &Monitor{
-		mach:     mach,
-		comps:    make(map[string]rcs.Component),
-		mods:     make(map[string]module),
-		cpu:      make(map[string]rcs.CPU),
-		tracers:  make(map[string]*rcs.Disassembler),
-		in:       readline.NewCancelableStdin(os.Stdin),
-		out:      log.New(cw, "", 0),
+		mach:    mach,
+		comps:   make(map[string]rcs.Component),
+		mods:    make(map[string]module),
+		cpu:     make(map[string]rcs.CPU),
+		tracers: make(map[string]*rcs.Disassembler),
+		in:      readline.NewCancelableStdin(os.Stdin),
+		out:     log.New(cw, "", 0),
+		//out:      log.New(os.Stdout, "", 0),
 		memLines: 16, // show a full page on "m" command
 		cw:       cw,
 	}
@@ -186,10 +188,7 @@ func (m *Monitor) parse(line string) {
 func (m *Monitor) dispatch(args []string) error {
 	switch args[0] {
 	case
-		"breakpoint-clear", "bpc",
-		"breakpoint-list", "bpl", "bp",
-		"breakpoint-none", "bpn",
-		"breakpoint-set", "bps",
+		"breakpoint", "bp",
 		"disassemble", "d",
 		"info", "i",
 		"next", "n",
@@ -357,7 +356,7 @@ func (n byName) Less(i, j int) bool {
 
 func newCompleter(m *Monitor) *readline.PrefixCompleter {
 	cmds := []readline.PrefixCompleterInterface{
-		readline.PcItem("breakpoint-clear"),
+		readline.PcItem("breakpoint"),
 		readline.PcItem("breakpoint-list"),
 		readline.PcItem("breakpoint-none"),
 		readline.PcItem("breakpoint-set"),
@@ -711,6 +710,42 @@ func valueFunc8(out *log.Logger, load rcs.Load8, store rcs.Store8, args []string
 		return err
 	}
 	store(val)
+	return nil
+}
+
+func valueRW(out *log.Logger, f *rcs.FlagRW, args []string) error {
+	if err := checkLen(args, 0, 1); err != nil {
+		return err
+	}
+	if len(args) == 0 {
+		switch {
+		case f.Read && f.Write:
+			out.Println("rw")
+		case f.Read:
+			out.Println("r")
+		case f.Write:
+			out.Println("w")
+		default:
+			out.Println("off")
+		}
+		return nil
+	}
+	switch args[0] {
+	case "r":
+		f.Read = true
+		f.Write = false
+	case "w":
+		f.Read = false
+		f.Write = true
+	case "rw", "on":
+		f.Read = true
+		f.Write = true
+	case "off":
+		f.Read = false
+		f.Write = false
+	default:
+		return fmt.Errorf("invalid argument: %v", args[0])
+	}
 	return nil
 }
 

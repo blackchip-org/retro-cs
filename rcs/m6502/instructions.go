@@ -267,6 +267,14 @@ func pla(c *CPU) {
 	c.A = out
 }
 
+// pull processor status
+func plp(c *CPU) {
+	sr := c.pull()
+	// There is no break flag
+	sr &^= FlagB
+	c.SR = sr
+}
+
 // rotate left
 func rol(c *CPU, store rcs.Store8, load rcs.Load8) {
 	in := load()
