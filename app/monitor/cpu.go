@@ -101,8 +101,7 @@ func (m *modCPU) cmdBreakpointList(args []string) error {
 	}
 	addrs := make([]string, 0, 0)
 	for k := range m.brkpts {
-		// FIXME: Hard-coded format
-		addrs = append(addrs, fmt.Sprintf("%v$%04x", m.prefix(), k))
+		addrs = append(addrs, fmt.Sprintf("%v%v", m.prefix(), formatAddress(k)))
 	}
 	sort.Strings(addrs)
 	m.mon.out.Printf(strings.Join(addrs, "\n"))
