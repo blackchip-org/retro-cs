@@ -323,25 +323,25 @@ pc:0001 a:00 b:00 q:false z:false
 	}, {
 		"watch",
 		[]string{
-			"ws $10 rw",
+			"w $10 rw",
 			"w",
 			"poke $10 $22",
 			"peek $10",
-			"wc $10",
-			"ws $10 r",
+			"w $10 off",
+			"w $10 r",
 			"w",
 			"poke $10 $22",
 			"peek $10",
-			"wc $10",
-			"ws $10 w",
+			"w $10 off",
+			"w $10 w",
 			"w",
 			"poke $10 $22",
 			"peek $10",
-			"wn",
+			"w none",
 			"w",
 		},
 		`
-+ ws $10 rw
++ w $10 rw
 + w
 $0010 rw
 + poke $10 $22
@@ -349,23 +349,23 @@ write($0010) => $22
 + peek $10
 $22 <= read($0010)
 34 $22 %10.0010
-+ wc $10
-+ ws $10 r
++ w $10 off
++ w $10 r
 + w
 $0010 r
 + poke $10 $22
 + peek $10
 $22 <= read($0010)
 34 $22 %10.0010
-+ wc $10
-+ ws $10 w
++ w $10 off
++ w $10 w
 + w
 $0010 w
 + poke $10 $22
 write($0010) => $22
 + peek $10
 34 $22 %10.0010
-+ wn
++ w none
 + w
 		`,
 	},

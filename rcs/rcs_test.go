@@ -5,6 +5,31 @@ import (
 	"testing"
 )
 
+func TestFormats(t *testing.T) {
+	tests := []struct {
+		in  int
+		out string
+		fn  func(int) string
+	}{
+		{15, "$f", func(v int) string { return X(v) }},
+		{15, "$0f", func(v int) string { return X8(uint8(v)) }},
+		{15, "$000f", func(v int) string { return X16(uint16(v)) }},
+		{15, "%1111", func(v int) string { return B(v) }},
+		{15, "%0000.1111", func(v int) string { return B8(uint8(v)) }},
+		{15, "%0000.0000:0000.1111", func(v int) string { return B16(uint16(v)) }},
+	}
+	for i, test := range tests {
+		name := fmt.Sprintf("%v", i)
+		t.Run(name, func(t *testing.T) {
+			have := test.fn(test.in)
+			want := test.out
+			if have != want {
+				t.Errorf("\n have: %v \n want: %v\n", have, want)
+			}
+		})
+	}
+}
+
 func ExampleFromBCD() {
 	v := FromBCD(0x42)
 	fmt.Println(v)

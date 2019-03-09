@@ -4,12 +4,56 @@ package rcs
 
 import (
 	"encoding/gob"
+	"fmt"
 	"io"
 	"math/bits"
 	"strconv"
 
 	"github.com/veandco/go-sdl2/sdl"
 )
+
+func X(v int) string {
+	return fmt.Sprintf("$%x", v)
+}
+
+func X8(v uint8) string {
+	return fmt.Sprintf("$%02x", v)
+}
+
+func X16(v uint16) string {
+	return fmt.Sprintf("$%04x", v)
+}
+
+func B(v int) string {
+	return "%" + formatBits("%b", v)
+}
+
+func B8(v uint8) string {
+	return "%" + formatBits("%08b", int(v))
+}
+
+func B16(v uint16) string {
+	return "%" + formatBits("%016b", int(v))
+}
+
+func formatBits(f string, v int) string {
+	in := fmt.Sprintf(f, v)
+	out := ""
+	bit := 0
+	for i := len(in) - 1; i >= 0; i-- {
+		if bit != 0 {
+			switch {
+			case bit%8 == 0:
+				out = string(":") + out
+			case bit%4 == 0:
+				out = string('.') + out
+			}
+		}
+		out = string(in[i]) + out
+		bit++
+	}
+	return out
+}
 
 // Load8 is a function which loads an unsigned 8-bit value
 type Load8 func() uint8
@@ -188,6 +232,6 @@ func NewComponent(name string, mod string, parent string, c interface{}) Compone
 }
 
 type FlagRW struct {
-	Read  bool
-	Write bool
+	R bool // Read
+	W bool // Write
 }

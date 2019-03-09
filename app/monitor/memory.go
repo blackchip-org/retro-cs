@@ -3,6 +3,7 @@ package monitor
 import (
 	"bytes"
 	"fmt"
+	"log"
 	"sort"
 	"strings"
 
@@ -14,6 +15,7 @@ import (
 type modMemory struct {
 	name    string
 	mon     *Monitor
+	out     *log.Logger
 	mem     *rcs.Memory
 	ptr     *rcs.Pointer
 	watches map[int]string
@@ -24,6 +26,7 @@ func newModMemory(mon *Monitor, comp rcs.Component) module {
 	mod := &modMemory{
 		name:    comp.Name,
 		mon:     mon,
+		out:     mon.out,
 		mem:     mem,
 		ptr:     rcs.NewPointer(mem),
 		watches: make(map[int]string),
@@ -48,14 +51,8 @@ func (m *modMemory) Command(args []string) error {
 		return m.cmdPeek(args[1:])
 	case "poke":
 		return m.cmdPoke(args[1:])
-	case "watch-clear", "wc":
-		return m.cmdWatchClear(args[1:])
-	case "watch-list", "w", "wl":
-		return m.cmdWatchList(args[1:])
-	case "watch-none", "wn":
-		return m.cmdWatchNone(args[1:])
-	case "watch-set", "ws":
-		return m.cmdWatchSet(args[1:])
+	case "watch", "w":
+		return m.cmdWatch(args[1:])
 	}
 	return m.cmdDump(args[0:])
 }
@@ -151,6 +148,19 @@ func (m *modMemory) cmdPoke(args []string) error {
 	return nil
 }
 
+func (m *modMemory) cmdWatch(args []string) error {
+	if len(args) == 0 {
+		return m.cmdWatchList(args[0:])
+	}
+	switch args[0] {
+	case "list":
+		return m.cmdWatchList(args[1:])
+	case "none":
+		return m.cmdWatchNone(args[1:])
+	}
+	return m.cmdWatchSwitch(args[0:])
+}
+
 func (m *modMemory) cmdWatchClear(args []string) error {
 	if err := checkLen(args, 1, 1); err != nil {
 		return err
@@ -193,13 +203,21 @@ func (m *modMemory) cmdWatchNone(args []string) error {
 	return nil
 }
 
-func (m *modMemory) cmdWatchSet(args []string) error {
-	if err := checkLen(args, 2, 2); err != nil {
-		return err
+func (m *modMemory) cmdWatchSwitch(args []string) error {
+	if err := checkLen(args, 1, 2); err != nil {
+		return nil
 	}
 	addr, err := parseAddress(m.mem, args[0])
 	if err != nil {
-		return err
+		return fmt.Errorf("invalid address: %v", args[0])
+	}
+	if len(args) == 1 {
+		if state, ok := m.watches[addr]; ok {
+			m.out.Println(state)
+		} else {
+			m.out.Println("off")
+		}
+		return nil
 	}
 	mode := args[1]
 	switch mode {
@@ -212,11 +230,13 @@ func (m *modMemory) cmdWatchSet(args []string) error {
 	case "rw":
 		m.mem.WatchRW(addr)
 		m.watches[addr] = "rw"
+	case "off":
+		m.mem.Unwatch(addr)
+		delete(m.watches, addr)
 	default:
-		return fmt.Errorf("unknown watch mode: %v", mode)
+		return fmt.Errorf("invalid argument: %v", mode)
 	}
 	return nil
-
 }
 
 func (m *modMemory) watchCallback(evt rcs.MemoryEvent) {
@@ -251,6 +271,10 @@ func (m *modMemory) AutoComplete() []readline.PrefixCompleterInterface {
 		readline.PcItem("watch-none"),
 		readline.PcItem("watch-set"),
 	}
+}
+
+func (m *modMemory) Silence() error {
+	return m.cmdWatchNone([]string{})
 }
 
 func dump(m *rcs.Memory, start int, end int, decode rcs.CharDecoder, prefix string) string {

@@ -46,3 +46,7 @@ func (m *modGalaga) AutoComplete() []readline.PrefixCompleterInterface {
 		readline.PcItem("interrupt-enable3"),
 	}
 }
+
+func (m *modGalaga) Silence() error {
+	return nil
+}

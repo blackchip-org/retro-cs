@@ -57,6 +57,8 @@ func (m *modCPU) Command(args []string) error {
 		return m.cmdNext(args[1:])
 	case "step", "s":
 		return m.cmdStep(args[1:])
+	case "select":
+		return m.cmdSelect(args[1:])
 	case "trace", "t":
 		return m.cmdTrace(args[1:])
 	}
@@ -212,6 +214,15 @@ func (m *modCPU) cmdNext(args []string) error {
 	return nil
 }
 
+func (m *modCPU) cmdSelect(args []string) error {
+	if err := checkLen(args, 0, 0); err != nil {
+		return err
+	}
+	m.mon.sc = m.name
+	m.mon.rl.SetPrompt(m.mon.getPrompt())
+	return nil
+}
+
 func (m *modCPU) cmdStep(args []string) error {
 	if err := checkLen(args, 0, 0); err != nil {
 		return err
@@ -243,16 +254,23 @@ func (m *modCPU) cmdTrace(args []string) error {
 
 func (m *modCPU) AutoComplete() []readline.PrefixCompleterInterface {
 	return []readline.PrefixCompleterInterface{
-		readline.PcItem("breakpoint-clear"),
-		readline.PcItem("breakpoint-list"),
-		readline.PcItem("breakpoint-none"),
-		readline.PcItem("breakpoint-set"),
+		readline.PcItem("breakpoint",
+			readline.PcItem("list"),
+			readline.PcItem("none"),
+			readline.PcItem("address"),
+		),
 		readline.PcItem("disassemble"),
 		readline.PcItem("info"),
 		readline.PcItem("next"),
 		readline.PcItem("step"),
+		readline.PcItem("select"),
 		readline.PcItem("trace"),
 	}
+}
+
+func (m *modCPU) Silence() error {
+	m.cmdTrace([]string{"off"})
+	return nil
 }
 
 func (m *modCPU) prefix() string {
@@ -323,8 +341,8 @@ func (m *modM6502) Command(args []string) error {
 }
 
 func (m *modM6502) AutoComplete() []readline.PrefixCompleterInterface {
-	cmds := m.parent.AutoComplete()
-	cmds = append(cmds, []readline.PrefixCompleterInterface{
+	cmd := m.parent.AutoComplete()
+	cmd = append(cmd, []readline.PrefixCompleterInterface{
 		readline.PcItem("r.a"),
 		readline.PcItem("r.x"),
 		readline.PcItem("r.y"),
@@ -341,8 +359,16 @@ func (m *modM6502) AutoComplete() []readline.PrefixCompleterInterface {
 		readline.PcItem("watch-brk"),
 		readline.PcItem("watch-irq"),
 	}...)
-	sort.Sort(byName(cmds))
-	return cmds
+	sort.Sort(byName(cmd))
+	return cmd
+}
+
+func (m *modM6502) Silence() error {
+	m.parent.Silence()
+	m.cpu.WatchBRK = false
+	m.cpu.WatchIRQ = false
+	m.cpu.WatchStack = false
+	return nil
 }
 
 type modZ80 struct {
@@ -476,8 +502,8 @@ func (m *modZ80) Command(args []string) error {
 }
 
 func (m *modZ80) AutoComplete() []readline.PrefixCompleterInterface {
-	cmds := m.parent.AutoComplete()
-	cmds = append(cmds, []readline.PrefixCompleterInterface{
+	cmd := m.parent.AutoComplete()
+	cmd = append(cmd, []readline.PrefixCompleterInterface{
 		readline.PcItem("r.pc"),
 		readline.PcItem("r.a"),
 		readline.PcItem("r.f"),
@@ -534,6 +560,12 @@ func (m *modZ80) AutoComplete() []readline.PrefixCompleterInterface {
 
 		readline.PcItem("watch-irq"),
 	}...)
-	sort.Sort(byName(cmds))
-	return cmds
+	sort.Sort(byName(cmd))
+	return cmd
+}
+
+func (m *modZ80) Silence() error {
+	m.parent.Silence()
+	m.cpu.WatchIRQ = false
+	return nil
 }

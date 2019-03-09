@@ -11,9 +11,8 @@ const (
 	StatusFlag = (1 << 7)
 )
 
-const ()
-
 type VDC struct {
+	Name   string
 	Addr   uint8
 	Status uint8
 	MemPos uint16
@@ -26,20 +25,21 @@ type VDC struct {
 
 func NewVDC() *VDC {
 	return &VDC{
+		Name:   "vdc",
 		Status: VBlankFlag | StatusFlag,
 	}
 }
 
 func (v *VDC) WriteAddr(val uint8) {
-	if v.WatchAddr.Write {
-		log.Printf("$%02x => vdc:addr", val)
+	if v.WatchAddr.W {
+		log.Printf("%v:addr <= %v", v.Name, rcs.X8(val))
 	}
 	v.Addr = val
 }
 
 func (v *VDC) ReadStatus() uint8 {
-	if v.WatchAddr.Read {
-		log.Printf("vdc:addr => $%02x", v.Status)
+	if v.WatchAddr.R {
+		log.Printf("%v <= %v:addr", rcs.X8(v.Status), v.Name)
 	}
 	return v.Status
 }
@@ -56,10 +56,10 @@ func (v *VDC) ReadData() uint8 {
 	case 0x1f: // memory read/write register
 		v.MemPos++
 	default:
-		log.Printf("vdc: read to unhandled addr $%02x", v.Addr)
+		log.Printf("(!) %v: read to unhandled addr %v", v.Name, rcs.X8(v.Addr))
 	}
-	if v.WatchData.Read {
-		log.Printf("vdc[$%02x] => $%02x", v.Addr, val)
+	if v.WatchData.R {
+		log.Printf("%v <= %v[%v]", rcs.X8(val), v.Name, rcs.X8(v.Addr))
 	}
 	return val
 }
@@ -77,10 +77,10 @@ func (v *VDC) WriteData(val uint8) {
 	case 0x1f: // memory read/write register
 		v.MemPos++
 	default:
-		log.Printf("vdc: write to unhandled addr $%02x, value $%02x", v.Addr, val)
+		log.Printf("(!) %v: write to unhandled addr %v, value %v", v.Name, rcs.X8(v.Addr), rcs.X8(val))
 	}
-	if v.WatchData.Write {
-		log.Printf("$%02x => vdc[$%02x]", val, v.Addr)
+	if v.WatchData.W {
+		log.Printf("%v[%v] <= %v", v.Name, rcs.X8(v.Addr), rcs.X8(val))
 	}
 }
 

@@ -62,12 +62,13 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 	// IO mappings
 	s.IO.MapRW(0x020, &s.vic.BorderColor)
 	s.IO.MapRW(0x021, &s.vic.BgColor)
-	s.IO.MapLoad(0x500, s.mmu.CR)
-	s.IO.MapStore(0x500, s.mmu.SetCR)
+	s.IO.MapLoad(0x500, s.mmu.ReadCR)
+	s.IO.MapStore(0x500, s.mmu.WriteCR)
+	// PCR
 	for i := 0; i < 4; i++ {
 		i := i
-		s.IO.MapLoad(0x501+i, func() uint8 { return s.mmu.PCR(i) })
-		s.IO.MapStore(0x501+i, func(v uint8) { s.mmu.SetPCR(i, v) })
+		s.IO.MapLoad(0x501+i, func() uint8 { return s.mmu.ReadPCR(i) })
+		s.IO.MapStore(0x501+i, func(v uint8) { s.mmu.WritePCR(i, v) })
 	}
 	// HACK
 	s.IO.MapLoad(0x505, func() uint8 {
@@ -144,12 +145,12 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 			// RAM or ROM as selected by bits 4 and 5
 		}
 
-		s.mem.MapLoad(0xff00, s.mmu.CR)
-		s.mem.MapStore(0xff00, s.mmu.SetCR)
+		s.mem.MapLoad(0xff00, s.mmu.ReadCR)
+		s.mem.MapStore(0xff00, s.mmu.WriteCR)
 		for i := 0; i < 4; i++ {
 			i := i
-			s.mem.MapLoad(0xff01+i, func() uint8 { return s.mmu.LCR(i) })
-			s.mem.MapStore(0xff01+i, func(v uint8) { s.mmu.SetLCR(i, v) })
+			s.mem.MapLoad(0xff01+i, func() uint8 { return s.mmu.ReadLCR(i) })
+			s.mem.MapStore(0xff01+i, func(v uint8) { s.mmu.WriteLCR(i, v) })
 		}
 	}
 	s.mem.SetBank(0) // bank 15
@@ -195,6 +196,4 @@ var usedBanks = []int{
 	0x40, // on init
 	0x2a, // on init
 	0x16, // on init
-
-	0x05, // after init
 }

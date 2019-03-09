@@ -22,14 +22,13 @@ import (
 	"github.com/chzyer/readline"
 )
 
-var cmds = map[string]func(*Monitor, []string) error{}
-
 const (
 	maxArgs = 0x100
 )
 
 type module interface {
 	Command([]string) error
+	Silence() error
 	AutoComplete() []readline.PrefixCompleterInterface
 }
 
@@ -63,6 +62,8 @@ type Monitor struct {
 	dasmLines  int
 	cw         *consoleWriter
 }
+
+var silencers = make([]func(), 0, 0)
 
 func New(mach *rcs.Mach) (*Monitor, error) {
 	mach.Init()
@@ -201,10 +202,7 @@ func (m *Monitor) dispatch(args []string) error {
 	case
 		"peek",
 		"poke",
-		"watch-clear", "wc",
-		"watch-list", "w", "wl",
-		"watch-none", "wn",
-		"watch-set", "ws":
+		"watch", "w":
 		parent := m.comps[m.sc].Parent
 		return m.mods[parent].Command(args)
 	case "config":
@@ -225,6 +223,8 @@ func (m *Monitor) dispatch(args []string) error {
 		return m.cmdSnapshot(args[1:])
 	case "q", "quit":
 		return m.cmdQuit(args[1:])
+	case "x":
+		return m.cmdSilence()
 	}
 
 	if mod, ok := m.mods[args[0]]; ok {
@@ -307,22 +307,17 @@ func (m *Monitor) cmdPause(args []string) error {
 	return nil
 }
 
-func (m *Monitor) cmdSnapshot(args []string) error {
-	if err := checkLen(args, 0, 1); err != nil {
-		return err
-	}
-	filename := filepath.Join(config.VarDir, "snapshot")
-	if len(args) == 1 {
-		filename = args[0]
-	}
-	m.mach.Command(rcs.MachSnapshot, filename)
-	return nil
-}
-
 func (m *Monitor) cmdQuit(args []string) error {
 	m.rl.Close()
 	m.mach.Command(rcs.MachQuit)
 	runtime.Goexit()
+	return nil
+}
+
+func (m *Monitor) cmdSilence() error {
+	for _, mod := range m.mods {
+		mod.Silence()
+	}
 	return nil
 }
 
@@ -343,6 +338,18 @@ func (m *Monitor) cmdSleep(args []string) error {
 	return nil
 }
 
+func (m *Monitor) cmdSnapshot(args []string) error {
+	if err := checkLen(args, 0, 1); err != nil {
+		return err
+	}
+	filename := filepath.Join(config.VarDir, "snapshot")
+	if len(args) == 1 {
+		filename = args[0]
+	}
+	m.mach.Command(rcs.MachSnapshot, filename)
+	return nil
+}
+
 // ============================================================================
 // autocomplete
 
@@ -357,9 +364,6 @@ func (n byName) Less(i, j int) bool {
 func newCompleter(m *Monitor) *readline.PrefixCompleter {
 	cmds := []readline.PrefixCompleterInterface{
 		readline.PcItem("breakpoint"),
-		readline.PcItem("breakpoint-list"),
-		readline.PcItem("breakpoint-none"),
-		readline.PcItem("breakpoint-set"),
 		readline.PcItem("config",
 			readline.PcItem("lines-memory"),
 			readline.PcItem("lines-disassembly"),
@@ -376,10 +380,7 @@ func newCompleter(m *Monitor) *readline.PrefixCompleter {
 		readline.PcItem("step"),
 		readline.PcItem("sleep"),
 		readline.PcItem("snapshot"),
-		readline.PcItem("watch-clear"),
-		readline.PcItem("watch-list"),
-		readline.PcItem("watch-none"),
-		readline.PcItem("watch-set"),
+		readline.PcItem("watch"),
 	}
 	for key, mod := range m.mods {
 		cmds = append(cmds, []readline.PrefixCompleterInterface{
@@ -431,6 +432,14 @@ func acEncodings(m *Monitor) func(string) []string {
 		sort.Strings(names)
 		return names
 	}
+}
+
+var acRW = []readline.PrefixCompleterInterface{
+	readline.PcItem("r"),
+	readline.PcItem("w"),
+	readline.PcItem("rw"),
+	readline.PcItem("on"),
+	readline.PcItem("off"),
 }
 
 // ============================================================================
@@ -719,11 +728,11 @@ func valueRW(out *log.Logger, f *rcs.FlagRW, args []string) error {
 	}
 	if len(args) == 0 {
 		switch {
-		case f.Read && f.Write:
+		case f.R && f.W:
 			out.Println("rw")
-		case f.Read:
+		case f.R:
 			out.Println("r")
-		case f.Write:
+		case f.W:
 			out.Println("w")
 		default:
 			out.Println("off")
@@ -732,17 +741,17 @@ func valueRW(out *log.Logger, f *rcs.FlagRW, args []string) error {
 	}
 	switch args[0] {
 	case "r":
-		f.Read = true
-		f.Write = false
+		f.R = true
+		f.W = false
 	case "w":
-		f.Read = false
-		f.Write = true
+		f.R = false
+		f.W = true
 	case "rw", "on":
-		f.Read = true
-		f.Write = true
+		f.R = true
+		f.W = true
 	case "off":
-		f.Read = false
-		f.Write = false
+		f.R = false
+		f.W = false
 	default:
 		return fmt.Errorf("invalid argument: %v", args[0])
 	}

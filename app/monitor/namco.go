@@ -49,14 +49,7 @@ func (m *modN06XX) Command(args []string) error {
 			return nil
 		})
 	case "watch-none":
-		return terminal(args[1:], func() error {
-			m.n06xx.WatchDataW = false
-			m.n06xx.WatchDataR = false
-			m.n06xx.WatchCtrlW = false
-			m.n06xx.WatchCtrlR = false
-			m.n06xx.WatchNMI = false
-			return nil
-		})
+		return terminal(args[1:], m.Silence)
 	}
 	return fmt.Errorf("no such command: %v", args[0])
 }
@@ -71,6 +64,15 @@ func (m *modN06XX) AutoComplete() []readline.PrefixCompleterInterface {
 		readline.PcItem("watch-all"),
 		readline.PcItem("watch-none"),
 	}
+}
+
+func (m *modN06XX) Silence() error {
+	m.n06xx.WatchDataW = false
+	m.n06xx.WatchDataR = false
+	m.n06xx.WatchCtrlW = false
+	m.n06xx.WatchCtrlR = false
+	m.n06xx.WatchNMI = false
+	return nil
 }
 
 type modN51XX struct {
@@ -103,11 +105,7 @@ func (m *modN51XX) Command(args []string) error {
 			return nil
 		})
 	case "watch-none":
-		return terminal(args[1:], func() error {
-			m.n51xx.WatchW = false
-			m.n51xx.WatchR = false
-			return nil
-		})
+		return terminal(args[1:], m.Silence)
 	}
 	return fmt.Errorf("no such command: %v", args[0])
 }
@@ -119,6 +117,12 @@ func (m *modN51XX) AutoComplete() []readline.PrefixCompleterInterface {
 		readline.PcItem("watch-all"),
 		readline.PcItem("watch-none"),
 	}
+}
+
+func (m *modN51XX) Silence() error {
+	m.n51xx.WatchW = false
+	m.n51xx.WatchR = false
+	return nil
 }
 
 type modN54XX struct {
@@ -151,11 +155,7 @@ func (m *modN54XX) Command(args []string) error {
 			return nil
 		})
 	case "watch-none":
-		return terminal(args[1:], func() error {
-			m.n54xx.WatchW = false
-			m.n54xx.WatchR = false
-			return nil
-		})
+		return terminal(args[1:], m.Silence)
 	}
 	return fmt.Errorf("no such command: %v", args[0])
 }
@@ -167,4 +167,10 @@ func (m *modN54XX) AutoComplete() []readline.PrefixCompleterInterface {
 		readline.PcItem("watch-all"),
 		readline.PcItem("watch-none"),
 	}
+}
+
+func (m *modN54XX) Silence() error {
+	m.n54xx.WatchW = false
+	m.n54xx.WatchR = false
+	return nil
 }

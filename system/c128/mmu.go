@@ -10,10 +10,11 @@ var mmuRegs = []string{"A", "B", "C", "D"}
 
 // MMU is the memory management unit
 type MMU struct {
-	mem  *rcs.Memory // configuration register is the bank number
-	lcr  [4]uint8    // load configuration register
-	pcr  [4]uint8    // pre-configuration register
-	Mode uint8
+	Mem *rcs.Memory // configuration register is the bank number
+	LCR [4]uint8    // load configuration register
+	PCR [4]uint8    // pre-configuration register
+	// FIXME: What is this for?
+	// Mode uint8
 
 	WatchCR  rcs.FlagRW
 	WatchLCR rcs.FlagRW
@@ -22,57 +23,53 @@ type MMU struct {
 
 func NewMMU(mem *rcs.Memory) *MMU {
 	return &MMU{
-		mem: mem,
+		Mem: mem,
 	}
 }
 
-func (m *MMU) CR() uint8 {
-	v := uint8(m.mem.Bank())
-	if m.WatchCR.Read {
-		log.Printf("$%02x <= mmu:cr", v)
+func (m *MMU) ReadCR() uint8 {
+	v := uint8(m.Mem.Bank())
+	if m.WatchCR.R {
+		log.Printf("0x%02x <= mmu:cr", v)
 	}
 	return v
 }
 
-func (m *MMU) SetCR(v uint8) {
-	if m.WatchCR.Write {
-		log.Printf("mmu:cr <= $%02x", v)
+func (m *MMU) WriteCR(v uint8) {
+	if m.WatchCR.W {
+		log.Printf("mmu:cr <= 0x%02x", v)
 	}
-	if v == 5 {
-		panic("it is 5")
-	}
-	m.mem.SetBank(int(v))
+	m.Mem.SetBank(int(v))
 }
 
-func (m *MMU) LCR(i int) uint8 {
-	v := m.lcr[i]
-	if m.WatchLCR.Read {
-		log.Printf("$%02x <= mmu:lcr %v", v, mmuRegs[i])
+func (m *MMU) ReadLCR(i int) uint8 {
+	v := m.LCR[i]
+	if m.WatchLCR.R {
+		log.Printf("0x%02x <= mmu:lcr-%v", v, mmuRegs[i])
 	}
 	return v
 }
 
-func (m *MMU) SetLCR(i int, v uint8) {
-	/*
-		if m.WatchLCR.Write {
-			log.Printf("mmu:lcr %v <= %v", mmuRegs[i], v)
-		}
-		m.lcr[i] = v
-		m.SetCR(m.lcr[i])
-	*/
+func (m *MMU) WriteLCR(i int, v uint8) {
+	if m.WatchLCR.W {
+		log.Printf("mmu:lcr-%v <= 0x%02x", mmuRegs[i], v)
+	}
+	m.LCR[i] = v
+	// FIXME: something is wrong here
+	//m.StoreCR(m.LCR[i])
 }
 
-func (m *MMU) PCR(i int) uint8 {
-	v := m.pcr[i]
-	if m.WatchPCR.Read {
-		log.Printf("$%02x <= mmu:pcr %v", v, mmuRegs[i])
+func (m *MMU) ReadPCR(i int) uint8 {
+	v := m.PCR[i]
+	if m.WatchPCR.R {
+		log.Printf("0x%02x <= mmu:pcr-%v", v, mmuRegs[i])
 	}
 	return v
 }
 
-func (m *MMU) SetPCR(i int, v uint8) {
-	if m.WatchPCR.Write {
-		log.Printf("mmu:pcr %v <= $%02x", mmuRegs[i], v)
+func (m *MMU) WritePCR(i int, v uint8) {
+	if m.WatchPCR.W {
+		log.Printf("mmu:pcr-%v <= 0x%02x", mmuRegs[i], v)
 	}
-	m.pcr[i] = v
+	m.PCR[i] = v
 }

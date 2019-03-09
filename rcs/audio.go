@@ -7,11 +7,12 @@ import (
 	"github.com/veandco/go-sdl2/sdl"
 )
 
+// FIXME: This need to be more specific names or moved out of this scope
 const (
-	SampleRate = 22050
-	Channels   = 2
-	Format     = sdl.AUDIO_U16LSB
-	Buffer     = 5
+	SampleRate  = 22050
+	Channels    = 2
+	AudioFormat = sdl.AUDIO_U16LSB
+	Buffer      = 5
 )
 
 type Voice struct {

@@ -75,12 +75,12 @@ func New(mem *rcs.Memory) *CPU {
 
 // Next executes the next instruction.
 func (c *CPU) Next() {
-	here := c.PC() + 1
+	here := uint16(c.PC() + 1)
 	c.pageCross = false
 	opcode := c.fetch()
 	execute, ok := c.ops[opcode]
 	if !ok {
-		log.Printf("(!) %v: illegal instruction 0x%02x, pc 0x%04x", c.Name, opcode, here)
+		log.Printf("(!) %v: illegal instruction %v, pc %v", c.Name, rcs.X8(opcode), rcs.X16(here))
 		return
 	}
 	execute(c)
@@ -97,17 +97,17 @@ func (c *CPU) Next() {
 
 // interrupt handler
 func (c *CPU) irqAck(brk bool) {
-	here := c.pc
+	here := uint16(c.pc)
 	// http://www.6502.org/tutorials/6502opcodes.html#RTI
 	// Note that unlike RTS, the return address on the stack is the
 	// actual address rather than the address-1.
 	ret := c.pc + 1
-	vector := c.mem.ReadLE(0xfffe)
+	vector := uint16(c.mem.ReadLE(0xfffe))
 	if !brk && c.WatchIRQ {
-		log.Printf("%v: irq, vector 0x%04x, return 0x%04x", c.Name, vector, ret)
+		log.Printf("%v: irq, vector %v, return %v", c.Name, rcs.X16(vector), rcs.X16(ret))
 	}
 	if brk && c.WatchBRK {
-		log.Printf("%v: brk, vector 0x%04x, pc 0x%04x", c.Name, vector, here)
+		log.Printf("%v: brk, vector %v, pc %v", c.Name, rcs.X16(vector), rcs.X16(here))
 	}
 
 	c.push2(ret)
@@ -117,7 +117,7 @@ func (c *CPU) irqAck(brk bool) {
 	}
 	c.push(sr)
 	c.SR |= FlagI
-	c.pc = uint16(vector - 1)
+	c.pc = vector - 1
 }
 
 // PC returns the value of the program counter.
@@ -160,7 +160,7 @@ func (c *CPU) String() string {
 		return "."
 	}
 	return fmt.Sprintf(""+
-		" pc  sr ac xr yr sp  n v - b d i z c\n"+
+		" pc  sr ac xr yr sp  n v - - d i z c\n"+
 		"%04x %02x %02x %02x %02x %02x  %s %s %s %s %s %s %s %s",
 		c.pc,
 		c.SR|(1<<5), // bit 5 hard wired on
@@ -171,7 +171,7 @@ func (c *CPU) String() string {
 		b(c.SR&FlagN != 0),
 		b(c.SR&FlagV != 0),
 		b(true),
-		b(c.SR&FlagB != 0),
+		b(false),
 		b(c.SR&FlagD != 0),
 		b(c.SR&FlagI != 0),
 		b(c.SR&FlagZ != 0),
@@ -194,7 +194,7 @@ func (c *CPU) fetch2() int {
 // Push a 8-bit value to the stack.
 func (c *CPU) push(v uint8) {
 	if c.WatchStack {
-		log.Printf("%v: stack[0x%02x] <= 0x%02x", c.Name, c.SP, v)
+		log.Printf("%v: stack[%v] <= %v", c.Name, rcs.X8(c.SP), rcs.X8(v))
 	}
 	c.mem.Write(addrStack+int(c.SP), v)
 	if c.SP == 0 {
@@ -217,7 +217,7 @@ func (c *CPU) pull() uint8 {
 	c.SP++
 	v := c.mem.Read(addrStack + int(c.SP))
 	if c.WatchStack {
-		log.Printf("%v: 0x%02x <= stack[0x%02x]", c.Name, v, c.SP)
+		log.Printf("%v: %v <= stack[%v]", c.Name, rcs.X8(v), rcs.X8(c.SP))
 	}
 	return v
 }
