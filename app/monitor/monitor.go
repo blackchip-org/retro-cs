@@ -568,6 +568,11 @@ func formatValue(v int) string {
 	return fmt.Sprintf("%d $%x %%%s", v, v, formatBits(v))
 }
 
+// assumes 16-bit address for now, may be more flexable later
+func formatAddress(v int) string {
+	return fmt.Sprintf("%v", rcs.X16(uint16(v)))
+}
+
 func valueBool(out *log.Logger, val *bool, args []string) error {
 	if err := checkLen(args, 0, 1); err != nil {
 		return err
