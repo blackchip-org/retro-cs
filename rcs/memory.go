@@ -144,8 +144,8 @@ func NewMemory(banks int, size int) *Memory {
 // Read returns the 8-bit value at the given address.
 func (m *Memory) Read(addr int) uint8 {
 	if m.read[addr] == nil {
-		log.Printf("(!) %v: unmapped read, bank 0x%x, addr 0x%x", m.Name,
-			m.bank, addr)
+		log.Printf("(!) %v: unmapped read, bank %v, addr %v", m.Name,
+			X(m.bank), X(addr))
 		return 0
 	}
 	v := m.read[addr]()
@@ -155,8 +155,8 @@ func (m *Memory) Read(addr int) uint8 {
 // Write sets the 8-bit value at the given address.
 func (m *Memory) Write(addr int, val uint8) {
 	if m.write[addr] == nil {
-		log.Printf("(!) %v: unmapped write, bank 0x%x, addr 0x%x, val 0x%x",
-			m.Name, m.bank, addr, val)
+		log.Printf("(!) %v: unmapped write, bank %v, addr %v, val %v",
+			m.Name, X(m.bank), X(addr), X8(val))
 		return
 	}
 	m.write[addr](val)
