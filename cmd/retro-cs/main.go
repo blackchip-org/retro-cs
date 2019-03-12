@@ -111,7 +111,7 @@ func main() {
 		}
 		info, err := r.GetInfo()
 		if err != nil {
-			log.Fatalf("unable to get renderer infor=L %v", err)
+			log.Fatalf("unable to get renderer info: %v", err)
 		}
 		// FIXME: Change this to check for OpenGL
 		if info.Name != "direct3d" {

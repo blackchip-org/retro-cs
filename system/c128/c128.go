@@ -156,6 +156,7 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 	s.mem.SetBank(0) // bank 15
 
 	s.mem.Write(0xd011, 0xff) // HACK
+	s.mem.Write(0xd011, (1 << 7))
 	s.mem.Write(0xd012, 0x09) // HACK: bcc on $8
 	s.mem.Write(0xd600, 0xff) // HACK
 	s.mem.Write(0xdc01, 0xff) // HACK: keyboard no press
