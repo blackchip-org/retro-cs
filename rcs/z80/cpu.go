@@ -183,22 +183,27 @@ func (c *CPU) execute() {
 }
 
 func (c *CPU) irqAck() {
-	if c.WatchIRQ {
-		log.Printf("%vz80 irq, im %v, data $%02x", c.prefix(), c.IM, c.IRQData)
-	}
 	if c.IM == 0 {
-		log.Printf("unsupported interrupt mode 0")
+		log.Printf("(!) %v: unsupported interrupt mode 0", c.Name)
 		return
 	}
+	retAddr := c.PC()
 	c.Halt = false
 	c.IFF1 = false
 	c.IFF2 = false
 	c.SP -= 2
-	c.mem.WriteLE(int(c.SP), c.PC())
+	c.mem.WriteLE(int(c.SP), retAddr)
 	if c.IM == 2 {
 		vector := int(c.I)<<8 | int(c.IRQData)
+		if c.WatchIRQ {
+			log.Printf("%v: irq(2:%v), vector %v, return %v", c.Name,
+				rcs.X8(c.IRQData), rcs.X(vector), rcs.X(retAddr))
+		}
 		c.SetPC(c.mem.ReadLE(vector))
 	} else {
+		if c.WatchIRQ {
+			log.Printf("%v: irq(1), return %v", c.Name, rcs.X(retAddr))
+		}
 		c.pc = 0x0038
 	}
 }

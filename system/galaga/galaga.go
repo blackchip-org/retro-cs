@@ -132,7 +132,7 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 		if s.InterruptEnable1 != 0 {
 			s.cpu[1].IRQ = true
 		}
-		s.cpu[2].IRQ = true
+		//s.cpu[2].IRQ = true
 		if s.InterruptEnable2 != 0 {
 			// FIXME: Is this correct??? Probably not
 			s.cpu[2].NMI = true

@@ -245,11 +245,18 @@ func (m *modMemory) watchCallback(evt rcs.MemoryEvent) {
 	if m.mem.NBank > 1 {
 		a = fmt.Sprintf("%v:$%04x", evt.Bank, evt.Addr)
 	}
+
+	// CPU info
+	execInfo := ""
+	mach := m.mon.mach
+	if mach.Executing != "" {
+		execInfo = fmt.Sprintf(", %v pc %v", mach.Executing, formatAddress(mach.At))
+	}
+
 	if evt.Read {
-		m.mon.out.Printf("%v$%02x <= read(%v)", m.prefix(), evt.Value, a)
+		m.mon.out.Printf("%v <= %v[%v]%v", rcs.X8(evt.Value), m.name, a, execInfo)
 	} else {
-		// FIXME: change the arrow to <=
-		m.mon.out.Printf("%vwrite(%v) => $%02x", m.prefix(), a, evt.Value)
+		m.mon.out.Printf("%v[%v] <= %v%v", m.name, a, rcs.X8(evt.Value), execInfo)
 	}
 }
 

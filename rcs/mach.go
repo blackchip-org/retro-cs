@@ -77,6 +77,8 @@ type Mach struct {
 	Status      Status
 	Callback    func(MachEvent, ...interface{})
 	Breakpoints map[string]map[int]struct{}
+	Executing   string // name of the CPU that is executing
+	At          int    // address of the executing instruction
 
 	stuck     map[string]bool
 	tracing   map[string]bool
@@ -203,15 +205,16 @@ func (m *Mach) jiffy() {
 func (m *Mach) execute() {
 	for t := 0; t < perJiffy; t++ {
 		for name, cpu := range m.CPU {
+			m.Executing = name
+			m.At = cpu.PC() + cpu.Offset()
 			if m.tracing[name] && !m.stuck[name] {
 				m.event(TraceEvent, name, cpu.PC())
 			}
-			ppc := cpu.PC()
 			cpu.Next()
 			// if the program counter didn't change, it is either stuck
 			// in an infinite loop or not advancing due to a halt-like
 			// instruction
-			m.stuck[name] = ppc == cpu.PC()
+			m.stuck[name] = m.At == cpu.PC()
 			// at a breakpoint? only honor it if the processor is not stuck.
 			// when at a halt-like instruction, this causes a break once
 			// instead of each time.
@@ -221,6 +224,8 @@ func (m *Mach) execute() {
 				return
 			}
 		}
+		m.Executing = ""
+		m.At = 0
 		for _, proc := range m.Proc {
 			proc.Next()
 		}

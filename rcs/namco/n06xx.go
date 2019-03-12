@@ -90,7 +90,7 @@ func (n *N06XX) WriteCtrl(addr int) rcs.Store8 {
 		}
 		n.ctrl = v
 		if v&0x0f == 0 {
-			n.timing = false
+			//n.timing = false
 		} else {
 			n.elapsed = 0
 			n.timing = true
