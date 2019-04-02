@@ -16,6 +16,11 @@ type System struct {
 	vdc    *VDC
 	vic    *cbm.VIC
 
+	Port1A   uint8
+	Port1B   uint8
+	CIA1     *cbm.CIA
+	Keyboard *cbm.Keyboard
+
 	BasicLo []uint8
 	BasicHi []uint8
 	CharGen []uint8
@@ -58,12 +63,20 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 		ScanLineH: true,
 		Draw:      v.Draw,
 	}
+	s.Keyboard = cbm.NewKeyboard()
+	s.Keyboard.A = &s.Port1A
+	s.Keyboard.B = &s.Port1B
 
-	// IO mappings
+	// IO mappings - base $d000
 	s.IO.MapRW(0x020, &s.vic.BorderColor)
 	s.IO.MapRW(0x021, &s.vic.BgColor)
 	s.IO.MapLoad(0x500, s.mmu.ReadCR)
 	s.IO.MapStore(0x500, s.mmu.WriteCR)
+	s.IO.MapRW(0xc00, s.Keyboard.A)
+	s.IO.MapRW(0xc01, s.Keyboard.B)
+	s.IO.MapRW(0xc02, &s.Keyboard.DirA)
+	s.IO.MapRW(0xc03, &s.Keyboard.DirB)
+
 	// PCR
 	for i := 0; i < 4; i++ {
 		i := i
@@ -159,7 +172,7 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 	s.mem.Write(0xd011, (1 << 7))
 	s.mem.Write(0xd012, 0x09) // HACK: bcc on $8
 	s.mem.Write(0xd600, 0xff) // HACK
-	s.mem.Write(0xdc01, 0xff) // HACK: keyboard no press
+	// s.mem.Write(0xdc01, 0xff) // HACK: keyboard no press
 
 	s.cpu = m6502.New(s.mem)
 	mach := &rcs.Mach{
@@ -179,9 +192,11 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 		DefaultEncoding: "petscii",
 		Ctx:             ctx,
 		VBlankFunc: func() {
+			s.Keyboard.Scan()
 			s.cpu.IRQ = true
 		},
-		Screen: s.screen,
+		Screen:   s.screen,
+		Keyboard: s.Keyboard.Handle,
 	}
 	return mach, nil
 }

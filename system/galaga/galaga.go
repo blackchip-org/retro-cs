@@ -26,7 +26,9 @@ type System struct {
 }
 
 func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
-	s := &System{}
+	s := &System{
+		reset: 1,
+	}
 	roms, err := rcs.LoadROMs(config.DataDir, set)
 	if err != nil {
 		return nil, err
@@ -99,8 +101,8 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 	s.dipSwitches[6] = 1
 
 	// HACK
-	mem.Write(0x9100, 0xff)
-	mem.Write(0x9101, 0xff)
+	//mem.Write(0x9100, 0xff)
+	//mem.Write(0x9101, 0xff)
 
 	// memory for each CPU
 	s.mem[0] = rcs.NewMemory(1, 0x10000)
@@ -137,8 +139,8 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 			// FIXME: Is this correct??? Probably not
 			s.cpu[2].NMI = true
 		}
-		if s.reset != 0 {
-			s.reset = 0
+		if s.reset == 0 {
+			s.reset = 1
 			s.cpu[1].RESET = true
 			s.cpu[2].RESET = true
 		}
