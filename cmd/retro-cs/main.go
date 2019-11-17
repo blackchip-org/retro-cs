@@ -166,18 +166,15 @@ func main() {
 	if optTrace {
 		mach.Command(rcs.MachTraceAll, true)
 	}
-	/*
-		BUG: Doesn't work in full screen mode? Disable for now
-		if optImport != "" {
-			filename := filepath.Join(config.VarDir, optImport)
+	if optImport != "" {
+		filename := filepath.Join(config.VarDir, optImport)
+		mach.Command(rcs.MachImport, filename)
+	} else if !optFullStart {
+		filename := filepath.Join(config.DataDir, "init.state")
+		if _, err := os.Stat(filename); !os.IsNotExist(err) {
 			mach.Command(rcs.MachImport, filename)
-		} else if !optFullStart {
-			filename := filepath.Join(config.DataDir, "init.state")
-			if _, err := os.Stat(filename); !os.IsNotExist(err) {
-				mach.Command(rcs.MachImport, filename)
-			}
 		}
-	*/
+	}
 
 	if optPanic {
 		log.SetOutput(&mock.PanicWriter{})
