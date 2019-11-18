@@ -168,12 +168,15 @@ var ASCIIDecoder = func(code uint8) (rune, bool) {
 	return rune(code), printable
 }
 
+const MaxGameControllers = 4
+
 // SDLContext contains the window for rendering and the audio specs
 // available for use.
 type SDLContext struct {
-	Window    *sdl.Window
-	Renderer  *sdl.Renderer
-	AudioSpec sdl.AudioSpec
+	Window          *sdl.Window
+	Renderer        *sdl.Renderer
+	AudioSpec       sdl.AudioSpec
+	GameControllers [MaxGameControllers]*sdl.GameController
 }
 
 type Encoder struct {

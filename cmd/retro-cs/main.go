@@ -1,12 +1,14 @@
 package main
 
 import (
+	"bufio"
 	"flag"
 	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
 	"runtime/pprof"
+	"strings"
 
 	"github.com/blackchip-org/retro-cs/app/monitor"
 	"github.com/blackchip-org/retro-cs/mock"
@@ -134,6 +136,48 @@ func main() {
 			log.Fatalf("unable to initialize audio: %v", err)
 		}
 		sdl.PauseAudio(false)
+	}
+
+	err := sdl.Init(sdl.INIT_JOYSTICK | sdl.INIT_GAMECONTROLLER)
+	if err != nil {
+		log.Fatalf("unable to initialize game controllers: %v", err)
+	}
+	mappingsDir := filepath.Join(config.ResourceDir(), "data", "game_controllers")
+	mappings, err := ioutil.ReadDir(mappingsDir)
+	if err != nil {
+		log.Printf("(!) unable to load game controller mappings: %v", err)
+	}
+	for _, f := range mappings {
+		if strings.HasSuffix(f.Name(), ".txt") {
+			in, err := os.Open(filepath.Join(mappingsDir, f.Name()))
+			if err != nil {
+				log.Printf("(!) unable to open controller mapping: %v", err)
+				continue
+			}
+			defer in.Close()
+			s := bufio.NewScanner(in)
+			for s.Scan() {
+				line := strings.TrimSpace(s.Text())
+				if line == "" {
+					continue
+				}
+				if line[0] == '#' {
+					continue
+				}
+				sdl.GameControllerAddMapping(line)
+			}
+		}
+	}
+	for i := 0; i < sdl.NumJoysticks(); i++ {
+		if sdl.IsGameController(i) {
+			if i > rcs.MaxGameControllers {
+				log.Printf("(!) too many game controllers")
+				break
+			}
+			c := sdl.GameControllerOpen(i)
+			log.Printf("game controller %v is %v\n", i, c.Name())
+			ctx.GameControllers[i] = c
+		}
 	}
 
 	mach, err := newMachine(ctx)

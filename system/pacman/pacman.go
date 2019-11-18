@@ -208,11 +208,12 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 		CharDecoders: map[string]rcs.CharDecoder{
 			"pacman": PacmanDecoder,
 		},
-		Ctx:        ctx,
-		Screen:     screen,
-		VBlankFunc: vblank,
-		QueueAudio: synth.queue,
-		Keyboard:   keyboard.handle,
+		Ctx:           ctx,
+		Screen:        screen,
+		VBlankFunc:    vblank,
+		QueueAudio:    synth.queue,
+		Keyboard:      keyboard.handle,
+		ButtonHandler: buttonHandler(s),
 	}
 
 	return mach, nil

@@ -71,6 +71,8 @@ type Mach struct {
 	VBlankFunc      func()
 	QueueAudio      func() error
 	Keyboard        func(*sdl.KeyboardEvent) error
+	ButtonHandler   func(*sdl.ControllerButtonEvent) error
+	AxisHandler     func(*sdl.ControllerAxisEvent) error
 
 	CPU         map[string]CPU
 	Proc        map[string]Proc
@@ -126,6 +128,12 @@ func (m *Mach) Init() error {
 	}
 	if m.Keyboard == nil {
 		m.Keyboard = func(*sdl.KeyboardEvent) error { return nil }
+	}
+	if m.ButtonHandler == nil {
+		m.ButtonHandler = func(*sdl.ControllerButtonEvent) error { return nil }
+	}
+	if m.AxisHandler == nil {
+		m.AxisHandler = func(*sdl.ControllerAxisEvent) error { return nil }
 	}
 
 	if m.Ctx.Window != nil && m.Screen.W > 0 {
@@ -258,14 +266,32 @@ func (m *Mach) renderToTarget(dest *sdl.Rect) {
 
 func (m *Mach) sdl() {
 	for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent() {
-		if _, ok := event.(*sdl.QuitEvent); ok {
+		switch e := event.(type) {
+		case *sdl.QuitEvent:
 			m.quit = true
-		} else if e, ok := event.(*sdl.KeyboardEvent); ok {
+		case *sdl.KeyboardEvent:
 			if e.Keysym.Sym == sdl.K_ESCAPE {
 				m.quit = true
 			} else {
 				m.Keyboard(e)
 			}
+		case *sdl.ControllerDeviceEvent:
+			id := e.Which
+			switch e.GetType() {
+			case sdl.CONTROLLERDEVICEREMOVED:
+				c := m.Ctx.GameControllers[id]
+				fmt.Printf("removed game controller %v: %v\n", id, c.Name())
+				c.Close()
+				m.Ctx.GameControllers[id] = nil
+			case sdl.CONTROLLERDEVICEADDED:
+				c := sdl.GameControllerOpen(int(id))
+				fmt.Printf("added game controller %v: %v\n", id, c.Name())
+				m.Ctx.GameControllers[id] = c
+			case sdl.CONTROLLERDEVICEREMAPPED:
+				panic("game controller was remapped")
+			}
+		case *sdl.ControllerButtonEvent:
+			m.ButtonHandler(e)
 		}
 	}
 }
