@@ -80,21 +80,23 @@ func NewScanLinesV(r *sdl.Renderer, w int32, h int32, size int32) (*sdl.Texture,
 		return nil, err
 	}
 
-	r.SetRenderTarget(tex)
+	pixels := make([]uint32, w*h, w*h)
+	ptr := 0
 	for y := int32(0); y < h; y++ {
 		for x := int32(0); x < w; x += 2 * size {
-			r.SetDrawColorArray(0, 0, 0, 0)
 			for i := int32(0); i < size; i++ {
-				r.DrawPoint(x+i, y)
+				pixels[ptr] = 0x00000000
+				ptr++
 			}
-			r.SetDrawColorArray(0, 0, 0, 0x20)
+			//r.SetDrawColorArray(0, 0, 0, 0x20)
 			for i := int32(size); i < size*2; i++ {
-				r.DrawPoint(x+i, y)
+				pixels[ptr] = 0x00000020
+				ptr++
 			}
 		}
 	}
 	tex.SetBlendMode(sdl.BLENDMODE_BLEND)
-	r.SetRenderTarget(nil)
+	tex.UpdateRGBA(nil, pixels, int(w))
 	return tex, nil
 }
 
@@ -105,21 +107,24 @@ func NewScanLinesH(r *sdl.Renderer, w int32, h int32, size int32) (*sdl.Texture,
 		return nil, err
 	}
 
-	r.SetRenderTarget(tex)
+	pixels := make([]uint32, w*h, w*h)
+	ptr := 0
 	for x := int32(0); x < w; x++ {
 		for y := int32(0); y < h; y += 2 * size {
 			r.SetDrawColorArray(0, 0, 0, 0)
 			for i := int32(0); i < size; i++ {
-				r.DrawPoint(x, y+i)
+				pixels[ptr] = 0x00000000
+				ptr++
 			}
 			r.SetDrawColorArray(0, 0, 0, 0x20)
 			for i := int32(size); i < size*2; i++ {
-				r.DrawPoint(x, y+i)
+				pixels[ptr] = 0x00000020
+				ptr++
 			}
 		}
 	}
 	tex.SetBlendMode(sdl.BLENDMODE_BLEND)
-	r.SetRenderTarget(nil)
+	tex.UpdateRGBA(nil, pixels, int(w))
 	return tex, nil
 }
 

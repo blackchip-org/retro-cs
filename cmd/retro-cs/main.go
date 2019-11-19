@@ -117,6 +117,9 @@ func main() {
 		}
 		// FIXME: Change this to check for OpenGL
 		if info.Name != "direct3d" {
+			if _, err := window.GLCreateContext(); err != nil {
+				log.Printf("unable to createl GL context: %v", err)
+			}
 			if err = sdl.GLSetSwapInterval(1); err != nil {
 				log.Printf("unable to set swap interval: %v", err)
 			}
