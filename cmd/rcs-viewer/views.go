@@ -31,7 +31,7 @@ var views = map[string]view{
 		system: "galaga",
 		roms:   galaga.ROM["galaga"],
 		render: func(r *sdl.Renderer, d map[string][]byte) (rcs.TileSheet, error) {
-			return namco.NewTileSheet(r, d["sprite"],
+			return namco.NewTileSheet(r, d["sprites"],
 				galaga.VideoConfig.SpriteLayout, namco.ViewerPalette)
 		},
 	},
@@ -39,7 +39,7 @@ var views = map[string]view{
 		system: "galaga",
 		roms:   galaga.ROM["galaga"],
 		render: func(r *sdl.Renderer, d map[string][]byte) (rcs.TileSheet, error) {
-			return namco.NewTileSheet(r, d["tile"],
+			return namco.NewTileSheet(r, d["tiles"],
 				galaga.VideoConfig.TileLayout, namco.ViewerPalette)
 		},
 	},
@@ -47,7 +47,7 @@ var views = map[string]view{
 		system: "mspacman",
 		roms:   pacman.ROM["mspacman"],
 		render: func(r *sdl.Renderer, d map[string][]byte) (rcs.TileSheet, error) {
-			return namco.NewTileSheet(r, d["sprite"],
+			return namco.NewTileSheet(r, d["sprites"],
 				pacman.VideoConfig.SpriteLayout, namco.ViewerPalette)
 		},
 	},
@@ -55,7 +55,7 @@ var views = map[string]view{
 		system: "mspacman",
 		roms:   pacman.ROM["mspacman"],
 		render: func(r *sdl.Renderer, d map[string][]byte) (rcs.TileSheet, error) {
-			return namco.NewTileSheet(r, d["tile"],
+			return namco.NewTileSheet(r, d["tiles"],
 				pacman.VideoConfig.TileLayout, namco.ViewerPalette)
 		},
 	},
@@ -64,7 +64,7 @@ var views = map[string]view{
 		roms:   pacman.ROM["pacman"],
 		render: func(r *sdl.Renderer, d map[string][]byte) (rcs.TileSheet, error) {
 			config := pacman.VideoConfig
-			colors := namco.ColorTable(config, d["color"])
+			colors := namco.ColorTable(config, d["colors"])
 			return rcs.NewColorSheet(r, [][]color.RGBA{colors})
 		},
 	},
@@ -73,8 +73,8 @@ var views = map[string]view{
 		roms:   pacman.ROM["pacman"],
 		render: func(r *sdl.Renderer, d map[string][]byte) (rcs.TileSheet, error) {
 			config := pacman.VideoConfig
-			colors := namco.ColorTable(config, d["color"])
-			palettes := namco.PaletteTable(config, d["palette"], colors)
+			colors := namco.ColorTable(config, d["colors"])
+			palettes := namco.PaletteTable(config, d["palettes"], colors)
 			return rcs.NewColorSheet(r, palettes)
 		},
 	},
@@ -82,7 +82,7 @@ var views = map[string]view{
 		system: "pacman",
 		roms:   pacman.ROM["pacman"],
 		render: func(r *sdl.Renderer, d map[string][]byte) (rcs.TileSheet, error) {
-			return namco.NewTileSheet(r, d["sprite"],
+			return namco.NewTileSheet(r, d["sprites"],
 				pacman.VideoConfig.SpriteLayout, namco.ViewerPalette)
 		},
 	},
@@ -90,7 +90,7 @@ var views = map[string]view{
 		system: "pacman",
 		roms:   pacman.ROM["pacman"],
 		render: func(r *sdl.Renderer, d map[string][]byte) (rcs.TileSheet, error) {
-			return namco.NewTileSheet(r, d["tile"],
+			return namco.NewTileSheet(r, d["tiles"],
 				pacman.VideoConfig.TileLayout, namco.ViewerPalette)
 		},
 	},

@@ -81,14 +81,13 @@ func NewScanLinesV(r *sdl.Renderer, w int32, h int32, size int32) (*sdl.Texture,
 	}
 
 	pixels := make([]uint32, w*h, w*h)
-	ptr := 0
 	for y := int32(0); y < h; y++ {
 		for x := int32(0); x < w; x += 2 * size {
+			ptr := (y * w) + x
 			for i := int32(0); i < size; i++ {
 				pixels[ptr] = 0x00000000
 				ptr++
 			}
-			//r.SetDrawColorArray(0, 0, 0, 0x20)
 			for i := int32(size); i < size*2; i++ {
 				pixels[ptr] = 0x00000020
 				ptr++
@@ -108,18 +107,16 @@ func NewScanLinesH(r *sdl.Renderer, w int32, h int32, size int32) (*sdl.Texture,
 	}
 
 	pixels := make([]uint32, w*h, w*h)
-	ptr := 0
 	for x := int32(0); x < w; x++ {
 		for y := int32(0); y < h; y += 2 * size {
-			r.SetDrawColorArray(0, 0, 0, 0)
+			ptr := (y * w) + x
 			for i := int32(0); i < size; i++ {
 				pixels[ptr] = 0x00000000
-				ptr++
+				ptr += w
 			}
-			r.SetDrawColorArray(0, 0, 0, 0x20)
 			for i := int32(size); i < size*2; i++ {
 				pixels[ptr] = 0x00000020
-				ptr++
+				ptr += w
 			}
 		}
 	}
