@@ -280,12 +280,12 @@ func (m *Mach) sdl() {
 			switch e.GetType() {
 			case sdl.CONTROLLERDEVICEREMOVED:
 				c := m.Ctx.GameControllers[id]
-				fmt.Printf("removed game controller %v: %v\n", id, c.Name())
+				fmt.Printf("\n(-) controller %v: %v\n", id, c.Name())
 				c.Close()
 				m.Ctx.GameControllers[id] = nil
 			case sdl.CONTROLLERDEVICEADDED:
 				c := sdl.GameControllerOpen(int(id))
-				fmt.Printf("added game controller %v: %v\n", id, c.Name())
+				fmt.Printf("\n(+) controller %v: %v\n", id, c.Name())
 				m.Ctx.GameControllers[id] = c
 			case sdl.CONTROLLERDEVICEREMAPPED:
 				panic("game controller was remapped")

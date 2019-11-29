@@ -56,39 +56,81 @@ func (k *keyboard) handle(e *sdl.KeyboardEvent) error {
 	return nil
 }
 
-func buttonHandler(s *system) func(*sdl.ControllerButtonEvent) error {
-	return func(e *sdl.ControllerButtonEvent) error {
-		if e.Type == sdl.CONTROLLERBUTTONDOWN {
-			switch e.Button {
-			case sdl.CONTROLLER_BUTTON_BACK:
-				s.in0 |= 1 << 5
-			case sdl.CONTROLLER_BUTTON_START:
-				s.in1 |= 1 << 5
-			case sdl.CONTROLLER_BUTTON_DPAD_UP:
+type joyPos int
+
+const (
+	joyNone joyPos = iota
+	joyUp
+	joyLeft
+	joyRight
+	joyDown
+)
+
+type joystick struct {
+	s   *system
+	pos joyPos
+}
+
+func newJoystick(s *system) *joystick {
+	return &joystick{s: s}
+}
+
+func (j *joystick) buttonHandler(e *sdl.ControllerButtonEvent) error {
+	s := j.s
+	if e.Type == sdl.CONTROLLERBUTTONDOWN {
+		switch e.Button {
+		case sdl.CONTROLLER_BUTTON_BACK:
+			s.in0 |= 1 << 5
+		case sdl.CONTROLLER_BUTTON_START:
+			s.in1 |= 1 << 5
+		case sdl.CONTROLLER_BUTTON_DPAD_UP:
+			if j.pos == joyNone {
+				j.pos = joyUp
 				s.in0 &^= 1 << 0
-			case sdl.CONTROLLER_BUTTON_DPAD_LEFT:
+			}
+		case sdl.CONTROLLER_BUTTON_DPAD_LEFT:
+			if j.pos == joyNone {
+				j.pos = joyLeft
 				s.in0 &^= 1 << 1
-			case sdl.CONTROLLER_BUTTON_DPAD_RIGHT:
+			}
+		case sdl.CONTROLLER_BUTTON_DPAD_RIGHT:
+			if j.pos == joyNone {
+				j.pos = joyRight
 				s.in0 &^= 1 << 2
-			case sdl.CONTROLLER_BUTTON_DPAD_DOWN:
+			}
+		case sdl.CONTROLLER_BUTTON_DPAD_DOWN:
+			if j.pos == joyNone {
+				j.pos = joyDown
 				s.in0 &^= 1 << 3
 			}
-		} else if e.Type == sdl.CONTROLLERBUTTONUP {
-			switch e.Button {
-			case sdl.CONTROLLER_BUTTON_BACK:
-				s.in0 &^= 1 << 5
-			case sdl.CONTROLLER_BUTTON_START:
-				s.in1 &^= 1 << 5
-			case sdl.CONTROLLER_BUTTON_DPAD_UP:
+		}
+	} else if e.Type == sdl.CONTROLLERBUTTONUP {
+		switch e.Button {
+		case sdl.CONTROLLER_BUTTON_BACK:
+			s.in0 &^= 1 << 5
+		case sdl.CONTROLLER_BUTTON_START:
+			s.in1 &^= 1 << 5
+		case sdl.CONTROLLER_BUTTON_DPAD_UP:
+			if j.pos == joyUp {
+				j.pos = joyNone
 				s.in0 |= 1 << 0
-			case sdl.CONTROLLER_BUTTON_DPAD_LEFT:
+			}
+		case sdl.CONTROLLER_BUTTON_DPAD_LEFT:
+			if j.pos == joyLeft {
+				j.pos = joyNone
 				s.in0 |= 1 << 1
-			case sdl.CONTROLLER_BUTTON_DPAD_RIGHT:
+			}
+		case sdl.CONTROLLER_BUTTON_DPAD_RIGHT:
+			if j.pos == joyRight {
+				j.pos = joyNone
 				s.in0 |= 1 << 2
-			case sdl.CONTROLLER_BUTTON_DPAD_DOWN:
+			}
+		case sdl.CONTROLLER_BUTTON_DPAD_DOWN:
+			if j.pos == joyDown {
+				j.pos = joyNone
 				s.in0 |= 1 << 3
 			}
 		}
-		return nil
 	}
+	return nil
 }

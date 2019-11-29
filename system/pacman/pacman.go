@@ -167,6 +167,7 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 	}
 
 	keyboard := newKeyboard(s)
+	joystick := newJoystick(s)
 
 	// Note: If in0 and in1 are not initialized to valid values, the
 	// game will crash during the game demo in attract mode.
@@ -213,7 +214,7 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 		VBlankFunc:    vblank,
 		QueueAudio:    synth.queue,
 		Keyboard:      keyboard.handle,
-		ButtonHandler: buttonHandler(s),
+		ButtonHandler: joystick.buttonHandler,
 	}
 
 	return mach, nil
