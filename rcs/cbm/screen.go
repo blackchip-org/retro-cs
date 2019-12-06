@@ -1,29 +1,18 @@
 package cbm
 
-import "github.com/blackchip-org/retro-cs/rcs"
-
-// PetsciiDecoder converts byte values to PETSCII equivilents in
-// Unicode.
-var PetsciiDecoder = func(code uint8) (rune, bool) {
-	ch, printable := petsciiUnshifted[code]
-	return ch, printable
-}
-
-// PetsciiShiftedDecoder converts byte values to PETSCII equivilents in
-// Unicode.
-var PetsciiShiftedDecoder = func(code uint8) (rune, bool) {
-	ch, printable := petsciiShifted[code]
-	return ch, printable
-}
+import (
+	"github.com/blackchip-org/retro-cs/rcs"
+	"github.com/blackchip-org/retro-cs/rcs/cbm/petscii"
+)
 
 // http://sta.c64.org/cbm64pettoscr.html
 
 var ScreenDecoder = func(code uint8) (rune, bool) {
-	return decoder(code, PetsciiDecoder)
+	return decoder(code, petscii.Decoder)
 }
 
 var ScreenShiftedDecoder = func(code uint8) (rune, bool) {
-	return decoder(code, PetsciiShiftedDecoder)
+	return decoder(code, petscii.ShiftedDecoder)
 }
 
 func decoder(code uint8, decode rcs.CharDecoder) (rune, bool) {

@@ -5,6 +5,7 @@ import (
 	"github.com/blackchip-org/retro-cs/config"
 	"github.com/blackchip-org/retro-cs/rcs"
 	"github.com/blackchip-org/retro-cs/rcs/cbm"
+	"github.com/blackchip-org/retro-cs/rcs/cbm/petscii"
 	"github.com/blackchip-org/retro-cs/rcs/m6502"
 )
 
@@ -77,8 +78,8 @@ func New(ctx rcs.SDLContext) (*rcs.Mach, error) {
 			rcs.NewComponent("mem", "mem", "", s.mem),
 		},
 		CharDecoders: map[string]rcs.CharDecoder{
-			"petscii":         cbm.PetsciiDecoder,
-			"petscii-shifted": cbm.PetsciiShiftedDecoder,
+			"petscii":         petscii.Decoder,
+			"petscii-shifted": petscii.ShiftedDecoder,
 			"screen":          cbm.ScreenDecoder,
 			"screen-shifted":  cbm.ScreenShiftedDecoder,
 		},

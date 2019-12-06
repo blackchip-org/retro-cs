@@ -1,6 +1,6 @@
-package cbm
+package petscii
 
-var petsciiUnshifted = map[uint8]rune{
+var tableUnshifted = map[uint8]rune{
 	0x20: ' ',
 	0x21: '!',
 	0x22: '"',
@@ -130,7 +130,7 @@ var petsciiUnshifted = map[uint8]rune{
 	0xbe: '▘',
 	0xbf: '▚',
 }
-var petsciiShifted = map[uint8]rune{
+var tableShifted = map[uint8]rune{
 	0x20: ' ',
 	0x21: '!',
 	0x22: '"',

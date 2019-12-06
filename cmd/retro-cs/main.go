@@ -178,7 +178,7 @@ func main() {
 				break
 			}
 			c := sdl.GameControllerOpen(i)
-			log.Printf("game controller %v is %v\n", i, c.Name())
+			log.Printf("(+) controller %v: %v\n", i, c.Name())
 			ctx.GameControllers[i] = c
 		}
 	}

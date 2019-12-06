@@ -1,6 +1,7 @@
 package c64
 
 import (
+	"github.com/blackchip-org/retro-cs/rcs/cbm/petscii"
 	"github.com/veandco/go-sdl2/sdl"
 )
 
@@ -98,7 +99,7 @@ var keys = keymap{
 	sdl.K_UP:           keyCursorUp,
 }
 
-var shifted = keymap{
+var keysShift = keymap{
 	sdl.K_QUOTE:     0x22,
 	sdl.K_PERIOD:    0x3e,
 	sdl.K_COMMA:     0x3c,
@@ -143,10 +144,36 @@ var shifted = keymap{
 	sdl.K_z:         0xda,
 }
 
+var keysControl = keymap{
+	sdl.K_1: petscii.Black,
+	sdl.K_2: petscii.White,
+	sdl.K_3: petscii.Red,
+	sdl.K_4: petscii.Cyan,
+	sdl.K_5: petscii.Purple,
+	sdl.K_6: petscii.Green,
+	sdl.K_7: petscii.Blue,
+	sdl.K_8: petscii.Yellow,
+}
+
+var keysCommodore = keymap{
+	sdl.K_1: petscii.Orange,
+	sdl.K_2: petscii.Brown,
+	sdl.K_3: petscii.LightRed,
+	sdl.K_4: petscii.DarkGray,
+	sdl.K_5: petscii.MediumGray,
+	sdl.K_6: petscii.LightGreen,
+	sdl.K_7: petscii.LightBlue,
+	sdl.K_8: petscii.LightGray,
+}
+
 var keymaps = map[sdl.Keymod]keymap{
 	sdl.KMOD_NONE:   keys,
-	sdl.KMOD_LSHIFT: shifted,
-	sdl.KMOD_RSHIFT: shifted,
+	sdl.KMOD_LSHIFT: keysShift,
+	sdl.KMOD_RSHIFT: keysShift,
+	sdl.KMOD_LCTRL:  keysControl,
+	sdl.KMOD_RCTRL:  keysControl,
+	sdl.KMOD_LGUI:   keysCommodore,
+	sdl.KMOD_RGUI:   keysCommodore,
 }
 
 func (k *keyboard) lookup(e *sdl.KeyboardEvent) (uint8, bool) {
@@ -193,7 +220,8 @@ func (k *keyboard) lookup(e *sdl.KeyboardEvent) (uint8, bool) {
 		return 0, false
 	}
 	keymap0 := keymaps[sdl.KMOD_NONE]
-	mod := sdl.Keymod(keysym.Mod & 0x03) // Just take the lower two bits
+	//mod := sdl.Keymod(keysym.Mod & 0x03) // Just take the lower two bits (why?)
+	mod := sdl.Keymod(keysym.Mod)
 	keymap, ok := keymaps[mod]
 	if !ok {
 		keymap = keymap0
