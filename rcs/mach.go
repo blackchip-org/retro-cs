@@ -2,6 +2,7 @@ package rcs
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"time"
 	"unsafe"
@@ -280,12 +281,12 @@ func (m *Mach) sdl() {
 			switch e.GetType() {
 			case sdl.CONTROLLERDEVICEREMOVED:
 				c := m.Ctx.GameControllers[id]
-				fmt.Printf("\n(-) controller %v: %v\n", id, c.Name())
+				log.Printf("(-) controller %v: %v\n", id, c.Name())
 				c.Close()
 				m.Ctx.GameControllers[id] = nil
 			case sdl.CONTROLLERDEVICEADDED:
 				c := sdl.GameControllerOpen(int(id))
-				fmt.Printf("\n(+) controller %v: %v\n", id, c.Name())
+				log.Printf("(+) controller %v: %v\n", id, c.Name())
 				m.Ctx.GameControllers[id] = c
 			case sdl.CONTROLLERDEVICEREMAPPED:
 				panic("game controller was remapped")

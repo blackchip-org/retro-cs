@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"runtime"
 	"runtime/pprof"
 	"strings"
 
@@ -52,6 +53,7 @@ func init() {
 }
 
 func main() {
+	runtime.LockOSThread()
 	log.SetFlags(0)
 	flag.Parse()
 
@@ -169,17 +171,6 @@ func main() {
 				}
 				sdl.GameControllerAddMapping(line)
 			}
-		}
-	}
-	for i := 0; i < sdl.NumJoysticks(); i++ {
-		if sdl.IsGameController(i) {
-			if i > rcs.MaxGameControllers {
-				log.Printf("(!) too many game controllers")
-				break
-			}
-			c := sdl.GameControllerOpen(i)
-			log.Printf("(+) controller %v: %v\n", i, c.Name())
-			ctx.GameControllers[i] = c
 		}
 	}
 
