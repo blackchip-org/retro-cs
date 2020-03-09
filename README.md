@@ -8,7 +8,7 @@ Inspired by the Vintage Computer Club. Always a work in progress and a labor of 
 
 See my [MAGFest](https://www.magfest.org/) presentation on this emulator here:
 
-[![Adventures in Writing an Emulator](https://www.youtube.com/watch?v=kO0rGXFjIA8/0.jpg)](https://www.youtube.com/watch?v=kO0rGXFjIA8 "Video Title")
+[![Adventures in Writing an Emulator](https://img.youtube.com/vi/kO0rGXFjIA8/0.jpg)](https://www.youtube.com/watch?v=kO0rGXFjIA8 "Adventures in Writing an Emulator")
 
 Notes on the systems in progress:
 
