@@ -6,6 +6,10 @@ The Retro-Computing Systems.
 
 Inspired by the Vintage Computer Club. Always a work in progress and a labor of love. There is no master plan. Feel free to contact me for more information.
 
+See my [MAGFest](https://www.magfest.org/) presentation on this emulator here:
+
+[![Adventures in Writing an Emulator](https://www.youtube.com/watch?v=kO0rGXFjIA8/0.jpg)](https://www.youtube.com/watch?v=kO0rGXFjIA8 "Video Title")
+
 Notes on the systems in progress:
 
 - [Commodore 64](doc/c64.md)
