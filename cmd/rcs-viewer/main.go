@@ -8,16 +8,19 @@ import (
 	"path/filepath"
 	"sort"
 	"strings"
+	"unsafe"
 
 	"github.com/blackchip-org/retro-cs/config"
 	"github.com/blackchip-org/retro-cs/rcs"
+	"github.com/veandco/go-sdl2/img"
 	"github.com/veandco/go-sdl2/sdl"
 )
 
 var (
-	scale int
-	hscan bool
-	vscan bool
+	scale    int
+	hscan    bool
+	vscan    bool
+	filename string
 )
 
 func init() {
@@ -25,6 +28,7 @@ func init() {
 	flag.StringVar(&config.RCSDir, "home", "", "set the RCS `home` directory")
 	flag.BoolVar(&hscan, "hscan", false, "add horizontal scan lines")
 	flag.BoolVar(&vscan, "vscan", false, "add vertical scan lines")
+	flag.StringVar(&filename, "out", "", "output to `filename`")
 
 	flag.Usage = func() {
 		o := flag.CommandLine.Output()
@@ -93,11 +97,6 @@ func main() {
 		log.Fatalf("unable to initialize renderer: %v", err)
 	}
 
-	err = sdl.GLSetSwapInterval(1)
-	if err != nil {
-		fmt.Printf("unable to set swap interval: %v\n", err)
-	}
-
 	sheet, err := v.render(r, roms)
 	if err != nil {
 		log.Fatalf("unable to create sheet: %v", err)
@@ -106,6 +105,11 @@ func main() {
 	window.SetSize(winX, winY)
 	window.SetPosition(sdl.WINDOWPOS_CENTERED, sdl.WINDOWPOS_CENTERED)
 	window.Show()
+
+	// err = sdl.GLSetSwapInterval(1)
+	// if err != nil {
+	// 	fmt.Printf("unable to set swap interval: %v\n", err)
+	// }
 
 	var scanlines *sdl.Texture
 	// Now that the window has been shown, the texture needs to be rerendered.
@@ -125,6 +129,26 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
+	}
+
+	if filename != "" {
+		surf, err := sdl.CreateRGBSurface(0, winX, winY, 32, 0, 0, 0, 0)
+		if err != nil {
+			log.Fatal(err)
+		}
+		r.SetRenderTarget(nil)
+		r.SetDrawColor(0, 0, 0, 0)
+		r.Clear()
+		r.Copy(sheet.Texture, nil, nil)
+
+		pixels := surf.Pixels()
+		ptr := unsafe.Pointer(&pixels[0])
+		r.ReadPixels(nil, surf.Format.Format, ptr, int(surf.Pitch))
+
+		if err := img.SavePNG(surf, filename); err != nil {
+			log.Fatal(err)
+		}
+		return
 	}
 
 	for {
