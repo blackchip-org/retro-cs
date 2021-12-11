@@ -4,7 +4,9 @@
 
 The Retro-Computing Systems.
 
-Inspired by the Vintage Computer Club. Always a work in progress and a labor of love. There is no master plan. Feel free to contact me for more information.
+Inspired by the Vintage Computer Club. This project is no longe being actively
+worked on but that could always change. Feel free to contact me for more
+information.
 
 See my [MAGFest](https://www.magfest.org/) presentation on this emulator here:
 
