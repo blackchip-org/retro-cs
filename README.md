@@ -4,7 +4,7 @@
 
 The Retro-Computing Systems.
 
-Inspired by the Vintage Computer Club. This project is no longe being actively
+Inspired by the Vintage Computer Club. This project is no longer being actively
 worked on but that could always change. Feel free to contact me for more
 information.
 
