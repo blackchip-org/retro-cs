@@ -8,6 +8,9 @@ Inspired by the Vintage Computer Club. This project is no longer being actively
 worked on but that could always change. Feel free to contact me for more
 information.
 
+I will be teaching a class on emulation at the [Vintage Computer Festival](https://vcfed.org/events/vintage-computer-festival-east/vcf-east-schedule/) on 22 April 2022. It will be broadcasted live on [YouTube](https://www.youtube.com/user/MidAtlanticRetroComp) at 3:45pm.
+[Download the slide deck here.](https://blackchip.org/docs/VCF_Writing_an_Emulator.pdf)
+
 See my [MAGFest](https://www.magfest.org/) presentation on this emulator here:
 
 [![Adventures in Writing an Emulator](https://img.youtube.com/vi/kO0rGXFjIA8/0.jpg)](https://www.youtube.com/watch?v=kO0rGXFjIA8 "Adventures in Writing an Emulator")
