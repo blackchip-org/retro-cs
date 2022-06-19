@@ -1,9 +1,9 @@
 module github.com/blackchip-org/retro-cs
 
 require (
-	github.com/chzyer/readline v0.0.0-20180603132655-2972be24d48e
-	github.com/veandco/go-sdl2 v0.4.0-rc.1.0.20191208053522-3d9b5d6d1911
-	golang.org/x/sys v0.0.0-20191118133127-cf1e2d577169 // indirect
+	github.com/chzyer/readline v1.5.0
+	github.com/veandco/go-sdl2 v0.4.24
+	golang.org/x/sys v0.0.0-20220615213510-4f61da869c0c // indirect
 )
 
 go 1.13

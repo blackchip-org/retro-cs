@@ -39,7 +39,10 @@ func new(ctx rcs.SDLContext, set []rcs.ROM) (*rcs.Mach, error) {
 	s.mem = rcs.NewMemory(1, 0x10000)
 	ram := make([]uint8, 0x1000, 0x1000)
 
-	s.mem.MapROM(0x0000, roms["code"])
+	// This should be ROM, but make it RAM for demo purposes
+	//s.mem.MapROM(0x0000, roms["code"])
+
+	s.mem.MapRAM(0x0000, roms["code"])
 	s.mem.MapRAM(0x4000, ram)
 
 	// Register range. Nil mappings first then add real mappings

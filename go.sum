@@ -1,5 +1,9 @@
+github.com/chzyer/logex v1.2.0/go.mod h1:9+9sk7u7pGNWYMkh0hdiL++6OeibzJccyQU4p4MedaY=
 github.com/chzyer/readline v0.0.0-20180603132655-2972be24d48e h1:fY5BOSpyZCqRo5OhCuC+XN+r/bBCmeuuJtjz+bCNIf8=
 github.com/chzyer/readline v0.0.0-20180603132655-2972be24d48e/go.mod h1:nSuG5e5PlCu98SY8svDHJxuZscDgtXS6KTTbou5AhLI=
+github.com/chzyer/readline v1.5.0 h1:lSwwFrbNviGePhkewF1az4oLmcwqCZijQ2/Wi3BGHAI=
+github.com/chzyer/readline v1.5.0/go.mod h1:x22KAscuvRqlLoK9CsoYsmxoXZMMFVyOl86cAH8qUic=
+github.com/chzyer/test v0.0.0-20210722231415-061457976a23/go.mod h1:Q3SI9o4m/ZMnBNeIyt5eFwwo7qiLfzFZmjNmxjkiQlU=
 github.com/veandco/go-sdl2 v0.3.0 h1:IWYkHMp8V3v37NsKjszln8FFnX2+ab0538J371t+rss=
 github.com/veandco/go-sdl2 v0.3.0/go.mod h1:FB+kTpX9YTE+urhYiClnRzpOXbiWgaU3+5F2AB78DPg=
 github.com/veandco/go-sdl2 v0.3.3 h1:4/TirgB2MQ7oww3pM3Yfgf1YbChMlAQAmiCPe5koK0I=
@@ -8,7 +12,12 @@ github.com/veandco/go-sdl2 v0.4.0-rc.0.0.20190924140640-68b56f2c64c3 h1:vByjQfx4
 github.com/veandco/go-sdl2 v0.4.0-rc.0.0.20190924140640-68b56f2c64c3/go.mod h1:FB+kTpX9YTE+urhYiClnRzpOXbiWgaU3+5F2AB78DPg=
 github.com/veandco/go-sdl2 v0.4.0-rc.1.0.20191208053522-3d9b5d6d1911 h1:hFAktcDWMt0NOB6hmAXztwREAlADZ4CjOyrBznupl20=
 github.com/veandco/go-sdl2 v0.4.0-rc.1.0.20191208053522-3d9b5d6d1911/go.mod h1:FB+kTpX9YTE+urhYiClnRzpOXbiWgaU3+5F2AB78DPg=
+github.com/veandco/go-sdl2 v0.4.24 h1:J+OCnPp0yfas4DAG13e3kIgC84mNxWGa3gpWYxrQQfI=
+github.com/veandco/go-sdl2 v0.4.24/go.mod h1:OROqMhHD43nT4/i9crJukyVecjPNYYuCofep6SNiAjY=
 golang.org/x/sys v0.0.0-20191118133127-cf1e2d577169 h1:LPLFLulk2vyM7yI3CwNW64O6e8AxBmr9opfv14yI7HI=
 golang.org/x/sys v0.0.0-20191118133127-cf1e2d577169/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 golang.org/x/sys v0.0.0-20191218084908-4a24b4065292 h1:Y8q0zsdcgAd+JU8VUA8p8Qv2YhuY9zevDG2ORt5qBUI=
 golang.org/x/sys v0.0.0-20191218084908-4a24b4065292/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
+golang.org/x/sys v0.0.0-20220310020820-b874c991c1a5/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
+golang.org/x/sys v0.0.0-20220615213510-4f61da869c0c h1:aFV+BgZ4svzjfabn8ERpuB4JI4N6/rdy1iusx77G3oU=
+golang.org/x/sys v0.0.0-20220615213510-4f61da869c0c/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=

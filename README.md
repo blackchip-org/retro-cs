@@ -8,9 +8,14 @@ Inspired by the Vintage Computer Club. This project is no longer being actively
 worked on but that could always change. Feel free to contact me for more
 information.
 
-See my [MAGFest](https://www.magfest.org/) presentation on this emulator here:
+See my [MAGFest 2020](https://www.magfest.org/) presentation on this emulator here:
 
 [![Adventures in Writing an Emulator](https://img.youtube.com/vi/kO0rGXFjIA8/0.jpg)](https://www.youtube.com/watch?v=kO0rGXFjIA8 "Adventures in Writing an Emulator")
+
+See my [VCF East 2022](https://vcfed.org/) class here:
+
+[![Writing an Emulator](https://img.youtube.com/vi/8GpPacpNSAU/0.jpg)](https://www.youtube.com/watch?v=8GpPacpNSAU "Writing an Emulator")
+
 
 Notes on the systems in progress:
 
