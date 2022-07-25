@@ -14,7 +14,7 @@ See my [MAGFest 2020](https://www.magfest.org/) presentation on this emulator he
 
 See my [VCF East 2022](https://vcfed.org/) class here:
 
-[![Writing an Emulator](https://img.youtube.com/vi/8GpPacpNSAU/0.jpg)](https://www.youtube.com/watch?v=8GpPacpNSAU "Writing an Emulator")
+[![Writing an Emulator](https://img.youtube.com/vi/kq0_PiOVN0E/0.jpg)](https://www.youtube.com/watch?v=kq0_PiOVN0E "Writing an Emulator")
 
 
 Notes on the systems in progress:
